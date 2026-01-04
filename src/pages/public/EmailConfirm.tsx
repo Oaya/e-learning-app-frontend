@@ -35,7 +35,7 @@ export default function EmailConfirmPage() {
             {message}
             <br />
             <span className="mt-2 block text-base text-gray-600">
-              Redirecting you shortly...
+              Redirecting you to login shortly...
             </span>
           </p>
         )}

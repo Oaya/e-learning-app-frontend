@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
-import Header from "../components/layouts/Header";
-import Footer from "../components/layouts/Footer";
 
 export default function PricingPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
-
       {/* Hero */}
       <main className="flex flex-1 flex-col items-center justify-center px-6 text-center">
         <h2 className="mb-4 text-4xl font-bold">
@@ -36,8 +32,6 @@ export default function PricingPage() {
           </Link>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

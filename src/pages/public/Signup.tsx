@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { Signup } from "../type/auth";
-import { useAuth } from "../contexts/AuthContext";
+import type { SignupUser } from "../../type/auth";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function SignupPage() {
   const { signupUser } = useAuth();
@@ -19,7 +19,7 @@ export default function SignupPage() {
     }
 
     try {
-      const res = await signupUser(data as Signup);
+      const res = await signupUser(data as SignupUser);
       if (res.data.message) {
         setMessage(res.data.message as string);
       }
