@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
+import { useCoursesData } from "../../hooks/useCoursesData";
 
 export default function AdminDashboard() {
-  // Later replace with real API data
-  const stats = {
-    courses: 4,
-    students: 128,
-    enrollments: 312,
-  };
+  const { courses } = useCoursesData();
 
   return (
     <div className="space-y-8">
@@ -25,34 +21,36 @@ export default function AdminDashboard() {
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="rounded border bg-white p-4">
-          <p className="text-sm text-gray-500">Course</p>
-          <p className="mt-1 text-2xl font-semibold">{stats.courses}</p>
-        </div>
-        <div className="rounded border bg-white p-4">
-          <p className="text-sm text-gray-500">Students</p>
-          <p className="mt-1 text-2xl font-semibold">{stats.students}</p>
-        </div>
-        <div className="rounded border bg-white p-4">
-          <p className="text-sm text-gray-500">Enrollments</p>
-          <p className="mt-1 text-2xl font-semibold">{stats.enrollments}</p>
+          <p className="text-sm text-gray-500">Courses</p>
+          <p className="mt-1 text-2xl font-semibold">{courses?.length ?? 0}</p>
         </div>
       </div>
 
       {/* Courses overview */}
       <section>
-        <h2 className="mb-4 text-lg font-medium">Your courses</h2>
+        {courses && courses.length > 0 ? (
+          <>
+            <h2 className="mb-4 text-lg font-medium">Your courses</h2>
 
-        <div className="divide-y rounded border bg-white">
-          <CourseRow id="1" title="Intro to Web Development" published />
-          <CourseRow id="2" title="Advanced React Patterns" published={false} />
-        </div>
+            <div className="divide-y rounded border bg-white">
+              <CourseRow id="1" title="Intro to Web Development" published />
+              <CourseRow
+                id="2"
+                title="Advanced React Patterns"
+                published={false}
+              />
+            </div>
 
-        <Link
-          to="/admin/courses"
-          className="mt-3 inline-block text-sm text-blue-600"
-        >
-          View all courses →
-        </Link>
+            <Link
+              to="/admin/courses"
+              className="mt-3 inline-block text-sm text-blue-600"
+            >
+              View all courses →
+            </Link>
+          </>
+        ) : (
+          <p>You don't have any courses</p>
+        )}
       </section>
     </div>
   );
