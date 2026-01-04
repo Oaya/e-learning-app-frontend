@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useCoursesData } from "../../hooks/useCoursesData";
+import { useCourses } from "../../hooks/useCourses";
 
 export default function AdminDashboard() {
-  const { courses } = useCoursesData();
+  const { courses } = useCourses();
 
   return (
     <div className="space-y-8">
@@ -12,7 +12,7 @@ export default function AdminDashboard() {
 
         <Link
           to="/admin/courses/new"
-          className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
+          className="bg-c-pink hover:bg-c-pink rounded px-4 py-2 text-sm text-white"
         >
           + New Course
         </Link>
@@ -33,12 +33,26 @@ export default function AdminDashboard() {
             <h2 className="mb-4 text-lg font-medium">Your courses</h2>
 
             <div className="divide-y rounded border bg-white">
-              <CourseRow id="1" title="Intro to Web Development" published />
-              <CourseRow
-                id="2"
-                title="Advanced React Patterns"
-                published={false}
-              />
+              {courses.map((course) => (
+                <div
+                  key={course.id}
+                  className="flex items-center justify-between px-4 py-3"
+                >
+                  <div>
+                    <p className="font-medium">{course.title}</p>
+                    <p className="text-sm text-gray-500">
+                      {course.published ? "Published" : "Draft"}
+                    </p>
+                  </div>
+
+                  <Link
+                    to={`/admin/courses/${course.id}`}
+                    className="text-sm text-blue-600"
+                  >
+                    Edit
+                  </Link>
+                </div>
+              ))}
             </div>
 
             <Link
@@ -52,29 +66,6 @@ export default function AdminDashboard() {
           <p>You don't have any courses</p>
         )}
       </section>
-    </div>
-  );
-}
-
-type CourseRowProps = {
-  id: string;
-  title: string;
-  published: boolean;
-};
-
-function CourseRow({ id, title, published }: CourseRowProps) {
-  return (
-    <div className="flex items-center justify-between px-4 py-3">
-      <div>
-        <p className="font-medium">{title}</p>
-        <p className="text-sm text-gray-500">
-          {published ? "Published" : "Draft"}
-        </p>
-      </div>
-
-      <Link to={`/admin/courses/${id}`} className="text-sm text-blue-600">
-        Edit
-      </Link>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import type { LoginUser, SignupUser, User } from "../type/auth";
-import { login, signup } from "../services/auth";
+import { login, signup } from "../api/auth";
 
 type AuthContextType = {
   signupUser: (user: SignupUser) => Promise<ApiResponse>;

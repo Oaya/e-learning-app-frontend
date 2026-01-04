@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-c-white: #f6f6f6;
-  --color-light-pink: #ffc7c7;
-  --color-mid-pink: #ffe2e2;
-  --color-pink: #fd7979;
-  --color-c-gray: #8785a2;
+  --color-c-purple: #b7b1f2;
+  --color-c-light-pink: #ffe4ef;
+  --color-c-pink: #f39eb6;
+  --color-c-green: #b8db80;
+  --color-c-light-yellow: #f7f6d3;
 }

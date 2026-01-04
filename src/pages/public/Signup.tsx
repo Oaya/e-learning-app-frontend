@@ -109,7 +109,7 @@ export default function SignupPage() {
 
         <button
           type="submit"
-          className="bg-pink my-2 w-full rounded px-6 py-3 text-center text-white"
+          className="bg-c-pink my-2 w-full rounded px-6 py-3 text-center text-white"
         >
           Sign Up
         </button>
