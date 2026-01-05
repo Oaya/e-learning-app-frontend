@@ -35,32 +35,28 @@ export default function LoginPage() {
     <div className="m-10 mx-auto w-150 text-2xl">
       <div>{error && <p>{error}</p>}</div>
       <div>{message && <p>{message}</p>}</div>
-      <h2>Log in</h2>
+      <h2 className="mb-2 text-center">Log in</h2>
       <form onSubmit={handleLogin}>
         <div className="mb-2">
-          <label className="block text-lg font-bold">Email</label>
-          <input
-            name="email"
-            onChange={ClearState}
-            className="mb-2 w-full rounded border border-gray-300 bg-white px-6 py-3 shadow-md"
-          />
+          <label className="block text-lg">Email</label>
+          <input name="email" onChange={ClearState} className="form-input" />
         </div>
 
         <div className="mb-2">
-          <label className="block text-lg font-bold">Password</label>
+          <label className="block text-lg">Password</label>
           <input
             name="password"
             type="password"
             onChange={ClearState}
-            className="mb-2 w-full rounded border border-gray-300 bg-white px-6 py-3 shadow-md"
+            className="form-input"
           />
         </div>
 
         <button
           type="submit"
-          className="bg-c-pink my-2 w-full rounded px-6 py-3 text-center text-white"
+          className="bg-dark-purple my-2 w-full rounded px-6 py-2 text-center text-lg text-white"
         >
-          Log In
+          Log in
         </button>
       </form>
     </div>

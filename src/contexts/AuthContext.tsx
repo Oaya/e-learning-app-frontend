@@ -10,16 +10,22 @@ import type { LoginUser, SignupUser, User } from "../type/auth";
 import { login, signup } from "../api/auth";
 
 type AuthContextType = {
+  user?: User | null;
   signupUser: (user: SignupUser) => Promise<ApiResponse>;
   loginUser: (user: LoginUser) => Promise<ApiResponse>;
+  logoutUser: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
+  user: null,
   signupUser: async () => {
     return Promise.resolve({} as ApiResponse);
   },
   loginUser: async () => {
     return Promise.resolve({} as ApiResponse);
+  },
+  logoutUser() {
+    return;
   },
 });
 
@@ -40,9 +46,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, []);
 
+  const logoutUser = useCallback(async () => {
+    localStorage.removeItem("jwt");
+    setUser(null);
+  }, []);
+
   const value = useMemo(
-    () => ({ signupUser, loginUser, user }),
-    [signupUser, loginUser, user],
+    () => ({ signupUser, loginUser, logoutUser, user }),
+    [signupUser, loginUser, logoutUser, user],
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

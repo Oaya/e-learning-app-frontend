@@ -9,8 +9,8 @@ export default function AdminNavLInk({ to, children }: NavLinkProps) {
         [
           "block rounded px-3 py-2 text-sm font-medium",
           isActive
-            ? "bg-blue-50 text-blue-700"
-            : "text-gray-700 hover:bg-gray-100",
+            ? "text-dark-purple bg-gray-200"
+            : "text-gray-600 hover:bg-gray-100",
         ].join(" ")
       }
     >

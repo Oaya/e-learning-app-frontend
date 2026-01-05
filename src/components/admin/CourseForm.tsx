@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import type { CreateCourse } from "../../type/course";
 import { fdString } from "../../utils/formData";
+import { categories, levels } from "../../utils/constants";
 
 type Props = {
-  mode: "create" | "edit";
+  mode: "course-create" | "course-edit" | "module-create" | "module-edit";
   defaultValues?: CreateCourse;
   isSubmitting?: boolean;
   error?: string | null;
@@ -11,7 +12,6 @@ type Props = {
 };
 
 export default function CourseForm({
-  mode,
   defaultValues,
   isSubmitting,
   error,
@@ -24,6 +24,8 @@ export default function CourseForm({
     const data = {
       title: fdString(fd, "title").trim(),
       description: fdString(fd, "description").trim(),
+      category: fdString(fd, "category"),
+      level: fdString(fd, "level"),
     };
 
     onSubmit(data);
@@ -31,41 +33,20 @@ export default function CourseForm({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">
-            {mode === "create" ? "New course" : "Edit course"}
-          </h1>
-          <p className="text-sm text-gray-600">
-            {mode === "create"
-              ? "Create the course first, you'll add modules and lessons next."
-              : "Update course details. Modules and lessons are managed separately."}
-          </p>
-        </div>
-
-        <Link to="/admin" className="text-sm text-blue-600 hover:underline">
-          ← Back to dashboard
-        </Link>
-      </div>
-
       {error && (
         <div className="rounded border border-red-200 bg-red-50 p-3 text-red-700">
           {error}
         </div>
       )}
 
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-2xl space-y-5 rounded border bg-white p-6"
-      >
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 py-6">
         <div>
           <label className="block text-sm font-medium">Title</label>
           <input
             name="title"
             defaultValue={defaultValues?.title ?? ""}
             required
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2"
           />
         </div>
 
@@ -74,22 +55,60 @@ export default function CourseForm({
           <textarea
             name="description"
             defaultValue={defaultValues?.description ?? ""}
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2"
             placeholder="What will students learn?"
           />
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div className="mb-2">
+            <label className="block text-sm font-medium">Category</label>
+            <select
+              name="category"
+              className="mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2.5 shadow-md"
+              defaultValue={defaultValues?.category ?? ""}
+            >
+              <option value="">--Select category--</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-2">
+            <label className="block text-sm font-medium">Level</label>
+            <select
+              name="level"
+              className="mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2.5 shadow-md"
+              defaultValue={defaultValues?.level ?? ""}
+            >
+              <option value="">--Select level--</option>
+              {levels.map((level) => (
+                <option key={level} value={level}>
+                  {level}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium">Course image</label>
+          <input type="file" name="image" className="form-input" />
         </div>
 
         <div className="flex gap-3">
           <button
             type="submit"
             disabled={!!isSubmitting}
-            className="bg-c-pink rounded px-4 py-2 text-sm text-white disabled:opacity-60"
+            className="bg-dark-purple rounded px-4 py-2 text-sm text-white disabled:opacity-60"
           >
-            {isSubmitting ? "Saving..." : "Next"}
+            {isSubmitting ? "Saving..." : "Save & Continue"}
           </button>
 
           <Link
-            to="/admin/courses"
+            to="/admin/"
             className="rounded border border-gray-300 px-4 py-2 text-sm"
           >
             Cancel

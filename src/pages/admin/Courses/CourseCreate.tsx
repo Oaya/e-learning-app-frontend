@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { CreateCourse } from "../../../type/course";
 import { createCourse } from "../../../api/courses";
 import CourseForm from "../../../components/admin/CourseForm";
+import CourseOverview from "../../../components/admin/CourseOverview";
 
 export default function CourseCreate() {
   const queryClient = useQueryClient();
@@ -22,19 +23,30 @@ export default function CourseCreate() {
   });
 
   return (
-    <div className="space-y-6">
-      <CourseForm
-        mode="create"
-        isSubmitting={mutation.isPending}
-        error={
-          mutation.isError
-            ? mutation.error instanceof Error
-              ? mutation.error.message
-              : "Failed"
-            : null
-        }
-        onSubmit={(values) => mutation.mutate(values)}
-      />
+    <div>
+      <header className="flex h-14 items-center justify-between pb-10">
+        <h1 className="text-2xl font-semibold">Course Creation</h1>
+      </header>
+      <div className="flex gap-10">
+        <div className="flex-1">
+          <CourseForm
+            mode="course-create"
+            isSubmitting={mutation.isPending}
+            error={
+              mutation.isError
+                ? mutation.error instanceof Error
+                  ? mutation.error.message
+                  : "Failed"
+                : null
+            }
+            onSubmit={(values) => mutation.mutate(values)}
+          />
+        </div>
+
+        <div className="bg-c-purple/30 w-110 shrink-0 rounded border border-gray-300 p-4">
+          <CourseOverview />
+        </div>
+      </div>
     </div>
   );
 }

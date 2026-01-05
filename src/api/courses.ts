@@ -71,3 +71,19 @@ export async function updateCourse(
     throw new Error(e.response?.data?.error);
   }
 }
+
+export async function getCourseOverview(id: string): Promise<any> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${id}/overview`;
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Get course details response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
