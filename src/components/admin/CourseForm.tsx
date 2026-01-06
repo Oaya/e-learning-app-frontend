@@ -4,7 +4,6 @@ import { fdString } from "../../utils/formData";
 import { categories, levels } from "../../utils/constants";
 
 type Props = {
-  mode: "course-create" | "course-edit" | "module-create" | "module-edit";
   defaultValues?: CreateCourse;
   isSubmitting?: boolean;
   error?: string | null;
@@ -39,7 +38,7 @@ export default function CourseForm({
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5 py-6">
+      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
           <label className="block text-sm font-medium">Title</label>
           <input
@@ -68,7 +67,7 @@ export default function CourseForm({
               className="mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2.5 shadow-md"
               defaultValue={defaultValues?.category ?? ""}
             >
-              <option value="">--Select category--</option>
+              <option>--Select category--</option>
               {categories.map((category) => (
                 <option key={category} value={category}>
                   {category}
@@ -83,7 +82,7 @@ export default function CourseForm({
               className="mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2.5 shadow-md"
               defaultValue={defaultValues?.level ?? ""}
             >
-              <option value="">--Select level--</option>
+              <option>--Select level--</option>
               {levels.map((level) => (
                 <option key={level} value={level}>
                   {level}

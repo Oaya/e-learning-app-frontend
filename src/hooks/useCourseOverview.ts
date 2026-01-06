@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Course } from "../type/course";
+import type { CourseOverview } from "../type/course";
 import { getCourseOverview } from "../api/courses";
 
 export const useCourseOverview = (id: string) => {
@@ -8,8 +8,8 @@ export const useCourseOverview = (id: string) => {
     isLoading,
     isError,
     error,
-  } = useQuery<Course, Error>({
-    queryKey: ["course", id],
+  } = useQuery<CourseOverview, Error>({
+    queryKey: ["courseOverview", id],
     queryFn: () => getCourseOverview(id),
     enabled: !!id,
   });

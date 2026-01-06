@@ -2,13 +2,14 @@ import { Route } from "react-router-dom";
 
 import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/Dashboard";
-import CourseCreate from "../pages/admin/Courses/CourseCreate";
-import ModuleCreate from "../pages/admin/Modules/ModuleCreate";
-import CourseEdit from "../pages/admin/Courses/CourseEdit";
+import CourseCreate from "../pages/admin/Curriculum/CourseCreate";
+import ModuleCreate from "../pages/admin/Curriculum/CurriculumBuilder";
+import CourseEdit from "../pages/admin/Curriculum/CourseEdit";
+import RequireAuth from "./RequireAuth";
 
 export default function AdminRoutes() {
   return (
-    <>
+    <Route element={<RequireAuth />}>
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/courses/new" element={<CourseCreate />} />
@@ -18,6 +19,6 @@ export default function AdminRoutes() {
           element={<ModuleCreate />}
         />
       </Route>
-    </>
+    </Route>
   );
 }

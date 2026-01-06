@@ -8,7 +8,7 @@ export type Module = {
 };
 
 export type CreateModule = {
-  course_id: string;
+  course_id?: string;
   title: string;
   description: string;
 };

@@ -24,3 +24,25 @@ export async function login(data: LoginUser): Promise<ApiResponse> {
     throw new Error(e.response?.data?.error);
   }
 }
+
+export async function getAuthUser(): Promise<ApiResponse> {
+  try {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      return { success: false, error: "No token" };
+    }
+
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Get Auth User response:", res);
+
+    return { success: true, data: res.data };
+  } catch (err: any) {
+    throw new Error(err.response.data.error);
+  }
+}

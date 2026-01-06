@@ -51,7 +51,6 @@ export default function CourseEdit() {
       <div className="flex gap-10">
         <div className="flex-1">
           <CourseForm
-            mode="course-edit"
             isSubmitting={mutation.isPending}
             error={
               mutation.isError

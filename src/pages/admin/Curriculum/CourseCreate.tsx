@@ -30,7 +30,6 @@ export default function CourseCreate() {
       <div className="flex gap-10">
         <div className="flex-1">
           <CourseForm
-            mode="course-create"
             isSubmitting={mutation.isPending}
             error={
               mutation.isError

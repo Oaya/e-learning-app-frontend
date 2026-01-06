@@ -5,12 +5,14 @@ import {
   useMemo,
   type ReactNode,
   useState,
+  useEffect,
 } from "react";
 import type { LoginUser, SignupUser, User } from "../type/auth";
-import { login, signup } from "../api/auth";
+import { getAuthUser, login, signup } from "../api/auth";
 
 type AuthContextType = {
   user?: User | null;
+  isLoading?: boolean;
   signupUser: (user: SignupUser) => Promise<ApiResponse>;
   loginUser: (user: LoginUser) => Promise<ApiResponse>;
   logoutUser: () => void;
@@ -31,6 +33,30 @@ const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
+
+    (async () => {
+      try {
+        const res = await getAuthUser();
+        setUser(res.data);
+      } catch (err) {
+        console.log(err);
+        localStorage.removeItem("jwt");
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
   const signupUser = useCallback(async (data: SignupUser) => {
     return await signup(data);
   }, []);
@@ -52,8 +78,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ signupUser, loginUser, logoutUser, user }),
-    [signupUser, loginUser, logoutUser, user],
+    () => ({ signupUser, loginUser, logoutUser, user, isLoading }),
+    [signupUser, loginUser, logoutUser, user, isLoading],
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;
