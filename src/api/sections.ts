@@ -34,3 +34,20 @@ export async function updateSection(data: UpdateSection): Promise<Section> {
     throw new Error(e.response?.data?.error);
   }
 }
+
+export async function deleteSection(id: string): Promise<void> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/sections/${id}`;
+    const response = await axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Update section response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}

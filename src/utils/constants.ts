@@ -20,3 +20,5 @@ export const categories: string[] = [
   "Music",
   "Teaching & Academics",
 ];
+
+export const lessonTypes: string[] = ["Video", "Article", "Quiz", "Assignment"];

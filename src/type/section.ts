@@ -17,3 +17,14 @@ export type UpdateSection = {
   title: string;
   description: string;
 };
+
+export type SectionWithLessons = {
+  id: string;
+  title: string;
+  description?: string | null;
+  lessons?: Array<{
+    id: string;
+    title: string;
+    position: number;
+  }>;
+};
