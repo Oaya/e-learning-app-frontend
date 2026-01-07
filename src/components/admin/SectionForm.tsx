@@ -1,22 +1,23 @@
 import { fdString } from "../../utils/formData";
 
-import type { CreateSection } from "../../type/section";
 import { useAlert } from "../../contexts/AlertContext";
 
 type Props = {
-  defaultValues?: CreateSection;
+  mode: "create" | "edit";
+  defaultValues?: { title: string; description: string };
   isSubmitting?: boolean;
   error?: string | null;
-  onSubmit: (values: CreateSection) => void;
-  setAddSectionOpen: (open: boolean) => void;
+  onSubmit: (values: { title: string; description: string }) => void;
+  onCancel: () => void;
 };
 
 export default function SectionForm({
+  mode,
   defaultValues,
   isSubmitting,
   error,
   onSubmit,
-  setAddSectionOpen,
+  onCancel,
 }: Props) {
   const alert = useAlert();
 
@@ -38,7 +39,7 @@ export default function SectionForm({
   return (
     <div className="space-y-6 rounded border-gray-300">
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
-        <h1>New Section</h1>
+        <h1> {mode === "edit" ? "Edit Section" : "New Section"}</h1>
         <div>
           <input
             name="title"
@@ -67,12 +68,16 @@ export default function SectionForm({
             disabled={!!isSubmitting}
             className="bg-dark-purple rounded px-4 py-2 text-sm text-white disabled:opacity-60"
           >
-            {isSubmitting ? "Saving..." : "Add Section"}
+            {isSubmitting
+              ? "Saving..."
+              : mode === "edit"
+                ? "Save Changes"
+                : "Add Section"}
           </button>
 
           <button
             className="rounded border border-gray-300 px-4 py-2 text-sm"
-            onClick={() => setAddSectionOpen(false)}
+            onClick={onCancel}
           >
             Cancel
           </button>

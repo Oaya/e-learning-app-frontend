@@ -11,3 +11,9 @@ export type CreateSection = {
   title: string;
   description: string;
 };
+
+export type UpdateSection = {
+  id: string;
+  title: string;
+  description: string;
+};
