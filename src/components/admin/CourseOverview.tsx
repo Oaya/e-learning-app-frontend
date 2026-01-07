@@ -40,10 +40,6 @@ export default function CourseOverview({ id }: { id?: string }) {
                         {section.lessons.map((lesson) => (
                           <li key={lesson.id} className="mb-1">
                             <p className="font-medium">{lesson.title}</p>
-                            <p className="text-sm text-gray-600">
-                              {lesson.description} (
-                              {lesson.lesson_type.replace("_", " ")})
-                            </p>
                           </li>
                         ))}
                       </ul>
