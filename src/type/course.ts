@@ -25,7 +25,7 @@ export type CourseOverview = {
   published: boolean;
   created_at: Date;
   updated_at: Date;
-  modules: {
+  sections: {
     id: string;
     title: string;
     position: number;

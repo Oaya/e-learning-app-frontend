@@ -1,10 +1,10 @@
 import axios from "axios";
-import type { CreateModule, Module } from "../type/module";
+import type { CreateSection, Section } from "../type/section";
 
-export async function createModule(data: CreateModule): Promise<Module> {
+export async function createSection(data: CreateSection): Promise<Section> {
   try {
     const token = localStorage.getItem("jwt");
-    const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${data.course_id}/course_modules`;
+    const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${data.course_id}/sections`;
     const response = await axios.post(url, data, {
       headers: {
         Authorization: `Bearer ${token}`,

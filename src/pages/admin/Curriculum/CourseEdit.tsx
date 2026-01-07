@@ -29,7 +29,7 @@ export default function CourseEdit() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["courses"] });
       queryClient.invalidateQueries({ queryKey: ["courses", courseId] });
-      navigate(`/admin/course/${courseId}/modules/new`);
+      navigate(`/admin/course/${courseId}/sections/new`);
     },
   });
 

@@ -2,16 +2,17 @@ import { useState } from "react";
 
 import type { SignupUser } from "../../type/auth";
 import { useAuth } from "../../contexts/AuthContext";
+import { useAlert } from "../../contexts/AlertContext";
 
 export default function SignupPage() {
   const { signupUser } = useAuth();
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
+  const alert = useAlert();
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    clearState();
+
     setIsSubmitting(true);
 
     const form = e.currentTarget;
@@ -20,78 +21,57 @@ export default function SignupPage() {
 
     //Check the password and confirm_password is same or not
     if (data.password === data.password_confirm) {
-      setError("Password and Confirm Password should match");
+      alert.error("Password and Confirm Password should match");
     }
 
     try {
       const res = await signupUser(data as SignupUser);
       if (res.data.message) {
-        setMessage(res.data.message as string);
+        alert.success(res.data.message as string);
         setIsSubmitting(false);
       }
     } catch (err) {
-      setError(err as string);
+      alert.error(err as string);
       setIsSubmitting(false);
     }
   };
 
-  const clearState = () => {
-    setError(null);
-    setMessage(null);
-  };
-
   return (
     <div className="m-10 mx-auto w-150 text-2xl">
-      <div>{error && <p>{error}</p>}</div>
-      <div>{message && <p>{message}</p>}</div>
       <h2 className="mb-2 text-center">Sign up</h2>
       <form onSubmit={handleSignup}>
         <div className="mb-2">
           <label className="block text-lg">Email</label>
-          <input name="email" onChange={clearState} className="form-input" />
+          <input name="email" className="form-input" />
         </div>
 
         <div className="mb-2">
           <label className="block text-lg">Password</label>
-          <input
-            name="password"
-            type="password"
-            onChange={clearState}
-            className="form-input"
-          />
+          <input name="password" type="password" className="form-input" />
         </div>
         <div className="mb-2">
           <label className="block text-lg">Confirm Password</label>
           <input
             name="password_confirmation"
             type="password"
-            onChange={clearState}
             className="form-input"
           />
         </div>
         <div className="grid grid-cols-2 gap-6">
           <div className="mb-2">
             <label className="block text-lg">First Name</label>
-            <input
-              name="first_name"
-              onChange={clearState}
-              className="form-input"
-            />
+            <input name="first_name" className="form-input" />
           </div>
           <div className="mb-2">
             <label className="block text-lg">Last Name</label>
-            <input
-              name="last_name"
-              onChange={clearState}
-              className="form-input"
-            />
+            <input name="last_name" className="form-input" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-6">
           <div className="mb-2">
             <label className="block text-lg">Tenant Name</label>
-            <input name="tenant" onChange={clearState} className="form-input" />
+            <input name="tenant" className="form-input" />
           </div>
           <div className="mb-2">
             <label className="block text-lg">Plan</label>

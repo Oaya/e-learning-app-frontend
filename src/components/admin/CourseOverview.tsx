@@ -26,18 +26,18 @@ export default function CourseOverview({ id }: { id?: string }) {
           </p>
 
           <div>
-            <h1>Modules</h1>
-            {course.modules && course.modules.length > 0 ? (
+            <h1>Sections</h1>
+            {course.sections && course.sections.length > 0 ? (
               <ul className="list-disc pl-5">
-                {course.modules.map((module) => (
-                  <li key={module.id} className="mb-2">
-                    <p className="font-semibold">{module.title}</p>
+                {course.sections.map((section) => (
+                  <li key={section.id} className="mb-2">
+                    <p className="font-semibold">{section.title}</p>
                     <p className="text-sm text-gray-600">
-                      {module.description}
+                      {section.description}
                     </p>
-                    {module.lessons && module.lessons.length > 0 && (
+                    {section.lessons && section.lessons.length > 0 && (
                       <ul className="list-circle mt-1 pl-5">
-                        {module.lessons.map((lesson) => (
+                        {section.lessons.map((lesson) => (
                           <li key={lesson.id} className="mb-1">
                             <p className="font-medium">{lesson.title}</p>
                             <p className="text-sm text-gray-600">

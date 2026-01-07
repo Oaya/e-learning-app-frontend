@@ -17,8 +17,8 @@ export default function CourseCreate() {
       //Refresh the courses list after creating a new course
       queryClient.invalidateQueries({ queryKey: ["courses"] });
 
-      //Navigate to module creation page to add modules
-      navigate(`/admin/course/${course.id}/modules/new`);
+      //Navigate to section creation page to add sections
+      navigate(`/admin/course/${course.id}/sections/new`);
     },
   });
 

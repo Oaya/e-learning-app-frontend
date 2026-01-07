@@ -1,20 +1,47 @@
 import { useState } from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import CourseOverview from "../../../components/admin/CourseOverview";
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
-import ModuleForm from "../../../components/admin/ModuleForm";
+import SectionForm from "../../../components/admin/SectionForm";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { CreateSection } from "../../../type/section";
+import { createSection } from "../../../api/section";
+import { useAlert } from "../../../contexts/AlertContext";
 
 export default function CurriculumBuilderPage() {
   const { id } = useParams<{ id: string }>();
+  const alert = useAlert();
+
+  const queryClient = useQueryClient();
+
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [openAddSection, setAddSectionOpen] = useState(false);
 
   const { course, isLoading, isError, error } = useCourseOverview(id ?? "");
 
-  const toggleOpen = (moduleId: string) =>
-    setOpen((s) => ({ ...s, [moduleId]: !s[moduleId] }));
+  const toggleOpen = (sectionId: string) =>
+    setOpen((s) => ({ ...s, [sectionId]: !s[sectionId] }));
+
+  //Mutation to create a Section
+  const mutation = useMutation({
+    mutationFn: (data: CreateSection) => createSection(data),
+    onSuccess: () => {
+      //Refresh the sections list after creating a new section
+      queryClient.invalidateQueries({
+        queryKey: ["courseOverview", id],
+      });
+
+      setAddSectionOpen(false);
+    },
+
+    onError: (error) => {
+      alert.error(
+        error instanceof Error ? error.message : "Failed to create section",
+      );
+    },
+  });
 
   if (!id) return <p>Invalid course</p>;
   if (isLoading) return <p>Loading…</p>;
@@ -40,29 +67,29 @@ export default function CurriculumBuilderPage() {
 
       <div className="flex gap-10">
         <div className="flex-1 space-y-6">
-          {/* // Modules list */}
+          {/* // Sections list */}
           <div className="space-y-4">
-            {course.modules.map((m, i) => {
-              const isOpen = !!open[m.id];
+            {course.sections.map((s, i) => {
+              const isOpen = !!open[s.id];
 
               return (
                 <div
-                  key={m.id}
+                  key={s.id}
                   className="rounded border border-gray-200 bg-white shadow-sm"
                 >
-                  {/* Module header */}
+                  {/* Section header */}
                   <div className="flex items-center justify-between px-4 py-3">
                     <div
                       className="flex items-center"
-                      onClick={() => toggleOpen(m.id)}
+                      onClick={() => toggleOpen(s.id)}
                     >
                       <p className="text-xs text-gray-500">
                         Section {i + 1}:
-                        <span className="m-2 font-semibold">{m.title}</span>
+                        <span className="m-2 font-semibold">{s.title}</span>
                       </p>
 
                       <p className="text-xs text-gray-500">
-                        ( {m.lessons?.length} lessons )
+                        ( {s.lessons?.length} lessons )
                       </p>
                     </div>
 
@@ -87,10 +114,23 @@ export default function CurriculumBuilderPage() {
           </div>
 
           <div className="rounded border border-gray-200 bg-white shadow-sm">
-            {/* //If the setAddSectionOpen is true show the ModuleForm */}
+            {/* //If the setAddSectionOpen is true show the SectionForm */}
             {openAddSection ? (
               <div className="px-4 py-3">
-                <ModuleForm onSubmit={() => {}} />
+                <SectionForm
+                  isSubmitting={mutation.isPending}
+                  error={
+                    mutation.isError
+                      ? mutation.error instanceof Error
+                        ? mutation.error.message
+                        : "Failed"
+                      : null
+                  }
+                  onSubmit={(values) =>
+                    mutation.mutate({ ...values, course_id: id })
+                  }
+                  setAddSectionOpen={setAddSectionOpen}
+                />
               </div>
             ) : (
               <div className="px-4 py-3">
@@ -99,7 +139,7 @@ export default function CurriculumBuilderPage() {
                   type="button"
                   className="bg-dark-purple hover:bg-dark-purple/80 rounded px-2 py-2 text-sm text-white"
                 >
-                  Add Section
+                  + Section
                 </button>
               </div>
             )}

@@ -1,22 +1,28 @@
-import { Link } from "react-router-dom";
-
 import { fdString } from "../../utils/formData";
 
-import type { CreateModule } from "../../type/module";
+import type { CreateSection } from "../../type/section";
+import { useAlert } from "../../contexts/AlertContext";
 
 type Props = {
-  defaultValues?: CreateModule;
+  defaultValues?: CreateSection;
   isSubmitting?: boolean;
   error?: string | null;
-  onSubmit: (values: CreateModule) => void;
+  onSubmit: (values: CreateSection) => void;
+  setAddSectionOpen: (open: boolean) => void;
 };
 
-export default function ModuleForm({
+export default function SectionForm({
   defaultValues,
   isSubmitting,
   error,
   onSubmit,
+  setAddSectionOpen,
 }: Props) {
+  const alert = useAlert();
+
+  if (error) {
+    alert.error(error);
+  }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
@@ -30,13 +36,7 @@ export default function ModuleForm({
   };
 
   return (
-    <div className="space-y-6 rounded border border-gray-300 p-6">
-      {error && (
-        <div className="rounded border border-red-200 bg-red-50 p-3 text-red-700">
-          {error}
-        </div>
-      )}
-
+    <div className="space-y-6 rounded border-gray-300">
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <h1>New Section</h1>
         <div>
@@ -70,12 +70,12 @@ export default function ModuleForm({
             {isSubmitting ? "Saving..." : "Add Section"}
           </button>
 
-          <Link
-            to="/admin/"
+          <button
             className="rounded border border-gray-300 px-4 py-2 text-sm"
+            onClick={() => setAddSectionOpen(false)}
           >
             Cancel
-          </Link>
+          </button>
         </div>
       </form>
     </div>

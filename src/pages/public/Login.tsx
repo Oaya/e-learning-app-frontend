@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import type { LoginUser } from "../../type/auth";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useAlert } from "../../contexts/AlertContext";
 
 export default function LoginPage() {
   const { loginUser } = useAuth();
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
+  const alert = useAlert();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -18,38 +18,26 @@ export default function LoginPage() {
     try {
       const res = await loginUser(data as LoginUser);
       if (res.success) {
-        setMessage(res.data.message as string);
+        alert.success(res.data.message || "Login successful");
         navigate("/admin", { replace: true });
       }
     } catch (err) {
-      setError(err as string);
+      alert.error(err as string);
     }
-  };
-
-  const ClearState = () => {
-    setError(null);
-    setMessage(null);
   };
 
   return (
     <div className="m-10 mx-auto w-150 text-2xl">
-      <div>{error && <p>{error}</p>}</div>
-      <div>{message && <p>{message}</p>}</div>
       <h2 className="mb-2 text-center">Log in</h2>
       <form onSubmit={handleLogin}>
         <div className="mb-2">
           <label className="block text-lg">Email</label>
-          <input name="email" onChange={ClearState} className="form-input" />
+          <input name="email" className="form-input" />
         </div>
 
         <div className="mb-2">
           <label className="block text-lg">Password</label>
-          <input
-            name="password"
-            type="password"
-            onChange={ClearState}
-            className="form-input"
-          />
+          <input name="password" type="password" className="form-input" />
         </div>
 
         <button
