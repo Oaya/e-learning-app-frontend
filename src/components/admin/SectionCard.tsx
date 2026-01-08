@@ -2,14 +2,14 @@ import { useState } from "react";
 import { BiEditAlt, BiSolidTrashAlt } from "react-icons/bi";
 
 import type { SectionWithLessons } from "../../type/section";
-import type { CreateLesson } from "../../type/lesson";
+import type { CreateLesson, Lesson } from "../../type/lesson";
 import { useSectionMutations } from "../../hooks/useSectionMutation";
 import { useLessonMutations } from "../../hooks/useLessonMutation";
 
 import SectionForm from "./SectionForm";
 import LessonForm from "./LessonForm";
-import LessonCard from "./LessonCard";
 import ConfirmModal from "../ui/ConfirmModal";
+import SortableLessonList from "./SortableLessonList";
 
 type Props = {
   section: SectionWithLessons;
@@ -38,17 +38,26 @@ export default function SectionCard({
   const isEditingSection = editingSectionId === s.id;
 
   const [isAddingLesson, setIsAddingLesson] = useState(false);
+  const isAddingLessonHere = isOpen && isAddingLesson;
+  const showAddLessonButton = !isAddingLessonHere;
 
   const lessonCount = s.lessons?.length ?? 0;
 
   const { updateSection, deleteSection, isUpdating, isDeleting } =
-    useSectionMutations(courseId);
+    useSectionMutations(courseId, {
+      onUpdateSuccess: () => {
+        setEditingSectionId(null);
+      },
+    });
+
   const { createLesson, isCreating } = useLessonMutations(courseId, {
-    onCreateSuccess: () => setIsAddingLesson(false),
+    onCreateSuccess: (newLesson: Lesson) => {
+      setLessons((prev) => [...prev, newLesson]);
+      setIsAddingLesson(false);
+    },
   });
 
-  const isAddingLessonHere = isOpen && isAddingLesson;
-  const showAddLessonButton = !isAddingLessonHere;
+  const [lessons, setLessons] = useState(() => s.lessons ?? []);
 
   return (
     <div>
@@ -149,12 +158,28 @@ export default function SectionCard({
             </div>
           ) : null}
 
-          {/* Lessons list */}
-          <div className="mb-4 space-y-2">
-            {s.lessons?.map((l) => (
-              <LessonCard key={l.id} lesson={l} courseId={courseId} />
-            ))}
-          </div>
+          {/* Lessons list (DnD) */}
+          <SortableLessonList
+            lessons={lessons}
+            courseId={courseId}
+            disabled={
+              isOpen ||
+              isAddingLessonHere ||
+              isEditingSection ||
+              isDeleting ||
+              isCreating ||
+              isUpdating
+            }
+            onReorder={(next) => {
+              setLessons(next);
+
+              // persist order
+              // reorderLessons({
+              //   section_id: s.id,
+              //   ordered_lesson_ids: next.map((l) => l.id),
+              // });
+            }}
+          />
 
           {/* Add lesson form */}
           {isAddingLesson ? (

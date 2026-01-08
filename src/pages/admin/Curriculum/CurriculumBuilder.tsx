@@ -12,15 +12,17 @@ import SectionCard from "../../../components/admin/SectionCard";
 export default function CurriculumBuilderPage() {
   const { id } = useParams<{ id: string }>();
   const alert = useAlert();
-
   const courseId = id ?? "";
-
-  const { createSection, isCreating } = useSectionMutations(courseId);
 
   // Track which section accordion is open
   const [open, setOpen] = useState<Record<string, boolean>>({});
   // Add section form toggle
   const [openAddSection, setAddSectionOpen] = useState(false);
+
+  const { createSection, isCreating } = useSectionMutations(courseId, {
+    onCreateSuccess: () => setAddSectionOpen(false),
+    onUpdateSuccess: (section) => toggleOpen(section.id),
+  });
 
   // Which section is currently being edited (inline)
 

@@ -1,9 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateSection, UpdateSection } from "../type/section";
+import type { CreateSection, Section, UpdateSection } from "../type/section";
 import { createSection, updateSection, deleteSection } from "../api/sections";
 import { useAlert } from "../contexts/AlertContext";
 
-export function useSectionMutations(courseId: string) {
+export function useSectionMutations(
+  courseId: string,
+  options?: {
+    onCreateSuccess?: () => void;
+    onUpdateSuccess?: (updatedSection: Section) => void;
+  },
+) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
@@ -13,6 +19,7 @@ export function useSectionMutations(courseId: string) {
       queryClient.invalidateQueries({
         queryKey: ["courseOverview", courseId],
       });
+      options?.onCreateSuccess?.();
     },
     onError: (error) => {
       alert.error(
@@ -23,10 +30,11 @@ export function useSectionMutations(courseId: string) {
 
   const updateMutation = useMutation({
     mutationFn: (data: UpdateSection) => updateSection(data),
-    onSuccess: () => {
+    onSuccess: (updatedSection) => {
       queryClient.invalidateQueries({
         queryKey: ["courseOverview", courseId],
       });
+      options?.onUpdateSuccess?.(updatedSection);
     },
     onError: (error) => {
       alert.error(

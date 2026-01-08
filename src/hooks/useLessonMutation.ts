@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAlert } from "../contexts/AlertContext";
-import type { CreateLesson, UpdateLesson } from "../type/lesson";
+import type { CreateLesson, Lesson, UpdateLesson } from "../type/lesson";
 import { createLesson, deleteLesson, updateLesson } from "../api/lessons";
 
 export function useLessonMutations(
   courseId: string,
   options?: {
-    onCreateSuccess?: () => void;
+    onCreateSuccess?: (createdLesson: Lesson) => void;
     onUpdateSuccess?: () => void;
     onDeleteSuccess?: () => void;
   },
@@ -16,9 +16,9 @@ export function useLessonMutations(
 
   const createMutation = useMutation({
     mutationFn: (data: CreateLesson) => createLesson(data),
-    onSuccess: () => {
+    onSuccess: (createdLesson) => {
       queryClient.invalidateQueries({ queryKey: ["courseOverview", courseId] });
-      options?.onCreateSuccess?.();
+      options?.onCreateSuccess?.(createdLesson);
     },
     onError: (err) => {
       alert.error(
