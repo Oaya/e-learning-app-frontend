@@ -52,7 +52,7 @@ export default function LessonForm({
   };
 
   return (
-    <div className="space-y-6 rounded border border-gray-300 p-2 p-3">
+    <div className="space-y-6 rounded border border-gray-300 p-3">
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
           <label className="mb-2 block text-sm font-medium">Lesson Type</label>

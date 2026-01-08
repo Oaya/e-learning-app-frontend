@@ -1,3 +1,5 @@
+import type { Lesson } from "./lesson";
+
 export type Course = {
   id: string;
   title: string;
@@ -30,12 +32,6 @@ export type CourseOverview = {
     title: string;
     position: number;
     description: string;
-    lessons?: {
-      id: string;
-      title: string;
-      description: string;
-      lesson_type: string;
-      position: number;
-    }[];
+    lessons?: Lesson[];
   }[];
 };

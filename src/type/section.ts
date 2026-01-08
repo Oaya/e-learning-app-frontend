@@ -1,3 +1,5 @@
+import type { Lesson } from "./lesson";
+
 export type Section = {
   id: string;
   title: string;
@@ -22,9 +24,5 @@ export type SectionWithLessons = {
   id: string;
   title: string;
   description?: string | null;
-  lessons?: Array<{
-    id: string;
-    title: string;
-    position: number;
-  }>;
+  lessons?: Lesson[];
 };

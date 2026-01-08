@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import CourseOverview from "../../../components/admin/CourseOverview";
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
 import SectionForm from "../../../components/admin/SectionForm";
 import { useAlert } from "../../../contexts/AlertContext";
 
-import ConfirmModal from "../../../components/ui/ConfirmModal";
 import { useSectionMutations } from "../../../hooks/useSectionMutation";
 import SectionCard from "../../../components/admin/SectionCard";
 
@@ -14,12 +13,9 @@ export default function CurriculumBuilderPage() {
   const { id } = useParams<{ id: string }>();
   const alert = useAlert();
 
-  const navigate = useNavigate();
-
   const courseId = id ?? "";
 
-  const { createSection, deleteSection, isCreating, isDeleting } =
-    useSectionMutations(courseId);
+  const { createSection, isCreating } = useSectionMutations(courseId);
 
   // Track which section accordion is open
   const [open, setOpen] = useState<Record<string, boolean>>({});
@@ -27,10 +23,6 @@ export default function CurriculumBuilderPage() {
   const [openAddSection, setAddSectionOpen] = useState(false);
 
   // Which section is currently being edited (inline)
-
-  const [deletingSectionId, setDeletingSectionId] = useState<string | null>(
-    null,
-  );
 
   const { course, isLoading, isError, error } = useCourseOverview(id ?? "");
 
@@ -46,18 +38,6 @@ export default function CurriculumBuilderPage() {
 
   return (
     <div>
-      <ConfirmModal
-        isOpen={deletingSectionId !== null}
-        isSubmitting={isDeleting}
-        message="Are you sure you want to delete this? This action cannot be undone."
-        onCancel={() => setDeletingSectionId(null)}
-        onConfirm={() => {
-          if (!deletingSectionId) return;
-          deleteSection(deletingSectionId);
-          setDeletingSectionId(null);
-        }}
-      />
-
       {/* Header */}
       <header className="flex items-start justify-between pb-8">
         <div>
@@ -82,12 +62,6 @@ export default function CurriculumBuilderPage() {
                 toggleOpen={toggleOpen}
                 openAddSection={openAddSection}
                 setAddSectionOpen={setAddSectionOpen}
-                setDeletingSectionId={(id) => setDeletingSectionId(id)}
-                isDeleting={isDeleting}
-                navigateToLessonEdit={(lessonId) =>
-                  navigate(`/admin/lessons/${lessonId}/edit`)
-                }
-                alertError={(msg) => alert.error(msg)}
               />
             ))}
           </div>
