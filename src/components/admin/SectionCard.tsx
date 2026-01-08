@@ -50,12 +50,13 @@ export default function SectionCard({
       },
     });
 
-  const { createLesson, isCreating } = useLessonMutations(courseId, {
-    onCreateSuccess: (newLesson: Lesson) => {
-      setLessons((prev) => [...prev, newLesson]);
-      setIsAddingLesson(false);
-    },
-  });
+  const { createLesson, isCreating, reorderLessons, isReordering } =
+    useLessonMutations(courseId, {
+      onCreateSuccess: (newLesson: Lesson) => {
+        setLessons((prev) => [...prev, newLesson]);
+        setIsAddingLesson(false);
+      },
+    });
 
   const [lessons, setLessons] = useState(() => s.lessons ?? []);
 
@@ -162,22 +163,13 @@ export default function SectionCard({
           <SortableLessonList
             lessons={lessons}
             courseId={courseId}
-            disabled={
-              isOpen ||
-              isAddingLessonHere ||
-              isEditingSection ||
-              isDeleting ||
-              isCreating ||
-              isUpdating
-            }
+            disabled={isDeleting || isCreating || isUpdating || isReordering}
             onReorder={(next) => {
               setLessons(next);
-
-              // persist order
-              // reorderLessons({
-              //   section_id: s.id,
-              //   ordered_lesson_ids: next.map((l) => l.id),
-              // });
+              reorderLessons({
+                section_id: s.id,
+                lesson_ids: next.map((l) => l.id),
+              });
             }}
           />
 

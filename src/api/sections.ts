@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { CreateSection, Section, UpdateSection } from "../type/section";
+import type { ReorderLessons } from "../type/lesson";
 
 export async function createSection(data: CreateSection): Promise<Section> {
   try {
@@ -46,6 +47,23 @@ export async function deleteSection(id: string): Promise<void> {
     });
 
     console.log("Update section response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
+export async function reorderLessons(data: ReorderLessons): Promise<void> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/sections/${data.section_id}/lessons/reorder`;
+    const response = await axios.put(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Reorder lessons response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

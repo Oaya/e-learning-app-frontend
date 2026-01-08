@@ -89,6 +89,14 @@ export default function SortableLessonList({
     }),
   );
 
+  function withUpdatedPositions(lessons: Lesson[]) {
+    // If your DB uses 0-based, change index + 1 to index
+    return lessons.map((l, index) => ({
+      ...l,
+      position: index + 1,
+    }));
+  }
+
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -97,7 +105,8 @@ export default function SortableLessonList({
     const newIndex = lessons.findIndex((l) => l.id === over.id);
     if (oldIndex < 0 || newIndex < 0) return;
 
-    onReorder(arrayMove(lessons, oldIndex, newIndex));
+    const moved = arrayMove(lessons, oldIndex, newIndex);
+    onReorder(withUpdatedPositions(moved));
   };
 
   return (

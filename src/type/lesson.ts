@@ -24,3 +24,8 @@ export type UpdateLesson = {
   lesson_type?: string;
   content_url?: string;
 };
+
+export type ReorderLessons = {
+  section_id: string;
+  lesson_ids: string[];
+};
