@@ -5,31 +5,25 @@ import CourseOverview from "../../../components/admin/CourseOverview";
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
 import SectionForm from "../../../components/admin/SectionForm";
 import { useAlert } from "../../../contexts/AlertContext";
-
 import { useSectionMutations } from "../../../hooks/useSectionMutation";
-import SectionCard from "../../../components/admin/SectionCard";
+import SortableSectionList from "../../../components/admin/SortableSectionList";
 
 export default function CurriculumBuilderPage() {
   const { id } = useParams<{ id: string }>();
   const alert = useAlert();
   const courseId = id ?? "";
 
-  // Track which section accordion is open
-  const [open, setOpen] = useState<Record<string, boolean>>({});
   // Add section form toggle
   const [openAddSection, setAddSectionOpen] = useState(false);
 
-  const { createSection, isCreating } = useSectionMutations(courseId, {
-    onCreateSuccess: () => setAddSectionOpen(false),
-    onUpdateSuccess: (section) => toggleOpen(section.id),
-  });
-
-  // Which section is currently being edited (inline)
+  const { createSection, isCreating, reorderSections, isReordering } =
+    useSectionMutations(courseId, {
+      onCreateSuccess: () => setAddSectionOpen(false),
+    });
 
   const { course, isLoading, isError, error } = useCourseOverview(id ?? "");
 
-  const toggleOpen = (sectionId: string) =>
-    setOpen((prev) => (prev[sectionId] ? {} : { [sectionId]: true }));
+  const sections = course?.sections ?? [];
 
   if (!id) return <p>Invalid course</p>;
   if (isLoading) return <p>Loading…</p>;
@@ -52,21 +46,20 @@ export default function CurriculumBuilderPage() {
 
       <div className="flex gap-10">
         <div className="flex-1 space-y-6">
-          {/* // Sections list */}
-          <div className="space-y-4">
-            {course.sections.map((s, i) => (
-              <SectionCard
-                key={s.id}
-                section={s}
-                index={i}
-                courseId={courseId}
-                isOpen={!!open[s.id]}
-                toggleOpen={toggleOpen}
-                openAddSection={openAddSection}
-                setAddSectionOpen={setAddSectionOpen}
-              />
-            ))}
-          </div>
+          {/* // Sections list (DnD) */}
+          <SortableSectionList
+            sections={sections}
+            courseId={courseId}
+            disabled={isCreating || isReordering || openAddSection}
+            openAddSection={openAddSection}
+            setAddSectionOpen={setAddSectionOpen}
+            onReorder={(next) => {
+              reorderSections({
+                course_id: courseId,
+                section_ids: next.map((s) => s.id),
+              });
+            }}
+          />
 
           {/* //If the setAddSectionOpen is true show the SectionForm */}
           {openAddSection ? (

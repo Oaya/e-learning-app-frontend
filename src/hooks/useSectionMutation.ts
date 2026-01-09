@@ -1,7 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateSection, Section, UpdateSection } from "../type/section";
+import type {
+  CreateSection,
+  ReorderSections,
+  Section,
+  UpdateSection,
+} from "../type/section";
 import { createSection, updateSection, deleteSection } from "../api/sections";
 import { useAlert } from "../contexts/AlertContext";
+import { reorderSections } from "../api/courses";
 
 export function useSectionMutations(
   courseId: string,
@@ -57,13 +63,29 @@ export function useSectionMutations(
     },
   });
 
+  const reorderMutation = useMutation({
+    mutationFn: (data: ReorderSections) => reorderSections(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["courseOverview", courseId],
+      });
+    },
+    onError: (error) => {
+      alert.error(
+        error instanceof Error ? error.message : "Failed to reorder sections",
+      );
+    },
+  });
+
   return {
     createSection: createMutation.mutate,
     updateSection: updateMutation.mutate,
     deleteSection: deleteMutation.mutate,
+    reorderSections: reorderMutation.mutate,
 
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
+    isReordering: reorderMutation.isPending,
   };
 }

@@ -15,8 +15,6 @@ type Props = {
   section: SectionWithLessons;
   index: number;
   courseId: string;
-  isOpen: boolean;
-  toggleOpen: (sectionId: string) => void;
   openAddSection: boolean;
   setAddSectionOpen: (v: boolean) => void;
 };
@@ -25,8 +23,6 @@ export default function SectionCard({
   section: s,
   index,
   courseId,
-  isOpen,
-  toggleOpen,
   openAddSection,
   setAddSectionOpen,
 }: Props) {
@@ -38,17 +34,30 @@ export default function SectionCard({
   const isEditingSection = editingSectionId === s.id;
 
   const [isAddingLesson, setIsAddingLesson] = useState(false);
-  const isAddingLessonHere = isOpen && isAddingLesson;
+
+  // Track which section accordion is open
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  const isAddingLessonHere = open[s.id] && isAddingLesson;
   const showAddLessonButton = !isAddingLessonHere;
 
   const lessonCount = s.lessons?.length ?? 0;
 
-  const { updateSection, deleteSection, isUpdating, isDeleting } =
-    useSectionMutations(courseId, {
-      onUpdateSuccess: () => {
-        setEditingSectionId(null);
-      },
-    });
+  const toggleOpen = (sectionId: string) =>
+    setOpen((prev) => (prev[sectionId] ? {} : { [sectionId]: true }));
+
+  const {
+    updateSection,
+    deleteSection,
+
+    isUpdating,
+    isDeleting,
+  } = useSectionMutations(courseId, {
+    onUpdateSuccess: () => {
+      setEditingSectionId(null);
+    },
+    onCreateSuccess: () => setAddSectionOpen(false),
+    // onUpdateSuccess: (section) => toggleOpen(section.id),
+  });
 
   const { createLesson, isCreating, reorderLessons, isReordering } =
     useLessonMutations(courseId, {
@@ -129,8 +138,7 @@ export default function SectionCard({
               className="bg-c-yellow hover:bg-c-yellow/80 rounded px-4 py-2 text-sm text-white disabled:opacity-50"
               onClick={() => {
                 // ensure accordion open
-                if (!isOpen) toggleOpen(s.id);
-
+                toggleOpen(s.id);
                 setIsAddingLesson(true);
                 setEditingSectionId(null);
                 setAddSectionOpen(false);

@@ -23,6 +23,12 @@ export type UpdateSection = {
 export type SectionWithLessons = {
   id: string;
   title: string;
-  description?: string | null;
+  position: number;
+  description: string;
   lessons?: Lesson[];
+};
+
+export type ReorderSections = {
+  course_id: string;
+  section_ids: string[];
 };

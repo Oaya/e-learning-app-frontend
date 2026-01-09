@@ -1,4 +1,4 @@
-import type { Lesson } from "./lesson";
+import type { SectionWithLessons } from "./section";
 
 export type Course = {
   id: string;
@@ -27,11 +27,5 @@ export type CourseOverview = {
   published: boolean;
   created_at: Date;
   updated_at: Date;
-  sections: {
-    id: string;
-    title: string;
-    position: number;
-    description: string;
-    lessons?: Lesson[];
-  }[];
+  sections: SectionWithLessons[];
 };
