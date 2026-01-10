@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCourses } from "../../hooks/useCourses";
+import CourseCard from "../../components/admin/CourseCard";
 
 export default function AdminDashboard() {
   const { courses } = useCourses();
@@ -33,26 +34,9 @@ export default function AdminDashboard() {
             <>
               <h2 className="mb-4 text-lg font-medium">Your courses</h2>
 
-              <div className="divide-y rounded bg-white">
+              <div className="divide-y rounded">
                 {courses.map((course) => (
-                  <div
-                    key={course.id}
-                    className="flex items-center justify-between px-4 py-3"
-                  >
-                    <div>
-                      <p className="font-medium">{course.title}</p>
-                      <p className="text-sm text-gray-500">
-                        {course.published ? "Published" : "Draft"}
-                      </p>
-                    </div>
-
-                    <Link
-                      to={`/admin/courses/${course.id}`}
-                      className="text-sm text-blue-600"
-                    >
-                      Edit
-                    </Link>
-                  </div>
+                  <CourseCard key={course.id} course={course} />
                 ))}
               </div>
 

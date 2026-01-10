@@ -1,5 +1,9 @@
 @layer components {
   .form-input {
-    @apply mb-2 w-full rounded border border-gray-300 bg-white px-6 py-2 text-lg shadow-md;
+    @apply mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2 text-lg shadow-md;
+  }
+
+  .form-textarea {
+    @apply mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2 text-lg shadow-md;
   }
 }

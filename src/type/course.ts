@@ -7,8 +7,9 @@ export type Course = {
   published: boolean;
   category: string;
   level: string;
+  thumbnail_key: string | null;
+  thumbnail_url: string | null;
   created_at: Date;
-  updated_at: Date;
 };
 
 export type CreateCourse = {
@@ -16,16 +17,10 @@ export type CreateCourse = {
   description: string;
   category: string;
   level: string;
+  thumbnail?: File | null;
+  thumbnail_key?: string | null; // optional
 };
 
-export type CourseOverview = {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  level: string;
-  published: boolean;
-  created_at: Date;
-  updated_at: Date;
+export type CourseOverview = Course & {
   sections: SectionWithLessons[];
 };
