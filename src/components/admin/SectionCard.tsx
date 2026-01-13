@@ -45,19 +45,14 @@ export default function SectionCard({
   const toggleOpen = (sectionId: string) =>
     setOpen((prev) => (prev[sectionId] ? {} : { [sectionId]: true }));
 
-  const {
-    updateSection,
-    deleteSection,
-
-    isUpdating,
-    isDeleting,
-  } = useSectionMutations(courseId, {
-    onUpdateSuccess: () => {
-      setEditingSectionId(null);
-    },
-    onCreateSuccess: () => setAddSectionOpen(false),
-    // onUpdateSuccess: (section) => toggleOpen(section.id),
-  });
+  const { updateSection, deleteSection, isUpdating, isDeleting } =
+    useSectionMutations(courseId, {
+      onUpdateSuccess: () => {
+        setEditingSectionId(null);
+      },
+      onCreateSuccess: () => setAddSectionOpen(false),
+      // onUpdateSuccess: (section) => toggleOpen(section.id),
+    });
 
   const { createLesson, isCreating, reorderLessons, isReordering } =
     useLessonMutations(courseId, {

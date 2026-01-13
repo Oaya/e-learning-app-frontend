@@ -39,21 +39,7 @@ export default function CourseBuilder({ mode }: { mode: "create" | "edit" }) {
           <CourseForm
             isEdit={isEdit}
             courseId={isEdit ? courseId : undefined}
-            defaultValues={
-              isEdit && course
-                ? {
-                    id: course.id,
-                    title: course.title,
-                    description: course.description,
-                    category: course.category,
-                    level: course.level,
-                    thumbnail_key: course.thumbnail_key,
-                    thumbnail_url: course.thumbnail_url,
-                    published: course.published,
-                    created_at: course.created_at,
-                  }
-                : undefined
-            }
+            defaultValues={isEdit && course ? { ...course } : undefined}
           />
         </div>
 

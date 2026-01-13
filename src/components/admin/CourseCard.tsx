@@ -5,7 +5,7 @@ export default function CourseCard({ course }: { course: Course }) {
   return (
     <section
       key={course.id}
-      className="mx-auto mt-10 mb-5 grid w-fit grid-cols-1 justify-between gap-x-14 gap-y-20 md:grid-cols-2 lg:grid-cols-4"
+      className="mx-auto mt-10 mb-5 grid grid-cols-1 justify-between gap-x-14 gap-y-20 md:grid-cols-2 lg:grid-cols-4"
     >
       <div className="w-62 rounded-xl bg-white shadow-md duration-500 hover:scale-105 hover:shadow-xl">
         <a href="#">

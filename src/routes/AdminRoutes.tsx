@@ -5,6 +5,7 @@ import AdminDashboard from "../pages/admin/Dashboard";
 import SectionCreate from "../pages/admin/Curriculum/CurriculumBuilder";
 import RequireAuth from "./RequireAuth";
 import CourseBuilder from "../pages/admin/Curriculum/CourseBuilder";
+import Pricing from "../pages/admin/Curriculum/Pricing";
 
 export default function AdminRoutes() {
   return (
@@ -20,9 +21,10 @@ export default function AdminRoutes() {
           element={<CourseBuilder mode="edit" />}
         />
         <Route
-          path="/admin/course/:id/sections/new"
+          path="/admin/courses/:id/sections/new"
           element={<SectionCreate />}
         />
+        <Route path="/admin/courses/:id/pricing" element={<Pricing />} />
       </Route>
     </Route>
   );

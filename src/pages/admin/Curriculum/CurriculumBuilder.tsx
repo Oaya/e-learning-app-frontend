@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import CourseOverview from "../../../components/admin/CourseOverview";
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
@@ -76,7 +76,7 @@ export default function CurriculumBuilderPage() {
               </div>
             </div>
           ) : (
-            <div className="py-3">
+            <div className="flex justify-between py-3">
               <button
                 onClick={() => setAddSectionOpen(true)}
                 type="button"
@@ -84,6 +84,20 @@ export default function CurriculumBuilderPage() {
               >
                 + Section
               </button>
+              <div>
+                <Link
+                  to={`/admin/courses/${id}`}
+                  className="mr-4 rounded border border-gray-300 px-4 py-2 text-sm"
+                >
+                  Back
+                </Link>
+                <Link
+                  to={`/admin/courses/${id}/pricing`}
+                  className="bg-dark-purple hover:bg-dark-purple/80 rounded px-4 py-2 text-sm text-white"
+                >
+                  Next
+                </Link>
+              </div>
             </div>
           )}
         </div>

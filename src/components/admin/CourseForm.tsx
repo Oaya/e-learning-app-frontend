@@ -102,7 +102,7 @@ export default function CourseForm({
         queryClient.invalidateQueries({ queryKey: ["courses", nextId] });
       }
 
-      navigate(`/admin/course/${nextId}/sections/new`);
+      navigate(`/admin/courses/${nextId}/sections/new`);
     },
     onError: (err) => {
       alert.error(err instanceof Error ? err.message : "Failed to save course");

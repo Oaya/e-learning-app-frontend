@@ -1,5 +1,10 @@
 import axios from "axios";
-import type { Course, CourseOverview, CreateCourse } from "../type/course";
+import type {
+  AddCoursePrice,
+  Course,
+  CourseOverview,
+  CreateCourse,
+} from "../type/course";
 import type { ReorderSections } from "../type/section";
 import { deleteS3Object, getPresignedUrl, uploadToS3 } from "./aws";
 
@@ -163,6 +168,23 @@ export async function updateCourse(
     });
 
     console.log("Update course response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
+export async function addCoursePrice(data: AddCoursePrice): Promise<Course> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${data.id}/price`;
+    const response = await axios.patch(url, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Add course price response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);
