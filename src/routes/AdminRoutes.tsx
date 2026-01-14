@@ -2,10 +2,11 @@ import { Route } from "react-router-dom";
 
 import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/Dashboard";
-import SectionCreate from "../pages/admin/Curriculum/CurriculumBuilder";
 import RequireAuth from "./RequireAuth";
-import CourseBuilder from "../pages/admin/Curriculum/CourseBuilder";
-import Pricing from "../pages/admin/Curriculum/Pricing";
+import CourseBuilderPage from "../pages/admin/Curriculum/CourseBuilder";
+import PricingPage from "../pages/admin/Curriculum/Pricing";
+import CurriculumBuilderPage from "../pages/admin/Curriculum/CurriculumBuilder";
+import ReviewPage from "../pages/admin/Curriculum/Review";
 
 export default function AdminRoutes() {
   return (
@@ -13,18 +14,19 @@ export default function AdminRoutes() {
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route
-          path="/admin/courses/new"
-          element={<CourseBuilder mode="create" />}
+          path="/admin/courses/new/course-builder"
+          element={<CourseBuilderPage mode="create" />}
         />
         <Route
-          path="/admin/courses/:id"
-          element={<CourseBuilder mode="edit" />}
+          path="/admin/courses/:id/course-builder"
+          element={<CourseBuilderPage mode="edit" />}
         />
         <Route
-          path="/admin/courses/:id/sections/new"
-          element={<SectionCreate />}
+          path="/admin/courses/:id/curriculum-builder"
+          element={<CurriculumBuilderPage />}
         />
-        <Route path="/admin/courses/:id/pricing" element={<Pricing />} />
+        <Route path="/admin/courses/:id/pricing" element={<PricingPage />} />
+        <Route path="/admin/courses/:id/review" element={<ReviewPage />} />
       </Route>
     </Route>
   );

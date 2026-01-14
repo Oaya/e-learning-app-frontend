@@ -7,13 +7,13 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <header className="flex h-14 items-center justify-between pb-10">
+      <header className="curriculum-header">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
       </header>
       <div className="space-y-8">
         <div className="flex items-center justify-between">
           <Link
-            to="/admin/courses/new"
+            to="/admin/courses/new/course-builder"
             className="bg-c-pink hover:bg-c-pink rounded px-4 py-2 text-sm text-white"
           >
             + New Course

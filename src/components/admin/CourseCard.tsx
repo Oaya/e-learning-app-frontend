@@ -21,7 +21,7 @@ export default function CourseCard({ course }: { course: Course }) {
               </p>
 
               <Link
-                to={`/admin/courses/${course.id}`}
+                to={`/admin/courses/${course.id}/course-builder`}
                 className="text-center text-sm text-blue-600"
               >
                 Edit

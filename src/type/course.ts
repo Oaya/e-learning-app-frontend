@@ -9,8 +9,7 @@ export type Course = {
   level: string;
   thumbnail_key: string | null;
   thumbnail_url: string | null;
-  course_currency: string | null;
-  course_price: number | null;
+  price?: number | null;
   created_by: string;
   instructor: {
     id: string;

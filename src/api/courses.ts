@@ -190,3 +190,24 @@ export async function addCoursePrice(data: AddCoursePrice): Promise<Course> {
     throw new Error(e.response?.data?.error);
   }
 }
+
+export async function publishCourse(id: string): Promise<Course> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${id}/publish`;
+    const response = await axios.patch(
+      url,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    console.log("Publish course response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
