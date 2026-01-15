@@ -7,11 +7,14 @@ export default function CourseCard({ course }: { course: Course }) {
       key={course.id}
       className="rounded-xl bg-white shadow-md duration-500 hover:scale-105 hover:shadow-xl"
     >
-      <img
-        src={course.thumbnail_url ?? "/src/assets/placeholder.webp"}
-        alt={course.title}
-        className="h-40 w-full rounded-t-xl object-cover"
-      />
+      <Link to={`/admin/courses/${course.id}/`}>
+        <img
+          src={course.thumbnail_url ?? "/src/assets/placeholder.webp"}
+          alt={course.title}
+          className="h-40 w-full rounded-t-xl object-cover"
+        />
+      </Link>
+
       <div className="px-4 pt-3">
         <div className="flex items-center-safe justify-between">
           <p className="block truncate text-lg font-bold text-black capitalize">

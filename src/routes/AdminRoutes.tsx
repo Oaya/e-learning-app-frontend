@@ -7,12 +7,14 @@ import CourseBuilderPage from "../pages/admin/Curriculum/CourseBuilder";
 import PricingPage from "../pages/admin/Curriculum/Pricing";
 import CurriculumBuilderPage from "../pages/admin/Curriculum/CurriculumBuilder";
 import ReviewPage from "../pages/admin/Curriculum/Review";
+import CoursePage from "../pages/admin/Curriculum/Course";
 
 export default function AdminRoutes() {
   return (
     <Route element={<RequireAuth />}>
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/courses/:id" element={<CoursePage />} />
         <Route
           path="/admin/courses/new/course-builder"
           element={<CourseBuilderPage mode="create" />}
