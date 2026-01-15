@@ -107,7 +107,7 @@ export default function CourseForm({
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="block text-sm font-medium">Title</label>
           <input
@@ -165,7 +165,7 @@ export default function CourseForm({
 
         <div className="grid grid-cols-2 gap-6">
           <div className="mb-2">
-            <div className="h-46 w-full overflow-hidden rounded border border-gray-200 bg-gray-50">
+            <div className="h-full w-full overflow-hidden rounded border border-gray-200 bg-gray-50">
               <img
                 src={previewUrl ? previewUrl : "/src/assets/placeholder.webp"}
                 alt="Placeholder"

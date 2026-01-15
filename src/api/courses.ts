@@ -75,6 +75,23 @@ export async function reorderSections(data: ReorderSections): Promise<void> {
   }
 }
 
+export async function deleteCourse(id: string): Promise<void> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${id}`;
+    const response = await axios.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Delete course response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
 export async function createCourseWithThumbnail(
   data: CreateCourse,
 ): Promise<Course> {

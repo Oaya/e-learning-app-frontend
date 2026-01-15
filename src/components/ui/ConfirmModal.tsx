@@ -4,7 +4,7 @@ type ConfirmModalProps = {
   title?: string;
   message: string;
   onConfirm: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 };
 
 export default function ConfirmModal({
