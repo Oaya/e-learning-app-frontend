@@ -1,7 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AiOutlineDown } from "react-icons/ai";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
 import { useAlert } from "../../../contexts/AlertContext";
@@ -16,20 +14,6 @@ export default function CourseReview() {
   const courseId = id ?? "";
   const alert = useAlert();
   const { course, isLoading } = useCourseOverview(courseId);
-  const [openSection, setOpenSection] = useState<string | null>(null);
-  const [expandedLessons, setExpandedLessons] = useState<
-    Record<string, boolean>
-  >({});
-
-  const toggleOpenSection = (sectionId: string) =>
-    setOpenSection((prev) => (prev === sectionId ? null : sectionId));
-
-  const toggleLesson = (lessonId: string) => {
-    setExpandedLessons((prev) => ({
-      ...prev,
-      [lessonId]: !prev[lessonId],
-    }));
-  };
 
   const mutation = useMutation({
     mutationFn: (id: string) => publishCourse(id),

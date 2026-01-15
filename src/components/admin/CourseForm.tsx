@@ -59,12 +59,20 @@ export default function CourseForm({
 
     const fd = new FormData(e.currentTarget);
 
-    const data = {
+    const fileFromInput = fd.get("thumbnail");
+
+    const file =
+      newFile ??
+      (fileFromInput instanceof File && fileFromInput.size > 0
+        ? fileFromInput
+        : null);
+
+    const data: CreateCourse = {
       title: fdString(fd, "title").trim(),
       description: fdString(fd, "description").trim(),
       category: fdString(fd, "category"),
       level: fdString(fd, "level"),
-      thumbnail: fd.get("thumbnail") as File | null,
+      thumbnail: file ?? undefined,
     };
 
     console.log(data);
