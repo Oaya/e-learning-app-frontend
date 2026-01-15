@@ -81,7 +81,10 @@ export async function createCourseWithThumbnail(
   let thumbnail_key: string | null = null;
 
   if (data.thumbnail) {
-    const { key, put_url } = await getPresignedUrl(data.thumbnail);
+    const { key, put_url } = await getPresignedUrl(
+      data.thumbnail,
+      "course_thumbnails",
+    );
     await uploadToS3(put_url, data.thumbnail);
     thumbnail_key = key;
   }
@@ -91,11 +94,15 @@ export async function createCourseWithThumbnail(
   return createCourse({
     ...rest,
     thumbnail_key,
+    thumbnail_name: data.thumbnail?.name ?? null,
   });
 }
 
 export async function createCourse(
-  data: CreateCourse & { thumbnail_key: string | null },
+  data: CreateCourse & {
+    thumbnail_key: string | null;
+    thumbnail_name: string | null;
+  },
 ): Promise<Course> {
   try {
     const token = localStorage.getItem("jwt");
@@ -114,41 +121,46 @@ export async function createCourse(
 }
 
 export async function updateCourseWithThumbnail({
-  newFile,
+  new_file,
   removed,
-  existingKey,
-  courseId,
+  existing_key,
+  course_id,
   data,
 }: {
-  newFile: File | null;
+  new_file: File | null;
   removed: boolean;
-  existingKey: string | null | undefined;
-  courseId: string;
+  existing_key: string | null | undefined;
+  course_id: string;
   data: CreateCourse;
 }): Promise<Course> {
   let newKey: string | null | undefined = undefined;
 
   // Case 1: user chose a new file
-  if (newFile) {
-    const { key, put_url } = await getPresignedUrl(newFile);
-    await uploadToS3(put_url, newFile);
+  if (new_file) {
+    const { key, put_url } = await getPresignedUrl(
+      new_file,
+      "course_thumbnails",
+    );
+    await uploadToS3(put_url, new_file);
     newKey = key;
   }
 
   // Case 2: user removed existing thumbnail
-  if (!newFile && removed) {
+  if (!new_file && removed) {
     newKey = null;
   }
 
   // Update the course first
-  const updated = await updateCourse(courseId, {
+  const updated = await updateCourse(course_id, {
     ...data,
-    ...(newKey !== undefined ? { thumbnail_key: newKey } : {}),
+    ...(newKey !== undefined
+      ? { thumbnail_key: newKey, thumbnail_name: new_file?.name ?? null }
+      : {}),
   });
 
   // Delete old file AFTER DB update succeeds
-  if (newKey !== undefined && existingKey && existingKey !== newKey) {
-    await deleteS3Object(existingKey);
+  if (newKey !== undefined && existing_key && existing_key !== newKey) {
+    await deleteS3Object(existing_key);
   }
 
   return updated;

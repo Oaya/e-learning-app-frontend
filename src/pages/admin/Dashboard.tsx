@@ -29,28 +29,26 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <section>
-          {courses && courses.length > 0 ? (
-            <>
-              <h2 className="mb-4 text-lg font-medium">Your courses</h2>
+        {courses && courses.length > 0 ? (
+          <>
+            <h2 className="mb-4 text-lg font-medium">Your courses</h2>
 
-              <div className="divide-y rounded">
-                {courses.map((course) => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </div>
+            <div className="mx-auto mt-10 mb-5 grid grid-cols-1 justify-between gap-x-14 gap-y-20 rounded md:grid-cols-2 lg:grid-cols-4">
+              {courses.slice(0, 4).map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
+            </div>
 
-              <Link
-                to="/admin/courses"
-                className="mt-3 inline-block text-sm text-blue-600"
-              >
-                View all courses →
-              </Link>
-            </>
-          ) : (
-            <p>You don't have any courses</p>
-          )}
-        </section>
+            <Link
+              to="/admin/courses"
+              className="mt-3 inline-block text-sm text-blue-600"
+            >
+              View all courses →
+            </Link>
+          </>
+        ) : (
+          <p>You don't have any courses</p>
+        )}
       </div>
     </div>
   );

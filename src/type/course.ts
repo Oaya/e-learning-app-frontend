@@ -9,6 +9,7 @@ export type Course = {
   level: string;
   thumbnail_key: string | null;
   thumbnail_url: string | null;
+  thumbnail_name: string | null;
   price?: number | null;
   created_by: string;
   instructor: {
@@ -25,6 +26,7 @@ export type CreateCourse = {
   category: string;
   level: string;
   thumbnail?: File | null;
+  thumbnail_name?: string | null;
   thumbnail_key?: string | null; // optional
 };
 

@@ -1,11 +1,16 @@
 import axios from "axios";
 
-export async function getPresignedUrl(file: File): Promise<{
+export async function getPresignedUrl(
+  file: File,
+  fileFor: string,
+): Promise<{
   key: string;
   put_url: string;
 }> {
   const token = localStorage.getItem("jwt");
   const url = `${import.meta.env.VITE_API_URL}/api/aws/presigned_url`;
+
+  console.log("Requesting presign for file:", file);
 
   const res = await axios.post(
     url,
@@ -13,11 +18,12 @@ export async function getPresignedUrl(file: File): Promise<{
       filename: file.name,
       content_type: file.type,
       byte_size: file.size,
+      for: fileFor,
     },
     { headers: { Authorization: `Bearer ${token}` } },
   );
 
-  console.log("Presign thumbnail response:", res.data);
+  console.log("Presign file response:", res.data);
 
   return res.data;
 }

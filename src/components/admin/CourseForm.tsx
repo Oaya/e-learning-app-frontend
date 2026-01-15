@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineClose } from "react-icons/ai";
 import { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { BiSolidTrashAlt } from "react-icons/bi";
 
 import type { Course, CreateCourse } from "../../type/course";
 import { fdString } from "../../utils/formData";
@@ -35,12 +35,6 @@ export default function CourseForm({
   const queryClient = useQueryClient();
   const alert = useAlert();
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (previewUrl) URL.revokeObjectURL(previewUrl);
-  //   };
-  // }, [previewUrl]);
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
 
@@ -50,7 +44,9 @@ export default function CourseForm({
     setPreviewUrl(file ? URL.createObjectURL(file) : null);
   };
 
-  const removeImage = () => {
+  const removeImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     if (previewUrl && newFile) URL.revokeObjectURL(previewUrl);
     setPreviewUrl(null);
     setNewFile(null);
@@ -80,10 +76,10 @@ export default function CourseForm({
     mutationFn: (values: CreateCourse) => {
       if (isEdit && courseId) {
         return updateCourseWithThumbnail({
-          newFile,
+          new_file: newFile,
           removed,
-          existingKey,
-          courseId,
+          existing_key: existingKey,
+          course_id: courseId,
           data: values,
         });
       }
@@ -169,28 +165,19 @@ export default function CourseForm({
 
         <div className="grid grid-cols-2 gap-6">
           <div className="mb-2">
-            <div className="flex flex-row items-center justify-between">
-              <p className="block text-sm font-medium">Course image</p>
-              {previewUrl && (
-                <button onClick={removeImage} type="button">
-                  <AiOutlineClose size={16} />
-                </button>
-              )}
+            <div className="h-46 w-full overflow-hidden rounded border border-gray-200 bg-gray-50">
+              <img
+                src={previewUrl ? previewUrl : "/src/assets/placeholder.webp"}
+                alt="Placeholder"
+                className={`h-full w-full ${
+                  previewUrl ? "object-cover" : "object-contain"
+                }`}
+              />
             </div>
-
-            {previewUrl && (
-              <div>
-                <img
-                  src={previewUrl}
-                  alt="Uploaded preview"
-                  className="mt-1 max-h-full max-w-full"
-                />
-              </div>
-            )}
           </div>
 
-          <div className="mb-2 h-60 overflow-y-auto">
-            <p className="block pt-5 text-sm">
+          <div className="mb-2 overflow-y-auto">
+            <p className="block text-sm">
               Upload your course image here. Recommended size: 720x405 pixels;
               .jpg, .jpeg, .gif, or .png. No text on the image.
             </p>
@@ -206,9 +193,30 @@ export default function CourseForm({
 
             <label
               htmlFor="thumbnail"
-              className="form-input mt-2 inline-block cursor-pointer"
+              className="form-input mt-2 flex cursor-pointer items-center justify-between"
             >
-              Upload image
+              <span className="text-md">
+                {newFile
+                  ? newFile.name
+                  : removed
+                    ? "Upload Image"
+                    : defaultValues?.thumbnail_name
+                      ? "Replace Image"
+                      : "Upload Image"}
+              </span>
+
+              {/* show trash if there is either a new file OR an existing image */}
+              {(newFile || (!!defaultValues?.thumbnail_name && !removed)) && (
+                <button
+                  type="button"
+                  onClick={removeImage}
+                  className="text-c-pink ml-4"
+                  aria-label="Remove image"
+                  disabled={mutation.isPending}
+                >
+                  <BiSolidTrashAlt size={18} />
+                </button>
+              )}
             </label>
           </div>
         </div>
@@ -217,7 +225,7 @@ export default function CourseForm({
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="bg-dark-purple rounded px-4 py-2 text-sm text-white disabled:opacity-60"
+            className="primary-submit-button"
           >
             {mutation.isPending ? "Saving..." : "Save & Continue"}
           </button>

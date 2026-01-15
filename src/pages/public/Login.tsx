@@ -5,7 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 
 export default function LoginPage() {
-  const { loginUser } = useAuth();
+  const { loginUser, isLoading } = useAuth();
   const alert = useAlert();
   const navigate = useNavigate();
 
@@ -42,7 +42,8 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="bg-dark-purple my-2 w-full rounded px-6 py-2 text-center text-lg text-white"
+          disabled={isLoading}
+          className="primary-submit-button w-full text-lg"
         >
           Log in
         </button>

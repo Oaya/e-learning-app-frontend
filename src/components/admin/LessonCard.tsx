@@ -4,7 +4,7 @@ import { useState } from "react";
 import ConfirmModal from "../ui/ConfirmModal";
 import { useLessonMutations } from "../../hooks/useLessonMutation";
 import LessonForm from "./LessonForm";
-import type { CreateLesson, Lesson } from "../../type/lesson";
+import type { Lesson } from "../../type/lesson";
 
 type Props = {
   lesson: Lesson;
@@ -83,13 +83,8 @@ export default function LessonCard({ lesson, courseId }: Props) {
             key={lesson.id}
             mode="edit"
             isSubmitting={isUpdating}
-            defaultValues={{
-              title: lesson.title,
-              description: lesson.description,
-              lesson_type: lesson.lesson_type,
-              content_url: lesson.content_url,
-            }}
-            onSubmit={(values: CreateLesson) => {
+            defaultValues={lesson}
+            onSubmit={(values) => {
               updateLesson({ id: lesson.id, ...values });
             }}
             onCancel={() => setEditingLessonId(null)}

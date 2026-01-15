@@ -46,7 +46,7 @@ export async function deleteSection(id: string): Promise<void> {
       },
     });
 
-    console.log("Update section response:", response);
+    console.log("Delete section response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

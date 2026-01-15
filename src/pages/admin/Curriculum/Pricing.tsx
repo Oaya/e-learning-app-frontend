@@ -19,7 +19,7 @@ export default function PricingPage() {
 
   useEffect(() => {
     if (course?.price != null) {
-      setPriceInput(String(course.price));
+      setPriceInput(Number(course.price).toFixed(2) ?? "");
     }
   }, [course?.price]);
 
@@ -79,14 +79,14 @@ export default function PricingPage() {
           <div className="mt-6">
             <Link
               to={`/admin/courses/${id}/curriculum-builder`}
-              className="mr-4 rounded border border-gray-300 px-4 py-2 text-sm"
+              className="curriculum-back-button"
             >
               Back
             </Link>
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="bg-dark-purple w-fit rounded px-4 py-2 text-sm text-white disabled:opacity-60"
+              className="primary-submit-button"
             >
               {mutation.isPending ? "Saving..." : "Next"}
             </button>

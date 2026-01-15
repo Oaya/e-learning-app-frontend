@@ -1,12 +1,15 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { BiSolidTrashAlt } from "react-icons/bi";
+
 import { fdString } from "../../utils/formData";
 import { useAlert } from "../../contexts/AlertContext";
-import type { CreateLesson } from "../../type/lesson";
+import type { CreateLesson, Lesson, UpdateLesson } from "../../type/lesson";
 import { lessonTypes } from "../../utils/constants";
+import { getVideoDuration } from "../../utils/helper";
 
 type Props = {
   mode: "create" | "edit";
-  defaultValues?: CreateLesson;
+  defaultValues?: Lesson;
   isSubmitting?: boolean;
   error?: string | null;
   onSubmit: (values: CreateLesson) => void;
@@ -23,40 +26,107 @@ export default function LessonForm({
 }: Props) {
   const alert = useAlert();
 
-  // Show toast only when error changes (prevents spam on re-render)
+  // If you have these fields on Lesson
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    defaultValues?.video_url || null,
+  );
+  const [newFile, setNewFile] = useState<File | null>(null);
+  const [removed, setRemoved] = useState<boolean>(false);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
     if (error) alert.error(error);
   }, [error, alert]);
 
-  // Initial selected type (for create: first type; for edit: from defaults)
-  // NOTE: If defaultValues arrive later asynchronously, prefer remounting LessonForm
-  // with a changing `key` in the parent (e.g., key={lessonId} or key={sectionId}).
   const initialType = useMemo(() => {
     return defaultValues?.lesson_type ?? lessonTypes[0] ?? "";
   }, [defaultValues?.lesson_type]);
 
   const [selectedType, setSelectedType] = useState<string>(initialType);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+
+    // Revoke only object URLs we created (not remote URLs)
+    if (previewUrl && newFile) URL.revokeObjectURL(previewUrl);
+
+    setNewFile(file);
+    setRemoved(false);
+
+    // Local preview for newly selected file
+    setPreviewUrl(
+      file ? URL.createObjectURL(file) : defaultValues?.video_url || null,
+    );
+  };
+
+  const removeVideo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    e.stopPropagation();
+
+    // Revoke object URL if we created one
+    if (previewUrl && newFile) URL.revokeObjectURL(previewUrl);
+
+    setPreviewUrl(null);
+    setNewFile(null);
+    setRemoved(true);
+
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const fd = new FormData(e.currentTarget);
 
-    const data: CreateLesson = {
+    // Always prefer the controlled state file
+    const fileFromInput = fd.get("video");
+    const file =
+      newFile ??
+      (fileFromInput instanceof File && fileFromInput.size > 0
+        ? fileFromInput
+        : null);
+
+    let durationSeconds: number | undefined;
+
+    if (selectedType === "Video" && file) {
+      try {
+        const duration = await getVideoDuration(file);
+        durationSeconds = Math.round(duration);
+      } catch (err) {
+        alert.error(
+          err instanceof Error ? err.message : "Error loading video metadata",
+        );
+        return; // stop submit
+      }
+    }
+
+    const values: CreateLesson | UpdateLesson = {
       title: fdString(fd, "title").trim(),
       description: fdString(fd, "description").trim(),
       lesson_type: fdString(fd, "lesson_type").trim(),
-      content_url: fdString(fd, "content_url").trim() || undefined,
+
+      // IMPORTANT: send the actual file you picked
+      video: selectedType === "Video" ? (file ?? undefined) : undefined,
+
+      // removed only when video type and no file selected
+      removed: selectedType === "Video" && !file ? removed : undefined,
+      new_file: selectedType === "Video" && newFile ? newFile : undefined,
+
+      duration_in_seconds: durationSeconds,
+      existing_key: defaultValues?.video_key ?? null,
     };
 
-    onSubmit(data);
+    onSubmit(values);
   };
+
+  const showVideoFields = selectedType === "Video";
 
   return (
     <div className="mt-3 space-y-6 rounded border border-gray-300 p-3">
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
           <label className="mb-2 block text-sm font-medium">Lesson Type</label>
-
           <div className="flex flex-wrap gap-2">
             {lessonTypes.map((type) => {
               const checked = selectedType === type;
@@ -75,7 +145,20 @@ export default function LessonForm({
                     name="lesson_type"
                     value={type}
                     checked={checked}
-                    onChange={() => setSelectedType(type)}
+                    onChange={() => {
+                      setSelectedType(type);
+
+                      // Optional: if switching away from Video, clear pending file
+                      if (type !== "Video") {
+                        if (previewUrl && newFile)
+                          URL.revokeObjectURL(previewUrl);
+                        setNewFile(null);
+                        setRemoved(false);
+                        setPreviewUrl(defaultValues?.video_url || null);
+                        if (fileInputRef.current)
+                          fileInputRef.current.value = "";
+                      }
+                    }}
                     className="sr-only"
                     required
                     disabled={isSubmitting}
@@ -87,19 +170,17 @@ export default function LessonForm({
           </div>
         </div>
 
-        {/* Title */}
         <div>
           <input
             name="title"
             defaultValue={defaultValues?.title ?? ""}
             required
             disabled={isSubmitting}
-            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2 disabled:bg-gray-50"
+            className="form-input mt-1 w-full"
             placeholder="Enter a Title"
           />
         </div>
 
-        {/* Description */}
         <div>
           <label className="block text-sm font-medium">
             What will students learn in this lesson?
@@ -108,28 +189,85 @@ export default function LessonForm({
             name="description"
             defaultValue={defaultValues?.description ?? ""}
             disabled={isSubmitting}
-            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2 disabled:bg-gray-50"
+            className="form-input mt-1 w-full"
             placeholder="Enter lesson description"
           />
         </div>
 
-        {/* Content URL (optional) */}
-        <div>
-          <input
-            name="content_url"
-            defaultValue={defaultValues?.content_url ?? ""}
-            disabled={isSubmitting}
-            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2 disabled:bg-gray-50"
-            placeholder="Content URL (optional)"
-          />
-        </div>
+        {showVideoFields && (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-6">
+              <div className="mb-2">
+                <div className="h-46 w-full overflow-hidden rounded border border-gray-200 bg-gray-50">
+                  {previewUrl ? (
+                    <video
+                      src={previewUrl}
+                      controls
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    <img
+                      src="/src/assets/placeholder.webp"
+                      alt="Placeholder"
+                      className="h-full w-full object-contain"
+                    />
+                  )}
+                </div>
+              </div>
 
-        {/* Actions */}
+              <div className="mb-2 overflow-y-auto">
+                <p className="block text-sm">
+                  Upload your course video here. Accepted formats: MP4, WEBM,
+                  OGG.
+                </p>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  id="video-upload"
+                  name="video"
+                  accept="video/mp4,video/webm,video/ogg"
+                  className="sr-only"
+                  onChange={handleVideoChange}
+                  disabled={isSubmitting}
+                />
+                <label
+                  htmlFor="video-upload"
+                  className="form-input mt-2 flex cursor-pointer items-center justify-between"
+                >
+                  <span className="text-md min-w-0 flex-1 truncate">
+                    {newFile
+                      ? newFile.name
+                      : removed
+                        ? "Upload Video"
+                        : defaultValues?.video_url
+                          ? "Replace Video"
+                          : "Upload Video"}
+                  </span>
+
+                  {/* show trash if there is either a new file OR an existing video */}
+                  {(newFile || (!!defaultValues?.video_url && !removed)) && (
+                    <button
+                      type="button"
+                      onClick={removeVideo}
+                      className="text-c-pink ml-4 flex"
+                      aria-label="Remove video"
+                      disabled={isSubmitting}
+                    >
+                      <BiSolidTrashAlt size={18} />
+                    </button>
+                  )}
+                </label>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex gap-3">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-dark-purple rounded px-4 py-2 text-sm text-white disabled:opacity-60"
+            className="primary-submit-button"
           >
             {isSubmitting
               ? "Saving..."
@@ -141,7 +279,7 @@ export default function LessonForm({
           <button
             type="button"
             disabled={isSubmitting}
-            className="rounded border border-gray-300 px-4 py-2 text-sm disabled:opacity-60"
+            className="curriculum-back-button"
             onClick={onCancel}
           >
             Cancel

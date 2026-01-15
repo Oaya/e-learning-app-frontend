@@ -18,7 +18,6 @@ export default function CourseReview() {
   const [expandedLessons, setExpandedLessons] = useState<
     Record<string, boolean>
   >({});
-  const [message, setMessage] = useState<string>("");
 
   const toggleOpenSection = (sectionId: string) =>
     setOpenSection((prev) => (prev === sectionId ? null : sectionId));
@@ -50,18 +49,15 @@ export default function CourseReview() {
 
   //Check if it can submit the course or not. to submit course, it must have at least one section with one lesson.
   if (!id) return <p>Invalid course</p>;
-  if (
+  const message =
     course &&
     (!course.sections ||
       course.sections.length === 0 ||
       course.sections.every(
         (section) => !section.lessons || section.lessons.length === 0,
       ))
-  ) {
-    setMessage(
-      "Course must have at least one section with one lesson to be submitted for review.",
-    );
-  }
+      ? "Course must have at least one section with one lesson to be submitted for review."
+      : "";
 
   if (isLoading) return <p>Loading…</p>;
   return (
@@ -106,7 +102,9 @@ export default function CourseReview() {
                 <td className="border-r border-b border-gray-300 px-4 py-2 font-semibold">
                   Price
                 </td>
-                <td className="px-4 py-2">$ {course.price}</td>
+                <td className="px-4 py-2">
+                  $ {course.price ? Number(course.price).toFixed(2) : ""}
+                </td>
               </tr>
 
               <tr className="border-b border-gray-300">
@@ -158,7 +156,11 @@ export default function CourseReview() {
                               </span>
                             </div>
                             <div>
-                              <p>lesson Duration</p>
+                              <p>
+                                {lesson.duration_in_seconds
+                                  ? `${lesson.duration_in_seconds} seconds`
+                                  : ""}
+                              </p>
                             </div>
                           </div>
 
@@ -199,7 +201,7 @@ export default function CourseReview() {
       <div className="mt-6">
         <Link
           to={`/admin/courses/${id}/pricing`}
-          className="mr-4 rounded border border-gray-300 px-4 py-2 text-sm"
+          className="curriculum-back-button"
         >
           Back
         </Link>
@@ -207,7 +209,7 @@ export default function CourseReview() {
           type="submit"
           onClick={handleSubmitCourse}
           disabled={mutation.isPending || !!message}
-          className="bg-dark-purple w-fit rounded px-4 py-2 text-sm text-white disabled:opacity-60"
+          className="primary-submit-button"
         >
           {mutation.isPending ? "Saving..." : "Submit for Review"}
         </button>

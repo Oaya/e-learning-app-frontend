@@ -22,6 +22,8 @@ export default function CurriculumBuilderPage() {
 
   const { course, isLoading, isError, error } = useCourseOverview(id ?? "");
 
+  console.log("course in curriculum builder:", course);
+
   const sections = course?.sections ?? [];
 
   if (!id) return <p>Invalid course</p>;
@@ -74,24 +76,24 @@ export default function CurriculumBuilderPage() {
             </div>
           </div>
         ) : (
-          <div className="flex justify-between py-3">
+          <div className="flex items-center justify-between py-3">
             <button
               onClick={() => setAddSectionOpen(true)}
               type="button"
-              className="bg-dark-purple hover:bg-dark-purple/80 rounded px-4 py-2 text-sm text-white"
+              className="primary-submit-button"
             >
               + Section
             </button>
             <div>
               <Link
                 to={`/admin/courses/${id}/course-builder`}
-                className="mr-4 rounded border border-gray-300 px-4 py-2 text-sm"
+                className="curriculum-back-button"
               >
                 Back
               </Link>
               <Link
                 to={`/admin/courses/${id}/pricing`}
-                className="bg-dark-purple hover:bg-dark-purple/80 rounded px-4 py-2 text-sm text-white"
+                className="primary-submit-button"
               >
                 Next
               </Link>

@@ -89,7 +89,7 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-dark-purple my-2 w-full rounded px-6 py-2 text-center text-lg text-white"
+          className="primary-submit-button w-full text-lg"
         >
           Sign Up
         </button>
