@@ -23,16 +23,6 @@ export default function SectionDetails({
     }));
   };
 
-  const lessonDuration = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-
-    if (mins === 0) {
-      return `${secs}s`;
-    }
-    return `${mins}m ${secs}s`;
-  };
-
   return (
     <div
       key={section.id}
@@ -80,7 +70,7 @@ export default function SectionDetails({
 
                   <div className="shrink-0 text-xs text-gray-500">
                     {lesson.duration_in_seconds
-                      ? lessonDuration(lesson.duration_in_seconds)
+                      ? Math.ceil(lesson.duration_in_seconds / 60) + " min"
                       : ""}
                   </div>
                 </div>

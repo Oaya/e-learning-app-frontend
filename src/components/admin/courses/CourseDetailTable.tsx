@@ -13,8 +13,8 @@ export default function CourseDetailTable({
       : 0;
 
     //convert it to minutes
-    const sectionDurationInMinutes = sectionDuration / 60;
-    return Math.round(total + sectionDurationInMinutes);
+    const sectionDurationInMinutes = Math.ceil(sectionDuration / 60);
+    return total + sectionDurationInMinutes;
   }, 0);
 
   return (
