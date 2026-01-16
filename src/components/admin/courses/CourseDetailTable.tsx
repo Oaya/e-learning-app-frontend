@@ -1,4 +1,4 @@
-import type { CourseOverview } from "../../type/course";
+import type { CourseOverview } from "../../../type/course";
 
 export default function CourseDetailTable({
   course,

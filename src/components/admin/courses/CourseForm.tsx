@@ -3,14 +3,14 @@ import { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
-import type { Course, CreateCourse } from "../../type/course";
-import { fdString } from "../../utils/formData";
-import { categories, levels } from "../../utils/constants";
-import { useAlert } from "../../contexts/AlertContext";
+import type { Course, CreateCourse } from "../../../type/course";
+import { fdString } from "../../../utils/formData";
+import { categories, levels } from "../../../utils/constants";
+import { useAlert } from "../../../contexts/AlertContext";
 import {
   createCourseWithThumbnail,
   updateCourseWithThumbnail,
-} from "../../api/courses";
+} from "../../../api/courses";
 
 type CourseFormProps = {
   isEdit?: boolean;

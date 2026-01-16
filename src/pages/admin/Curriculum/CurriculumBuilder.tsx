@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
-import SectionForm from "../../../components/admin/SectionForm";
+import SectionForm from "../../../components/admin/sections/SectionForm";
 import { useAlert } from "../../../contexts/AlertContext";
 import { useSectionMutations } from "../../../hooks/useSectionMutation";
-import SortableSectionList from "../../../components/admin/SortableSectionList";
+import SortableSectionList from "../../../components/admin/sections/SortableSectionList";
 
 export default function CurriculumBuilderPage() {
   const { id } = useParams<{ id: string }>();

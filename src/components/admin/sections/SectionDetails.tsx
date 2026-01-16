@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 
-import type { SectionWithLessons } from "../../type/section";
+import type { SectionWithLessons } from "../../../type/section";
 
 export default function SectionDetails({
   section,
@@ -21,6 +21,16 @@ export default function SectionDetails({
       ...prev,
       [lessonId]: !prev[lessonId],
     }));
+  };
+
+  const lessonDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+
+    if (mins === 0) {
+      return `${secs}s`;
+    }
+    return `${mins}m ${secs}s`;
   };
 
   return (
@@ -70,7 +80,7 @@ export default function SectionDetails({
 
                   <div className="shrink-0 text-xs text-gray-500">
                     {lesson.duration_in_seconds
-                      ? `${lesson.duration_in_seconds} seconds`
+                      ? lessonDuration(lesson.duration_in_seconds)
                       : ""}
                   </div>
                 </div>

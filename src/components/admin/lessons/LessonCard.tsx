@@ -1,10 +1,10 @@
 import { BiEditAlt, BiSolidTrashAlt } from "react-icons/bi";
-
 import { useState } from "react";
-import ConfirmModal from "../ui/ConfirmModal";
-import { useLessonMutations } from "../../hooks/useLessonMutation";
+
+import type { Lesson } from "../../../type/lesson";
 import LessonForm from "./LessonForm";
-import type { Lesson } from "../../type/lesson";
+import { useLessonMutations } from "../../../hooks/useLessonMutation";
+import ConfirmModal from "../../ui/ConfirmModal";
 
 type Props = {
   lesson: Lesson;

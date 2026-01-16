@@ -4,8 +4,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
 import ConfirmModal from "../../../components/ui/ConfirmModal";
 import { useCourse } from "../../../hooks/useCourse";
-import CourseDetailTable from "../../../components/admin/CourseDetailTable";
-import SectionDetails from "../../../components/admin/SectionDetails";
+
+import SectionDetails from "../../../components/admin/sections/SectionDetails";
+import CourseDetailTable from "../../../components/admin/courses/CourseDetailTable";
 
 export default function CoursePage() {
   const { id } = useParams<{ id: string }>();

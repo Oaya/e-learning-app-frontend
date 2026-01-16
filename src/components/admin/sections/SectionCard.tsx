@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { BiEditAlt, BiSolidTrashAlt } from "react-icons/bi";
 
-import type { SectionWithLessons } from "../../type/section";
-import type { CreateLesson, Lesson } from "../../type/lesson";
-import { useSectionMutations } from "../../hooks/useSectionMutation";
-import { useLessonMutations } from "../../hooks/useLessonMutation";
+import type { SectionWithLessons } from "../../../type/section";
+import type { CreateLesson } from "../../../type/lesson";
+import { useSectionMutations } from "../../../hooks/useSectionMutation";
+import { useLessonMutations } from "../../../hooks/useLessonMutation";
 
 import SectionForm from "./SectionForm";
-import LessonForm from "./LessonForm";
-import ConfirmModal from "../ui/ConfirmModal";
-import SortableLessonList from "./SortableLessonList";
+import LessonForm from "../lessons/LessonForm";
+import ConfirmModal from "../../ui/ConfirmModal";
+import SortableLessonList from "../lessons/SortableLessonList";
 
 type Props = {
   section: SectionWithLessons;
@@ -56,13 +56,12 @@ export default function SectionCard({
 
   const { createLesson, isCreating, reorderLessons, isReordering } =
     useLessonMutations(courseId, {
-      onCreateSuccess: (newLesson: Lesson) => {
-        setLessons((prev) => [...prev, newLesson]);
+      onCreateSuccess: () => {
         setIsAddingLesson(false);
       },
     });
 
-  const [lessons, setLessons] = useState(() => s.lessons ?? []);
+  const lessons = s.lessons ?? [];
 
   return (
     <div>
@@ -168,7 +167,6 @@ export default function SectionCard({
             courseId={courseId}
             disabled={isDeleting || isCreating || isUpdating || isReordering}
             onReorder={(next) => {
-              setLessons(next);
               reorderLessons({
                 section_id: s.id,
                 lesson_ids: next.map((l) => l.id),

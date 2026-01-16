@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
-import { fdString } from "../../utils/formData";
-import { useAlert } from "../../contexts/AlertContext";
-import type { CreateLesson, Lesson, UpdateLesson } from "../../type/lesson";
-import { lessonTypes } from "../../utils/constants";
-import { getVideoDuration } from "../../utils/helper";
+import { fdString } from "../../../utils/formData";
+import { useAlert } from "../../../contexts/AlertContext";
+import type { CreateLesson, Lesson, UpdateLesson } from "../../../type/lesson";
+import { lessonTypes } from "../../../utils/constants";
+import { getVideoDuration } from "../../../utils/helper";
+import ReadingEditor from "./ReadingEditor";
 
 type Props = {
   mode: "create" | "edit";
@@ -32,6 +33,12 @@ export default function LessonForm({
   );
   const [newFile, setNewFile] = useState<File | null>(null);
   const [removed, setRemoved] = useState<boolean>(false);
+  const [articleHtml, setArticleHtml] = useState<string>(
+    defaultValues?.article ?? "",
+  );
+  const [durationSeconds, setDurationSeconds] = useState<number>(
+    defaultValues?.duration_in_seconds ?? 0,
+  );
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -45,7 +52,7 @@ export default function LessonForm({
 
   const [selectedType, setSelectedType] = useState<string>(initialType);
 
-  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
 
     // Revoke only object URLs we created (not remote URLs)
@@ -58,6 +65,11 @@ export default function LessonForm({
     setPreviewUrl(
       file ? URL.createObjectURL(file) : defaultValues?.video_url || null,
     );
+
+    if (file) {
+      const duration = await getVideoDuration(file);
+      setDurationSeconds(Math.round(duration));
+    }
   };
 
   const removeVideo = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -70,6 +82,7 @@ export default function LessonForm({
     setPreviewUrl(null);
     setNewFile(null);
     setRemoved(true);
+    setDurationSeconds(0);
 
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -87,34 +100,18 @@ export default function LessonForm({
         ? fileFromInput
         : null);
 
-    let durationSeconds: number | undefined;
-
-    if (selectedType === "Video" && file) {
-      try {
-        const duration = await getVideoDuration(file);
-        durationSeconds = Math.round(duration);
-      } catch (err) {
-        alert.error(
-          err instanceof Error ? err.message : "Error loading video metadata",
-        );
-        return; // stop submit
-      }
-    }
-
     const values: CreateLesson | UpdateLesson = {
       title: fdString(fd, "title").trim(),
       description: fdString(fd, "description").trim(),
       lesson_type: fdString(fd, "lesson_type").trim(),
-
-      // IMPORTANT: send the actual file you picked
+      //send the actual file you picked
       video: selectedType === "Video" ? (file ?? undefined) : undefined,
-
       // removed only when video type and no file selected
       removed: selectedType === "Video" && !file ? removed : undefined,
       new_file: selectedType === "Video" && newFile ? newFile : undefined,
-
       duration_in_seconds: durationSeconds,
       existing_key: defaultValues?.video_key ?? null,
+      article: selectedType === "Reading" ? articleHtml : undefined,
     };
 
     onSubmit(values);
@@ -123,7 +120,7 @@ export default function LessonForm({
   const showVideoFields = selectedType === "Video";
 
   return (
-    <div className="mt-3 space-y-6 rounded border border-gray-300 p-3">
+    <div className="mt-3 space-y-6 rounded border border-gray-300 p-6">
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
           <label className="mb-2 block text-sm font-medium">Lesson Type</label>
@@ -170,15 +167,37 @@ export default function LessonForm({
           </div>
         </div>
 
-        <div>
-          <input
-            name="title"
-            defaultValue={defaultValues?.title ?? ""}
-            required
-            disabled={isSubmitting}
-            className="form-input mt-1 w-full"
-            placeholder="Enter a Title"
-          />
+        <div className="grid grid-cols-[2fr_1fr] items-end gap-4">
+          <div>
+            <label className="block text-sm font-medium">Lesson Title</label>
+            <input
+              name="title"
+              defaultValue={defaultValues?.title ?? ""}
+              required
+              disabled={isSubmitting}
+              className="form-input mt-1 w-full"
+              placeholder="Enter a Title"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">
+              Duration (minutes)
+            </label>
+            <input
+              type="number"
+              min={0}
+              step={1}
+              value={durationSeconds ? Math.ceil(durationSeconds / 60) : ""}
+              onChange={(e) =>
+                setDurationSeconds(Number(e.target.value || 0) * 60)
+              }
+              required
+              disabled={isSubmitting || selectedType === "Video"}
+              className="form-input mt-1 w-full"
+              placeholder="e.g. 5"
+            />
+          </div>
         </div>
 
         <div>
@@ -194,7 +213,7 @@ export default function LessonForm({
           />
         </div>
 
-        {showVideoFields && (
+        {showVideoFields ? (
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-6">
               <div className="mb-2">
@@ -260,6 +279,13 @@ export default function LessonForm({
                 </label>
               </div>
             </div>
+          </div>
+        ) : (
+          //Article text placeholder
+          <div>
+            <label className="block text-sm font-medium">Article Content</label>
+
+            <ReadingEditor value={articleHtml} onChange={setArticleHtml} />
           </div>
         )}
 

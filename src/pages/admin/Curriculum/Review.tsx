@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCourseOverview } from "../../../hooks/useCourseOverview";
 import { useAlert } from "../../../contexts/AlertContext";
 import { publishCourse } from "../../../api/courses";
-import CourseDetailTable from "../../../components/admin/CourseDetailTable";
-import SectionDetails from "../../../components/admin/SectionDetails";
+import SectionDetails from "../../../components/admin/sections/SectionDetails";
+import CourseDetailTable from "../../../components/admin/courses/CourseDetailTable";
 
 export default function CourseReview() {
   const queryClient = useQueryClient();

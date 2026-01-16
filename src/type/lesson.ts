@@ -7,6 +7,7 @@ export type Lesson = {
   video_url: string | null;
   position: number;
   duration_in_seconds?: number | null;
+  article?: string;
 };
 
 export type CreateLesson = {
@@ -18,6 +19,7 @@ export type CreateLesson = {
   video_name?: string | null;
   removed?: boolean;
   duration_in_seconds?: number | null;
+  article?: string;
 };
 
 export type UpdateLesson = CreateLesson & {

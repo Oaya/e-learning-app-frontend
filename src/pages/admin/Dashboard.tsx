@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCourses } from "../../hooks/useCourses";
-import CourseCard from "../../components/admin/CourseCard";
+import CourseCard from "../../components/admin/courses/CourseCard";
 
 export default function AdminDashboard() {
   const { courses } = useCourses();

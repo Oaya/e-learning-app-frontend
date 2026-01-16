@@ -17,24 +17,32 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 
-import LessonCard from "./LessonCard";
-import type { Lesson } from "../../type/lesson";
+import type { SectionWithLessons } from "../../../type/section";
+import SectionCard from "./SectionCard";
 
 type Props = {
-  lessons: Lesson[];
+  sections: SectionWithLessons[];
   courseId: string;
   disabled?: boolean;
-  onReorder: (lessons: Lesson[]) => void;
+  openAddSection: boolean;
+  setAddSectionOpen: (v: boolean) => void;
+  onReorder: (sections: SectionWithLessons[]) => void;
 };
 
-function SortableLessonRow({
-  lesson,
+function SortableSectionRow({
+  index,
+  section,
   courseId,
   disabled,
+  openAddSection,
+  setAddSectionOpen,
 }: {
-  lesson: Lesson;
+  index: number;
+  section: SectionWithLessons;
   courseId: string;
   disabled?: boolean;
+  openAddSection: boolean;
+  setAddSectionOpen: (v: boolean) => void;
 }) {
   const {
     attributes,
@@ -43,7 +51,7 @@ function SortableLessonRow({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: lesson.id, disabled });
+  } = useSortable({ id: section.id, disabled });
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -68,18 +76,26 @@ function SortableLessonRow({
           <BiDotsVerticalRounded size={18} />
         </button>
 
-        <div className="flex-1">
-          <LessonCard lesson={lesson} courseId={courseId} />
+        <div className="w-full space-y-4">
+          <SectionCard
+            index={index}
+            section={section}
+            courseId={courseId}
+            openAddSection={openAddSection}
+            setAddSectionOpen={setAddSectionOpen}
+          />
         </div>
       </div>
     </div>
   );
 }
 
-export default function SortableLessonList({
-  lessons,
+export default function SortableSectionList({
+  sections,
   courseId,
   disabled,
+  openAddSection,
+  setAddSectionOpen,
   onReorder,
 }: Props) {
   const sensors = useSensors(
@@ -89,10 +105,10 @@ export default function SortableLessonList({
     }),
   );
 
-  function withUpdatedPositions(lessons: Lesson[]) {
+  function withUpdatedPositions(sections: SectionWithLessons[]) {
     // If your DB uses 0-based, change index + 1 to index
-    return lessons.map((l, index) => ({
-      ...l,
+    return sections.map((s, index) => ({
+      ...s,
       position: index + 1,
     }));
   }
@@ -101,11 +117,11 @@ export default function SortableLessonList({
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const oldIndex = lessons.findIndex((l) => l.id === active.id);
-    const newIndex = lessons.findIndex((l) => l.id === over.id);
+    const oldIndex = sections.findIndex((s) => s.id === active.id);
+    const newIndex = sections.findIndex((s) => s.id === over.id);
     if (oldIndex < 0 || newIndex < 0) return;
 
-    const moved = arrayMove(lessons, oldIndex, newIndex);
+    const moved = arrayMove(sections, oldIndex, newIndex);
     onReorder(withUpdatedPositions(moved));
   };
 
@@ -116,16 +132,19 @@ export default function SortableLessonList({
       onDragEnd={onDragEnd}
     >
       <SortableContext
-        items={lessons.map((l) => l.id)}
+        items={sections.map((s) => s.id)}
         strategy={verticalListSortingStrategy}
       >
         <div className="space-y-2">
-          {lessons.map((lesson) => (
-            <SortableLessonRow
-              key={lesson.id}
-              lesson={lesson}
+          {sections.map((section, index) => (
+            <SortableSectionRow
+              index={index}
+              key={section.id}
+              section={section}
               courseId={courseId}
               disabled={disabled}
+              openAddSection={openAddSection}
+              setAddSectionOpen={setAddSectionOpen}
             />
           ))}
         </div>

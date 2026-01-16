@@ -1,4 +1,4 @@
-import { fdString } from "../../utils/formData";
+import { fdString } from "../../../utils/formData";
 
 type Props = {
   mode: "create" | "edit";

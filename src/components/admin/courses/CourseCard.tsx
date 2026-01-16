@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { Course } from "../../type/course";
+import type { Course } from "../../../type/course";
 
 export default function CourseCard({ course }: { course: Course }) {
   return (
