@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { SignupUser } from "../../type/auth";
+import type { SignupUser } from "../../type/user";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 
@@ -89,7 +89,7 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="primary-submit-button w-full text-lg"
+          className="btn-primary w-full text-lg"
         >
           Sign Up
         </button>

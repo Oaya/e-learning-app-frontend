@@ -7,8 +7,13 @@ import {
   useState,
   useEffect,
 } from "react";
-import type { LoginUser, SignupUser, User } from "../type/auth";
-import { getAuthUser, login, signup } from "../api/auth";
+import type {
+  AcceptInviteUser,
+  LoginUser,
+  SignupUser,
+  User,
+} from "../type/user";
+import { getAuthUser, login, signup, acceptInvite } from "../api/auth";
 
 type AuthContextType = {
   user?: User | null;
@@ -16,6 +21,7 @@ type AuthContextType = {
   signupUser: (user: SignupUser) => Promise<ApiResponse>;
   loginUser: (user: LoginUser) => Promise<ApiResponse>;
   logoutUser: () => void;
+  acceptInviteUser: (user: AcceptInviteUser) => Promise<ApiResponse>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -28,6 +34,9 @@ const AuthContext = createContext<AuthContextType>({
   },
   logoutUser() {
     return;
+  },
+  acceptInviteUser: async () => {
+    return Promise.resolve({} as ApiResponse);
   },
 });
 
@@ -63,7 +72,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginUser = useCallback(async (data: LoginUser) => {
     const res = await login(data);
-    console.log(res);
 
     if (res.success && res.data.user) {
       localStorage.setItem("jwt", res.data.token);
@@ -77,9 +85,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
+  const acceptInviteUser = useCallback(async (data: AcceptInviteUser) => {
+    const res = await acceptInvite(data);
+
+    if (res.success && res.data) {
+      localStorage.setItem("jwt", res.data.token);
+      setUser(res.data.user);
+    }
+    return res;
+  }, []);
+
   const value = useMemo(
-    () => ({ signupUser, loginUser, logoutUser, user, isLoading }),
-    [signupUser, loginUser, logoutUser, user, isLoading],
+    () => ({
+      signupUser,
+      loginUser,
+      logoutUser,
+      acceptInviteUser,
+      user,
+      isLoading,
+    }),
+    [signupUser, loginUser, logoutUser, acceptInviteUser, user, isLoading],
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

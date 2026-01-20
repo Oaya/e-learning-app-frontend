@@ -233,7 +233,7 @@ export default function CourseForm({
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="primary-submit-button"
+            className="btn-primary"
           >
             {mutation.isPending ? "Saving..." : "Save & Continue"}
           </button>

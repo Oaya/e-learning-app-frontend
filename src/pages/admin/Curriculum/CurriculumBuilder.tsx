@@ -80,21 +80,18 @@ export default function CurriculumBuilderPage() {
             <button
               onClick={() => setAddSectionOpen(true)}
               type="button"
-              className="primary-submit-button"
+              className="btn-primary"
             >
               + Section
             </button>
             <div>
               <Link
                 to={`/admin/courses/${id}/course-builder`}
-                className="curriculum-back-button"
+                className="btn-curriculum-back"
               >
                 Back
               </Link>
-              <Link
-                to={`/admin/courses/${id}/pricing`}
-                className="primary-submit-button"
-              >
+              <Link to={`/admin/courses/${id}/pricing`} className="btn-primary">
                 Next
               </Link>
             </div>

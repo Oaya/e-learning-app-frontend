@@ -14,6 +14,7 @@ export function useCourse(
     queryKey: ["course", id],
     queryFn: () => getCourseById(id),
     enabled: !!id,
+    staleTime: 60_000,
   });
 
   const deleteMutation = useMutation({

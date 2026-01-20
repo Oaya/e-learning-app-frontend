@@ -32,7 +32,7 @@ export default function SectionDetails({
       <button
         type="button"
         onClick={() => toggleOpenSection(section.id)}
-        className="bg-c-purple/10 flex w-full items-center justify-between px-4 py-3 text-left"
+        className="bg-c-purple/20 flex w-full items-center justify-between px-4 py-3 text-left"
       >
         <span className="font-semibold text-gray-600">{section.title}</span>
         <AiOutlineDown fontSize={18} />

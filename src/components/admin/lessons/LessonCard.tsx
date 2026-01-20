@@ -55,7 +55,7 @@ export default function LessonCard({ lesson, courseId }: Props) {
           {/* Edit lesson */}
           <button
             type="button"
-            className="rounded p-1 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50"
+            className="btn-edit-icon"
             onClick={() => setEditingLessonId(lesson.id)}
             disabled={isDeleting || isUpdating}
             title="Edit lesson"

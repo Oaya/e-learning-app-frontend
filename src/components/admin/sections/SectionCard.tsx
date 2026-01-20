@@ -90,7 +90,7 @@ export default function SectionCard({
             {/* Edit section */}
             <button
               type="button"
-              className="ml-2 rounded p-1 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50"
+              className="btn-edit-icon ml-2"
               onClick={() => {
                 toggleOpen(s.id);
                 setEditingSectionId(s.id);
@@ -129,7 +129,7 @@ export default function SectionCard({
           {showAddLessonButton ? (
             <button
               type="button"
-              className="bg-c-yellow hover:bg-c-yellow/80 rounded px-4 py-2 text-sm text-white disabled:opacity-50"
+              className="btn-secondary"
               onClick={() => {
                 // ensure accordion open
                 toggleOpen(s.id);

@@ -3,11 +3,12 @@ import { Route } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/Dashboard";
 import RequireAuth from "./RequireAuth";
-import CourseBuilderPage from "../pages/admin/Curriculum/CourseBuilder";
-import PricingPage from "../pages/admin/Curriculum/Pricing";
-import CurriculumBuilderPage from "../pages/admin/Curriculum/CurriculumBuilder";
-import ReviewPage from "../pages/admin/Curriculum/Review";
-import CoursePage from "../pages/admin/Curriculum/Course";
+import CourseBuilderPage from "../pages/admin/curriculum/CourseBuilder";
+import PricingPage from "../pages/admin/curriculum/Pricing";
+import CurriculumBuilderPage from "../pages/admin/curriculum/CurriculumBuilder";
+import ReviewPage from "../pages/admin/curriculum/Review";
+import CoursePage from "../pages/admin/curriculum/Course";
+import UsersPage from "../pages/admin/users/UsersTable";
 
 export default function AdminRoutes() {
   return (
@@ -29,6 +30,7 @@ export default function AdminRoutes() {
         />
         <Route path="/admin/courses/:id/pricing" element={<PricingPage />} />
         <Route path="/admin/courses/:id/review" element={<ReviewPage />} />
+        <Route path="/admin/users" element={<UsersPage />} />
       </Route>
     </Route>
   );

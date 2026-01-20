@@ -1,10 +1,13 @@
 import axios from "axios";
-import type { LoginUser, SignupUser } from "../type/auth";
+import type { AcceptInviteUser, LoginUser, SignupUser } from "../type/user";
 
 export async function signup(data: SignupUser): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/auth`;
     const response = await axios.post(url, data);
+
+    console.log("VITE_API_URL", import.meta.env.VITE_API_URL);
+    console.log("Signup URL", url);
 
     console.log("Signup response:", response);
     return { success: true, data: response.data };
@@ -44,5 +47,21 @@ export async function getAuthUser(): Promise<ApiResponse> {
     return { success: true, data: res.data };
   } catch (err: any) {
     throw new Error(err.response.data.error);
+  }
+}
+
+export async function acceptInvite(
+  data: AcceptInviteUser,
+): Promise<ApiResponse> {
+  try {
+    console.log("Accept invite user data:", data);
+
+    const url: string = `${import.meta.env.VITE_API_URL}/api/auth/invitation`;
+    const response = await axios.patch(url, { api_user: data });
+
+    console.log("Accept invite user response:", response);
+    return { success: true, data: response.data };
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
   }
 }

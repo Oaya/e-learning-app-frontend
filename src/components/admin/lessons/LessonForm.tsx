@@ -290,11 +290,7 @@ export default function LessonForm({
         )}
 
         <div className="flex gap-3">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="primary-submit-button"
-          >
+          <button type="submit" disabled={isSubmitting} className="btn-primary">
             {isSubmitting
               ? "Saving..."
               : mode === "edit"
@@ -305,7 +301,7 @@ export default function LessonForm({
           <button
             type="button"
             disabled={isSubmitting}
-            className="curriculum-back-button"
+            className="btn-primary-white"
             onClick={onCancel}
           >
             Cancel

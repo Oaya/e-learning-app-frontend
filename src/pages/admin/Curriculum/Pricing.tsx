@@ -79,14 +79,14 @@ export default function PricingPage() {
           <div className="mt-6">
             <Link
               to={`/admin/courses/${id}/curriculum-builder`}
-              className="curriculum-back-button"
+              className="btn-curriculum-back"
             >
               Back
             </Link>
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="primary-submit-button"
+              className="btn-primary"
             >
               {mutation.isPending ? "Saving..." : "Next"}
             </button>

@@ -58,7 +58,7 @@ export default function SectionForm({
           <button
             type="submit"
             disabled={!!isSubmitting}
-            className="primary-submit-button"
+            className="btn-primary"
           >
             {isSubmitting
               ? "Saving..."
@@ -67,7 +67,7 @@ export default function SectionForm({
                 : "Add Section"}
           </button>
 
-          <button className="curriculum-back-button" onClick={onCancel}>
+          <button className="btn-primary-white" onClick={onCancel}>
             Cancel
           </button>
         </div>

@@ -11,11 +11,22 @@
     @apply flex h-14 items-center justify-between pb-10;
   }
 
-  .primary-submit-button {
-    @apply bg-dark-purple hover:bg-dark-purple/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-60;
+  .btn-primary {
+    @apply bg-dark-purple hover:bg-dark-purple/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
   }
 
-  .curriculum-back-button {
+  .btn-secondary {
+    @apply bg-c-yellow hover:bg-c-yellow/80 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
+  }
+  .btn-primary-white {
     @apply mr-4 inline-flex items-center justify-center rounded border border-gray-300 px-5 py-3 text-sm leading-none;
+  }
+
+  .btn-edit-icon {
+    @apply rounded p-1 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50;
+  }
+
+  .btn-primary-pink {
+    @apply bg-c-pink hover:bg-c-pink/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
   }
 }

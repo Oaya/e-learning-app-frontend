@@ -23,3 +23,16 @@ export type User = {
   tenant_name: string;
   plan: string;
 };
+
+export type InviteUser = {
+  email: string;
+  role: string;
+  first_name: string;
+  last_name: string;
+};
+
+export type AcceptInviteUser = {
+  invitation_token: string;
+  password: string;
+  password_confirmation: string;
+};

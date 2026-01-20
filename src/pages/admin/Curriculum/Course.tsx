@@ -62,14 +62,14 @@ export default function CoursePage() {
           <div className="absolute top-4 right-4 flex gap-2">
             <Link
               to={`/admin/courses/${course.id}/course-builder`}
-              className="primary-submit-button"
+              className="btn-primary"
             >
               Edit
             </Link>
 
             <button
               type="button"
-              className="primary-submit-button bg-c-pink hover:bg-c-pink/80"
+              className="btn-primary bg-c-pink hover:bg-c-pink/80"
               onClick={() => setIsOpen(true)}
             >
               Delete

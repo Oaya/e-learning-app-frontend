@@ -7,7 +7,7 @@ import { publishCourse } from "../../../api/courses";
 import SectionDetails from "../../../components/admin/sections/SectionDetails";
 import CourseDetailTable from "../../../components/admin/courses/CourseDetailTable";
 
-export default function CourseReview() {
+export default function CourseReviewPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -74,7 +74,7 @@ export default function CourseReview() {
       <div className="mt-6">
         <Link
           to={`/admin/courses/${id}/pricing`}
-          className="curriculum-back-button"
+          className="btn-curriculum-back"
         >
           Back
         </Link>
@@ -82,7 +82,7 @@ export default function CourseReview() {
           type="submit"
           onClick={handleSubmitCourse}
           disabled={mutation.isPending || !!message}
-          className="primary-submit-button"
+          className="btn-primary"
         >
           {mutation.isPending ? "Saving..." : "Submit for Review"}
         </button>

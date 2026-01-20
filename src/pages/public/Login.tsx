@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import type { LoginUser } from "../../type/auth";
+import type { LoginUser } from "../../type/user";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 
@@ -43,7 +43,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="primary-submit-button w-full text-lg"
+          className="btn-primary w-full text-lg"
         >
           Log in
         </button>

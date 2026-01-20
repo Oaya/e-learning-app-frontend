@@ -3,7 +3,11 @@ import { useParams } from "react-router-dom";
 import CourseForm from "../../../components/admin/courses/CourseForm";
 import { useCourse } from "../../../hooks/useCourse";
 
-export default function CourseBuilder({ mode }: { mode: "create" | "edit" }) {
+export default function CourseBuilderPage({
+  mode,
+}: {
+  mode: "create" | "edit";
+}) {
   const { id } = useParams<{ id: string }>();
   const courseId = id ?? "";
 

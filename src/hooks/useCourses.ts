@@ -3,14 +3,14 @@ import type { Course } from "../type/course";
 import { getCourses } from "../api/courses";
 
 export function useCourses() {
-  const {
-    data: courses,
-    isLoading,
-    isError,
-  } = useQuery<Course[], Error>({
+  const query = useQuery<Course[], Error>({
     queryKey: ["courses"],
     queryFn: getCourses,
+    staleTime: 60_000,
   });
 
-  return { courses, isLoading, isError };
+  return {
+    ...query,
+    courses: query.data,
+  };
 }
