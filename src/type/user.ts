@@ -22,6 +22,7 @@ export type User = {
   tenant_id: string;
   tenant_name: string;
   plan: string;
+  status: string;
 };
 
 export type InviteUser = {
@@ -35,4 +36,11 @@ export type AcceptInviteUser = {
   invitation_token: string;
   password: string;
   password_confirmation: string;
+};
+
+export type Instructor = {
+  id: string;
+  avatar?: string;
+  first_name: string;
+  last_name: string;
 };

@@ -26,7 +26,7 @@ export default function CourseBuilderPage({
   if (isEdit && !course) return <p>Course not found</p>;
 
   return (
-    <div>
+    <div className="curriculum-container">
       <header className="curriculum-header">
         <h1 className="text-2xl font-semibold">
           {isEdit ? "Edit Course" : "Course Creation"}

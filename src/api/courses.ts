@@ -97,6 +97,8 @@ export async function createCourseWithThumbnail(
 ): Promise<Course> {
   let thumbnail_key: string | null = null;
 
+  console.log("Creating course with thumbnail:", data);
+
   if (data.thumbnail) {
     const { key, put_url } = await getPresignedUrl(
       data.thumbnail,

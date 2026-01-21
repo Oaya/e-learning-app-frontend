@@ -3,6 +3,7 @@ import { roles } from "../../utils/constants";
 import { inviteUser } from "../../api/users";
 import { fdString } from "../../utils/formData";
 import { useAlert } from "../../contexts/AlertContext";
+import CustomSelect from "./CustomSelect";
 
 type InviteUserModalProps = {
   isOpen: boolean;
@@ -34,14 +35,10 @@ export default function InviteUserModal({
 
     const res = await inviteUser(data);
 
-    console.log(res);
-
     if (res.success && res.data.message) {
       alert.success(res.data.message);
       onClose();
     }
-
-    //Invite user api
   };
 
   return (
@@ -77,14 +74,12 @@ export default function InviteUserModal({
 
             <div className="col-span-1 mb-2">
               <label className="block text-sm font-medium">Role</label>
-              <select name="role" className="form-input py-2.5" required>
-                <option value="">--Select Role--</option>
-                {roles.map((role) => (
-                  <option key={role} value={role}>
-                    {role}
-                  </option>
-                ))}
-              </select>
+              <CustomSelect
+                name="role"
+                className="w-full"
+                required
+                options={roles.map((role) => ({ value: role, label: role }))}
+              />
             </div>
           </div>
 

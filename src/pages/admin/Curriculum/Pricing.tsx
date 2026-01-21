@@ -42,7 +42,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div>
+    <div className="curriculum-container">
       <header className="curriculum-header">
         <h1 className="text-2xl font-semibold">Pricing</h1>
       </header>
@@ -79,7 +79,7 @@ export default function PricingPage() {
           <div className="mt-6">
             <Link
               to={`/admin/courses/${id}/curriculum-builder`}
-              className="btn-curriculum-back"
+              className="btn-primary-white"
             >
               Back
             </Link>

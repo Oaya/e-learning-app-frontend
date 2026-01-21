@@ -1,4 +1,5 @@
 import type { SectionWithLessons } from "./section";
+import type { Instructor } from "./user";
 
 export type Course = {
   id: string;
@@ -12,11 +13,7 @@ export type Course = {
   thumbnail_name: string | null;
   price?: number | null;
   created_by: string;
-  instructor: {
-    id: string;
-    first_name: string;
-    last_name: string;
-  };
+  instructors?: Instructor[];
   created_at: Date;
 };
 
@@ -25,6 +22,7 @@ export type CreateCourse = {
   description: string;
   category: string;
   level: string;
+  instructor_ids: string[];
   thumbnail?: File | null;
   thumbnail_name?: string | null;
   thumbnail_key?: string | null; // optional

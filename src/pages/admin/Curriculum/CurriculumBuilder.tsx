@@ -34,7 +34,7 @@ export default function CurriculumBuilderPage() {
     alert.error(error instanceof Error ? error.message : "Failed to load");
 
   return (
-    <div>
+    <div className="curriculum-container">
       {/* Header */}
       <header className="flex items-start justify-between pb-8">
         <div>
@@ -87,7 +87,7 @@ export default function CurriculumBuilderPage() {
             <div>
               <Link
                 to={`/admin/courses/${id}/course-builder`}
-                className="btn-curriculum-back"
+                className="btn-primary-white"
               >
                 Back
               </Link>

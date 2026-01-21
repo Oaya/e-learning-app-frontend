@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { InviteUser, User } from "../type/user";
+import type { Instructor, InviteUser, User } from "../type/user";
 
 export async function getUsers(): Promise<User[]> {
   try {
@@ -30,6 +30,23 @@ export async function inviteUser(data: InviteUser): Promise<ApiResponse> {
 
     console.log("Invite user response:", response);
     return { success: true, data: response.data };
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
+export async function getInstructors(): Promise<Instructor[]> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/users/instructors`;
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Get instructors response:", response);
+    return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);
   }

@@ -78,3 +78,32 @@ input[type="number"] {
 .ProseMirror a:hover {
   color: #1d4ed8; /* Tailwind blue-700 */
 }
+
+/* Global react-select sizing to match .form-input */
+.rs__control {
+  min-height: 52px !important;
+  height: 52px !important;
+  border-radius: 0.375rem;
+}
+
+.rs__control {
+  min-height: 52px !important;
+  height: 52px !important;
+  border-radius: 0.375rem;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1) !important; /* shadow-md */
+}
+
+.rs__input-container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.rs__indicators {
+  height: 52px !important;
+}
+
+.rs__indicatorSeparator {
+  display: none;
+}

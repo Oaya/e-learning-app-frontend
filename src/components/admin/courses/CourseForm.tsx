@@ -11,6 +11,9 @@ import {
   createCourseWithThumbnail,
   updateCourseWithThumbnail,
 } from "../../../api/courses";
+import { useInstructors } from "../../../hooks/useInstructors";
+import CustomSelect from "../../ui/CustomSelect";
+import type { Instructor } from "../../../type/user";
 
 type CourseFormProps = {
   isEdit?: boolean;
@@ -22,6 +25,12 @@ export default function CourseForm({
   defaultValues,
   courseId,
 }: CourseFormProps) {
+  const { instructors } = useInstructors();
+
+  const [selectedInstructor, setSelectedInstructor] = useState<Instructor[]>(
+    defaultValues?.instructors ?? [],
+  );
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     defaultValues?.thumbnail_url || null,
   );
@@ -72,6 +81,7 @@ export default function CourseForm({
       description: fdString(fd, "description").trim(),
       category: fdString(fd, "category"),
       level: fdString(fd, "level"),
+      instructor_ids: selectedInstructor.map((i) => i.id),
       thumbnail: file ?? undefined,
     };
 
@@ -140,34 +150,69 @@ export default function CourseForm({
         <div className="grid grid-cols-2 gap-6">
           <div className="mb-2">
             <label className="block text-sm font-medium">Category</label>
-            <select
+            <CustomSelect
               name="category"
-              className="form-input py-2.5"
-              defaultValue={defaultValues?.category ?? ""}
-            >
-              <option value="">--Select category--</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+              options={categories.map((category) => ({
+                value: category,
+                label: category,
+              }))}
+              defaultValue={
+                defaultValues?.level
+                  ? {
+                      value: defaultValues.category,
+                      label: defaultValues.category,
+                    }
+                  : undefined
+              }
+            />
           </div>
 
           <div className="mb-2">
             <label className="block text-sm font-medium">Level</label>
-            <select
+            <CustomSelect
               name="level"
-              className="form-input py-2.5"
-              defaultValue={defaultValues?.level ?? ""}
-            >
-              <option value="">--Select level--</option>
-              {levels.map((level) => (
-                <option key={level} value={level}>
-                  {level}
-                </option>
-              ))}
-            </select>
+              options={levels.map((level) => ({
+                value: level,
+                label: level,
+              }))}
+              defaultValue={
+                defaultValues?.category
+                  ? {
+                      value: defaultValues.level,
+                      label: defaultValues.level,
+                    }
+                  : undefined
+              }
+            />
+          </div>
+        </div>
+
+        <div className="gap-6">
+          <div className="mb-2">
+            <label className="block text-sm font-medium">Instructor</label>
+            <CustomSelect
+              isMulti
+              name="instructor"
+              options={(instructors ?? []).map((i) => ({
+                value: i.id,
+                label: `${i.first_name} ${i.last_name}`,
+                avatar: i.avatar,
+              }))}
+              defaultValue={(defaultValues?.instructors ?? []).map((i) => ({
+                value: i.id,
+                label: `${i.first_name} ${i.last_name}`,
+                avatar: i.avatar,
+              }))}
+              onChange={(selected: any[]) => {
+                const ids = Array.isArray(selected)
+                  ? selected.map((o) => o.value)
+                  : [];
+                const picked = (instructors ?? []).filter((i) =>
+                  ids.includes(i.id),
+                );
+                setSelectedInstructor(picked);
+              }}
+            />
           </div>
         </div>
 

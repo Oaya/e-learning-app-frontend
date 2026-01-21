@@ -5,9 +5,11 @@ import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { useAlert } from "../../../contexts/AlertContext";
 import { useUsers } from "../../../hooks/useUsers";
 import InviteUserModal from "../../../components/ui/InviteUserModal";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function UsersPage() {
   const alert = useAlert();
+  const { user } = useAuth();
   const { users, isLoading, isError, error } = useUsers();
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [isInviteOpen, setInviteOpen] = useState(false);
@@ -22,6 +24,7 @@ export default function UsersPage() {
       setSelected(new Set(uData.map((u) => u.id)));
     }
   }
+  const isAdmin = user?.role === "admin";
 
   function toggleOne(id: string) {
     setSelected((prev) => {
@@ -56,9 +59,14 @@ export default function UsersPage() {
             {uData.length} total
           </span>
 
-          <button className="btn-secondary" onClick={() => setInviteOpen(true)}>
-            Invite User
-          </button>
+          {isAdmin && (
+            <button
+              className="btn-secondary"
+              onClick={() => setInviteOpen(true)}
+            >
+              Invite User
+            </button>
+          )}
         </div>
       </div>
 
@@ -84,6 +92,8 @@ export default function UsersPage() {
               <th className="p-3">Name</th>
               <th className="p-3">Email</th>
               <th className="p-3">Role</th>
+
+              {isAdmin && <th className="p-3">Status</th>}
             </tr>
           </thead>
 
@@ -123,6 +133,7 @@ export default function UsersPage() {
 
                   <td className="p-3">{u.email}</td>
                   <td className="p-3">{u.role ?? ""}</td>
+                  {isAdmin && <td className="p-3">{u.status ?? ""}</td>}
                 </tr>
               ))
             )}

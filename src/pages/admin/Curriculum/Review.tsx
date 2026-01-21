@@ -48,7 +48,7 @@ export default function CourseReviewPage() {
   if (isLoading) return <p>Loading…</p>;
 
   return (
-    <div>
+    <div className="curriculum-container">
       <header className="curriculum-header">
         <h1 className="text-2xl font-semibold">Course Review</h1>
       </header>
@@ -72,10 +72,7 @@ export default function CourseReviewPage() {
       )}
 
       <div className="mt-6">
-        <Link
-          to={`/admin/courses/${id}/pricing`}
-          className="btn-curriculum-back"
-        >
+        <Link to={`/admin/courses/${id}/pricing`} className="btn-primary-white">
           Back
         </Link>
         <button
