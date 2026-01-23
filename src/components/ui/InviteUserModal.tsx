@@ -63,7 +63,7 @@ export default function InviteUserModal({
         <form onSubmit={handleInvite} className="my-6">
           <div className="grid grid-cols-3 gap-6">
             <div className="col-span-2 mb-2">
-              <label className="block text-sm font-medium">Email</label>
+              <label className="sm-label">Email</label>
               <input
                 name="email"
                 type="email"
@@ -73,7 +73,7 @@ export default function InviteUserModal({
             </div>
 
             <div className="col-span-1 mb-2">
-              <label className="block text-sm font-medium">Role</label>
+              <label className="sm-label">Role</label>
               <CustomSelect
                 name="role"
                 className="w-full"
@@ -85,7 +85,7 @@ export default function InviteUserModal({
 
           <div className="grid grid-cols-2 gap-6">
             <div className="mb-2">
-              <label className="block text-sm font-medium">First Name</label>
+              <label className="sm-label">First Name</label>
               <input
                 name="first_name"
                 type="text"
@@ -95,7 +95,7 @@ export default function InviteUserModal({
             </div>
 
             <div className="mb-2">
-              <label className="block text-sm font-medium">Last Name</label>
+              <label className="sm-label">Last Name</label>
               <input
                 name="last_name"
                 type="text"

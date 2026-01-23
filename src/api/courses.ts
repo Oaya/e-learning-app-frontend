@@ -6,7 +6,7 @@ import type {
   CreateCourse,
 } from "../type/course";
 import type { ReorderSections } from "../type/section";
-import { deleteS3Object, getPresignedUrl, uploadToS3 } from "./aws";
+import { directUploadToActiveStorage } from "./files";
 
 export async function getCourses(): Promise<Course[]> {
   try {
@@ -95,34 +95,20 @@ export async function deleteCourse(id: string): Promise<void> {
 export async function createCourseWithThumbnail(
   data: CreateCourse,
 ): Promise<Course> {
-  let thumbnail_key: string | null = null;
-
-  console.log("Creating course with thumbnail:", data);
+  let thumbnail_signed_id: string | null = null;
 
   if (data.thumbnail) {
-    const { key, put_url } = await getPresignedUrl(
-      data.thumbnail,
-      "course_thumbnails",
-    );
-    await uploadToS3(put_url, data.thumbnail);
-    thumbnail_key = key;
+    thumbnail_signed_id = await directUploadToActiveStorage(data.thumbnail);
   }
+
+  console.log("Thumbnail signed ID:", thumbnail_signed_id);
 
   const { thumbnail, ...rest } = data;
 
-  return createCourse({
-    ...rest,
-    thumbnail_key,
-    thumbnail_name: data.thumbnail?.name ?? null,
-  });
+  return createCourse(rest);
 }
 
-export async function createCourse(
-  data: CreateCourse & {
-    thumbnail_key: string | null;
-    thumbnail_name: string | null;
-  },
-): Promise<Course> {
+export async function createCourse(data: CreateCourse): Promise<Course> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/courses`;
@@ -142,7 +128,6 @@ export async function createCourse(
 export async function updateCourseWithThumbnail({
   new_file,
   removed,
-  existing_key,
   course_id,
   data,
 }: {
@@ -152,42 +137,30 @@ export async function updateCourseWithThumbnail({
   course_id: string;
   data: CreateCourse;
 }): Promise<Course> {
-  let newKey: string | null | undefined = undefined;
+  let thumbnail_signed_id: string | null = null;
 
   // Case 1: user chose a new file
   if (new_file) {
-    const { key, put_url } = await getPresignedUrl(
-      new_file,
-      "course_thumbnails",
-    );
-    await uploadToS3(put_url, new_file);
-    newKey = key;
+    thumbnail_signed_id = await directUploadToActiveStorage(new_file);
   }
 
   // Case 2: user removed existing thumbnail
   if (!new_file && removed) {
-    newKey = null;
+    thumbnail_signed_id = null;
   }
 
   // Update the course first
   const updated = await updateCourse(course_id, {
     ...data,
-    ...(newKey !== undefined
-      ? { thumbnail_key: newKey, thumbnail_name: new_file?.name ?? null }
-      : {}),
+    ...(thumbnail_signed_id !== undefined ? { thumbnail_signed_id } : {}),
   });
-
-  // Delete old file AFTER DB update succeeds
-  if (newKey !== undefined && existing_key && existing_key !== newKey) {
-    await deleteS3Object(existing_key);
-  }
 
   return updated;
 }
 
 export async function updateCourse(
   id: string,
-  data: CreateCourse,
+  data: CreateCourse & { thumbnail_signed_id?: string | null },
 ): Promise<Course> {
   try {
     const token = localStorage.getItem("jwt");

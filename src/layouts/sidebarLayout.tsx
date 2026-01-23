@@ -1,14 +1,19 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import AdminNavLink from "../components/admin/AdminNavLink";
-import { useAuth } from "../contexts/AuthContext";
+import { Outlet } from "react-router-dom";
 
-export default function AdminLayout() {
-  const { logoutUser } = useAuth();
-  const navigate = useNavigate();
+import { useAuth } from "../contexts/AuthContext";
+import StyledNavLink from "../components/NavLink";
+import { useAlert } from "../contexts/AlertContext";
+
+export default function SidebarLayout() {
+  const { logoutUser, user } = useAuth();
+  const alert = useAlert();
+
+  const isAdmin = user?.role === "Admin";
+  const isInstructor = user?.role === "Instructor";
 
   function handleLogout() {
     logoutUser();
-    navigate("/");
+    alert.success("Logged out successfully");
   }
   return (
     <div className="bg-bg-grey flex min-h-screen">
@@ -19,10 +24,16 @@ export default function AdminLayout() {
 
         <nav className="flex h-[calc(100vh-72px)] flex-col space-y-1 px-4 py-4">
           <div>
-            <AdminNavLink to="/admin">Dashboard</AdminNavLink>
-            <AdminNavLink to="/admin/courses">Courses</AdminNavLink>
-            <AdminNavLink to="/admin/users">Users</AdminNavLink>
-            <AdminNavLink to="/admin/settings">Settings</AdminNavLink>
+            {(isAdmin || isInstructor) && (
+              <>
+                <StyledNavLink to="/admin">Dashboard</StyledNavLink>
+                <StyledNavLink to="/admin/courses">Courses</StyledNavLink>
+                <StyledNavLink to="/admin/users">Users</StyledNavLink>
+              </>
+            )}
+            <>
+              <StyledNavLink to="/profile">Profile</StyledNavLink>
+            </>
           </div>
           <div className="flex-1" />
 

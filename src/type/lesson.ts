@@ -3,8 +3,7 @@ export type Lesson = {
   title: string;
   description?: string;
   lesson_type?: string;
-  video_key: string | null;
-  video_url: string | null;
+  video?: string | null;
   position: number;
   duration_in_seconds?: number | null;
   article?: string;
@@ -16,7 +15,6 @@ export type CreateLesson = {
   description?: string;
   lesson_type: string;
   video?: File | null;
-  video_name?: string | null;
   removed?: boolean;
   duration_in_seconds?: number | null;
   article?: string;

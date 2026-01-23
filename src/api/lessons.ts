@@ -1,30 +1,22 @@
 import axios from "axios";
 import type { CreateLesson, Lesson, UpdateLesson } from "../type/lesson";
-import { deleteS3Object, getPresignedUrl, uploadToS3 } from "./aws";
+import { directUploadToActiveStorage } from "./files";
 
 export async function createLessonWithVideo(
   data: CreateLesson,
 ): Promise<Lesson> {
-  let video_key: string | null = null;
+  let video_signed_id: string | null = null;
 
   if (data.video) {
-    const { key, put_url } = await getPresignedUrl(data.video, "lesson_videos");
-    await uploadToS3(put_url, data.video);
-    video_key = key;
+    video_signed_id = await directUploadToActiveStorage(data.video);
   }
 
   const { video, ...rest } = data;
 
-  return createLesson({
-    ...rest,
-    video_name: video?.name || null,
-    video_key,
-  });
+  return createLesson(rest);
 }
 
-export async function createLesson(
-  data: CreateLesson & { video_key: string | null; video_name?: string | null },
-): Promise<Lesson> {
+export async function createLesson(data: CreateLesson): Promise<Lesson> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/sections/${data.section_id}/lessons`;
@@ -44,37 +36,23 @@ export async function createLesson(
 export async function updateLessonWithVideo(
   values: UpdateLesson,
 ): Promise<Lesson> {
-  const { id, video, existing_key, removed, new_file, ...data } = values;
-
-  console.log("values", values);
-
-  let newKey: string | null | undefined = undefined;
+  let video_signed_id: string | null = null;
 
   // user chose a new file
-  if (new_file) {
-    const { key, put_url } = await getPresignedUrl(new_file, "lesson_videos");
-    await uploadToS3(put_url, new_file);
-    newKey = key;
+  if (values.new_file) {
+    video_signed_id = await directUploadToActiveStorage(values.new_file);
   }
 
   // user removed existing video (and didn’t pick a new one)
-  if (!new_file && removed) {
-    newKey = null;
+  if (!values.new_file && values.removed) {
+    video_signed_id = null;
   }
 
   // update DB
   const updated = await updateLesson({
-    id,
-    ...data,
-    ...(newKey !== undefined
-      ? { video_key: newKey, video_name: new_file?.name || null }
-      : {}),
+    ...values,
+    ...(video_signed_id !== undefined ? { video_signed_id } : {}),
   });
-
-  // delete old video AFTER success
-  if (newKey !== undefined && existing_key && existing_key !== newKey) {
-    await deleteS3Object(existing_key);
-  }
 
   return updated;
 }

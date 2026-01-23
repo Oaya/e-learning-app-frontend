@@ -23,6 +23,7 @@ export type User = {
   tenant_name: string;
   plan: string;
   status: string;
+  avatar?: string;
 };
 
 export type InviteUser = {

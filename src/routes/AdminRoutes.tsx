@@ -1,6 +1,5 @@
 import { Route } from "react-router-dom";
 
-import AdminLayout from "../layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/Dashboard";
 import RequireAuth from "./RequireAuth";
 import CourseBuilderPage from "../pages/admin/curriculum/CourseBuilder";
@@ -9,11 +8,12 @@ import CurriculumBuilderPage from "../pages/admin/curriculum/CurriculumBuilder";
 import ReviewPage from "../pages/admin/curriculum/Review";
 import CoursePage from "../pages/admin/curriculum/Course";
 import UsersPage from "../pages/admin/users/UsersTable";
+import SidebarLayout from "../layouts/sidebarLayout";
 
 export default function AdminRoutes() {
   return (
     <Route element={<RequireAuth />}>
-      <Route element={<AdminLayout />}>
+      <Route element={<SidebarLayout />}>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/courses/:id" element={<CoursePage />} />
         <Route

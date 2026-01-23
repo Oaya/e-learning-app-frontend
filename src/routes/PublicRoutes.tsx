@@ -7,6 +7,8 @@ import EmailConfirmPage from "../pages/public/EmailConfirm";
 import PublicLayout from "../layouts/PublicLayout";
 import PlainLayout from "../layouts/PlainLayout";
 import AcceptInvitePage from "../pages/public/AcceptInvite";
+import ProfilePage from "../pages/public/Profile";
+import SidebarLayout from "../layouts/sidebarLayout";
 
 export default function PublicRoutes() {
   return (
@@ -23,6 +25,11 @@ export default function PublicRoutes() {
       <Route element={<PlainLayout />}>
         <Route path="confirm-email" element={<EmailConfirmPage />}></Route>
         <Route path="accept-invite" element={<AcceptInvitePage />} />
+      </Route>
+
+      {/* Profile Route with Sidebar */}
+      <Route element={<SidebarLayout />}>
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
     </>
   );

@@ -1,6 +1,6 @@
 import { NavLink, type NavLinkProps } from "react-router-dom";
 
-export default function AdminNavLInk({ to, children }: NavLinkProps) {
+export default function StyledNavLink({ to, children }: NavLinkProps) {
   return (
     <NavLink
       to={to}

@@ -36,7 +36,7 @@ export default function SectionForm({
             name="title"
             defaultValue={defaultValues?.title ?? ""}
             required
-            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2"
+            className="form-input mt-1"
             placeholder="Enter a Title"
           />
         </div>
@@ -49,7 +49,7 @@ export default function SectionForm({
             name="description"
             defaultValue={defaultValues?.description ?? ""}
             required
-            className="mt-1 w-full rounded border border-gray-300 bg-white px-3 py-2"
+            className="form-input mt-1"
             placeholder="Enter learning outcomes"
           />
         </div>

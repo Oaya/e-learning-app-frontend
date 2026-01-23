@@ -1,38 +1,33 @@
-import { useState } from "react";
-
 import type { SignupUser } from "../../type/user";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 
 export default function SignupPage() {
-  const { signupUser } = useAuth();
+  const { signupUser, isLoading } = useAuth();
   const alert = useAlert();
-
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsSubmitting(true);
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    //Check the password and confirm_password is same or not
-    if (data.password === data.password_confirm) {
-      alert.error("Password and Confirm Password should match");
-    }
-
     try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      //Check the password and confirm_password is same or not
+      if (data.password !== data.password_confirmation) {
+        alert.error("Password and Confirm Password should match");
+        return;
+      }
+
       const res = await signupUser(data as SignupUser);
-      if (res.data.message) {
+      if (res.success) {
         alert.success(res.data.message as string);
-        setIsSubmitting(false);
+      } else {
+        alert.error(res.error || "Signup failed");
       }
     } catch (err) {
       alert.error(err as string);
-      setIsSubmitting(false);
     }
   };
 
@@ -88,7 +83,7 @@ export default function SignupPage() {
 
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isLoading}
           className="btn-primary w-full text-lg"
         >
           Sign Up

@@ -21,13 +21,13 @@ export default function EmailConfirmPage() {
 
     setTimeout(() => {
       navigate("/login");
-    }, 3000);
+    }, 2000);
   }, [status, navigate, alert]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="w-full max-w-xl rounded-lg bg-white p-10 shadow-lg">
-        <h1 className="mb-6 text-center text-4xl font-bold">
+        <h1 className="mb-2 text-center text-4xl font-bold">
           Email Confirmation
         </h1>
 

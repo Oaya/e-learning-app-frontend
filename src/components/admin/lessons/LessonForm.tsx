@@ -123,7 +123,7 @@ export default function LessonForm({
     <div className="mt-3 space-y-6 rounded border border-gray-300 p-6">
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
         <div>
-          <label className="mb-2 block text-sm font-medium">Lesson Type</label>
+          <label className="sm-label mb-2">Lesson Type</label>
           <div className="flex flex-wrap gap-2">
             {lessonTypes.map((type) => {
               const checked = selectedType === type;
@@ -169,7 +169,7 @@ export default function LessonForm({
 
         <div className="grid grid-cols-[2fr_1fr] items-end gap-4">
           <div>
-            <label className="block text-sm font-medium">Lesson Title</label>
+            <label className="sm-label">Lesson Title</label>
             <input
               name="title"
               defaultValue={defaultValues?.title ?? ""}
@@ -181,9 +181,7 @@ export default function LessonForm({
           </div>
 
           <div>
-            <label className="block text-sm font-medium">
-              Duration (minutes)
-            </label>
+            <label className="sm-label">Duration (minutes)</label>
             <input
               type="number"
               min={0}
@@ -201,7 +199,7 @@ export default function LessonForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium">
+          <label className="sm-label">
             What will students learn in this lesson?
           </label>
           <textarea
@@ -283,7 +281,7 @@ export default function LessonForm({
         ) : (
           //Article text placeholder
           <div>
-            <label className="block text-sm font-medium">Article Content</label>
+            <label className="sm-label">Article Content</label>
 
             <ReadingEditor value={articleHtml} onChange={setArticleHtml} />
           </div>

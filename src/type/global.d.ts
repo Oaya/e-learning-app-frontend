@@ -4,7 +4,7 @@ declare global {
   interface ApiResponse {
     success: boolean;
     data?: any;
-    error?: AxiosError | string;
+    error?: string;
     status?: number;
   }
 }

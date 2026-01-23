@@ -57,7 +57,7 @@ export default function PricingPage() {
 
         <form onSubmit={handleSubmit} className="mt-6">
           <div>
-            <label className="block text-sm font-medium">Price (CAD)</label>
+            <label className="sm-label">Price (CAD)</label>
 
             <div className="mt-1 flex w-32 items-center rounded border border-gray-300 bg-white">
               <span className="pl-3 text-gray-500">$</span>

@@ -32,12 +32,12 @@ export default function CourseForm({
   );
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(
-    defaultValues?.thumbnail_url || null,
+    defaultValues?.thumbnail || null,
   );
   const [newFile, setNewFile] = useState<File | null>(null);
   const [removed, setRemoved] = useState<boolean>(false);
 
-  const existingKey = defaultValues?.thumbnail_key ?? null;
+  const existingKey = defaultValues?.thumbnail ?? null;
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
@@ -127,7 +127,7 @@ export default function CourseForm({
     <div className="space-y-6">
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm font-medium">Title</label>
+          <label className="sm-label">Title</label>
           <input
             name="title"
             defaultValue={defaultValues?.title ?? ""}
@@ -137,7 +137,7 @@ export default function CourseForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Description</label>
+          <label className="sm-label">Description</label>
           <textarea
             name="description"
             defaultValue={defaultValues?.description ?? ""}
@@ -149,7 +149,7 @@ export default function CourseForm({
 
         <div className="grid grid-cols-2 gap-6">
           <div className="mb-2">
-            <label className="block text-sm font-medium">Category</label>
+            <label className="sm-label">Category</label>
             <CustomSelect
               name="category"
               options={categories.map((category) => ({
@@ -168,7 +168,7 @@ export default function CourseForm({
           </div>
 
           <div className="mb-2">
-            <label className="block text-sm font-medium">Level</label>
+            <label className="sm-label">Level</label>
             <CustomSelect
               name="level"
               options={levels.map((level) => ({
@@ -189,7 +189,7 @@ export default function CourseForm({
 
         <div className="gap-6">
           <div className="mb-2">
-            <label className="block text-sm font-medium">Instructor</label>
+            <label className="sm-label">Instructor</label>
             <CustomSelect
               isMulti
               name="instructor"
@@ -253,13 +253,13 @@ export default function CourseForm({
                   ? newFile.name
                   : removed
                     ? "Upload Image"
-                    : defaultValues?.thumbnail_name
+                    : defaultValues?.thumbnail
                       ? "Replace Image"
                       : "Upload Image"}
               </span>
 
               {/* show trash if there is either a new file OR an existing image */}
-              {(newFile || (!!defaultValues?.thumbnail_name && !removed)) && (
+              {(newFile || (!!defaultValues?.thumbnail && !removed)) && (
                 <button
                   type="button"
                   onClick={removeImage}

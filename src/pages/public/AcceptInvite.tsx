@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
@@ -6,27 +5,22 @@ import type { AcceptInviteUser } from "../../type/user";
 import { useAlert } from "../../contexts/AlertContext";
 import { fdString } from "../../utils/formData";
 
-export default function AcceptInvite() {
+export default function AcceptInvitePage() {
   const [searchParams] = useSearchParams();
-  const { acceptInviteUser } = useAuth();
+  const { acceptInviteUser, isLoading } = useAuth();
   const alert = useAlert();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const tenantName = searchParams.get("tenant");
   const navigate = useNavigate();
 
   const handleCreatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
     try {
       const form = e.currentTarget;
       const formData = new FormData(form);
-
       const data = Object.fromEntries(formData.entries());
 
       if (data.password !== data.password_confirmation) {
         alert.error("Password and Confirm Password has to match");
-        setIsSubmitting(false);
         return;
       }
 
@@ -34,7 +28,6 @@ export default function AcceptInvite() {
 
       if (!invitationToken) {
         alert.error("Invalid invitation token");
-        setIsSubmitting(false);
         return;
       }
 
@@ -44,22 +37,16 @@ export default function AcceptInvite() {
         invitation_token: invitationToken,
       };
 
-      console.log(payload);
-
       const res = await acceptInviteUser(payload);
 
       if (res.data.message) {
         alert.success(res.data.message);
         setTimeout(() => {
           navigate("/login");
-        }, 2000);
+        }, 1000);
       }
-
-      console.log(res);
     } catch (err) {
-      console.log(err);
       alert.error("Failed to accept invitation. Try again later.");
-      setIsSubmitting(false);
     }
   };
 
@@ -71,7 +58,7 @@ export default function AcceptInvite() {
 
       <form onSubmit={handleCreatePassword}>
         <div className="mb-2">
-          <label className="block text-sm font-medium">Password</label>
+          <label className="sm-label">Password</label>
           <input
             name="password"
             type="password"
@@ -80,7 +67,7 @@ export default function AcceptInvite() {
           />
         </div>
         <div className="mb-2">
-          <label className="block text-sm font-medium">Confirm Password</label>
+          <label className="sm-label">Confirm Password</label>
           <input
             name="password_confirmation"
             type="password"
@@ -90,7 +77,7 @@ export default function AcceptInvite() {
         </div>
 
         <button
-          disabled={isSubmitting}
+          disabled={isLoading}
           type="submit"
           className="btn-primary mt-4 w-full"
         >

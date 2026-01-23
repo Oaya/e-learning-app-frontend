@@ -13,7 +13,13 @@ import type {
   SignupUser,
   User,
 } from "../type/user";
-import { getAuthUser, login, signup, acceptInvite } from "../api/auth";
+import {
+  getAuthUser,
+  login,
+  signup,
+  acceptInvite,
+  updateUserData,
+} from "../api/auth";
 
 type AuthContextType = {
   user?: User | null;
@@ -22,6 +28,7 @@ type AuthContextType = {
   loginUser: (user: LoginUser) => Promise<ApiResponse>;
   logoutUser: () => void;
   acceptInviteUser: (user: AcceptInviteUser) => Promise<ApiResponse>;
+  updateUser: (user: FormData) => Promise<ApiResponse>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -36,6 +43,9 @@ const AuthContext = createContext<AuthContextType>({
     return;
   },
   acceptInviteUser: async () => {
+    return Promise.resolve({} as ApiResponse);
+  },
+  updateUser: async () => {
     return Promise.resolve({} as ApiResponse);
   },
 });
@@ -67,18 +77,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signupUser = useCallback(async (data: SignupUser) => {
-    return await signup(data);
-  }, []);
+    setIsLoading(true);
 
-  const loginUser = useCallback(async (data: LoginUser) => {
-    const res = await login(data);
+    const res = await signup(data);
 
-    if (res.success && res.data.user) {
-      localStorage.setItem("jwt", res.data.token);
-      setUser(res.data.user as User);
-    }
+    setIsLoading(false);
     return res;
   }, []);
+
+  const loginUser = useCallback(
+    async (data: LoginUser): Promise<ApiResponse> => {
+      setIsLoading(true);
+
+      const res = await login(data);
+      if (res.success && res.data?.user && res.data?.token) {
+        localStorage.setItem("jwt", res.data.token);
+        setUser(res.data.user as User);
+      }
+
+      setIsLoading(false);
+      return res;
+    },
+    [],
+  );
 
   const logoutUser = useCallback(async () => {
     localStorage.removeItem("jwt");
@@ -86,12 +107,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const acceptInviteUser = useCallback(async (data: AcceptInviteUser) => {
+    setIsLoading(true);
     const res = await acceptInvite(data);
 
     if (res.success && res.data) {
       localStorage.setItem("jwt", res.data.token);
       setUser(res.data.user);
     }
+    setIsLoading(false);
+    return res;
+  }, []);
+
+  const updateUser = useCallback(async (data: FormData) => {
+    setIsLoading(true);
+    const res = await updateUserData(data);
+    if (res.success && res.data) {
+      setUser(res.data);
+    }
+    setIsLoading(false);
     return res;
   }, []);
 
@@ -101,10 +134,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loginUser,
       logoutUser,
       acceptInviteUser,
+      updateUser,
       user,
       isLoading,
     }),
-    [signupUser, loginUser, logoutUser, acceptInviteUser, user, isLoading],
+    [
+      signupUser,
+      loginUser,
+      logoutUser,
+      acceptInviteUser,
+      updateUser,
+      user,
+      isLoading,
+    ],
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;

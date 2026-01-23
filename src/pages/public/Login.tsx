@@ -11,15 +11,18 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
 
     try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
       const res = await loginUser(data as LoginUser);
       if (res.success) {
         alert.success(res.data.message || "Login successful");
         navigate("/admin", { replace: true });
+      } else {
+        alert.error(res.error || "Login failed");
       }
     } catch (err) {
       alert.error(err as string);
