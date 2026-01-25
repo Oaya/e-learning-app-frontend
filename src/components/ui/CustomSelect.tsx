@@ -8,6 +8,7 @@ type InstructorOptions = {
   value: string;
   label: string;
   avatar?: string | null;
+  withAvatar?: boolean;
 };
 
 export default function CustomSelect(props: any) {
@@ -15,10 +16,14 @@ export default function CustomSelect(props: any) {
     <Select
       className="mt-1"
       classNamePrefix="rs"
-      components={{
-        Option: CustomOption,
-        MultiValueLabel: CustomMultiValueLabel,
-      }}
+      components={
+        props.withAvatar
+          ? {
+              Option: CustomOption,
+              MultiValueLabel: CustomMultiValueLabel,
+            }
+          : {}
+      }
       {...props}
       value={props.value === null ? undefined : props.value}
     />

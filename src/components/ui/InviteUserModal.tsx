@@ -4,19 +4,19 @@ import { inviteUser } from "../../api/users";
 import { fdString } from "../../utils/formData";
 import { useAlert } from "../../contexts/AlertContext";
 import CustomSelect from "./CustomSelect";
+import { useState } from "react";
 
 type InviteUserModalProps = {
   isOpen: boolean;
-  isSubmitting?: boolean;
   onClose: () => void;
 };
 
 export default function InviteUserModal({
   isOpen,
-  isSubmitting,
   onClose,
 }: InviteUserModalProps) {
   const alert = useAlert();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   if (!isOpen) {
     return null;
   }
@@ -24,20 +24,29 @@ export default function InviteUserModal({
   const handleInvite = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+    try {
+      setIsSubmitting(true);
+      const form = e.currentTarget;
+      const formData = new FormData(form);
 
-    const data = {
-      email: fdString(formData, "email"),
-      role: fdString(formData, "role"),
-      first_name: fdString(formData, "first_name"),
-      last_name: fdString(formData, "last_name"),
-    };
+      const data = {
+        email: fdString(formData, "email"),
+        role: fdString(formData, "role"),
+        first_name: fdString(formData, "first_name"),
+        last_name: fdString(formData, "last_name"),
+      };
+      const res = await inviteUser(data);
 
-    const res = await inviteUser(data);
-
-    if (res.success && res.data.message) {
-      alert.success(res.data.message);
-      onClose();
+      if (res.success) {
+        alert.success(res.data.message);
+        onClose();
+      } else {
+        alert.error(res.error || "Failed to send invitation. Try again later.");
+      }
+    } catch (err) {
+      alert.error("Failed to send invitation. Try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

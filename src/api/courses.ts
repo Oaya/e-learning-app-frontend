@@ -98,7 +98,10 @@ export async function createCourseWithThumbnail(
   let thumbnail_signed_id: string | null = null;
 
   if (data.thumbnail) {
-    thumbnail_signed_id = await directUploadToActiveStorage(data.thumbnail);
+    thumbnail_signed_id = await directUploadToActiveStorage(
+      data.thumbnail,
+      "course_thumbnail",
+    );
   }
 
   console.log("Thumbnail signed ID:", thumbnail_signed_id);
@@ -141,7 +144,10 @@ export async function updateCourseWithThumbnail({
 
   // Case 1: user chose a new file
   if (new_file) {
-    thumbnail_signed_id = await directUploadToActiveStorage(new_file);
+    thumbnail_signed_id = await directUploadToActiveStorage(
+      new_file,
+      "course_thumbnail",
+    );
   }
 
   // Case 2: user removed existing thumbnail

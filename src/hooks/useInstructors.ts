@@ -10,6 +10,8 @@ export function useInstructors() {
     staleTime: 60_000,
   });
 
+  console.log("Instructors fetched:", userQuery.data);
+
   return {
     ...userQuery,
     instructors: userQuery.data,

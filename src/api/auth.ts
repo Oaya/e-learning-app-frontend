@@ -1,5 +1,11 @@
 import axios from "axios";
-import type { AcceptInviteUser, LoginUser, SignupUser } from "../type/user";
+import type {
+  AcceptInviteUser,
+  LoginUser,
+  SignupUser,
+  UpdateUser,
+} from "../type/user";
+import { directUploadToActiveStorage } from "./files";
 
 export async function signup(data: SignupUser): Promise<ApiResponse> {
   try {
@@ -62,24 +68,38 @@ export async function acceptInvite(
   }
 }
 
-export async function updateUserData(data: FormData): Promise<ApiResponse> {
+export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
-    if (!token) {
-      return { success: false, error: "No token" };
+    if (!token) return { success: false, error: "No token" };
+
+    const updatePayload: Record<string, any> = {
+      email: data.email,
+      first_name: data.first_name,
+      last_name: data.last_name,
+    };
+
+    // Replace avatar
+    if (data.avatar instanceof File) {
+      updatePayload.avatar_signed_id = await directUploadToActiveStorage(
+        data.avatar,
+        "avatar",
+      );
     }
+
+    // Remove avatar
+    if (data.avatar === null) {
+      updatePayload.avatar_signed_id = "";
+    }
+
+    console.log("Update payload:", updatePayload);
 
     const res = await axios.patch(
       `${import.meta.env.VITE_API_URL}/api/auth/me`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
+      updatePayload,
+      { headers: { Authorization: `Bearer ${token}` } },
     );
 
-    console.log("Update user response:", res);
     return { success: true, data: res.data };
   } catch (e: any) {
     return { success: false, error: e.response?.data?.error };

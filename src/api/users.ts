@@ -31,7 +31,7 @@ export async function inviteUser(data: InviteUser): Promise<ApiResponse> {
     console.log("Invite user response:", response);
     return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }
 

@@ -1,46 +1,72 @@
-import { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
-
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function ProfilePage() {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, isLoading } = useAuth();
 
-  if (!user) return <p>Loading…</p>;
-
-  const initialProfile = {
-    first_name: user.first_name ?? "",
-    last_name: user.last_name ?? "",
-    email: user.email ?? "",
-    avatar: user.avatar ?? null,
-  };
-
-  const [firstName, setFirstName] = useState(initialProfile.first_name);
-  const [lastName, setLastName] = useState(initialProfile.last_name);
-  const [email, setEmail] = useState(initialProfile.email);
+  // Keep local form state, initialized safely even when user is null
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(
-    user?.avatar || null,
-  );
+  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
+
+  // When user loads/changes, hydrate the form state
+  useEffect(() => {
+    if (!user) return;
+
+    setFirstName(user.first_name ?? "");
+    setLastName(user.last_name ?? "");
+    setEmail(user.email ?? "");
+    setAvatarPreviewUrl(user.avatar ?? null);
+
+    // Clear pending file selection when user changes
+    setAvatarFile(null);
+  }, [user]);
+
+  // Clean up object URLs on unmount / when replaced
+  useEffect(() => {
+    return () => {
+      if (avatarPreviewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(avatarPreviewUrl);
+      }
+    };
+  }, [avatarPreviewUrl]);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
     if (!file) return;
-    if (avatarPreviewUrl && avatarFile) URL.revokeObjectURL(avatarPreviewUrl);
+
+    // Revoke old blob preview URL if any
+    if (avatarPreviewUrl?.startsWith("blob:")) {
+      URL.revokeObjectURL(avatarPreviewUrl);
+    }
+
     setAvatarFile(file);
-    setAvatarPreviewUrl(file ? URL.createObjectURL(file) : null);
+    setAvatarPreviewUrl(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    if (avatarFile) {
-      data.append("avatar", avatarFile, avatarFile.name);
-    }
-    updateUser(data);
+
+    await updateUser({
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      avatar: avatarFile, // File or null/undefined depending on your API contract
+    });
   };
+
+  const initialProfile = useMemo(() => {
+    return {
+      first_name: user?.first_name ?? "",
+      last_name: user?.last_name ?? "",
+      email: user?.email ?? "",
+      avatar: user?.avatar ?? null,
+    };
+  }, [user]);
 
   const isDirty =
     firstName !== initialProfile.first_name ||
@@ -49,7 +75,9 @@ export default function ProfilePage() {
     avatarFile !== null ||
     avatarPreviewUrl !== initialProfile.avatar;
 
+  // NOW it's safe to conditional render (after hooks)
   if (!user) return <p>Loading…</p>;
+
   return (
     <div>
       <h2 className="text-3xl font-semibold">Profile & settings</h2>
@@ -61,7 +89,7 @@ export default function ProfilePage() {
           <div className="flex justify-center">
             <div className="group relative h-32 w-32">
               <img
-                src={avatarPreviewUrl || user?.avatar || "/src/assets/user.png"}
+                src={avatarPreviewUrl || user.avatar || "/src/assets/user.png"}
                 alt="avatar"
                 className="h-32 w-32 rounded-full object-cover"
               />
@@ -90,6 +118,7 @@ export default function ProfilePage() {
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
+
               <div className="mb-2">
                 <div className="sm-label">Tenant</div>
                 <div className="read-only-input">{user.tenant_name ?? "-"}</div>
@@ -142,7 +171,11 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <button className="btn-primary" type="submit" disabled={!isDirty}>
+          <button
+            className="btn-primary"
+            type="submit"
+            disabled={!isDirty || isLoading}
+          >
             Save Changes
           </button>
         </form>

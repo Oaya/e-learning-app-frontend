@@ -24,7 +24,7 @@ export default function UsersPage() {
       setSelected(new Set(uData.map((u) => u.id)));
     }
   }
-  const isAdmin = user?.role === "admin";
+  const isAdmin = user?.role === "Admin";
 
   function toggleOne(id: string) {
     setSelected((prev) => {

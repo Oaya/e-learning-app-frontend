@@ -11,6 +11,7 @@ import type {
   AcceptInviteUser,
   LoginUser,
   SignupUser,
+  UpdateUser,
   User,
 } from "../type/user";
 import {
@@ -28,7 +29,7 @@ type AuthContextType = {
   loginUser: (user: LoginUser) => Promise<ApiResponse>;
   logoutUser: () => void;
   acceptInviteUser: (user: AcceptInviteUser) => Promise<ApiResponse>;
-  updateUser: (user: FormData) => Promise<ApiResponse>;
+  updateUser: (user: UpdateUser) => Promise<ApiResponse>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -118,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, []);
 
-  const updateUser = useCallback(async (data: FormData) => {
+  const updateUser = useCallback(async (data: UpdateUser) => {
     setIsLoading(true);
     const res = await updateUserData(data);
     if (res.success && res.data) {

@@ -9,7 +9,7 @@ export default function CourseCard({ course }: { course: Course }) {
     >
       <Link to={`/admin/courses/${course.id}/`}>
         <img
-          src={course.thumbnail_url ?? "/src/assets/placeholder.webp"}
+          src={course.thumbnail ?? "/src/assets/placeholder.webp"}
           alt={course.title}
           className="h-40 w-full rounded-t-xl object-cover"
         />

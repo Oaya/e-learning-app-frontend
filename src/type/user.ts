@@ -39,6 +39,13 @@ export type AcceptInviteUser = {
   password_confirmation: string;
 };
 
+export type UpdateUser = {
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar?: File | null;
+};
+
 export type Instructor = {
   id: string;
   avatar?: string;

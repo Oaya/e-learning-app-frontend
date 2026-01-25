@@ -8,7 +8,10 @@ export async function createLessonWithVideo(
   let video_signed_id: string | null = null;
 
   if (data.video) {
-    video_signed_id = await directUploadToActiveStorage(data.video);
+    video_signed_id = await directUploadToActiveStorage(
+      data.video,
+      "lesson_video",
+    );
   }
 
   const { video, ...rest } = data;
@@ -40,7 +43,10 @@ export async function updateLessonWithVideo(
 
   // user chose a new file
   if (values.new_file) {
-    video_signed_id = await directUploadToActiveStorage(values.new_file);
+    video_signed_id = await directUploadToActiveStorage(
+      values.new_file,
+      "lesson_video",
+    );
   }
 
   // user removed existing video (and didn’t pick a new one)

@@ -1,26 +1,28 @@
 import axios from "axios";
+import SparkMD5 from "spark-md5";
 
-// Active Storage requires a Base64 checksum (Content-MD5-ish).
-async function checksum(file: File): Promise<string> {
+async function md5Base64(file: File): Promise<string> {
   const buffer = await file.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-  const bytes = new Uint8Array(hashBuffer);
-  return btoa(String.fromCharCode(...bytes));
+  const raw = SparkMD5.ArrayBuffer.hash(buffer, true); // raw binary string
+  return btoa(raw); // base64
 }
 
-export async function directUploadToActiveStorage(file: File): Promise<string> {
+export async function directUploadToActiveStorage(
+  file: File,
+  kind: string,
+): Promise<string> {
   const token = localStorage.getItem("jwt");
-  const url = `${import.meta.env.VITE_API_URL}/rails/active_storage/direct_uploads`;
+  const url = `${import.meta.env.VITE_API_URL}/api/rails/active_storage/direct_uploads`;
 
   // Step 1: Get the direct upload URL and headers from the backend
   const response = await axios.post(
     url,
     {
-      blob: {
-        filename: file.name,
-        content_type: file.type,
-        byte_size: checksum(file),
-      },
+      filename: file.name,
+      content_type: file.type,
+      byte_size: file.size,
+      checksum: await md5Base64(file),
+      kind,
     },
     {
       headers: {

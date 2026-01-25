@@ -193,6 +193,7 @@ export default function CourseForm({
             <CustomSelect
               isMulti
               name="instructor"
+              withAvatar
               options={(instructors ?? []).map((i) => ({
                 value: i.id,
                 label: `${i.first_name} ${i.last_name}`,

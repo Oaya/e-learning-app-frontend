@@ -43,7 +43,7 @@ export default function CoursePage() {
         <div className="relative">
           <div className="flex items-center gap-4 rounded-md bg-gray-200 p-4 pr-36">
             <img
-              src={course.thumbnail_url ?? "/src/assets/placeholder.webp"}
+              src={course.thumbnail ?? "/src/assets/placeholder.webp"}
               alt={course.title}
               className="h-24 w-40 rounded-md object-cover"
             />
