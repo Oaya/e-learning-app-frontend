@@ -3,6 +3,7 @@ import type {
   AcceptInviteUser,
   LoginUser,
   SignupUser,
+  UpdatePassword,
   UpdateUser,
 } from "../type/user";
 import { directUploadToActiveStorage } from "./files";
@@ -83,7 +84,7 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
     if (data.avatar instanceof File) {
       updatePayload.avatar_signed_id = await directUploadToActiveStorage(
         data.avatar,
-        "avatar",
+        "avatars",
       );
     }
 
@@ -92,13 +93,28 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
       updatePayload.avatar_signed_id = "";
     }
 
-    console.log("Update payload:", updatePayload);
+    const url = `${import.meta.env.VITE_API_URL}/api/auth/me`;
+    const res = await axios.patch(url, updatePayload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-    const res = await axios.patch(
-      `${import.meta.env.VITE_API_URL}/api/auth/me`,
-      updatePayload,
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function updateUserPassword(
+  data: UpdatePassword,
+): Promise<ApiResponse> {
+  try {
+    const token = localStorage.getItem("jwt");
+    if (!token) return { success: false, error: "No token" };
+
+    const url = `${import.meta.env.VITE_API_URL}/api/auth/me/password`;
+    const res = await axios.patch(url, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     return { success: true, data: res.data };
   } catch (e: any) {

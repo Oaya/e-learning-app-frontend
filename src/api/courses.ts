@@ -92,30 +92,26 @@ export async function deleteCourse(id: string): Promise<void> {
   }
 }
 
-export async function createCourseWithThumbnail(
-  data: CreateCourse,
-): Promise<Course> {
-  let thumbnail_signed_id: string | null = null;
-
-  if (data.thumbnail) {
-    thumbnail_signed_id = await directUploadToActiveStorage(
-      data.thumbnail,
-      "course_thumbnail",
-    );
-  }
-
-  console.log("Thumbnail signed ID:", thumbnail_signed_id);
-
-  const { thumbnail, ...rest } = data;
-
-  return createCourse(rest);
-}
-
 export async function createCourse(data: CreateCourse): Promise<Course> {
   try {
     const token = localStorage.getItem("jwt");
+
+    if (!token) throw new Error("Not authenticated");
+
+    const createData = { ...data };
+
+    // Upload thumbnail if present
+    if (data.thumbnail && data.thumbnail instanceof File) {
+      createData.thumbnail_signed_id = await directUploadToActiveStorage(
+        data.thumbnail,
+        "course_thumbnails",
+      );
+    }
+
+    console.log("Creating course with data:", createData);
+
     const url: string = `${import.meta.env.VITE_API_URL}/api/courses`;
-    const response = await axios.post(url, data, {
+    const response = await axios.post(url, createData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -123,55 +119,35 @@ export async function createCourse(data: CreateCourse): Promise<Course> {
 
     console.log("Create courses response:", response);
     return response.data;
-  } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+  } catch (err: any) {
+    throw new Error(err.response?.data?.error);
   }
-}
-
-export async function updateCourseWithThumbnail({
-  new_file,
-  removed,
-  course_id,
-  data,
-}: {
-  new_file: File | null;
-  removed: boolean;
-  existing_key: string | null | undefined;
-  course_id: string;
-  data: CreateCourse;
-}): Promise<Course> {
-  let thumbnail_signed_id: string | null = null;
-
-  // Case 1: user chose a new file
-  if (new_file) {
-    thumbnail_signed_id = await directUploadToActiveStorage(
-      new_file,
-      "course_thumbnail",
-    );
-  }
-
-  // Case 2: user removed existing thumbnail
-  if (!new_file && removed) {
-    thumbnail_signed_id = null;
-  }
-
-  // Update the course first
-  const updated = await updateCourse(course_id, {
-    ...data,
-    ...(thumbnail_signed_id !== undefined ? { thumbnail_signed_id } : {}),
-  });
-
-  return updated;
 }
 
 export async function updateCourse(
   id: string,
-  data: CreateCourse & { thumbnail_signed_id?: string | null },
+  data: CreateCourse,
 ): Promise<Course> {
   try {
     const token = localStorage.getItem("jwt");
+
+    if (!token) throw new Error("Not authenticated");
+
+    const updateData = { ...data };
+    // Upload thumbnail if present
+    if (data.thumbnail && data.thumbnail instanceof File) {
+      updateData.thumbnail_signed_id = await directUploadToActiveStorage(
+        data.thumbnail,
+        "course_thumbnails",
+      );
+
+      delete updateData.thumbnail;
+    }
+
+    console.log("Updating course with data:", updateData);
+
     const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${id}`;
-    const response = await axios.put(url, data, {
+    const response = await axios.put(url, updateData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

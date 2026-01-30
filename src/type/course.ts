@@ -16,6 +16,7 @@ export type Course = {
 };
 
 export type CreateCourse = {
+  thumbnail_signed_id: string;
   title: string;
   description: string;
   category: string;

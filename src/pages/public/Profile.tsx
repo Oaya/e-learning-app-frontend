@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { useAuth } from "../../contexts/AuthContext";
+import { useAlert } from "../../contexts/AlertContext";
+import UpdatePasswordModal from "../../components/ui/UpdatePasswordModal";
 
 export default function ProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
@@ -12,6 +14,9 @@ export default function ProfilePage() {
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+
+  const alert = useAlert();
 
   // When user loads/changes, hydrate the form state
   useEffect(() => {
@@ -51,12 +56,18 @@ export default function ProfilePage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await updateUser({
+    const res = await updateUser({
       first_name: firstName,
       last_name: lastName,
       email,
       avatar: avatarFile, // File or null/undefined depending on your API contract
     });
+
+    if (res.success) {
+      alert.success("Profile updated successfully");
+    } else {
+      alert.error(`Failed to update profile: ${res.error}`);
+    }
   };
 
   const initialProfile = useMemo(() => {
@@ -80,6 +91,10 @@ export default function ProfilePage() {
 
   return (
     <div>
+      <UpdatePasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+      />
       <h2 className="text-3xl font-semibold">Profile & settings</h2>
 
       <div className="mt-3 space-y-6 rounded border border-gray-300 bg-white p-6">
@@ -160,6 +175,7 @@ export default function ProfilePage() {
                   <div className="read-only-input w-full">************</div>
 
                   <button
+                    onClick={() => setIsPasswordModalOpen(true)}
                     type="button"
                     className="bg-dark-purple flex h-11.5 items-center justify-center rounded border px-3 text-white"
                     aria-label="Change password"

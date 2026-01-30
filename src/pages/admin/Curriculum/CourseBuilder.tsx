@@ -36,7 +36,6 @@ export default function CourseBuilderPage({
       <div className="flex-1">
         <CourseForm
           isEdit={isEdit}
-          courseId={isEdit ? courseId : undefined}
           defaultValues={isEdit && course ? { ...course } : undefined}
         />
       </div>

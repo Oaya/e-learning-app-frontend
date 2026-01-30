@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
@@ -7,10 +7,7 @@ import type { Course, CreateCourse } from "../../../type/course";
 import { fdString } from "../../../utils/formData";
 import { categories, levels } from "../../../utils/constants";
 import { useAlert } from "../../../contexts/AlertContext";
-import {
-  createCourseWithThumbnail,
-  updateCourseWithThumbnail,
-} from "../../../api/courses";
+import { createCourse, updateCourse } from "../../../api/courses";
 import { useInstructors } from "../../../hooks/useInstructors";
 import CustomSelect from "../../ui/CustomSelect";
 import type { Instructor } from "../../../type/user";
@@ -18,49 +15,44 @@ import type { Instructor } from "../../../type/user";
 type CourseFormProps = {
   isEdit?: boolean;
   defaultValues?: Course;
-  courseId?: string;
 };
-export default function CourseForm({
-  isEdit,
-  defaultValues,
-  courseId,
-}: CourseFormProps) {
+export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
   const { instructors } = useInstructors();
 
   const [selectedInstructor, setSelectedInstructor] = useState<Instructor[]>(
     defaultValues?.instructors ?? [],
   );
-
-  const [previewUrl, setPreviewUrl] = useState<string | null>(
+  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(
     defaultValues?.thumbnail || null,
   );
-  const [newFile, setNewFile] = useState<File | null>(null);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [removed, setRemoved] = useState<boolean>(false);
 
-  const existingKey = defaultValues?.thumbnail ?? null;
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const alert = useAlert();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    if (previewUrl && newFile) URL.revokeObjectURL(previewUrl);
-    setNewFile(file);
+    // Revoke old blob preview URL if any
+    if (thumbnailPreviewUrl?.startsWith("blob:")) {
+      URL.revokeObjectURL(thumbnailPreviewUrl);
+    }
+    setThumbnailFile(file);
     setRemoved(false);
-    setPreviewUrl(file ? URL.createObjectURL(file) : null);
+    setThumbnailPreviewUrl(URL.createObjectURL(file));
   };
 
   const removeImage = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (previewUrl && newFile) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
-    setNewFile(null);
+    if (thumbnailPreviewUrl && thumbnailPreviewUrl.startsWith("blob:"))
+      URL.revokeObjectURL(thumbnailPreviewUrl);
+    setThumbnailPreviewUrl(null);
+    setThumbnailFile(null);
     setRemoved(true);
-    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -68,21 +60,14 @@ export default function CourseForm({
 
     const fd = new FormData(e.currentTarget);
 
-    const fileFromInput = fd.get("thumbnail");
-
-    const file =
-      newFile ??
-      (fileFromInput instanceof File && fileFromInput.size > 0
-        ? fileFromInput
-        : null);
-
     const data: CreateCourse = {
       title: fdString(fd, "title").trim(),
       description: fdString(fd, "description").trim(),
       category: fdString(fd, "category"),
       level: fdString(fd, "level"),
       instructor_ids: selectedInstructor.map((i) => i.id),
-      thumbnail: file ?? undefined,
+      thumbnail: thumbnailFile,
+      thumbnail_signed_id: "",
     };
 
     console.log(data);
@@ -92,26 +77,22 @@ export default function CourseForm({
 
   const mutation = useMutation({
     mutationFn: (values: CreateCourse) => {
-      if (isEdit && courseId) {
-        return updateCourseWithThumbnail({
-          new_file: newFile,
-          removed,
-          existing_key: existingKey,
-          course_id: courseId,
-          data: values,
-        });
+      if (isEdit && defaultValues?.id) {
+        return updateCourse(defaultValues.id, values);
       }
-      return createCourseWithThumbnail(values);
+      return createCourse(values);
     },
 
     onSuccess: (result: any) => {
       // refresh list + specific course (if edit)
       queryClient.invalidateQueries({ queryKey: ["courses"] });
 
-      const nextId = isEdit ? courseId : result.id;
+      const nextId = isEdit && defaultValues?.id ? defaultValues.id : result.id;
 
-      if (isEdit) {
-        queryClient.invalidateQueries({ queryKey: ["courses", courseId] });
+      if (isEdit && defaultValues?.id) {
+        queryClient.invalidateQueries({
+          queryKey: ["courses", defaultValues.id],
+        });
       } else {
         queryClient.invalidateQueries({ queryKey: ["courses", nextId] });
       }
@@ -221,10 +202,10 @@ export default function CourseForm({
           <div className="mb-2">
             <div className="h-full w-full overflow-hidden rounded border border-gray-200 bg-gray-50">
               <img
-                src={previewUrl ? previewUrl : "/src/assets/placeholder.webp"}
+                src={thumbnailPreviewUrl || "/src/assets/placeholder.webp"}
                 alt="Placeholder"
                 className={`h-full w-full ${
-                  previewUrl ? "object-cover" : "object-contain"
+                  thumbnailPreviewUrl ? "object-cover" : "object-contain"
                 }`}
               />
             </div>
@@ -237,7 +218,6 @@ export default function CourseForm({
             </p>
 
             <input
-              ref={fileInputRef}
               type="file"
               id="thumbnail"
               name="thumbnail"
@@ -250,8 +230,8 @@ export default function CourseForm({
               className="form-input mt-2 flex cursor-pointer items-center justify-between"
             >
               <span className="text-md">
-                {newFile
-                  ? newFile.name
+                {thumbnailFile
+                  ? thumbnailFile.name
                   : removed
                     ? "Upload Image"
                     : defaultValues?.thumbnail
@@ -260,7 +240,7 @@ export default function CourseForm({
               </span>
 
               {/* show trash if there is either a new file OR an existing image */}
-              {(newFile || (!!defaultValues?.thumbnail && !removed)) && (
+              {(thumbnailFile || (!!defaultValues?.thumbnail && !removed)) && (
                 <button
                   type="button"
                   onClick={removeImage}

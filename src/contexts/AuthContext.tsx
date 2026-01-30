@@ -11,6 +11,7 @@ import type {
   AcceptInviteUser,
   LoginUser,
   SignupUser,
+  UpdatePassword,
   UpdateUser,
   User,
 } from "../type/user";
@@ -20,6 +21,7 @@ import {
   signup,
   acceptInvite,
   updateUserData,
+  updateUserPassword,
 } from "../api/auth";
 
 type AuthContextType = {
@@ -30,6 +32,7 @@ type AuthContextType = {
   logoutUser: () => void;
   acceptInviteUser: (user: AcceptInviteUser) => Promise<ApiResponse>;
   updateUser: (user: UpdateUser) => Promise<ApiResponse>;
+  updatePassword: (data: UpdatePassword) => Promise<ApiResponse>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -47,6 +50,9 @@ const AuthContext = createContext<AuthContextType>({
     return Promise.resolve({} as ApiResponse);
   },
   updateUser: async () => {
+    return Promise.resolve({} as ApiResponse);
+  },
+  updatePassword: async () => {
     return Promise.resolve({} as ApiResponse);
   },
 });
@@ -129,6 +135,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, []);
 
+  const updatePassword = useCallback(async (data: UpdatePassword) => {
+    setIsLoading(true);
+    const res = await updateUserPassword(data);
+
+    setIsLoading(false);
+    return res;
+  }, []);
+
   const value = useMemo(
     () => ({
       signupUser,
@@ -136,6 +150,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logoutUser,
       acceptInviteUser,
       updateUser,
+      updatePassword,
       user,
       isLoading,
     }),
@@ -145,6 +160,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logoutUser,
       acceptInviteUser,
       updateUser,
+      updatePassword,
       user,
       isLoading,
     ],

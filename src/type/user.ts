@@ -46,6 +46,11 @@ export type UpdateUser = {
   avatar?: File | null;
 };
 
+export type UpdatePassword = {
+  current_password: string;
+  new_password: string;
+};
+
 export type Instructor = {
   id: string;
   avatar?: string;
