@@ -9,6 +9,7 @@ import ReviewPage from "../pages/admin/curriculum/Review";
 import CoursePage from "../pages/admin/curriculum/Course";
 import UsersPage from "../pages/admin/users/UsersTable";
 import SidebarLayout from "../layouts/sidebarLayout";
+import CoursesList from "../pages/admin/curriculum/CoursesList";
 
 export default function AdminRoutes() {
   return (
@@ -16,6 +17,7 @@ export default function AdminRoutes() {
       <Route element={<SidebarLayout />}>
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/courses/:id" element={<CoursePage />} />
+        <Route path="/admin/courses" element={<CoursesList />} />
         <Route
           path="/admin/courses/new/course-builder"
           element={<CourseBuilderPage mode="create" />}
