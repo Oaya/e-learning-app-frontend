@@ -9,21 +9,16 @@ export type Lesson = {
   article?: string;
 };
 
-export type CreateLesson = {
+export type UpsertLesson = {
   section_id?: string;
   title: string;
   description?: string;
   lesson_type: string;
   video?: File | null;
+  video_signed_id?: string;
   removed?: boolean;
   duration_in_seconds?: number | null;
   article?: string;
-};
-
-export type UpdateLesson = CreateLesson & {
-  id: string;
-  new_file?: File | null;
-  existing_key?: string | null;
 };
 
 export type ReorderLessons = {

@@ -15,14 +15,14 @@ export type Course = {
   created_at: Date;
 };
 
-export type CreateCourse = {
-  thumbnail_signed_id: string;
+export type UpsertCourse = {
   title: string;
   description: string;
   category: string;
   level: string;
   instructor_ids: string[];
   thumbnail?: File | null;
+  thumbnail_signed_id?: string;
 };
 
 export type AddCoursePrice = {

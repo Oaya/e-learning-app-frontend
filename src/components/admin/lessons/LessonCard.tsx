@@ -85,7 +85,7 @@ export default function LessonCard({ lesson, courseId }: Props) {
             isSubmitting={isUpdating}
             defaultValues={lesson}
             onSubmit={(values) => {
-              updateLesson({ id: lesson.id, ...values });
+              updateLesson({ ...values, id: lesson.id });
             }}
             onCancel={() => setEditingLessonId(null)}
           />

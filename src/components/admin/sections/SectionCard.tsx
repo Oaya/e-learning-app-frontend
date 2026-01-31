@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BiEditAlt, BiSolidTrashAlt } from "react-icons/bi";
 
 import type { SectionWithLessons } from "../../../type/section";
-import type { CreateLesson } from "../../../type/lesson";
+import type { UpsertLesson } from "../../../type/lesson";
 import { useSectionMutations } from "../../../hooks/useSectionMutation";
 import { useLessonMutations } from "../../../hooks/useLessonMutation";
 
@@ -181,7 +181,7 @@ export default function SectionCard({
                 key={s.id}
                 mode="create"
                 isSubmitting={isCreating}
-                onSubmit={(values: CreateLesson) =>
+                onSubmit={(values: UpsertLesson) =>
                   createLesson({ ...values, section_id: s.id })
                 }
                 onCancel={() => setIsAddingLesson(false)}

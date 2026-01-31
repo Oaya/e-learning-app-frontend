@@ -3,7 +3,7 @@ import type {
   AddCoursePrice,
   Course,
   CourseOverview,
-  CreateCourse,
+  UpsertCourse,
 } from "../type/course";
 import type { ReorderSections } from "../type/section";
 import { directUploadToActiveStorage } from "./files";
@@ -92,7 +92,7 @@ export async function deleteCourse(id: string): Promise<void> {
   }
 }
 
-export async function createCourse(data: CreateCourse): Promise<Course> {
+export async function createCourse(data: UpsertCourse): Promise<Course> {
   try {
     const token = localStorage.getItem("jwt");
 
@@ -108,8 +108,6 @@ export async function createCourse(data: CreateCourse): Promise<Course> {
       );
     }
 
-    console.log("Creating course with data:", createData);
-
     const url: string = `${import.meta.env.VITE_API_URL}/api/courses`;
     const response = await axios.post(url, createData, {
       headers: {
@@ -117,7 +115,6 @@ export async function createCourse(data: CreateCourse): Promise<Course> {
       },
     });
 
-    console.log("Create courses response:", response);
     return response.data;
   } catch (err: any) {
     throw new Error(err.response?.data?.error);
@@ -126,34 +123,32 @@ export async function createCourse(data: CreateCourse): Promise<Course> {
 
 export async function updateCourse(
   id: string,
-  data: CreateCourse,
+  data: UpsertCourse,
 ): Promise<Course> {
   try {
     const token = localStorage.getItem("jwt");
-
     if (!token) throw new Error("Not authenticated");
 
-    const updateData = { ...data };
-    // Upload thumbnail if present
+    const updateData: any = { ...data };
+
+    // If user did NOT select a new file, do NOT send thumbnail_signed_id at all
+    delete updateData.thumbnail_signed_id;
+
     if (data.thumbnail && data.thumbnail instanceof File) {
       updateData.thumbnail_signed_id = await directUploadToActiveStorage(
         data.thumbnail,
         "course_thumbnails",
       );
-
       delete updateData.thumbnail;
+    } else {
+      delete updateData.thumbnail; // avoid sending File/null/etc.
     }
 
-    console.log("Updating course with data:", updateData);
-
-    const url: string = `${import.meta.env.VITE_API_URL}/api/courses/${id}`;
+    const url = `${import.meta.env.VITE_API_URL}/api/courses/${id}`;
     const response = await axios.put(url, updateData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     });
 
-    console.log("Update course response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

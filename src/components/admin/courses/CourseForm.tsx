@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
-import type { Course, CreateCourse } from "../../../type/course";
+import type { Course, UpsertCourse } from "../../../type/course";
 import { fdString } from "../../../utils/formData";
 import { categories, levels } from "../../../utils/constants";
 import { useAlert } from "../../../contexts/AlertContext";
@@ -60,7 +60,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
 
     const fd = new FormData(e.currentTarget);
 
-    const data: CreateCourse = {
+    const data: UpsertCourse = {
       title: fdString(fd, "title").trim(),
       description: fdString(fd, "description").trim(),
       category: fdString(fd, "category"),
@@ -76,7 +76,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
   };
 
   const mutation = useMutation({
-    mutationFn: (values: CreateCourse) => {
+    mutationFn: (values: UpsertCourse) => {
       if (isEdit && defaultValues?.id) {
         return updateCourse(defaultValues.id, values);
       }

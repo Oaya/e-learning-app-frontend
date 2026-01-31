@@ -3,7 +3,7 @@ import { BiSolidTrashAlt } from "react-icons/bi";
 
 import { fdString } from "../../../utils/formData";
 import { useAlert } from "../../../contexts/AlertContext";
-import type { CreateLesson, Lesson, UpdateLesson } from "../../../type/lesson";
+import type { UpsertLesson, Lesson } from "../../../type/lesson";
 import { lessonTypes } from "../../../utils/constants";
 import { getVideoDuration } from "../../../utils/helper";
 import ReadingEditor from "./ReadingEditor";
@@ -13,7 +13,7 @@ type Props = {
   defaultValues?: Lesson;
   isSubmitting?: boolean;
   error?: string | null;
-  onSubmit: (values: CreateLesson) => void;
+  onSubmit: (values: UpsertLesson) => void;
   onCancel: () => void;
 };
 
@@ -28,10 +28,10 @@ export default function LessonForm({
   const alert = useAlert();
 
   // If you have these fields on Lesson
-  const [previewUrl, setPreviewUrl] = useState<string | null>(
-    defaultValues?.video_url || null,
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(
+    defaultValues?.video || null,
   );
-  const [newFile, setNewFile] = useState<File | null>(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
   const [removed, setRemoved] = useState<boolean>(false);
   const [articleHtml, setArticleHtml] = useState<string>(
     defaultValues?.article ?? "",
@@ -53,18 +53,16 @@ export default function LessonForm({
   const [selectedType, setSelectedType] = useState<string>(initialType);
 
   const handleVideoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    // Revoke only object URLs we created (not remote URLs)
-    if (previewUrl && newFile) URL.revokeObjectURL(previewUrl);
-
-    setNewFile(file);
+    // Revoke old blob preview URL if any
+    if (videoPreviewUrl?.startsWith("blob:")) {
+      URL.revokeObjectURL(videoPreviewUrl);
+    }
+    setVideoPreviewUrl(URL.createObjectURL(file));
+    setVideoFile(file);
     setRemoved(false);
-
-    // Local preview for newly selected file
-    setPreviewUrl(
-      file ? URL.createObjectURL(file) : defaultValues?.video_url || null,
-    );
 
     if (file) {
       const duration = await getVideoDuration(file);
@@ -76,15 +74,11 @@ export default function LessonForm({
     e.preventDefault();
     e.stopPropagation();
 
-    // Revoke object URL if we created one
-    if (previewUrl && newFile) URL.revokeObjectURL(previewUrl);
-
-    setPreviewUrl(null);
-    setNewFile(null);
+    if (videoPreviewUrl && videoPreviewUrl.startsWith("blob:"))
+      URL.revokeObjectURL(videoPreviewUrl);
+    setVideoPreviewUrl(null);
+    setVideoFile(null);
     setRemoved(true);
-    setDurationSeconds(0);
-
-    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -92,29 +86,17 @@ export default function LessonForm({
 
     const fd = new FormData(e.currentTarget);
 
-    // Always prefer the controlled state file
-    const fileFromInput = fd.get("video");
-    const file =
-      newFile ??
-      (fileFromInput instanceof File && fileFromInput.size > 0
-        ? fileFromInput
-        : null);
-
-    const values: CreateLesson | UpdateLesson = {
+    const data: UpsertLesson = {
       title: fdString(fd, "title").trim(),
       description: fdString(fd, "description").trim(),
       lesson_type: fdString(fd, "lesson_type").trim(),
-      //send the actual file you picked
-      video: selectedType === "Video" ? (file ?? undefined) : undefined,
-      // removed only when video type and no file selected
-      removed: selectedType === "Video" && !file ? removed : undefined,
-      new_file: selectedType === "Video" && newFile ? newFile : undefined,
+      video: videoFile,
+      video_signed_id: "",
       duration_in_seconds: durationSeconds,
-      existing_key: defaultValues?.video_key ?? null,
       article: selectedType === "Reading" ? articleHtml : undefined,
     };
 
-    onSubmit(values);
+    onSubmit(data);
   };
 
   const showVideoFields = selectedType === "Video";
@@ -147,11 +129,11 @@ export default function LessonForm({
 
                       // Optional: if switching away from Video, clear pending file
                       if (type !== "Video") {
-                        if (previewUrl && newFile)
-                          URL.revokeObjectURL(previewUrl);
-                        setNewFile(null);
+                        if (videoPreviewUrl && videoFile?.name)
+                          URL.revokeObjectURL(videoPreviewUrl);
+                        setVideoFile(null);
                         setRemoved(false);
-                        setPreviewUrl(defaultValues?.video_url || null);
+                        setVideoPreviewUrl(defaultValues?.video || null);
                         if (fileInputRef.current)
                           fileInputRef.current.value = "";
                       }
@@ -216,9 +198,9 @@ export default function LessonForm({
             <div className="grid grid-cols-2 gap-6">
               <div className="mb-2">
                 <div className="h-46 w-full overflow-hidden rounded border border-gray-200 bg-gray-50">
-                  {previewUrl ? (
+                  {videoPreviewUrl ? (
                     <video
-                      src={previewUrl}
+                      src={videoPreviewUrl}
                       controls
                       className="h-full w-full object-contain"
                     />
@@ -253,17 +235,17 @@ export default function LessonForm({
                   className="form-input mt-2 flex cursor-pointer items-center justify-between"
                 >
                   <span className="text-md min-w-0 flex-1 truncate">
-                    {newFile
-                      ? newFile.name
+                    {videoFile
+                      ? videoFile.name
                       : removed
                         ? "Upload Video"
-                        : defaultValues?.video_url
+                        : defaultValues?.video
                           ? "Replace Video"
                           : "Upload Video"}
                   </span>
 
                   {/* show trash if there is either a new file OR an existing video */}
-                  {(newFile || (!!defaultValues?.video_url && !removed)) && (
+                  {(videoFile || (!!defaultValues?.video && !removed)) && (
                     <button
                       type="button"
                       onClick={removeVideo}
