@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useCourses } from "../../hooks/useCourses";
 import CourseCard from "../../components/admin/courses/CourseCard";
+import { useUsers } from "../../hooks/useUsers";
 
 export default function AdminDashboard() {
   const { courses } = useCourses();
+  const { users } = useUsers();
 
   return (
     <div>
@@ -26,6 +28,10 @@ export default function AdminDashboard() {
             <p className="mt-1 text-2xl font-semibold">
               {courses?.length ?? 0}
             </p>
+          </div>
+          <div className="rounded bg-white p-4">
+            <p className="text-sm text-gray-500">Users</p>
+            <p className="mt-1 text-2xl font-semibold">{users?.length ?? 0}</p>
           </div>
         </div>
 

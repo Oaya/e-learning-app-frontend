@@ -6,25 +6,39 @@ import { useAlert } from "../../../contexts/AlertContext";
 import { useUsers } from "../../../hooks/useUsers";
 import InviteUserModal from "../../../components/ui/InviteUserModal";
 import { useAuth } from "../../../contexts/AuthContext";
+import ConfirmModal from "../../../components/ui/ConfirmModal";
 
 export default function UsersPage() {
   const alert = useAlert();
   const { user } = useAuth();
-  const { users, isLoading, isError, error } = useUsers();
+  const { users, isLoading, isError, error, deleteUsersMutation, isDeleting } =
+    useUsers();
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [isInviteOpen, setInviteOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [actionOpen, setActionOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  function closeAction() {
+    setActionOpen(false);
+  }
 
   const uData = users || [];
 
-  const allSelected = uData.length > 0 && selected.size === uData.length;
-  function toggleAll() {
-    if (allSelected) {
-      setSelected(new Set());
-    } else {
-      setSelected(new Set(uData.map((u) => u.id)));
-    }
-  }
+  const allSelected = uData.length > 0 && selected.size === uData.length - 1; // Exclude current user;
+  const selectedUsers = uData.filter((u) => selected.has(u.id));
+  const selectedEmails = selectedUsers.map((u) => u.email);
   const isAdmin = user?.role === "Admin";
+  const currentUserId = user?.id;
+  const isSelf = (id: string) => id === currentUserId;
+
+  function toggleAll() {
+    const ids = uData.filter((u) => u.id !== currentUserId).map((u) => u.id);
+
+    const allSelected = ids.length > 0 && selected.size === ids.length;
+
+    setSelected(allSelected ? new Set() : new Set(ids));
+  }
 
   function toggleOne(id: string) {
     setSelected((prev) => {
@@ -32,6 +46,19 @@ export default function UsersPage() {
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
+  }
+
+  // Example actions
+  function sendInvitation() {
+    closeAction();
+    setSelected(new Set());
+  }
+
+  function deleteUsers() {
+    deleteUsersMutation([...selected]);
+    closeAction();
+    setSelected(new Set());
+    setDeleteModalOpen(false);
   }
 
   if (isLoading) {
@@ -53,19 +80,86 @@ export default function UsersPage() {
       )}
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Users</h1>
+      </div>
 
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-semibold text-gray-500">
-            {uData.length} total
+      {/* Delete user modal */}
+      {isDeleteModalOpen && (
+        <ConfirmModal
+          isOpen={isDeleteModalOpen}
+          title="Delete Users"
+          message={`Are you sure you want to delete ${selectedEmails.join(", ")}? This action cannot be undone.`}
+          isSubmitting={isDeleting}
+          onConfirm={() => {
+            deleteUsers();
+          }}
+          onCancel={() => setDeleteModalOpen(false)}
+        />
+      )}
+
+      {/* search input */}
+
+      <input
+        className="form-input w-full"
+        type="text"
+        placeholder="Search user by name or email"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      <div className="flex items-center justify-between">
+        <div>
+          <span className="mr-4 text-sm font-semibold text-gray-500">
+            Showing {uData.length} result{uData.length !== 1 ? "s" : ""}
           </span>
 
+          <span>Display 100</span>
+        </div>
+
+        <div className="flex items-center gap-4">
           {isAdmin && (
-            <button
-              className="btn-secondary"
-              onClick={() => setInviteOpen(true)}
-            >
-              Invite User
-            </button>
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setActionOpen((v) => !v)}
+                  disabled={selected.size === 0}
+                >
+                  Actions
+                </button>
+
+                {actionOpen && (
+                  <>
+                    {/* click-outside overlay */}
+                    <div className="fixed inset-0 z-10" onClick={closeAction} />
+
+                    <div className="absolute right-0 z-20 mt-2 w-36 rounded border bg-white shadow">
+                      <button
+                        type="button"
+                        className="w-full rounded-t border-b px-4 py-2 text-left text-sm hover:bg-gray-100"
+                        onClick={sendInvitation}
+                      >
+                        Send Invitation
+                      </button>
+
+                      <button
+                        type="button"
+                        className="w-full rounded px-4 py-2 text-left text-sm hover:bg-gray-100"
+                        onClick={() => isAdmin && setDeleteModalOpen(true)}
+                      >
+                        Delete selected
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+              <button
+                className="btn-primary"
+                onClick={() => setInviteOpen(true)}
+              >
+                Invite User
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -74,21 +168,24 @@ export default function UsersPage() {
         <table className="min-w-full text-sm">
           <thead>
             <tr className="bg-c-purple/20 text-left">
-              <th className="w-10 p-3">
-                {allSelected ? (
-                  <IoIosCheckbox
-                    size={18}
-                    className="text-c-purple cursor-pointer"
-                    onClick={toggleAll}
-                  />
-                ) : (
-                  <MdOutlineCheckBoxOutlineBlank
-                    size={18}
-                    className="text-c-purple cursor-pointer"
-                    onClick={toggleAll}
-                  />
-                )}
-              </th>
+              {isAdmin && (
+                <th className="w-10 p-3">
+                  {allSelected ? (
+                    <IoIosCheckbox
+                      size={18}
+                      className="text-c-purple cursor-pointer"
+                      onClick={toggleAll}
+                    />
+                  ) : (
+                    <MdOutlineCheckBoxOutlineBlank
+                      size={18}
+                      className="text-c-purple cursor-pointer"
+                      onClick={toggleAll}
+                    />
+                  )}
+                </th>
+              )}
+
               <th className="p-3">Name</th>
               <th className="p-3">Email</th>
               <th className="p-3">Role</th>
@@ -107,21 +204,31 @@ export default function UsersPage() {
             ) : (
               uData.map((u) => (
                 <tr key={u.id} className="border-t">
-                  <td className="p-3">
-                    {selected.has(u.id) ? (
-                      <IoIosCheckbox
-                        className="text-c-purple cursor-pointer"
-                        onClick={() => toggleOne(u.id)}
-                        size={18}
-                      />
-                    ) : (
-                      <MdOutlineCheckBoxOutlineBlank
-                        className="text-c-purple cursor-pointer"
-                        onClick={() => toggleOne(u.id)}
-                        size={18}
-                      />
-                    )}
-                  </td>
+                  {isAdmin && (
+                    <td className="p-3">
+                      {isSelf(u.id) ? (
+                        <span className="cursor-not-allowed opacity-40">
+                          <MdOutlineCheckBoxOutlineBlank
+                            size={18}
+                            className="text-c-purple"
+                          />
+                        </span>
+                      ) : selected.has(u.id) ? (
+                        <IoIosCheckbox
+                          className="text-c-purple cursor-pointer"
+                          onClick={() => toggleOne(u.id)}
+                          size={18}
+                        />
+                      ) : (
+                        <MdOutlineCheckBoxOutlineBlank
+                          className="text-c-purple cursor-pointer"
+                          onClick={() => toggleOne(u.id)}
+                          size={18}
+                        />
+                      )}
+                    </td>
+                  )}
+
                   <td className="p-3">
                     <Link
                       to={`/admin/users/${u.id}`}
