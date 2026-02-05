@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Instructor, InviteUser, User } from "../type/user";
+import type { Course } from "../type/course";
 
 export async function getUsers(): Promise<User[]> {
   try {
@@ -12,6 +13,23 @@ export async function getUsers(): Promise<User[]> {
     });
 
     console.log("Get users response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
+export async function getUser(id: string): Promise<User> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/users/${id}`;
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Get user response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);
@@ -37,7 +55,6 @@ export async function inviteUser(data: InviteUser): Promise<ApiResponse> {
 
 export async function deleteUsers(userIds: string[]): Promise<void> {
   try {
-    console.log("Deleting users with IDs:", userIds);
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/bulk_delete`;
     const response = await axios.delete(url, {
@@ -65,6 +82,23 @@ export async function getInstructors(): Promise<Instructor[]> {
     });
 
     console.log("Get instructors response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
+export async function getUserCourses(userId: string): Promise<Course[]> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/users/${userId}/courses`;
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Get user courses response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

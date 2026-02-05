@@ -8,6 +8,7 @@ import CurriculumBuilderPage from "../pages/admin/curriculum/CurriculumBuilder";
 import ReviewPage from "../pages/admin/curriculum/Review";
 import CoursePage from "../pages/admin/curriculum/Course";
 import UsersPage from "../pages/admin/users/UsersTable";
+import UserProfile from "../pages/admin/users/UserProfile";
 import SidebarLayout from "../layouts/sidebarLayout";
 import CoursesList from "../pages/admin/curriculum/CoursesList";
 
@@ -33,6 +34,7 @@ export default function AdminRoutes() {
         <Route path="/admin/courses/:id/pricing" element={<PricingPage />} />
         <Route path="/admin/courses/:id/review" element={<ReviewPage />} />
         <Route path="/admin/users" element={<UsersPage />} />
+        <Route path="/admin/users/:id" element={<UserProfile />} />
       </Route>
     </Route>
   );

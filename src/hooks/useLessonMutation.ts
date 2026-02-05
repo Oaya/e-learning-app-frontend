@@ -74,10 +74,11 @@ export function useLessonMutations(
   });
 
   return {
-    createLesson: createMutation.mutate,
-    updateLesson: updateMutation.mutate,
-    deleteLesson: deleteMutation.mutate,
-    reorderLessons: reorderMutation.mutate,
+    createLesson: createMutation.mutateAsync,
+    updateLesson: updateMutation.mutateAsync,
+    deleteLesson: deleteMutation.mutateAsync,
+    reorderLessons: reorderMutation.mutateAsync,
+
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,

@@ -78,10 +78,10 @@ export function useSectionMutations(
   });
 
   return {
-    createSection: createMutation.mutate,
-    updateSection: updateMutation.mutate,
-    deleteSection: deleteMutation.mutate,
-    reorderSections: reorderMutation.mutate,
+    createSection: createMutation.mutateAsync,
+    updateSection: updateMutation.mutateAsync,
+    deleteSection: deleteMutation.mutateAsync,
+    reorderSections: reorderMutation.mutateAsync,
 
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import CourseForm from "../../../components/admin/courses/CourseForm";
-import { useCourse } from "../../../hooks/useCourse";
+import { useCourse } from "../../../hooks/useCourseMutation";
 
 export default function CourseBuilderPage({
   mode,

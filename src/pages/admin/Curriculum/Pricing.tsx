@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AddCoursePrice } from "../../../type/course";
 import { addCoursePrice } from "../../../api/courses";
 import { useAlert } from "../../../contexts/AlertContext";
-import { useCourse } from "../../../hooks/useCourse";
+import { useCourse } from "../../../hooks/useCourseMutation";
 
 export default function PricingPage() {
   const queryClient = useQueryClient();

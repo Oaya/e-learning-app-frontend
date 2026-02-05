@@ -37,6 +37,7 @@ export function useCourse(
   return {
     ...courseQuery,
     course: courseQuery.data,
+
     deleteCourse: deleteMutation.mutateAsync,
     isDeleting: deleteMutation.isPending,
   };
