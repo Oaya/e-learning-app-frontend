@@ -115,7 +115,7 @@ export default function LessonForm({
                   key={type}
                   className={`cursor-pointer rounded-full border px-4 py-1 text-sm transition disabled:opacity-60 ${
                     checked
-                      ? "bg-c-light-yellow border-c-light-yellow text-white"
+                      ? "bg-theme-yellow-10 border-theme-yellow-10 text-white"
                       : "border-gray-300 bg-white hover:bg-gray-50"
                   }`}
                 >
@@ -249,7 +249,7 @@ export default function LessonForm({
                     <button
                       type="button"
                       onClick={removeVideo}
-                      className="text-c-pink ml-4 flex"
+                      className="text-theme-pink-20 ml-4 flex"
                       aria-label="Remove video"
                       disabled={isSubmitting}
                     >

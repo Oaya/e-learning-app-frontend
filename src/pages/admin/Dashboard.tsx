@@ -16,7 +16,7 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between">
           <Link
             to="/admin/courses/new/course-builder"
-            className="bg-c-pink hover:bg-c-pink rounded px-4 py-2 text-sm text-white"
+            className="bg-theme-pink-20 hover:bg-theme-pink-20 rounded px-4 py-2 text-sm text-white"
           >
             + New Course
           </Link>

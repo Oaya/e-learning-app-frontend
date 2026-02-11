@@ -39,13 +39,13 @@ export default function LessonCard({ lesson, courseId }: Props) {
 
       <div
         key={lesson.id}
-        className="group bg-bg-grey py- flex items-center rounded border border-gray-100 px-3 py-1 hover:bg-gray-200"
+        className="group bg-theme-grey-10 py- flex items-center rounded border border-gray-100 px-3 py-1 hover:bg-gray-200"
       >
         <div className="flex items-center gap-3 text-left">
           <span className="text-xs text-gray-500">
             Lesson {lesson.position}
           </span>
-          <span className="bg-c-light-yellow border-c-light-yellow rounded-full px-2 py-0.5 text-xs font-medium text-white">
+          <span className="bg-theme-yellow-10 border-theme-yellow-10 rounded-full px-2 py-0.5 text-xs font-medium text-white">
             {lesson.lesson_type}
           </span>
           <span>{lesson.title}</span>
@@ -66,7 +66,7 @@ export default function LessonCard({ lesson, courseId }: Props) {
           {/* Delete section */}
           <button
             type="button"
-            className="text-c-pink rounded p-1 text-sm hover:bg-red-50 disabled:opacity-50"
+            className="text-theme-pink-20 rounded p-1 text-sm hover:bg-red-50 disabled:opacity-50"
             disabled={isDeleting || isCreating} //    openAddLesson || isEditingAnyLesson ||
             onClick={() => setDeletingLessonId(lesson.id)}
             title="Delete lesson"

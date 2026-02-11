@@ -9,7 +9,7 @@ export default function StyledNavLink({ to, children }: NavLinkProps) {
         [
           "block rounded px-3 py-2 text-sm font-medium",
           isActive
-            ? "text-dark-purple bg-gray-200"
+            ? "text-theme-purple-20 bg-gray-200"
             : "text-gray-600 hover:bg-gray-100",
         ].join(" ")
       }

@@ -167,19 +167,19 @@ export default function UsersPage() {
       <div className="overflow-x-auto rounded border bg-white">
         <table className="min-w-full text-sm">
           <thead>
-            <tr className="bg-c-purple/20 text-left">
+            <tr className="bg-theme-purple-10/20 text-left">
               {isAdmin && (
                 <th className="w-10 p-3">
                   {allSelected ? (
                     <IoIosCheckbox
                       size={18}
-                      className="text-c-purple cursor-pointer"
+                      className="text-theme-purple-10 cursor-pointer"
                       onClick={toggleAll}
                     />
                   ) : (
                     <MdOutlineCheckBoxOutlineBlank
                       size={18}
-                      className="text-c-purple cursor-pointer"
+                      className="text-theme-purple-10 cursor-pointer"
                       onClick={toggleAll}
                     />
                   )}
@@ -210,18 +210,18 @@ export default function UsersPage() {
                         <span className="cursor-not-allowed opacity-40">
                           <MdOutlineCheckBoxOutlineBlank
                             size={18}
-                            className="text-c-purple"
+                            className="text-theme-purple-10"
                           />
                         </span>
                       ) : selected.has(u.id) ? (
                         <IoIosCheckbox
-                          className="text-c-purple cursor-pointer"
+                          className="text-theme-purple-10 cursor-pointer"
                           onClick={() => toggleOne(u.id)}
                           size={18}
                         />
                       ) : (
                         <MdOutlineCheckBoxOutlineBlank
-                          className="text-c-purple cursor-pointer"
+                          className="text-theme-purple-10 cursor-pointer"
                           onClick={() => toggleOne(u.id)}
                           size={18}
                         />

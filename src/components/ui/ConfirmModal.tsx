@@ -32,7 +32,7 @@ export default function ConfirmModal({
 
           <button
             onClick={onConfirm}
-            className="bg-c-pink rounded px-4 py-2 text-white"
+            className="bg-theme-pink-20 rounded px-4 py-2 text-white"
             disabled={!!isSubmitting}
           >
             {isSubmitting ? "Deleting..." : "Delete"}

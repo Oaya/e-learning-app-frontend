@@ -69,7 +69,7 @@ export default function CoursePage() {
 
             <button
               type="button"
-              className="btn-primary bg-c-pink hover:bg-c-pink/80"
+              className="btn-primary bg-theme-pink-20 hover:bg-theme-pink-20/80"
               onClick={() => setIsOpen(true)}
             >
               Delete

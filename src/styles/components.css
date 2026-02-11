@@ -12,11 +12,11 @@
   }
 
   .btn-primary {
-    @apply bg-dark-purple hover:bg-dark-purple/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
+    @apply bg-theme-purple-20 hover:bg-theme-purple-20/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
   }
 
   .btn-secondary {
-    @apply bg-c-yellow hover:bg-c-yellow/80 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
+    @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
   .btn-primary-white {
     @apply mr-4 inline-flex items-center justify-center rounded border border-gray-300 px-5 py-3 text-sm leading-none;
@@ -27,7 +27,7 @@
   }
 
   .btn-primary-pink {
-    @apply bg-c-pink hover:bg-c-pink/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
+    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
   }
 
   .curriculum-container {

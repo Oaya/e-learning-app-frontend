@@ -16,8 +16,8 @@ export default function SidebarLayout() {
     alert.success("Logged out successfully");
   }
   return (
-    <div className="bg-bg-grey flex min-h-screen">
-      <aside className="bg-c-purple w-64">
+    <div className="bg-theme-grey-10 flex min-h-screen">
+      <aside className="bg-theme-purple-10 w-64">
         <div className="p-6">
           <h1 className="text-2xl font-bold">EduApp</h1>
         </div>
@@ -40,7 +40,7 @@ export default function SidebarLayout() {
           <div className="flex justify-center">
             <button
               onClick={handleLogout}
-              className="hover:bg-dark-purple/80 rounded border-2 border-gray-600 px-10 py-2 text-sm text-gray-600 hover:text-white"
+              className="hover:bg-theme-purple-20/80 rounded border-2 border-gray-600 px-10 py-2 text-sm text-gray-600 hover:text-white"
             >
               Log out
             </button>

@@ -244,7 +244,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
                 <button
                   type="button"
                   onClick={removeImage}
-                  className="text-c-pink ml-4"
+                  className="text-theme-pink-20 ml-4"
                   aria-label="Remove image"
                   disabled={mutation.isPending}
                 >

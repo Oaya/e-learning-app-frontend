@@ -32,7 +32,7 @@ export default function SectionDetails({
       <button
         type="button"
         onClick={() => toggleOpenSection(section.id)}
-        className="bg-c-purple/20 flex w-full items-center justify-between px-4 py-3 text-left"
+        className="bg-theme-purple-10/20 flex w-full items-center justify-between px-4 py-3 text-left"
       >
         <span className="font-semibold text-gray-600">{section.title}</span>
         <AiOutlineDown fontSize={18} />
@@ -62,7 +62,7 @@ export default function SectionDetails({
                         {lesson.title}
                       </span>
 
-                      <span className="bg-c-light-yellow rounded-full px-2 py-0.5 text-xs font-medium text-white">
+                      <span className="bg-theme-yellow-10 rounded-full px-2 py-0.5 text-xs font-medium text-white">
                         {lesson.lesson_type}
                       </span>
                     </div>
@@ -89,7 +89,7 @@ export default function SectionDetails({
                       <button
                         type="button"
                         onClick={() => toggleLesson(lesson.id)}
-                        className="text-c-purple mt-1 text-xs font-medium hover:underline"
+                        className="text-theme-purple-10 mt-1 text-xs font-medium hover:underline"
                       >
                         {expanded ? "Show less" : "Show more"}
                       </button>

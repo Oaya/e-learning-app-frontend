@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="flex gap-6">
           <Link
             to="/signup"
-            className="bg-dark-purple hover:bg-dark-purple/80 rounded px-6 py-3 font-medium text-white"
+            className="bg-theme-purple-20 hover:bg-theme-purple-20/80 rounded px-6 py-3 font-medium text-white"
           >
             Create a course
           </Link>

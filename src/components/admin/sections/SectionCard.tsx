@@ -111,7 +111,7 @@ export default function SectionCard({
             {/* Delete section */}
             <button
               type="button"
-              className="text-c-pink rounded p-1 text-sm hover:bg-red-50 disabled:opacity-50"
+              className="text-theme-pink-20 rounded p-1 text-sm hover:bg-red-50 disabled:opacity-50"
               disabled={
                 openAddSection ||
                 isEditingAnySection ||

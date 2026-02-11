@@ -177,7 +177,7 @@ export default function ProfilePage() {
                   <button
                     onClick={() => setIsPasswordModalOpen(true)}
                     type="button"
-                    className="bg-dark-purple flex h-11.5 items-center justify-center rounded border px-3 text-white"
+                    className="bg-theme-purple-20 flex h-11.5 items-center justify-center rounded border px-3 text-white"
                     aria-label="Change password"
                   >
                     <GoPencil size={16} />
