@@ -1,6 +1,7 @@
 import PlanCard from "../../components/ui/PlanCard";
 import { usePlans } from "../../hooks/usePlans";
 
+//Set up a color map for plans to ensure consistent styling
 const planColorMap: Record<string, string> = {
   basic: "bg-theme-purple-10",
   standard: "bg-theme-pink-20",
@@ -15,7 +16,6 @@ export default function PricingPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Hero */}
       <main className="flex flex-1 flex-col items-center justify-center px-6 text-center">
         <h2 className="mb-4 text-4xl font-bold">
           Run your own online course platform

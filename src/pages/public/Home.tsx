@@ -21,7 +21,6 @@ export default function HomePage() {
           </Link>
         </div>
       </main>
-      =
     </div>
   );
 }

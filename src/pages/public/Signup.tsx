@@ -1,8 +1,12 @@
+import { useLocation } from "react-router-dom";
+
 import type { SignupUser } from "../../type/user";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 
 export default function SignupPage() {
+  const location = useLocation();
+  const selectedPlan = location.state?.selectedPlan as string | undefined;
   const { signupUser, isLoading } = useAuth();
   const alert = useAlert();
 
@@ -72,9 +76,10 @@ export default function SignupPage() {
             <label className="block text-lg">Plan</label>
             <select
               name="plan"
-              className="mb-2 w-full rounded border border-gray-300 bg-white px-6 py-2.5 text-lg shadow-md"
+              className="form-select"
+              defaultValue={selectedPlan}
             >
-              <option value="free">Free</option>
+              <option value="free">Basic</option>
               <option value="standard">Standard</option>
               <option value="premium">Premium</option>
             </select>

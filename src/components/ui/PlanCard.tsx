@@ -1,6 +1,8 @@
+import { MdOutlineClose } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+
 import type { Plan } from "../../type/plan";
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
-import { MdOutlineClose } from "react-icons/md";
 
 function PlanList({ text }: { text: string }) {
   return (
@@ -12,11 +14,15 @@ function PlanList({ text }: { text: string }) {
 }
 
 function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
+  const navigate = useNavigate();
   const projectNum = plan.features.max_courses;
   const userNum = plan.features.max_users;
 
   return (
     <div
+      onClick={() =>
+        navigate("/signup", { state: { selectedPlan: plan.name } })
+      }
       className={[
         "border-default block w-100 rounded-2xl border border-gray-200 p-6 text-left shadow-md transition hover:shadow-2xl",
         bgColor ?? "bg-white",
