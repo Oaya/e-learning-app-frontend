@@ -6,13 +6,14 @@ import { useAlert } from "../../contexts/AlertContext";
 
 export default function SignupPage() {
   const location = useLocation();
+
   const selectedPlan = location.state?.selectedPlan as string | undefined;
   const { signupUser, isLoading } = useAuth();
   const alert = useAlert();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    console.log("Signup form submitted");
     try {
       const form = e.currentTarget;
       const formData = new FormData(form);
@@ -25,11 +26,13 @@ export default function SignupPage() {
       }
 
       const res = await signupUser(data as SignupUser);
+
       if (res.success) {
         alert.success(res.data.message as string);
       } else {
         alert.error(res.error || "Signup failed");
       }
+      return;
     } catch (err) {
       alert.error(err as string);
     }
@@ -79,7 +82,7 @@ export default function SignupPage() {
               className="form-select"
               defaultValue={selectedPlan}
             >
-              <option value="free">Basic</option>
+              <option value="basic">Basic</option>
               <option value="standard">Standard</option>
               <option value="premium">Premium</option>
             </select>

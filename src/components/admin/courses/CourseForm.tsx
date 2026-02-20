@@ -265,7 +265,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
           </button>
 
           <Link
-            to="/admin/"
+            to="/admin/dashboard"
             className="rounded border border-gray-300 px-4 py-2 text-sm"
           >
             Cancel

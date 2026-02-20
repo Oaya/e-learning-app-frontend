@@ -19,9 +19,13 @@ export type User = {
   first_name: string;
   last_name: string;
   role: string;
-  tenant_id: string;
-  tenant_name: string;
-  plan: string;
+  tenant: {
+    id: string;
+    name: string;
+    status: string;
+    is_billing_owner: boolean;
+    plan: string;
+  };
   status: string;
   avatar?: string;
 };

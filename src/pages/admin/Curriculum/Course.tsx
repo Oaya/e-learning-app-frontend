@@ -18,7 +18,7 @@ export default function CoursePage() {
   const { course, isLoading } = useCourseOverview(courseId);
   const { deleteCourse, isDeleting } = useCourse(courseId, {
     onDeleteSuccess: () => {
-      navigate("/admin/");
+      navigate("/admin/dashboard");
     },
   });
 

@@ -20,6 +20,23 @@ export async function signup(data: SignupUser): Promise<ApiResponse> {
   }
 }
 
+export async function getTenantSubscriptionData(sessionId: string) {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}/api/auth/tenant_subscription/${sessionId}`;
+    const res = await axios.get(url);
+
+    console.log("Tenant subscription status response:", res);
+
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return {
+      success: false,
+      error:
+        e.response?.data?.error || "Failed to get tenant subscription status",
+    };
+  }
+}
+
 export async function login(data: LoginUser): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/auth/sign_in`;

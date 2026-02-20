@@ -2,10 +2,16 @@ import { Link } from "react-router-dom";
 import { useCourses } from "../../hooks/useCourses";
 import CourseCard from "../../components/admin/courses/CourseCard";
 import { useUsers } from "../../hooks/useUsers";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminDashboard() {
   const { courses } = useCourses();
   const { users } = useUsers();
+  const { user } = useAuth();
+
+  const canCreateCourse =
+    user?.tenant.status === "active" &&
+    (user.role === "admin" || user.role === "instructor");
 
   return (
     <div>
@@ -13,14 +19,16 @@ export default function AdminDashboard() {
         <h1 className="text-2xl font-semibold">Dashboard</h1>
       </header>
       <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <Link
-            to="/admin/courses/new/course-builder"
-            className="bg-theme-pink-20 hover:bg-theme-pink-20 rounded px-4 py-2 text-sm text-white"
-          >
-            + New Course
-          </Link>
-        </div>
+        {canCreateCourse && (
+          <div className="flex items-center justify-between">
+            <Link
+              to="/admin/courses/new/course-builder"
+              className="bg-theme-pink-20 hover:bg-theme-pink-20 rounded px-4 py-2 text-sm text-white"
+            >
+              + New Course
+            </Link>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="rounded bg-white p-4">
