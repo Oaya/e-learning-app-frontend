@@ -138,3 +138,38 @@ export async function updateUserPassword(
     return { success: false, error: e.response?.data?.error };
   }
 }
+
+export async function cancelSubscription(): Promise<ApiResponse> {
+  try {
+    const token = localStorage.getItem("jwt");
+    if (!token) return { success: false, error: "No token" };
+
+    const url = `${import.meta.env.VITE_API_URL}/api/subscription/cancel`;
+    const res = await axios.post(url, null, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function changePlan(plan: string): Promise<ApiResponse> {
+  try {
+    const token = localStorage.getItem("jwt");
+    if (!token) return { success: false, error: "No token" };
+    const url = `${import.meta.env.VITE_API_URL}/api/subscription/change_plan`;
+    const res = await axios.post(
+      url,
+      { plan },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}

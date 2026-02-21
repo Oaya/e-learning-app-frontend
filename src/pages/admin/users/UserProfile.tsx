@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import UpdatePasswordModal from "../../../components/ui/UpdatePasswordModal";
 import { useUser } from "../../../hooks/useUser";
 import { useUserCourses } from "../../../hooks/useUserCourses";
+import { capitalize } from "../../../utils/helper";
 
 export default function UserProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -57,7 +58,7 @@ export default function UserProfile() {
               <div className="mb-2">
                 <p>
                   {" "}
-                  User Role <span>{user.role ?? "-"}</span>
+                  User Role <span>{capitalize(user.role) ?? "-"}</span>
                 </p>
               </div>
             </div>

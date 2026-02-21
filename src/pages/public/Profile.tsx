@@ -3,6 +3,9 @@ import { GoPencil } from "react-icons/go";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 import UpdatePasswordModal from "../../components/ui/UpdatePasswordModal";
+import CancelSubscriptionModal from "../../components/ui/CancelSubscriptionModal";
+import ChangePlanModal from "../../components/ui/ChangePlanModal";
+import { capitalize } from "../../utils/helper";
 
 export default function ProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
@@ -16,7 +19,12 @@ export default function ProfilePage() {
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
+  const [isUpdatePlanModalOpen, setIsUpdatePlanModalOpen] = useState(false);
+  const [isCancelSubscriptionModalOpen, setIsCancelSubscriptionModalOpen] =
+    useState(false);
+
   const alert = useAlert();
+  const isBillingOwner = user?.tenant.is_billing_owner;
 
   // When user loads/changes, hydrate the form state
   useEffect(() => {
@@ -95,6 +103,15 @@ export default function ProfilePage() {
         isOpen={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
       />
+      <CancelSubscriptionModal
+        isOpen={isCancelSubscriptionModalOpen}
+        onClose={() => setIsCancelSubscriptionModalOpen(false)}
+      />
+      <ChangePlanModal
+        isOpen={isUpdatePlanModalOpen}
+        onClose={() => setIsUpdatePlanModalOpen(false)}
+        plan={user.tenant.plan}
+      />
       <h2 className="text-3xl font-semibold">Profile & settings</h2>
 
       <div className="mt-3 space-y-6 rounded border border-gray-300 bg-white p-6">
@@ -136,7 +153,7 @@ export default function ProfilePage() {
 
               <div className="mb-2">
                 <div className="sm-label">Tenant</div>
-                <div className="read-only-input">{user.tenant_name ?? "-"}</div>
+                <div className="read-only-input">{user.tenant.name ?? "-"}</div>
               </div>
 
               <div className="mb-2">
@@ -165,7 +182,9 @@ export default function ProfilePage() {
 
               <div className="mb-2">
                 <div className="sm-label">User Role</div>
-                <div className="read-only-input">{user.role ?? "-"}</div>
+                <div className="read-only-input">
+                  {capitalize(user.role) ?? "-"}
+                </div>
               </div>
 
               <div className="mb-2">
@@ -196,6 +215,61 @@ export default function ProfilePage() {
           </button>
         </form>
       </div>
+
+      {isBillingOwner && (
+        <div className="mt-3 space-y-6 rounded border border-gray-300 bg-white p-6">
+          <h2 className="text-xl font-semibold">Billing Info</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <div className="mb-2">
+                <div className="sm-label">Plan</div>
+                <div className="read-only-input">
+                  {capitalize(user.tenant.plan) ?? "-"}
+                </div>
+              </div>
+
+              <div className="mb-2">
+                <div className="sm-label">
+                  {user.tenant.cancel_at_period_end
+                    ? "Access Ends"
+                    : "Next Billing Date"}
+                </div>
+                <div className="read-only-input">
+                  {" "}
+                  {user.tenant.current_period_end
+                    ? new Date(
+                        user.tenant.current_period_end,
+                      ).toLocaleDateString()
+                    : "-"}
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="mb-2">
+                <div className="sm-label">Status</div>
+                <div className="read-only-input">
+                  {capitalize(user.tenant.status) ?? "-"}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            className="btn-primary"
+            onClick={() => setIsUpdatePlanModalOpen(true)}
+          >
+            Change Plan
+          </button>
+
+          <button
+            className="btn-primary-pink ml-4"
+            onClick={() => setIsCancelSubscriptionModalOpen(true)}
+          >
+            Cancel Subscription
+          </button>
+        </div>
+      )}
     </div>
   );
 }

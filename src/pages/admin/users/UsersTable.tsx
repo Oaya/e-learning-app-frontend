@@ -7,6 +7,7 @@ import { useUsers } from "../../../hooks/useUsers";
 import InviteUserModal from "../../../components/ui/InviteUserModal";
 import { useAuth } from "../../../contexts/AuthContext";
 import ConfirmModal from "../../../components/ui/ConfirmModal";
+import { capitalize } from "../../../utils/helper";
 
 export default function UsersPage() {
   const alert = useAlert();
@@ -239,8 +240,10 @@ export default function UsersPage() {
                   </td>
 
                   <td className="p-3">{u.email}</td>
-                  <td className="p-3">{u.role ?? ""}</td>
-                  {isAdmin && <td className="p-3">{u.status ?? ""}</td>}
+                  <td className="p-3">{capitalize(u.role) ?? ""}</td>
+                  {isAdmin && (
+                    <td className="p-3">{capitalize(u.status) ?? ""}</td>
+                  )}
                 </tr>
               ))
             )}

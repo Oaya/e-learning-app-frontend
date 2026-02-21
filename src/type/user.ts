@@ -24,6 +24,8 @@ export type User = {
     name: string;
     status: string;
     is_billing_owner: boolean;
+    current_period_end?: Date | null;
+    cancel_at_period_end?: boolean | null;
     plan: string;
   };
   status: string;

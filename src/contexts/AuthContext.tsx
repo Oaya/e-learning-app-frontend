@@ -22,6 +22,8 @@ import {
   acceptInvite,
   updateUserData,
   updateUserPassword,
+  cancelSubscription,
+  changePlan,
 } from "../api/auth";
 
 type AuthContextType = {
@@ -33,7 +35,8 @@ type AuthContextType = {
   acceptInviteUser: (user: AcceptInviteUser) => Promise<ApiResponse>;
   updateUser: (user: UpdateUser) => Promise<ApiResponse>;
   updatePassword: (data: UpdatePassword) => Promise<ApiResponse>;
-  refreshAuthUser: () => Promise<ApiResponse>;
+  cancelTenantSubscription: () => Promise<ApiResponse>;
+  changeTenantPlan: (plan: string) => Promise<ApiResponse>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -56,7 +59,10 @@ const AuthContext = createContext<AuthContextType>({
   updatePassword: async () => {
     return Promise.resolve({} as ApiResponse);
   },
-  refreshAuthUser: async () => {
+  cancelTenantSubscription: async () => {
+    return Promise.resolve({} as ApiResponse);
+  },
+  changeTenantPlan: async () => {
     return Promise.resolve({} as ApiResponse);
   },
 });
@@ -147,9 +153,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, []);
 
-  const refreshAuthUser = useCallback(async () => {
+  const cancelTenantSubscription = useCallback(async () => {
     setIsLoading(true);
-    const res = await getAuthUser();
+    const res = await cancelSubscription();
+
+    if (res.success && res.data) {
+      setUser(res.data);
+    }
+    setIsLoading(false);
+    return res;
+  }, []);
+
+  const changeTenantPlan = useCallback(async (plan: string) => {
+    setIsLoading(true);
+    const res = await changePlan(plan);
+
     if (res.success && res.data) {
       setUser(res.data);
     }
@@ -165,7 +183,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       acceptInviteUser,
       updateUser,
       updatePassword,
-      refreshAuthUser,
+      cancelTenantSubscription,
+      changeTenantPlan,
       user,
       isLoading,
     }),
@@ -176,7 +195,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       acceptInviteUser,
       updateUser,
       updatePassword,
-      refreshAuthUser,
+      cancelTenantSubscription,
+      changeTenantPlan,
       user,
       isLoading,
     ],
