@@ -4,8 +4,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 import UpdatePasswordModal from "../../components/ui/UpdatePasswordModal";
 import CancelSubscriptionModal from "../../components/ui/CancelSubscriptionModal";
-import ChangePlanModal from "../../components/ui/ChangePlanModal";
 import { capitalize } from "../../utils/helper";
+import UpdateSubscriptionModal from "../../components/ui/UpdateSubscriptionModal";
 
 export default function ProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
@@ -25,6 +25,8 @@ export default function ProfilePage() {
 
   const alert = useAlert();
   const isBillingOwner = user?.tenant.is_billing_owner;
+  const isCanceled =
+    user?.tenant.cancel_at_period_end || user?.tenant.status === "canceled";
 
   // When user loads/changes, hydrate the form state
   useEffect(() => {
@@ -107,10 +109,11 @@ export default function ProfilePage() {
         isOpen={isCancelSubscriptionModalOpen}
         onClose={() => setIsCancelSubscriptionModalOpen(false)}
       />
-      <ChangePlanModal
+      <UpdateSubscriptionModal
         isOpen={isUpdatePlanModalOpen}
         onClose={() => setIsUpdatePlanModalOpen(false)}
         plan={user.tenant.plan}
+        mode={isCanceled ? "Reactivate" : "Update"}
       />
       <h2 className="text-3xl font-semibold">Profile & settings</h2>
 
@@ -219,6 +222,11 @@ export default function ProfilePage() {
       {isBillingOwner && (
         <div className="mt-3 space-y-6 rounded border border-gray-300 bg-white p-6">
           <h2 className="text-xl font-semibold">Billing Info</h2>
+          {user.tenant.cancel_at_period_end && (
+            <p className="text-xl font-bold text-red-500">
+              Your account will be canceled at the access ends time
+            </p>
+          )}
           <div className="grid grid-cols-2 gap-6">
             <div>
               <div className="mb-2">
@@ -255,19 +263,30 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <button
-            className="btn-primary"
-            onClick={() => setIsUpdatePlanModalOpen(true)}
-          >
-            Change Plan
-          </button>
+          {isCanceled ? (
+            <button
+              className="btn-primary"
+              onClick={() => setIsUpdatePlanModalOpen(true)}
+            >
+              Reactivate Subscription
+            </button>
+          ) : (
+            <div>
+              <button
+                className="btn-primary"
+                onClick={() => setIsUpdatePlanModalOpen(true)}
+              >
+                Change Plan
+              </button>
 
-          <button
-            className="btn-primary-pink ml-4"
-            onClick={() => setIsCancelSubscriptionModalOpen(true)}
-          >
-            Cancel Subscription
-          </button>
+              <button
+                className="btn-primary-pink ml-4"
+                onClick={() => setIsCancelSubscriptionModalOpen(true)}
+              >
+                Cancel Subscription
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

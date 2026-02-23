@@ -27,6 +27,7 @@ export type User = {
     current_period_end?: Date | null;
     cancel_at_period_end?: boolean | null;
     plan: string;
+    has_stripe_subscription: boolean;
   };
   status: string;
   avatar?: string;

@@ -26,6 +26,8 @@ export default function CancelSubscriptionModal({
     try {
       const res = await cancelTenantSubscription();
 
+      console.log("Cancel subscription result:", res); // Debug log for cancel subscription result
+
       if (res.success) {
         alert.success(res.data.message);
         onClose();

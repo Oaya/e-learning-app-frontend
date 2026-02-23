@@ -5,17 +5,19 @@ import { useAlert } from "../../contexts/AlertContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { capitalize } from "../../utils/helper";
 
-type ChangePlanModalProps = {
+type UpdateSubscriptionProps = {
   isOpen: boolean;
   onClose: () => void;
   plan: string;
+  mode?: "Update" | "Reactivate";
 };
 
-export default function ChangePlanModal({
+export default function UpdateSubscriptionModal({
   isOpen,
   onClose,
   plan,
-}: ChangePlanModalProps) {
+  mode,
+}: UpdateSubscriptionProps) {
   const alert = useAlert();
   const { changeTenantPlan, isLoading } = useAuth();
 
@@ -32,7 +34,7 @@ export default function ChangePlanModal({
 
       const new_plan = fdString(formData, "new_plan");
 
-      if (plan === new_plan) {
+      if (mode === "Update" && plan === new_plan) {
         alert.error(
           "You are already on this plan. Please select a different plan.",
         );
@@ -56,7 +58,7 @@ export default function ChangePlanModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-2xl rounded-lg bg-white p-8">
         <div className="mb-6 flex items-start justify-between">
-          <h2 className="text-2xl font-semibold">Change Plan</h2>
+          <h2 className="text-2xl font-semibold">{mode} Plan</h2>
 
           <button
             type="button"
@@ -67,7 +69,11 @@ export default function ChangePlanModal({
           </button>
         </div>
 
-        <p>Please select your new plan from the options below.</p>
+        <p>
+          {mode === "Reactivate"
+            ? "You are about to reactivate your plan."
+            : "Please select your new plan from the options below."}
+        </p>
         <form onSubmit={handleChangePlan} className="my-6">
           <div className="grid grid-cols-2 gap-6">
             <div className="mb-2">
@@ -87,19 +93,11 @@ export default function ChangePlanModal({
 
           <div className="mt-6 flex justify-end gap-3">
             <button
-              type="button"
-              onClick={onClose}
-              className="btn-primary-white mr-2"
-            >
-              Cancel
-            </button>
-
-            <button
               type="submit"
               className="btn-primary-pink"
               disabled={isLoading}
             >
-              {isLoading ? "Changing Plan..." : "Change Plan"}
+              {isLoading ? `${mode}ing Plan...` : `${mode} Plan`}
             </button>
           </div>
         </form>

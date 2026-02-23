@@ -22,7 +22,10 @@ export default function SidebarLayout() {
   return (
     <>
       {showBanner && isBillingOwner && (
-        <SubscriptionBanner isBillingOwner={isBillingOwner} />
+        <SubscriptionBanner
+          isBillingOwner={isBillingOwner}
+          hasStripeSubscription={user?.tenant.has_stripe_subscription}
+        />
       )}
       <div
         className={`bg-theme-grey-10 flex min-h-screen ${showBanner ? "pt-14" : ""}`}

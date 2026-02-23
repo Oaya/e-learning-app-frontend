@@ -7,7 +7,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
-import { startCheckout } from "../../api/payment";
+import { startCheckout } from "../../api/subscription";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 

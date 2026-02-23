@@ -22,9 +22,8 @@ import {
   acceptInvite,
   updateUserData,
   updateUserPassword,
-  cancelSubscription,
-  changePlan,
 } from "../api/auth";
+import { cancelSubscription, changePlan } from "../api/subscription";
 
 type AuthContextType = {
   user?: User | null;
@@ -157,8 +156,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     const res = await cancelSubscription();
 
-    if (res.success && res.data) {
-      setUser(res.data);
+    if (res.success) {
+      try {
+        const userRes = await getAuthUser();
+        setUser(userRes.data);
+      } catch (err) {
+        console.log("Error fetching user after plan change:", err);
+      }
     }
     setIsLoading(false);
     return res;
@@ -168,8 +172,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     const res = await changePlan(plan);
 
-    if (res.success && res.data) {
-      setUser(res.data);
+    if (res.success) {
+      try {
+        const userRes = await getAuthUser();
+        setUser(userRes.data);
+      } catch (err) {
+        console.log("Error fetching user after plan change:", err);
+      }
     }
     setIsLoading(false);
     return res;
@@ -202,7 +211,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return <AuthContext value={value}>{children}</AuthContext>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
