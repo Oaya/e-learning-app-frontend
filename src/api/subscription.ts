@@ -1,10 +1,11 @@
 import axios from "axios";
 
-export async function startCheckout() {
+export async function startCheckout(plan: string) {
   try {
     const token = localStorage.getItem("jwt");
-    const res = await axios.get(
+    const res = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/subscription/payment_checkout`,
+      { plan },
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -224,7 +224,7 @@ export default function ProfilePage() {
           <h2 className="text-xl font-semibold">Billing Info</h2>
           {user.tenant.cancel_at_period_end && (
             <p className="text-xl font-bold text-red-500">
-              Your account will be canceled at the access ends time
+              Your account will be canceled at the Access ends Date
             </p>
           )}
           <div className="grid grid-cols-2 gap-6">

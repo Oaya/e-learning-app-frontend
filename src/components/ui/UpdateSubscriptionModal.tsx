@@ -4,6 +4,7 @@ import { fdString } from "../../utils/formData";
 import { useAlert } from "../../contexts/AlertContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { capitalize } from "../../utils/helper";
+import { useNavigate } from "react-router-dom";
 
 type UpdateSubscriptionProps = {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export default function UpdateSubscriptionModal({
 }: UpdateSubscriptionProps) {
   const alert = useAlert();
   const { changeTenantPlan, isLoading } = useAuth();
+  const navigation = useNavigate();
 
   if (!isOpen) {
     return null;
@@ -44,7 +46,13 @@ export default function UpdateSubscriptionModal({
       const res = await changeTenantPlan(new_plan);
 
       if (res.success) {
-        alert.success(res.data.message);
+        if (res.data.redirect_to_checkout) {
+          console.log("Redirecting to payment page with plan:", new_plan); // Debug log for plan
+          navigation("/payment", { state: { plan: new_plan } });
+        } else {
+          alert.success(res.data.message);
+        }
+
         onClose();
       } else {
         alert.error(res.error || "Failed to change plan. Try again later.");

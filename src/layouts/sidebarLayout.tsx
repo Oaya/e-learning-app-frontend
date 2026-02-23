@@ -25,6 +25,7 @@ export default function SidebarLayout() {
         <SubscriptionBanner
           isBillingOwner={isBillingOwner}
           hasStripeSubscription={user?.tenant.has_stripe_subscription}
+          status={user?.tenant.status}
         />
       )}
       <div

@@ -3,18 +3,21 @@ import { NavLink } from "react-router-dom";
 export default function SubscriptionBanner({
   isBillingOwner,
   hasStripeSubscription,
+  status,
 }: {
   isBillingOwner: boolean;
   hasStripeSubscription: boolean;
+  status: string;
 }) {
   let message = "";
   let messageType: "payment" | "reactivate" | "contact_admin" = "payment";
+  console.log({ isBillingOwner, hasStripeSubscription, status });
 
   if (!isBillingOwner) {
     messageType = "contact_admin";
     message =
       "Your organization does not have an active subscription. Please contact your administrator.";
-  } else if (!hasStripeSubscription) {
+  } else if (!hasStripeSubscription && status === "active") {
     messageType = "payment";
     message =
       "Your subscription is inactive. Please complete your subscription payment.";

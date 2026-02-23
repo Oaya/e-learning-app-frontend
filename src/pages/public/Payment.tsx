@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -17,10 +17,15 @@ export default function PaymentPage() {
   const alert = useAlert();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const plan = location.state?.plan || user?.tenant.plan;
 
   useEffect(() => {
     // Guard: do not continue the effect if user is missing
-    if (!user || user.tenant.status === "active") {
+    if (
+      !user ||
+      (user.tenant.status === "active" && user.tenant.has_stripe_subscription)
+    ) {
       alert.error(
         "You do not have access to this page. Please contact your administrator.",
       );
@@ -34,7 +39,7 @@ export default function PaymentPage() {
       try {
         setLoading(true);
 
-        const res = await startCheckout();
+        const res = await startCheckout(plan);
         const secret = res.data.client_secret;
 
         if (!secret) {
@@ -57,7 +62,7 @@ export default function PaymentPage() {
     return () => {
       cancelled = true;
     };
-  }, [user, navigate, alert]);
+  }, [user, navigate, alert, plan]);
 
   if (loading) {
     return <div className="m-10 text-center text-2xl">Starting checkout…</div>;
