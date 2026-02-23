@@ -36,11 +36,15 @@ export async function getUser(id: string): Promise<User> {
   }
 }
 
-export async function inviteUser(data: InviteUser): Promise<ApiResponse> {
+export async function inviteUser(
+  data: InviteUser | InviteUser[],
+): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/auth/invitation`;
-    const response = await axios.post(url, data, {
+
+    const payload = { users: Array.isArray(data) ? data : [data] };
+    const response = await axios.post(url, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

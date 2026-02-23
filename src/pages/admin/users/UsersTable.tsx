@@ -8,6 +8,7 @@ import InviteUserModal from "../../../components/ui/InviteUserModal";
 import { useAuth } from "../../../contexts/AuthContext";
 import ConfirmModal from "../../../components/ui/ConfirmModal";
 import { capitalize } from "../../../utils/helper";
+import { inviteUser } from "../../../api/users";
 
 export default function UsersPage() {
   const alert = useAlert();
@@ -29,7 +30,7 @@ export default function UsersPage() {
   const allSelected = uData.length > 0 && selected.size === uData.length - 1; // Exclude current user;
   const selectedUsers = uData.filter((u) => selected.has(u.id));
   const selectedEmails = selectedUsers.map((u) => u.email);
-  const isAdmin = user?.role === "Admin";
+  const isAdmin = user?.role === "admin";
   const currentUserId = user?.id;
   const isSelf = (id: string) => id === currentUserId;
 
@@ -50,9 +51,28 @@ export default function UsersPage() {
   }
 
   // Example actions
-  function sendInvitation() {
-    closeAction();
-    setSelected(new Set());
+  async function handleBulkSendInvite() {
+    try {
+      const res = await inviteUser(
+        selectedUsers.map((u) => ({
+          email: u.email,
+          role: u.role,
+          first_name: u.first_name,
+          last_name: u.last_name,
+        })),
+      );
+
+      if (res.success) {
+        alert.success(res.data.message);
+      } else {
+        alert.error(res.error || "Failed to send invitation. Try again later.");
+      }
+    } catch (err) {
+      alert.error("Failed to send invitation. Try again later.");
+    } finally {
+      closeAction();
+      setSelected(new Set());
+    }
   }
 
   function deleteUsers() {
@@ -138,7 +158,7 @@ export default function UsersPage() {
                       <button
                         type="button"
                         className="w-full rounded-t border-b px-4 py-2 text-left text-sm hover:bg-gray-100"
-                        onClick={sendInvitation}
+                        onClick={handleBulkSendInvite}
                       >
                         Send Invitation
                       </button>

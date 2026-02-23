@@ -5,6 +5,7 @@ import { fdString } from "../../utils/formData";
 import { useAlert } from "../../contexts/AlertContext";
 import CustomSelect from "./CustomSelect";
 import { useState } from "react";
+import { capitalize } from "../../utils/helper";
 
 type InviteUserModalProps = {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export default function InviteUserModal({
     return null;
   }
 
-  const handleInvite = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleInvite(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {
@@ -48,7 +49,7 @@ export default function InviteUserModal({
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -87,7 +88,10 @@ export default function InviteUserModal({
                 name="role"
                 className="w-full"
                 required
-                options={roles.map((role) => ({ value: role, label: role }))}
+                options={roles.map((role) => ({
+                  value: role,
+                  label: capitalize(role),
+                }))}
               />
             </div>
           </div>

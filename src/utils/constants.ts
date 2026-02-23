@@ -22,4 +22,4 @@ export const categories: string[] = [
 
 export const lessonTypes: string[] = ["Video", "Reading"];
 
-export const roles = ["Admin", "Instructor", "Student"];
+export const roles = ["admin", "instructor", "student"];
