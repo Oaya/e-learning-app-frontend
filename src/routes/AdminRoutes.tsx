@@ -7,7 +7,7 @@ import PricingPage from "../pages/admin/curriculum/Pricing";
 import CurriculumBuilderPage from "../pages/admin/curriculum/CurriculumBuilder";
 import ReviewPage from "../pages/admin/curriculum/Review";
 import CoursePage from "../pages/admin/curriculum/Course";
-import UsersPage from "../pages/admin/users/UsersTable";
+import UsersPage from "../pages/admin/users/Users";
 import UserProfile from "../pages/admin/users/UserProfile";
 import SidebarLayout from "../layouts/SidebarLayout";
 import CoursesList from "../pages/admin/curriculum/CoursesList";

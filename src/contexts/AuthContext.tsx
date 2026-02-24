@@ -106,6 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
 
       const res = await login(data);
+
+      console.log("Login response in AuthContext:", res); // Debug log for login response
       if (res.success && res.data?.user && res.data?.token) {
         localStorage.setItem("jwt", res.data.token);
         setUser(res.data.user as User);

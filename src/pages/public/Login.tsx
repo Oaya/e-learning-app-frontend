@@ -18,12 +18,13 @@ export default function LoginPage() {
       const data = Object.fromEntries(formData.entries());
 
       const res = await loginUser(data as LoginUser);
-      console.log("Login result:", res.data.user.tenant_status); // Debug log for tenant status
+      console.log("Login result:", res); // Debug log for tenant status
       if (res.success) {
         alert.success(res.data.message || "Login successful");
         navigate("/admin/dashboard", { replace: true });
       } else {
         alert.error(res.error || "Login failed");
+        return;
       }
     } catch (err) {
       console.error("Login error:", err);

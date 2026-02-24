@@ -46,6 +46,10 @@
     @apply mb-4 cursor-not-allowed rounded border border-gray-300 bg-gray-50 px-3 py-2 text-lg text-gray-700 shadow-md;
   }
 
+  .custom-checkbox {
+    @apply accent-theme-purple-40 focus:ring-theme-purple-40 mr-4 h-4 w-4 rounded border-gray-300;
+  }
+
   @media (hover: none) {
     .group-hover\:opacity-100 {
       opacity: 1;
