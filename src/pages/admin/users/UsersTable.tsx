@@ -3,15 +3,12 @@ import { useState } from "react";
 import { IoIosCheckbox } from "react-icons/io";
 
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
-import { useAlert } from "../../../contexts/AlertContext";
-import { useUsers } from "../../../hooks/useUsers";
 import { useAuth } from "../../../contexts/AuthContext";
 import { capitalize } from "../../../utils/helper";
+import type { User } from "../../../type/user";
 
-export default function UsersTable() {
-  const alert = useAlert();
+export default function UsersTable({ users }: { users?: User[] }) {
   const { user } = useAuth();
-  const { users, isLoading, isError, error } = useUsers();
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const uData = users || [];
@@ -37,13 +34,6 @@ export default function UsersTable() {
       return next;
     });
   }
-
-  if (isLoading) {
-    return <div className="p-6">Loading users...</div>;
-  }
-
-  if (isError)
-    alert.error(error instanceof Error ? error.message : "Failed to load");
 
   return (
     <div>

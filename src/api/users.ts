@@ -1,8 +1,12 @@
 import axios from "axios";
 import type { Instructor, InviteUser, User } from "../type/user";
 import type { Course } from "../type/course";
+import type { UserQueryInput } from "../hooks/useUsers";
 
-export async function getUsers(): Promise<User[]> {
+export async function getUsers({
+  selectedFilters,
+}: UserQueryInput): Promise<User[]> {
+  console.log("selectedFilters", selectedFilters);
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users`;

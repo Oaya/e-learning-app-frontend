@@ -1,18 +1,28 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  keepPreviousData,
+} from "@tanstack/react-query";
 
 import type { User } from "../type/user";
 import { getUsers, deleteUsers } from "../api/users";
 
 import { useAlert } from "../contexts/AlertContext";
 
-export function useUsers() {
+export type UserQueryInput = {
+  selectedFilters?: Record<string, string[]>;
+};
+
+export function useUsers({ selectedFilters }: UserQueryInput) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
   const userQuery = useQuery<User[], Error>({
-    queryKey: ["users"],
-    queryFn: getUsers,
+    queryKey: ["users", { selectedFilters }],
+    queryFn: () => getUsers({ selectedFilters }),
     staleTime: 60_000,
+    placeholderData: keepPreviousData, // keep the previous data while fetching
   });
 
   const deleteMutation = useMutation({

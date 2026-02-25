@@ -6,7 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminDashboard() {
   const { courses } = useCourses();
-  const { users } = useUsers();
+  const { users } = useUsers({});
   const { user } = useAuth();
 
   const canCreateCourse =

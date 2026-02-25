@@ -50,11 +50,14 @@ export default function UserFilterDropDown({
   }
 
   useEffect(() => {
-    console.log("Selected Filters:", selectedFilters);
-  }, [selectedFilters]);
+    console.log("open", openedFilter);
+  }, [openedFilter]);
 
   return (
-    <div className="absolute right-0 z-50 mt-4 w-100 rounded-lg bg-white shadow-lg ring-1 ring-black/10">
+    <div
+      className="absolute right-0 z-50 mt-4 w-100 rounded-lg bg-white shadow-lg ring-1 ring-black/10"
+      onClick={(e) => e.stopPropagation()}
+    >
       <div className="mb-4 flex items-start justify-between p-4">
         <h2 className="text-lg font-semibold">Filters</h2>
         <button
@@ -100,13 +103,14 @@ export default function UserFilterDropDown({
                             option.value,
                           ) || false
                         }
-                        onChange={() =>
+                        onChange={(e) => {
+                          e.stopPropagation();
                           updateSelectedFilters(
                             filter.name,
                             option.value,
                             filter.type,
-                          )
-                        }
+                          );
+                        }}
                       />
                       {option.label}
                     </label>

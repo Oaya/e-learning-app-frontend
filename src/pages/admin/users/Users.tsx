@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FiFilter } from "react-icons/fi";
+import { IoIosClose } from "react-icons/io";
 
 import { useAlert } from "../../../contexts/AlertContext";
 import { useUsers } from "../../../hooks/useUsers";
@@ -9,21 +10,23 @@ import ConfirmModal from "../../../components/ui/ConfirmModal";
 import { inviteUser } from "../../../api/users";
 import UserFilterDropDown from "./UserFilterDropDown";
 import UsersTable from "./UsersTable";
+import { capitalize } from "../../../utils/helper";
 
 export default function UsersPage() {
   const alert = useAlert();
   const { user } = useAuth();
-  const { users, isLoading, isError, error, deleteUsersMutation, isDeleting } =
-    useUsers();
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [isInviteOpen, setInviteOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [actionOpen, setActionOpen] = useState(false);
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [openFilter, setOpenFilter] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<
     Record<string, string[]>
   >({});
+
+  const { users, isLoading, isError, error, deleteUsersMutation, isDeleting } =
+    useUsers({ selectedFilters });
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [isInviteOpen, setInviteOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [actionOpen, setActionOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
 
   function closeAction() {
     setActionOpen(false);
@@ -35,7 +38,6 @@ export default function UsersPage() {
   const selectedEmails = selectedUsers.map((u) => u.email);
   const isAdmin = user?.role === "admin";
 
-  // Example actions
   async function handleBulkSendInvite() {
     try {
       const res = await inviteUser(
@@ -66,6 +68,34 @@ export default function UsersPage() {
     setSelected(new Set());
     setDeleteModalOpen(false);
   }
+
+  function removeFilterChip(key: string, value: string) {
+    setSelectedFilters((prev) => {
+      const next = { ...prev };
+      if (!next[key]) return next;
+
+      next[key] = next[key].filter((v) => v !== value);
+
+      if (next[key].length === 0) {
+        delete next[key];
+      }
+      return next;
+    });
+  }
+
+  const chips = useMemo(() => {
+    return Object.entries(selectedFilters).flatMap(([key, values]) =>
+      values.map((value) => ({
+        key,
+        value,
+        label: `${capitalize(key)}: ${capitalize(value)}`,
+      })),
+    );
+  }, [selectedFilters]);
+
+  useEffect(() => {
+    console.log("UsersPage mounted", openFilter);
+  }, [openFilter]);
 
   if (isLoading) {
     return <div className="p-6">Loading users...</div>;
@@ -108,13 +138,13 @@ export default function UsersPage() {
           className="form-input w-full"
           type="text"
           placeholder="Search user by name or email"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
         />
 
         <div className="relative ml-6">
           <button
-            className="bg-theme-purple-40 text-theme-purple-20 mr-6 flex h-11.5 cursor-pointer items-center justify-center rounded px-4 shadow-xl"
+            className="bg-theme-purple-40 text-theme-purple-20 flex h-11.5 cursor-pointer items-center justify-center rounded px-4 shadow-xl"
             onClick={() => setOpenFilter((v) => !v)}
           >
             <FiFilter size={18} className="text-theme-purple-20 mr-2 flex" />
@@ -129,6 +159,25 @@ export default function UsersPage() {
             />
           )}
         </div>
+      </div>
+
+      {/* filtered chips */}
+      <div>
+        {chips.map((chip) => (
+          <span
+            key={chip.label}
+            className="bg-theme-purple-40 text-theme-purple-20 mr-4 inline-block rounded-full px-2 py-1 text-sm shadow"
+          >
+            {chip.label}
+            <IoIosClose
+              size={20}
+              className="ml-1 inline-block"
+              onClick={() => {
+                removeFilterChip(chip.key, chip.value);
+              }}
+            />
+          </span>
+        ))}
       </div>
 
       <div className="flex items-center justify-between">
@@ -189,7 +238,7 @@ export default function UsersPage() {
         </div>
       </div>
 
-      <UsersTable />
+      <UsersTable users={users} />
     </div>
   );
 }
