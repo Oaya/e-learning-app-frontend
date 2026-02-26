@@ -7,20 +7,18 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { capitalize } from "../../../utils/helper";
 import type { User } from "../../../type/user";
 
-export default function UsersTable({ users }: { users?: User[] }) {
+export default function UsersTable({ users }: { users: User[] }) {
   const { user } = useAuth();
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
-  const uData = users || [];
-
-  const allSelected = uData.length > 0 && selected.size === uData.length - 1; // Exclude current user;
+  const allSelected = users.length > 0 && selected.size === users.length - 1; // Exclude current user;
 
   const isAdmin = user?.role === "admin";
   const currentUserId = user?.id;
   const isSelf = (id: string) => id === currentUserId;
 
   function toggleAll() {
-    const ids = uData.filter((u) => u.id !== currentUserId).map((u) => u.id);
+    const ids = users.filter((u) => u.id !== currentUserId).map((u) => u.id);
 
     const allSelected = ids.length > 0 && selected.size === ids.length;
 
@@ -68,14 +66,14 @@ export default function UsersTable({ users }: { users?: User[] }) {
           </thead>
 
           <tbody>
-            {uData.length === 0 ? (
+            {users.length === 0 ? (
               <tr>
                 <td className="p-4 text-gray-500" colSpan={5}>
                   No users found.
                 </td>
               </tr>
             ) : (
-              uData.map((u) => (
+              users.map((u) => (
                 <tr key={u.id} className="border-t">
                   {isAdmin && (
                     <td className="p-3">

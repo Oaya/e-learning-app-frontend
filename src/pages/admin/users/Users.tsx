@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
 
@@ -20,7 +20,7 @@ export default function UsersPage() {
   >({});
 
   const { users, isLoading, isError, error, deleteUsersMutation, isDeleting } =
-    useUsers({ selectedFilters });
+    useUsers({ filters: selectedFilters });
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [isInviteOpen, setInviteOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -32,27 +32,29 @@ export default function UsersPage() {
     setActionOpen(false);
   }
 
-  const uData = users || [];
-
-  const selectedUsers = uData.filter((u) => selected.has(u.id));
-  const selectedEmails = selectedUsers.map((u) => u.email);
+  const selectedUsers = users?.filter((u) => selected.has(u.id));
+  const selectedEmails = selectedUsers?.map((u) => u.email);
   const isAdmin = user?.role === "admin";
 
   async function handleBulkSendInvite() {
     try {
-      const res = await inviteUser(
-        selectedUsers.map((u) => ({
-          email: u.email,
-          role: u.role,
-          first_name: u.first_name,
-          last_name: u.last_name,
-        })),
-      );
+      if (selectedUsers) {
+        const res = await inviteUser(
+          selectedUsers?.map((u) => ({
+            email: u.email,
+            role: u.role,
+            first_name: u.first_name,
+            last_name: u.last_name,
+          })),
+        );
 
-      if (res.success) {
-        alert.success(res.data.message);
-      } else {
-        alert.error(res.error || "Failed to send invitation. Try again later.");
+        if (res.success) {
+          alert.success(res.data.message);
+        } else {
+          alert.error(
+            res.error || "Failed to send invitation. Try again later.",
+          );
+        }
       }
     } catch (err) {
       alert.error("Failed to send invitation. Try again later.");
@@ -93,10 +95,6 @@ export default function UsersPage() {
     );
   }, [selectedFilters]);
 
-  useEffect(() => {
-    console.log("UsersPage mounted", openFilter);
-  }, [openFilter]);
-
   if (isLoading) {
     return <div className="p-6">Loading users...</div>;
   }
@@ -123,7 +121,7 @@ export default function UsersPage() {
         <ConfirmModal
           isOpen={isDeleteModalOpen}
           title="Delete Users"
-          message={`Are you sure you want to delete ${selectedEmails.join(", ")}? This action cannot be undone.`}
+          message={`Are you sure you want to delete ${selectedEmails?.join(", ")}? This action cannot be undone.`}
           isSubmitting={isDeleting}
           onConfirm={() => {
             deleteUsers();
@@ -183,7 +181,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <span className="mr-4 text-sm font-semibold text-gray-500">
-            Showing {uData.length} result{uData.length !== 1 ? "s" : ""}
+            Showing {users?.length} results
           </span>
 
           <span>Display 100</span>
@@ -238,7 +236,7 @@ export default function UsersPage() {
         </div>
       </div>
 
-      <UsersTable users={users} />
+      {users && <UsersTable users={users} />}
     </div>
   );
 }

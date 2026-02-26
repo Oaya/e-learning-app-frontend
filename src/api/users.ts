@@ -3,13 +3,22 @@ import type { Instructor, InviteUser, User } from "../type/user";
 import type { Course } from "../type/course";
 import type { UserQueryInput } from "../hooks/useUsers";
 
-export async function getUsers({
-  selectedFilters,
-}: UserQueryInput): Promise<User[]> {
-  console.log("selectedFilters", selectedFilters);
+export async function getUsers({ filters }: UserQueryInput): Promise<User[]> {
   try {
+    const params = new URLSearchParams();
+
+    if (filters) {
+      Object.entries(filters).forEach(([key, values]) => {
+        if (key && values.length > 0) {
+          params.append(key, values.join(","));
+        }
+      });
+    }
+
     const token = localStorage.getItem("jwt");
-    const url: string = `${import.meta.env.VITE_API_URL}/api/users`;
+    const url: string = `${import.meta.env.VITE_API_URL}/api/users?${params.toString()}`;
+
+    console.log(url);
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,

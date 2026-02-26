@@ -57,7 +57,6 @@ export default function UserProfile() {
               </div>
               <div className="mb-2">
                 <p>
-                  {" "}
                   User Role <span>{capitalize(user.role) ?? "-"}</span>
                 </p>
               </div>

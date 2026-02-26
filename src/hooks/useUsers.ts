@@ -11,16 +11,16 @@ import { getUsers, deleteUsers } from "../api/users";
 import { useAlert } from "../contexts/AlertContext";
 
 export type UserQueryInput = {
-  selectedFilters?: Record<string, string[]>;
+  filters?: Record<string, string[]>;
 };
 
-export function useUsers({ selectedFilters }: UserQueryInput) {
+export function useUsers({ filters }: UserQueryInput) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
   const userQuery = useQuery<User[], Error>({
-    queryKey: ["users", { selectedFilters }],
-    queryFn: () => getUsers({ selectedFilters }),
+    queryKey: ["users", { filters }],
+    queryFn: () => getUsers({ filters }),
     staleTime: 60_000,
     placeholderData: keepPreviousData, // keep the previous data while fetching
   });

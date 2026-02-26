@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
@@ -48,10 +48,6 @@ export default function UserFilterDropDown({
       return { ...prev, [filterName]: [optionValue] };
     });
   }
-
-  useEffect(() => {
-    console.log("open", openedFilter);
-  }, [openedFilter]);
 
   return (
     <div
