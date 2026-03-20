@@ -11,6 +11,7 @@ import { inviteUser } from "../../../api/users";
 import UserFilterDropDown from "./UserFilterDropDown";
 import UsersTable from "./UsersTable";
 import { capitalize } from "../../../utils/helper";
+import type { UserSort } from "../../../type/user";
 
 export default function UsersPage() {
   const alert = useAlert();
@@ -18,15 +19,19 @@ export default function UsersPage() {
   const [selectedFilters, setSelectedFilters] = useState<
     Record<string, string[]>
   >({});
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [isInviteOpen, setInviteOpen] = useState<boolean>(false);
+  const [actionOpen, setActionOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [sorts, setSorts] = useState<UserSort[]>([
+    { field: "first_name", dir: "asc" },
+  ]);
 
   const { users, isLoading, isError, error, deleteUsersMutation, isDeleting } =
-    useUsers({ filters: selectedFilters });
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [isInviteOpen, setInviteOpen] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
-  const [actionOpen, setActionOpen] = useState(false);
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [openFilter, setOpenFilter] = useState(false);
+    useUsers({ filters: selectedFilters, search: searchInput, sorts: sorts });
 
   function closeAction() {
     setActionOpen(false);
@@ -85,6 +90,19 @@ export default function UsersPage() {
     });
   }
 
+  function toggleSort(field: string) {
+    setSorts((prev) => {
+      const existing = prev.find((p) => p.field === field);
+      if (!existing) {
+        return [...prev, { field, dir: "asc" }];
+      }
+
+      return prev.map((s) =>
+        s.field === field ? { ...s, dir: s.dir === "asc" ? "desc" : "asc" } : s,
+      );
+    });
+  }
+
   const chips = useMemo(() => {
     return Object.entries(selectedFilters).flatMap(([key, values]) =>
       values.map((value) => ({
@@ -135,7 +153,7 @@ export default function UsersPage() {
         <input
           className="form-input w-full"
           type="text"
-          placeholder="Search user by name or email"
+          placeholder="Search user by First, Last name or Email"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
@@ -181,7 +199,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <span className="mr-4 text-sm font-semibold text-gray-500">
-            Showing {users?.length} results
+            {users?.length} results
           </span>
 
           <span>Display 100</span>
@@ -236,7 +254,9 @@ export default function UsersPage() {
         </div>
       </div>
 
-      {users && <UsersTable users={users} />}
+      {users && (
+        <UsersTable users={users} sorts={sorts} onToggleSort={toggleSort} />
+      )}
     </div>
   );
 }

@@ -5,22 +5,24 @@ import {
   keepPreviousData,
 } from "@tanstack/react-query";
 
-import type { User } from "../type/user";
+import type { User, UserSort } from "../type/user";
 import { getUsers, deleteUsers } from "../api/users";
 
 import { useAlert } from "../contexts/AlertContext";
 
 export type UserQueryInput = {
   filters?: Record<string, string[]>;
+  search?: string;
+  sorts?: UserSort[];
 };
 
-export function useUsers({ filters }: UserQueryInput) {
+export function useUsers({ filters, search, sorts }: UserQueryInput) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
   const userQuery = useQuery<User[], Error>({
-    queryKey: ["users", { filters }],
-    queryFn: () => getUsers({ filters }),
+    queryKey: ["users", { filters, search, sorts }],
+    queryFn: () => getUsers({ filters, search, sorts }),
     staleTime: 60_000,
     placeholderData: keepPreviousData, // keep the previous data while fetching
   });

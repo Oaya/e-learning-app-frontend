@@ -5,9 +5,18 @@ import { IoIosCheckbox } from "react-icons/io";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { useAuth } from "../../../contexts/AuthContext";
 import { capitalize } from "../../../utils/helper";
-import type { User } from "../../../type/user";
+import type { User, UserSort } from "../../../type/user";
+import SortButton from "../../../components/ui/SortButton";
 
-export default function UsersTable({ users }: { users: User[] }) {
+export default function UsersTable({
+  users,
+  sorts,
+  onToggleSort,
+}: {
+  users: User[];
+  sorts: UserSort[];
+  onToggleSort: (field: string) => void;
+}) {
   const { user } = useAuth();
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
@@ -23,6 +32,10 @@ export default function UsersTable({ users }: { users: User[] }) {
     const allSelected = ids.length > 0 && selected.size === ids.length;
 
     setSelected(allSelected ? new Set() : new Set(ids));
+  }
+
+  function getSortValue(field: UserSort["field"]) {
+    return sorts.find((s) => s.field === field)?.dir;
   }
 
   function toggleOne(id: string) {
@@ -57,11 +70,49 @@ export default function UsersTable({ users }: { users: User[] }) {
                 </th>
               )}
 
-              <th className="p-3">Name</th>
-              <th className="p-3">Email</th>
-              <th className="p-3">Role</th>
+              <th className="p-3">
+                <div className="flex items-center">
+                  Name
+                  <button
+                    type="button"
+                    onClick={() => onToggleSort("first_name")}
+                  >
+                    <SortButton sort={getSortValue("first_name")} />
+                  </button>
+                </div>
+              </th>
 
-              {isAdmin && <th className="p-3">Status</th>}
+              <th className="p-3">
+                <div className="flex items-center">
+                  Email
+                  <button type="button" onClick={() => onToggleSort("email")}>
+                    <SortButton sort={getSortValue("email")} />
+                  </button>
+                </div>
+              </th>
+
+              <th className="p-3">
+                <div className="flex items-center">
+                  Role
+                  <button type="button" onClick={() => onToggleSort("role")}>
+                    <SortButton sort={getSortValue("role")} />
+                  </button>
+                </div>
+              </th>
+
+              {isAdmin && (
+                <th className="p-3">
+                  <div className="flex items-center">
+                    Status
+                    <button
+                      type="button"
+                      onClick={() => onToggleSort("status")}
+                    >
+                      <SortButton sort={getSortValue("status")} />
+                    </button>
+                  </div>
+                </th>
+              )}
             </tr>
           </thead>
 

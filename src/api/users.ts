@@ -3,7 +3,11 @@ import type { Instructor, InviteUser, User } from "../type/user";
 import type { Course } from "../type/course";
 import type { UserQueryInput } from "../hooks/useUsers";
 
-export async function getUsers({ filters }: UserQueryInput): Promise<User[]> {
+export async function getUsers({
+  filters,
+  search,
+  sorts,
+}: UserQueryInput): Promise<User[]> {
   try {
     const params = new URLSearchParams();
 
@@ -13,6 +17,21 @@ export async function getUsers({ filters }: UserQueryInput): Promise<User[]> {
           params.append(key, values.join(","));
         }
       });
+    }
+
+    if (search) {
+      params.append("search", search);
+    }
+
+    if (sorts) {
+      const value = [];
+      for (const sort of sorts) {
+        sort.dir === "desc"
+          ? value.push(`-${sort.field}`)
+          : value.push(sort.field);
+      }
+
+      if (value.length) params.append("sort", value.join(","));
     }
 
     const token = localStorage.getItem("jwt");

@@ -64,3 +64,8 @@ export type Instructor = {
   first_name: string;
   last_name: string;
 };
+
+export type UserSort = {
+  field: string;
+  dir: "asc" | "desc";
+};
