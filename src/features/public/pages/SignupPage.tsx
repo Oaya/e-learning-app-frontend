@@ -1,0 +1,101 @@
+import { useLocation } from "react-router-dom";
+import { useAlert } from "../../../contexts/AlertContext";
+import { useAuth } from "../../../contexts/AuthContext";
+import type { SignupUser } from "../../../type/user";
+
+export default function SignupPage() {
+  const location = useLocation();
+
+  const selectedPlan = location.state?.selectedPlan as string | undefined;
+  const { signupUser, isLoading } = useAuth();
+  const alert = useAlert();
+
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Signup form submitted");
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      //Check the password and confirm_password is same or not
+      if (data.password !== data.password_confirmation) {
+        alert.error("Password and Confirm Password should match");
+        return;
+      }
+
+      const res = await signupUser(data as SignupUser);
+
+      if (res.success) {
+        alert.success(res.data.message as string);
+      } else {
+        alert.error(res.error || "Signup failed");
+      }
+      return;
+    } catch (err) {
+      alert.error(err as string);
+    }
+  };
+
+  return (
+    <div className="m-10 mx-auto w-150 text-2xl">
+      <h2 className="mb-2 text-center">Sign up</h2>
+      <form onSubmit={handleSignup}>
+        <div className="mb-2">
+          <label className="block text-lg">Email</label>
+          <input name="email" className="form-input" />
+        </div>
+
+        <div className="mb-2">
+          <label className="block text-lg">Password</label>
+          <input name="password" type="password" className="form-input" />
+        </div>
+        <div className="mb-2">
+          <label className="block text-lg">Confirm Password</label>
+          <input
+            name="password_confirmation"
+            type="password"
+            className="form-input"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="mb-2">
+            <label className="block text-lg">First Name</label>
+            <input name="first_name" className="form-input" />
+          </div>
+          <div className="mb-2">
+            <label className="block text-lg">Last Name</label>
+            <input name="last_name" className="form-input" />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div className="mb-2">
+            <label className="block text-lg">Tenant Name</label>
+            <input name="tenant" className="form-input" />
+          </div>
+          <div className="mb-2">
+            <label className="block text-lg">Plan</label>
+            <select
+              name="plan"
+              className="form-select"
+              defaultValue={selectedPlan}
+            >
+              <option value="basic">Basic</option>
+              <option value="standard">Standard</option>
+              <option value="premium">Premium</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="btn-primary w-full text-lg"
+        >
+          Sign Up
+        </button>
+      </form>
+    </div>
+  );
+}

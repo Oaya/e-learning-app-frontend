@@ -1,15 +1,16 @@
 import { Route } from "react-router-dom";
-import HomePage from "../pages/public/Home";
-import PricingPage from "../pages/public/Pricing";
-import SignupPage from "../pages/public/Signup";
-import LoginPage from "../pages/public/Login";
-import EmailConfirmPage from "../pages/public/EmailConfirm";
-import PublicLayout from "../layouts/PublicLayout";
+
+import HomePage from "../features/public/pages/HomePage";
+import PricingPage from "../features/public/pages/PricingPage";
+import AcceptInvitePage from "../features/public/pages/AcceptInvitePage";
+import EmailConfirmPage from "../features/public/pages/EmailConfirmPage";
+import LoginPage from "../features/public/pages/LoginPage";
+import PaymentPage from "../features/public/pages/PaymentPage";
+import SignupPage from "../features/public/pages/SignupPage";
+import ProfilePage from "../features/shared/pages/Profile";
 import PlainLayout from "../layouts/PlainLayout";
-import AcceptInvitePage from "../pages/public/AcceptInvite";
-import ProfilePage from "../pages/public/Profile";
+import PublicLayout from "../layouts/PublicLayout";
 import SidebarLayout from "../layouts/SidebarLayout";
-import PaymentPage from "../pages/public/Payment";
 
 export default function PublicRoutes() {
   return (

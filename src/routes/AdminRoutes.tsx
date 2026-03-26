@@ -1,16 +1,17 @@
 import { Route } from "react-router-dom";
 
-import AdminDashboard from "../pages/admin/Dashboard";
 import RequireAuth from "./RequireAuth";
-import CourseBuilderPage from "../pages/admin/curriculum/CourseBuilder";
-import PricingPage from "../pages/admin/curriculum/Pricing";
-import CurriculumBuilderPage from "../pages/admin/curriculum/CurriculumBuilder";
-import ReviewPage from "../pages/admin/curriculum/Review";
-import CoursePage from "../pages/admin/curriculum/Course";
-import UsersPage from "../pages/admin/users/Users";
-import UserProfile from "../pages/admin/users/UserProfile";
+
+import AdminDashboard from "../features/admin/dashboard/pages/DashboardPage";
+import UserProfile from "../features/admin/dashboard/pages/UserProfilePage";
 import SidebarLayout from "../layouts/SidebarLayout";
-import CoursesList from "../pages/admin/curriculum/CoursesList";
+import CoursePage from "../features/admin/curriculum/pages/CoursePage";
+import CourseBuilderPage from "../features/admin/curriculum/pages/CourseBuilderPage";
+import CoursesList from "../features/admin/curriculum/pages/CoursesListPage";
+import CurriculumBuilderPage from "../features/admin/curriculum/pages/CurriculumBuilderPage";
+import UsersPage from "../features/admin/users/pages/UsersPage";
+import PricingPage from "../features/public/pages/PricingPage";
+import ReviewPage from "../features/admin/curriculum/pages/ReviewPage";
 
 export default function AdminRoutes() {
   return (
