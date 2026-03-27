@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
+import ReactPaginate from "react-paginate";
 
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useUsers } from "../hooks/useUsers";
@@ -10,30 +11,58 @@ import ConfirmModal from "../../../../ui/ConfirmModal";
 import { inviteUser } from "../../../../api/users";
 import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";
-import { capitalize } from "../../../../utils/helper";
-import type { UserSort } from "../../../../type/user";
 import { useUserSelections } from "../hooks/useUserSelections";
+import { useUserTableControl } from "../hooks/userUserTableControl";
 
 export default function UsersPage() {
   const alert = useAlert();
   const { user } = useAuth();
-  const [selectedFilters, setSelectedFilters] = useState<
-    Record<string, string[]>
-  >({});
 
-  const [isInviteOpen, setInviteOpen] = useState<boolean>(false);
-  const [actionOpen, setActionOpen] = useState<boolean>(false);
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [isInviteOpen, setInviteOpen] = useState(false);
+  const [actionOpen, setActionOpen] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [userOffset, setUserOffset] = useState(0);
+  const isAdmin = user?.role === "admin";
 
-  const [openFilter, setOpenFilter] = useState<boolean>(false);
-  const [searchInput, setSearchInput] = useState<string>("");
-  const [sorts, setSorts] = useState<UserSort[]>([]);
+  const {
+    sorts,
+    selectedFilters,
+    filters,
+    openedFilter,
+    chips,
+    toggleSort,
+    removeFilterChip,
+    handleToggleFilter,
+    updateSelectedFilters,
+  } = useUserTableControl();
 
-  const { users, isLoading, isError, error, deleteUsersMutation, isDeleting } =
-    useUsers({ filters: selectedFilters, search: searchInput, sorts: sorts });
+  const {
+    users = [],
+    isLoading,
+    isError,
+    error,
+    deleteUsersMutation,
+    isDeleting,
+  } = useUsers({ filters: selectedFilters, search: searchInput, sorts });
 
-  function closeAction() {
-    setActionOpen(false);
+  const itemsPerPage = 10;
+  const endOffset = userOffset + itemsPerPage;
+
+  const displayUsers = useMemo(() => {
+    return users.slice(userOffset, endOffset);
+  }, [users, userOffset, endOffset]);
+
+  const pageCount = Math.ceil(users.length / itemsPerPage);
+
+  useEffect(() => {
+    setUserOffset(0);
+  }, [searchInput, selectedFilters, sorts]);
+
+  function handlePageClick(event: { selected: number }) {
+    const newOffset = event.selected * itemsPerPage;
+    setUserOffset(newOffset);
   }
 
   const {
@@ -44,13 +73,15 @@ export default function UsersPage() {
     allSelected,
     toggleOne,
     toggleAll,
-  } = useUserSelections(users ?? [], user?.id);
+  } = useUserSelections(displayUsers, user?.id);
 
-  const isAdmin = user?.role === "admin";
+  function closeAction() {
+    setActionOpen(false);
+  }
 
   async function handleBulkSendInvite() {
     try {
-      if (selectedUsers.length) {
+      if (selectedUsers.length > 0) {
         const res = await inviteUser(
           selectedUsers.map((u) => ({
             email: u.email,
@@ -68,7 +99,7 @@ export default function UsersPage() {
           );
         }
       }
-    } catch (err) {
+    } catch {
       alert.error("Failed to send invitation. Try again later.");
     } finally {
       closeAction();
@@ -83,79 +114,42 @@ export default function UsersPage() {
     setDeleteModalOpen(false);
   }
 
-  function removeFilterChip(key: string, value: string) {
-    setSelectedFilters((prev) => {
-      const next = { ...prev };
-      if (!next[key]) return next;
-
-      next[key] = next[key].filter((v) => v !== value);
-
-      if (next[key].length === 0) {
-        delete next[key];
-      }
-      return next;
-    });
-  }
-
-  function toggleSort(field: string) {
-    setSorts((prev) => {
-      const existing = prev.find((p) => p.field === field);
-      if (!existing) {
-        return [...prev, { field, dir: "asc" }];
-      }
-
-      return prev.map((s) =>
-        s.field === field ? { ...s, dir: s.dir === "asc" ? "desc" : "asc" } : s,
-      );
-    });
-  }
-
-  const chips = useMemo(() => {
-    return Object.entries(selectedFilters).flatMap(([key, values]) =>
-      values.map((value) => ({
-        key,
-        value,
-        label: `${capitalize(key)}: ${capitalize(value)}`,
-      })),
-    );
-  }, [selectedFilters]);
-
   if (isLoading) {
     return <div className="p-6">Loading users...</div>;
   }
 
-  if (isError)
-    alert.error(error instanceof Error ? error.message : "Failed to load");
+  if (isError) {
+    return (
+      <div className="p-6">
+        {error instanceof Error ? error.message : "Failed to load users"}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 p-6">
-      {/* Invite user Modal */}
-
       {isInviteOpen && (
         <InviteUserModal
           isOpen={isInviteOpen}
           onClose={() => setInviteOpen(false)}
         />
       )}
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Users</h1>
-      </div>
 
-      {/* Delete user modal */}
       {isDeleteModalOpen && (
         <ConfirmModal
           isOpen={isDeleteModalOpen}
           title="Delete Users"
-          message={`Are you sure you want to delete ${selectedEmails?.join(", ")}? This action cannot be undone.`}
+          message={`Are you sure you want to delete ${selectedEmails.join(", ")}? This action cannot be undone.`}
           isSubmitting={isDeleting}
-          onConfirm={() => {
-            deleteUsers();
-          }}
+          onConfirm={deleteUsers}
           onCancel={() => setDeleteModalOpen(false)}
         />
       )}
 
-      {/* search input */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold">Users</h1>
+      </div>
+
       <div className="flex">
         <input
           className="form-input w-full"
@@ -178,13 +172,15 @@ export default function UsersPage() {
             <UserFilterDropDown
               onClose={() => setOpenFilter(false)}
               selectedFilters={selectedFilters}
-              setSelectedFilters={setSelectedFilters}
+              filters={filters}
+              openedFilter={openedFilter}
+              onHandleToggleFilter={handleToggleFilter}
+              onUpdateSelectedFilters={updateSelectedFilters}
             />
           )}
         </div>
       </div>
 
-      {/* filtered chips */}
       <div>
         {chips.map((chip) => (
           <span
@@ -195,9 +191,7 @@ export default function UsersPage() {
             <IoIosClose
               size={20}
               className="ml-1 inline-block"
-              onClick={() => {
-                removeFilterChip(chip.key, chip.value);
-              }}
+              onClick={() => removeFilterChip(chip.key, chip.value)}
             />
           </span>
         ))}
@@ -206,10 +200,8 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <span className="mr-4 text-sm font-semibold text-gray-500">
-            {users?.length} results
+            {users.length} results
           </span>
-
-          {/* <span>Display 100</span> */}
         </div>
 
         <div className="flex items-center gap-4">
@@ -227,7 +219,6 @@ export default function UsersPage() {
 
                 {actionOpen && (
                   <>
-                    {/* click-outside overlay */}
                     <div className="fixed inset-0 z-10" onClick={closeAction} />
 
                     <div className="absolute right-0 z-20 mt-2 w-36 rounded border bg-white shadow">
@@ -242,7 +233,7 @@ export default function UsersPage() {
                       <button
                         type="button"
                         className="w-full rounded px-4 py-2 text-left text-sm hover:bg-gray-100"
-                        onClick={() => isAdmin && setDeleteModalOpen(true)}
+                        onClick={() => setDeleteModalOpen(true)}
                       >
                         Delete selected
                       </button>
@@ -250,6 +241,7 @@ export default function UsersPage() {
                   </>
                 )}
               </div>
+
               <button
                 className="btn-primary"
                 onClick={() => setInviteOpen(true)}
@@ -261,15 +253,31 @@ export default function UsersPage() {
         </div>
       </div>
 
-      {users && (
-        <UsersTable
-          users={users}
-          sorts={sorts}
-          selected={selected}
-          allSelected={allSelected}
-          onToggleSort={toggleSort}
-          onToggleOne={toggleOne}
-          onToggleAll={toggleAll}
+      <UsersTable
+        users={displayUsers}
+        sorts={sorts}
+        selected={selected}
+        allSelected={allSelected}
+        onToggleSort={toggleSort}
+        onToggleOne={toggleOne}
+        onToggleAll={toggleAll}
+      />
+
+      {pageCount > 1 && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          previousLabel="<"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          renderOnZeroPageCount={null}
+          containerClassName="mt-4 flex items-center justify-center gap-2"
+          pageClassName="rounded border px-3 py-1"
+          activeClassName="bg-gray-200 font-semibold"
+          previousClassName="rounded border px-3 py-1"
+          nextClassName="rounded border px-3 py-1"
+          disabledClassName="opacity-50 cursor-not-allowed"
         />
       )}
     </div>

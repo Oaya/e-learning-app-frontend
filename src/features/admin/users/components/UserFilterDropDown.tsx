@@ -1,54 +1,26 @@
-import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
-
-import { createFilters } from "./filters";
+import type { UserTableFilter } from "../../../../type/user";
 
 export default function UserFilterDropDown({
   onClose,
   selectedFilters,
-  setSelectedFilters,
+  openedFilter,
+  filters,
+  onHandleToggleFilter,
+  onUpdateSelectedFilters,
 }: {
   onClose: () => void;
   selectedFilters: Record<string, string[]>;
-  setSelectedFilters: React.Dispatch<
-    React.SetStateAction<Record<string, string[]>>
-  >;
-}) {
-  // Get the filter options from the filters.ts
-  const filters = createFilters().filters;
-  const [openedFilter, setOpenedFilter] = useState<string[]>([]);
-
-  function handleToggleFilter(filterName: string) {
-    setOpenedFilter((prev) =>
-      prev.includes(filterName)
-        ? prev.filter((name) => name !== filterName)
-        : [...prev, filterName],
-    );
-  }
-
-  function updateSelectedFilters(
+  openedFilter: string[];
+  filters: UserTableFilter[];
+  onHandleToggleFilter: (filterName: string) => void;
+  onUpdateSelectedFilters: (
     filterName: string,
     optionValue: string,
     filterType: string,
-  ) {
-    setSelectedFilters((prev) => {
-      const currentValues = prev[filterName] || [];
-
-      if (filterType === "multi-select") {
-        const isSelected = currentValues.includes(optionValue);
-        const nextValues = isSelected
-          ? currentValues.filter((v) => v !== optionValue)
-          : [...currentValues, optionValue];
-
-        return { ...prev, [filterName]: nextValues };
-      }
-
-      // radio / single select: replace with the one chosen value
-      return { ...prev, [filterName]: [optionValue] };
-    });
-  }
-
+  ) => void;
+}) {
   return (
     <div
       className="absolute right-0 z-50 mt-4 w-100 rounded-lg bg-white shadow-lg ring-1 ring-black/10"
@@ -71,7 +43,7 @@ export default function UserFilterDropDown({
             <div key={filter.name}>
               <div
                 className="text-md mb-3 px-4 font-medium"
-                onClick={() => handleToggleFilter(filter.name)}
+                onClick={() => onHandleToggleFilter(filter.name)}
               >
                 <span className="mr-2">
                   {openedFilter.includes(filter.name) ? (
@@ -101,7 +73,7 @@ export default function UserFilterDropDown({
                         }
                         onChange={(e) => {
                           e.stopPropagation();
-                          updateSelectedFilters(
+                          onUpdateSelectedFilters(
                             filter.name,
                             option.value,
                             filter.type,

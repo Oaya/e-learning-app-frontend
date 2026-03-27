@@ -20,8 +20,6 @@ export function useUsers({ filters, search, sorts }: UserQueryInput) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
-  console.log("sort", sorts);
-
   const userQuery = useQuery<User[], Error>({
     queryKey: ["users", { filters, search, sorts }],
     queryFn: () => getUsers({ filters, search, sorts }),

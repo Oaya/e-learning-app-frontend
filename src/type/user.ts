@@ -69,3 +69,13 @@ export type UserSort = {
   field: string;
   dir: "asc" | "desc";
 };
+
+export type UserTableFilter = {
+  name: string;
+  header: string;
+  type: string;
+  options: {
+    value: string;
+    label: string;
+  }[];
+};
