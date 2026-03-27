@@ -31,12 +31,12 @@ export default function SidebarLayout() {
       <div
         className={`bg-theme-grey-10 flex min-h-screen ${showBanner ? "pt-14" : ""}`}
       >
-        <aside className="bg-theme-purple-10 w-64">
+        <aside className="bg-theme-purple-10 sticky top-0 h-screen w-64">
           <div className="p-6">
             <h1 className="text-2xl font-bold">EduApp</h1>
           </div>
 
-          <nav className="flex h-[calc(100vh-72px)] flex-col space-y-1 px-4 py-4">
+          <nav className="relative flex h-[calc(100vh-72px)] flex-col px-4 py-4">
             <div>
               {(isAdmin || isInstructor) && (
                 <>
@@ -48,9 +48,7 @@ export default function SidebarLayout() {
               <StyledNavLink to="/profile">Profile</StyledNavLink>
             </div>
 
-            <div className="flex-1" />
-
-            <div className="flex justify-center">
+            <div className="absolute bottom-15 left-0 flex w-full justify-center">
               <button
                 onClick={handleLogout}
                 className="hover:bg-theme-purple-20/80 rounded border-2 border-gray-600 px-10 py-2 text-sm text-gray-600 hover:text-white"

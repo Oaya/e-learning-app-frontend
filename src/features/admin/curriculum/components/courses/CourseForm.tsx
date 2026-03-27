@@ -10,7 +10,7 @@ import type { Course, UpsertCourse } from "../../../../../type/course";
 import type { Instructor } from "../../../../../type/user";
 import { categories, levels } from "../../../../../utils/constants";
 import { fdString } from "../../../../../utils/formData";
-import { useInstructors } from "../../../users/hooks/useInstructors";
+import { useInstructors } from "../../hooks/useInstructors";
 
 type CourseFormProps = {
   isEdit?: boolean;

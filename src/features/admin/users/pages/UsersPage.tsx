@@ -209,7 +209,7 @@ export default function UsersPage() {
             {users?.length} results
           </span>
 
-          <span>Display 100</span>
+          {/* <span>Display 100</span> */}
         </div>
 
         <div className="flex items-center gap-4">
