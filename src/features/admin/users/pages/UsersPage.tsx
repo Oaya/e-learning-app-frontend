@@ -12,6 +12,7 @@ import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";
 import { capitalize } from "../../../../utils/helper";
 import type { UserSort } from "../../../../type/user";
+import { useUserSelections } from "../hooks/useUserSelections";
 
 export default function UsersPage() {
   const alert = useAlert();
@@ -19,7 +20,7 @@ export default function UsersPage() {
   const [selectedFilters, setSelectedFilters] = useState<
     Record<string, string[]>
   >({});
-  const [selected, setSelected] = useState<Set<string>>(new Set());
+
   const [isInviteOpen, setInviteOpen] = useState<boolean>(false);
   const [actionOpen, setActionOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -35,17 +36,23 @@ export default function UsersPage() {
     setActionOpen(false);
   }
 
-  console.log("selected", selected);
+  const {
+    selected,
+    clearSelection,
+    selectedUsers,
+    selectedEmails,
+    allSelected,
+    toggleOne,
+    toggleAll,
+  } = useUserSelections(users ?? [], user?.id);
 
-  const selectedUsers = users?.filter((u) => selected.has(u.id));
-  const selectedEmails = selectedUsers?.map((u) => u.email);
   const isAdmin = user?.role === "admin";
 
   async function handleBulkSendInvite() {
     try {
-      if (selectedUsers) {
+      if (selectedUsers.length) {
         const res = await inviteUser(
-          selectedUsers?.map((u) => ({
+          selectedUsers.map((u) => ({
             email: u.email,
             role: u.role,
             first_name: u.first_name,
@@ -65,14 +72,14 @@ export default function UsersPage() {
       alert.error("Failed to send invitation. Try again later.");
     } finally {
       closeAction();
-      setSelected(new Set());
+      clearSelection();
     }
   }
 
   function deleteUsers() {
     deleteUsersMutation([...selected]);
     closeAction();
-    setSelected(new Set());
+    clearSelection();
     setDeleteModalOpen(false);
   }
 
@@ -255,7 +262,15 @@ export default function UsersPage() {
       </div>
 
       {users && (
-        <UsersTable users={users} sorts={sorts} onToggleSort={toggleSort} />
+        <UsersTable
+          users={users}
+          sorts={sorts}
+          selected={selected}
+          allSelected={allSelected}
+          onToggleSort={toggleSort}
+          onToggleOne={toggleOne}
+          onToggleAll={toggleAll}
+        />
       )}
     </div>
   );

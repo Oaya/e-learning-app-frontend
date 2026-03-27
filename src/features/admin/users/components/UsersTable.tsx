@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { IoIosCheckbox } from "react-icons/io";
 
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
@@ -11,41 +10,27 @@ import SortButton from "../../../../ui/SortButton";
 export default function UsersTable({
   users,
   sorts,
-  selectedUser,
+  selected,
+  allSelected,
   onToggleSort,
+  onToggleOne,
+  onToggleAll,
 }: {
   users: User[];
   sorts: UserSort[];
-  selectedUser: Set<string>;
+  selected: Set<string>;
+  allSelected: boolean;
   onToggleSort: (field: string) => void;
+  onToggleOne: (id: string) => void;
+  onToggleAll: () => void;
 }) {
   const { user } = useAuth();
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-
-  const allSelected = users.length > 0 && selected.size === users.length - 1; // Exclude current user;
-
   const isAdmin = user?.role === "admin";
-  const currentUserId = user?.id;
-  const isSelf = (id: string) => id === currentUserId;
 
-  function toggleAll() {
-    const ids = users.filter((u) => u.id !== currentUserId).map((u) => u.id);
-
-    const allSelected = ids.length > 0 && selected.size === ids.length;
-
-    setSelected(allSelected ? new Set() : new Set(ids));
-  }
+  const isSelf = (id: string) => id === user?.id;
 
   function getSortValue(field: UserSort["field"]) {
     return sorts.find((s) => s.field === field)?.dir;
-  }
-
-  function toggleOne(id: string) {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
   }
 
   return (
@@ -60,13 +45,13 @@ export default function UsersTable({
                     <IoIosCheckbox
                       size={18}
                       className="text-theme-purple-10 cursor-pointer"
-                      onClick={toggleAll}
+                      onClick={() => onToggleAll()}
                     />
                   ) : (
                     <MdOutlineCheckBoxOutlineBlank
                       size={18}
                       className="text-theme-purple-10 cursor-pointer"
-                      onClick={toggleAll}
+                      onClick={() => onToggleAll()}
                     />
                   )}
                 </th>
@@ -140,13 +125,13 @@ export default function UsersTable({
                       ) : selected.has(u.id) ? (
                         <IoIosCheckbox
                           className="text-theme-purple-10 cursor-pointer"
-                          onClick={() => toggleOne(u.id)}
+                          onClick={() => onToggleOne(u.id)}
                           size={18}
                         />
                       ) : (
                         <MdOutlineCheckBoxOutlineBlank
                           className="text-theme-purple-10 cursor-pointer"
-                          onClick={() => toggleOne(u.id)}
+                          onClick={() => onToggleOne(u.id)}
                           size={18}
                         />
                       )}
