@@ -1,4 +1,4 @@
-import PlanCard from "../../../components/ui/PlanCard";
+import PlanCard from "../components/PlanCard";
 import { usePlans } from "../hooks/usePlans";
 
 //Set up a color map for plans to ensure consistent styling

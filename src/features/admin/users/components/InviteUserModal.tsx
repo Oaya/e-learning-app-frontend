@@ -1,11 +1,11 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { roles } from "../../utils/constants";
-import { inviteUser } from "../../api/users";
-import { fdString } from "../../utils/formData";
-import { useAlert } from "../../contexts/AlertContext";
-import CustomSelect from "./CustomSelect";
+import { roles } from "../../../../utils/constants";
+import { inviteUser } from "../../../../api/users";
+import { fdString } from "../../../../utils/formData";
+import { useAlert } from "../../../../contexts/AlertContext";
+import CustomSelect from "../../../../ui/CustomSelect";
 import { useState } from "react";
-import { capitalize } from "../../utils/helper";
+import { capitalize } from "../../../../utils/helper";
 
 type InviteUserModalProps = {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ConfirmModal from "../../../../components/ui/ConfirmModal";
+import ConfirmModal from "../../../../ui/ConfirmModal";
 import CourseDetailTable from "../components/courses/CourseDetailTable";
 import SectionDetails from "../components/sections/SectionDetails";
 import { useCourse } from "../hooks/useCourseMutation";

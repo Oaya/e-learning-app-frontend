@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
-import StyledNavLink from "../components/NavLink";
+import StyledNavLink from "../ui/NavLink";
 import { useAlert } from "../contexts/AlertContext";
-import SubscriptionBanner from "../components/ui/SubscriptionBanner";
+import SubscriptionBanner from "../features/public/components/SubscriptionBanner";
 
 export default function SidebarLayout() {
   const { logoutUser, user } = useAuth();

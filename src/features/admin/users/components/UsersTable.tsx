@@ -6,7 +6,7 @@ import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { capitalize } from "../../../../utils/helper";
 import type { User, UserSort } from "../../../../type/user";
-import SortButton from "../../../../components/ui/SortButton";
+import SortButton from "../../../../ui/SortButton";
 
 export default function UsersTable({
   users,

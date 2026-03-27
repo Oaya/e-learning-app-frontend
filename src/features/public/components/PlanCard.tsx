@@ -1,8 +1,8 @@
 import { MdOutlineClose } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-import type { Plan } from "../../type/plan";
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
+import type { Plan } from "../../../type/plan";
 
 function PlanList({ text }: { text: string }) {
   return (

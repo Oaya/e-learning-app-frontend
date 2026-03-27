@@ -7,7 +7,7 @@ import EmailConfirmPage from "../features/public/pages/EmailConfirmPage";
 import LoginPage from "../features/public/pages/LoginPage";
 import PaymentPage from "../features/public/pages/PaymentPage";
 import SignupPage from "../features/public/pages/SignupPage";
-import ProfilePage from "../features/shared/pages/Profile";
+import ProfilePage from "../features/shared/pages/ProfilePage";
 import PlainLayout from "../layouts/PlainLayout";
 import PublicLayout from "../layouts/PublicLayout";
 import SidebarLayout from "../layouts/SidebarLayout";

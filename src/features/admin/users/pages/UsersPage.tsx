@@ -4,9 +4,9 @@ import { IoIosClose } from "react-icons/io";
 
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useUsers } from "../hooks/useUsers";
-import InviteUserModal from "../../../../components/ui/InviteUserModal";
+import InviteUserModal from "../components/InviteUserModal";
 import { useAuth } from "../../../../contexts/AuthContext";
-import ConfirmModal from "../../../../components/ui/ConfirmModal";
+import ConfirmModal from "../../../../ui/ConfirmModal";
 import { inviteUser } from "../../../../api/users";
 import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";

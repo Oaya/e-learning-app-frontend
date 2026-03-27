@@ -2,10 +2,10 @@ import { useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { useParams } from "react-router-dom";
 
-import UpdatePasswordModal from "../../../../components/ui/UpdatePasswordModal";
-import { useUserCourses } from "../../curriculum/hooks/useUserCourses";
+import { useUserCourses } from "../hooks/useUserCourses";
 import { capitalize } from "../../../../utils/helper";
 import { useUser } from "../../users/hooks/useUser";
+import UpdatePasswordModal from "../../users/components/UpdatePasswordModal";
 
 export default function UserProfile() {
   // Keep local form state, initialized safely even when user is null

@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useAlert } from "../../../contexts/AlertContext";
-import UpdatePasswordModal from "../../../components/ui/UpdatePasswordModal";
-import CancelSubscriptionModal from "../../../components/ui/CancelSubscriptionModal";
+import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 import { capitalize } from "../../../utils/helper";
-import UpdateSubscriptionModal from "../../../components/ui/UpdateSubscriptionModal";
+import UpdatePasswordModal from "../../admin/users/components/UpdatePasswordModal";
+import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
 
 export default function ProfilePage() {
   const { user, updateUser, isLoading } = useAuth();

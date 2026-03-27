@@ -1,8 +1,7 @@
 import { AiOutlineClose } from "react-icons/ai";
-
-import { fdString } from "../../utils/formData";
-import { useAlert } from "../../contexts/AlertContext";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAlert } from "../../../../contexts/AlertContext";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { fdString } from "../../../../utils/formData";
 
 type UpdatePasswordModalProps = {
   isOpen: boolean;

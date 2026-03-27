@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BiEditAlt, BiSolidTrashAlt } from "react-icons/bi";
 
 import SortableLessonList from "../lessons/SortableLessonList";
-import ConfirmModal from "../../../../../components/ui/ConfirmModal";
+import ConfirmModal from "../../../../../ui/ConfirmModal";
 import type { UpsertLesson } from "../../../../../type/lesson";
 import type { SectionWithLessons } from "../../../../../type/section";
 import { useLessonMutations } from "../../hooks/useLessonMutation";

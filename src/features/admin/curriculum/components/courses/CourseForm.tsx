@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
 import { updateCourse, createCourse } from "../../../../../api/courses";
-import CustomSelect from "../../../../../components/ui/CustomSelect";
+import CustomSelect from "../../../../../ui/CustomSelect";
 import { useAlert } from "../../../../../contexts/AlertContext";
 import type { Course, UpsertCourse } from "../../../../../type/course";
 import type { Instructor } from "../../../../../type/user";

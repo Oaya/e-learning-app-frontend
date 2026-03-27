@@ -1,10 +1,10 @@
 import { AiOutlineClose } from "react-icons/ai";
 
-import { fdString } from "../../utils/formData";
-import { useAlert } from "../../contexts/AlertContext";
-import { useAuth } from "../../contexts/AuthContext";
-import { capitalize } from "../../utils/helper";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "../../../contexts/AlertContext";
+import { useAuth } from "../../../contexts/AuthContext";
+import { fdString } from "../../../utils/formData";
+import { capitalize } from "../../../utils/helper";
 
 type UpdateSubscriptionProps = {
   isOpen: boolean;
