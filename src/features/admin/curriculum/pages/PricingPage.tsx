@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addCoursePrice } from "../../../../api/courses";
-import { useAlert } from "../../../../contexts/AlertContext";
-import type { AddCoursePrice } from "../../../../type/course";
+
 import { useCourse } from "../hooks/useCourseMutation";
 
 export default function PricingPage() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const alert = useAlert();
+
   const courseId = id ?? "";
-  const { course } = useCourse(courseId);
+  const { course, isSavingPrice, savePrice } = useCourse(courseId, {
+    onPriceSaveSuccess: () => {
+      navigate(`/admin/courses/${courseId}/review`);
+    },
+  });
 
   const [priceInput, setPriceInput] = useState<string>("");
 
@@ -22,22 +22,11 @@ export default function PricingPage() {
     }
   }, [course?.price]);
 
-  const mutation = useMutation({
-    mutationFn: (values: AddCoursePrice) => addCoursePrice(values),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["course", courseId] });
-      navigate(`/admin/courses/${courseId}/review`);
-    },
-    onError: (err) => {
-      alert.error(err instanceof Error ? err.message : "Failed to save course");
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const price = Number(priceInput);
-    mutation.mutate({ id: courseId, price });
+    await savePrice(price);
   };
 
   return (
@@ -84,10 +73,10 @@ export default function PricingPage() {
             </Link>
             <button
               type="submit"
-              disabled={mutation.isPending}
+              disabled={isSavingPrice}
               className="btn-primary"
             >
-              {mutation.isPending ? "Saving..." : "Next"}
+              {isSavingPrice ? "Saving..." : "Next"}
             </button>
           </div>
         </form>

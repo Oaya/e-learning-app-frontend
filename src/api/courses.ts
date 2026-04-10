@@ -108,12 +108,16 @@ export async function createCourse(data: UpsertCourse): Promise<Course> {
       );
     }
 
+    console.log(createData);
+
     const url: string = `${import.meta.env.VITE_API_URL}/api/courses`;
     const response = await axios.post(url, createData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    console.log("response", response.data);
 
     return response.data;
   } catch (err: any) {

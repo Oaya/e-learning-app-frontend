@@ -1,16 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
-import { updateCourse, createCourse } from "../../../../api/courses";
 import CustomSelect from "../../../../ui/CustomSelect";
-import { useAlert } from "../../../../contexts/AlertContext";
 import type { Course, UpsertCourse } from "../../../../type/course";
 import type { Instructor } from "../../../../type/user";
 import { categories, levels } from "../../../../utils/constants";
 import { fdString } from "../../../../utils/formData";
 import { useInstructors } from "../hooks/useInstructors";
+import { useCourse } from "../hooks/useCourseMutation";
 
 type CourseFormProps = {
   isEdit?: boolean;
@@ -18,7 +16,6 @@ type CourseFormProps = {
 };
 export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
   const { instructors } = useInstructors();
-
   const [selectedInstructor, setSelectedInstructor] = useState<Instructor[]>(
     defaultValues?.instructors ?? [],
   );
@@ -29,8 +26,12 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
   const [removed, setRemoved] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const alert = useAlert();
+
+  const { upsertMutation, isUpserting } = useCourse(defaultValues?.id ?? "", {
+    onUpsertSuccess: (courseId: string) => {
+      navigate(`/admin/courses/${courseId}/curriculum-builder`);
+    },
+  });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -70,39 +71,8 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
       thumbnail_signed_id: "",
     };
 
-    console.log(data);
-
-    mutation.mutate(data);
+    upsertMutation({ isEdit: !!isEdit, values: data });
   };
-
-  const mutation = useMutation({
-    mutationFn: (values: UpsertCourse) => {
-      if (isEdit && defaultValues?.id) {
-        return updateCourse(defaultValues.id, values);
-      }
-      return createCourse(values);
-    },
-
-    onSuccess: (result: any) => {
-      // refresh list + specific course (if edit)
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
-
-      const nextId = isEdit && defaultValues?.id ? defaultValues.id : result.id;
-
-      if (isEdit && defaultValues?.id) {
-        queryClient.invalidateQueries({
-          queryKey: ["courses", defaultValues.id],
-        });
-      } else {
-        queryClient.invalidateQueries({ queryKey: ["courses", nextId] });
-      }
-
-      navigate(`/admin/courses/${nextId}/curriculum-builder`);
-    },
-    onError: (err) => {
-      alert.error(err instanceof Error ? err.message : "Failed to save course");
-    },
-  });
 
   return (
     <div className="space-y-6">
@@ -246,7 +216,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
                   onClick={removeImage}
                   className="text-theme-pink-20 ml-4"
                   aria-label="Remove image"
-                  disabled={mutation.isPending}
+                  disabled={isUpserting}
                 >
                   <BiSolidTrashAlt size={18} />
                 </button>
@@ -256,12 +226,8 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
         </div>
 
         <div className="flex gap-3">
-          <button
-            type="submit"
-            disabled={mutation.isPending}
-            className="btn-primary"
-          >
-            {mutation.isPending ? "Saving..." : "Save & Continue"}
+          <button type="submit" disabled={isUpserting} className="btn-primary">
+            {isUpserting ? "Saving..." : "Save & Continue"}
           </button>
 
           <Link

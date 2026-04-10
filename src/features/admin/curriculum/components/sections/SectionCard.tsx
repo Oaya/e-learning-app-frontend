@@ -50,7 +50,6 @@ export default function SectionCard({
         setEditingSectionId(null);
       },
       onCreateSuccess: () => setAddSectionOpen(false),
-      // onUpdateSuccess: (section) => toggleOpen(section.id),
     });
 
   const { createLesson, isCreating, reorderLessons, isReordering } =

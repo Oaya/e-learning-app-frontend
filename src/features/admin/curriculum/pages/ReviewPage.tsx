@@ -1,35 +1,25 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { publishCourse } from "../../../../api/courses";
-import { useAlert } from "../../../../contexts/AlertContext";
+
 import CourseDetailTable from "../components/courses/CourseDetailTable";
 import SectionDetails from "../components/sections/SectionDetails";
 import { useCourseOverview } from "../hooks/useCourseOverview";
+import { useCourse } from "../hooks/useCourseMutation";
 
 export default function CourseReviewPage() {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const courseId = id ?? "";
-  const alert = useAlert();
+
   const { course, isLoading } = useCourseOverview(courseId);
 
-  const mutation = useMutation({
-    mutationFn: (id: string) => publishCourse(id),
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["course", courseId] });
+  const { submitCourseMutation, isSubmittingCourse } = useCourse(courseId, {
+    onSubmitCourseSuccess: () => {
       navigate(`/admin/courses/${courseId}`);
-    },
-    onError: (error) => {
-      alert.error(
-        error instanceof Error ? error.message : "Failed to publish course",
-      );
     },
   });
 
-  const handleSubmitCourse = () => {
-    mutation.mutate(courseId);
+  const handleSubmitCourse = async () => {
+    await submitCourseMutation();
   };
 
   //Check if it can submit the course or not. to submit course, it must have at least one section with one lesson.
@@ -77,10 +67,10 @@ export default function CourseReviewPage() {
         <button
           type="submit"
           onClick={handleSubmitCourse}
-          disabled={mutation.isPending || !!message}
+          disabled={isSubmittingCourse || !!message}
           className="btn-primary"
         >
-          {mutation.isPending ? "Saving..." : "Submit for Review"}
+          {isSubmittingCourse ? "Saving..." : "Submit for Review"}
         </button>
       </div>
     </div>
