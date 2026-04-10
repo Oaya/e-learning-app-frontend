@@ -8,7 +8,7 @@ import { capitalize } from "../../../../utils/helper";
 import UpdatePasswordModal from "../../../admin/users/components/UpdatePasswordModal";
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 
-export default function ProfilePage() {
+export default function MyProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
 
   // Keep local form state, initialized safely even when user is null

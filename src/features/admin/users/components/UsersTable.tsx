@@ -140,7 +140,7 @@ export default function UsersTable({
 
                   <td className="p-3">
                     <Link
-                      to={`/admin/users/${u.id}`}
+                      to={`/users/${u.id}`}
                       className="text-blue-600 hover:underline"
                     >
                       {u.first_name} {u.last_name}

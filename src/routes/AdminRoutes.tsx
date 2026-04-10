@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
 
 import AdminDashboard from "../features/admin/dashboard/pages/DashboardPage";
-import UserProfile from "../features/admin/dashboard/pages/UserProfilePage";
 import SidebarLayout from "../layouts/SidebarLayout";
 import CoursePage from "../features/admin/curriculum/pages/CoursePage";
 import CourseBuilderPage from "../features/admin/curriculum/pages/CourseBuilderPage";
@@ -35,7 +34,6 @@ export default function AdminRoutes() {
         <Route path="/admin/courses/:id/pricing" element={<PricingPage />} />
         <Route path="/admin/courses/:id/review" element={<ReviewPage />} />
         <Route path="/admin/users" element={<UsersPage />} />
-        <Route path="/admin/users/:id" element={<UserProfile />} />
       </Route>
     </Route>
   );

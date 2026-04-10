@@ -10,7 +10,8 @@ import SignupPage from "../features/public/pages/SignupPage";
 import PlainLayout from "../layouts/PlainLayout";
 import PublicLayout from "../layouts/PublicLayout";
 import SidebarLayout from "../layouts/SidebarLayout";
-import ProfilePage from "../features/shared/profile/pages/ProfilePage";
+import MyProfilePage from "../features/shared/profile/pages/MyProfilePage";
+import UserProfile from "../features/shared/profile/pages/UserProfilePage";
 
 export default function PublicRoutes() {
   return (
@@ -32,7 +33,8 @@ export default function PublicRoutes() {
 
       {/* Profile Route with Sidebar */}
       <Route element={<SidebarLayout />}>
-        <Route path="profile" element={<ProfilePage />} />
+        <Route path="profile" element={<MyProfilePage />} />
+        <Route path="/users/:id" element={<UserProfile />} />
       </Route>
     </>
   );

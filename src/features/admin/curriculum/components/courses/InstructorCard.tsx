@@ -15,7 +15,7 @@ export default function InstructorCard({
           instructors.map((ins) => (
             <Link
               className="group flex items-center gap-4 pt-4"
-              to={`/admin/users/${ins.id}`}
+              to={`/users/${ins.id}`}
             >
               <img
                 src={ins.avatar || "/src/assets/user.png"}
