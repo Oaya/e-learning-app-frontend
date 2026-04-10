@@ -3,14 +3,14 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
-import { updateCourse, createCourse } from "../../../../../api/courses";
-import CustomSelect from "../../../../../ui/CustomSelect";
-import { useAlert } from "../../../../../contexts/AlertContext";
-import type { Course, UpsertCourse } from "../../../../../type/course";
-import type { Instructor } from "../../../../../type/user";
-import { categories, levels } from "../../../../../utils/constants";
-import { fdString } from "../../../../../utils/formData";
-import { useInstructors } from "../../hooks/useInstructors";
+import { updateCourse, createCourse } from "../../../../api/courses";
+import CustomSelect from "../../../../ui/CustomSelect";
+import { useAlert } from "../../../../contexts/AlertContext";
+import type { Course, UpsertCourse } from "../../../../type/course";
+import type { Instructor } from "../../../../type/user";
+import { categories, levels } from "../../../../utils/constants";
+import { fdString } from "../../../../utils/formData";
+import { useInstructors } from "../hooks/useInstructors";
 
 type CourseFormProps = {
   isEdit?: boolean;

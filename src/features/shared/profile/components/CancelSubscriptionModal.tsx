@@ -1,6 +1,6 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { useAlert } from "../../../contexts/AlertContext";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAlert } from "../../../../contexts/AlertContext";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 type CancelSubscriptionModalProps = {
   isOpen: boolean;

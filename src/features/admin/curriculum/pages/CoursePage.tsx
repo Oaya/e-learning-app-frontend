@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import CourseDetailTable from "../components/courses/CourseDetailTable";
 import SectionDetails from "../components/sections/SectionDetails";
 import { useCourse } from "../hooks/useCourseMutation";
 import { useCourseOverview } from "../hooks/useCourseOverview";
+import InstructorCard from "../components/courses/InstructorCard";
 
 export default function CoursePage() {
   const { id } = useParams<{ id: string }>();
@@ -90,10 +92,7 @@ export default function CoursePage() {
 
           {/* Right column (sidebar) */}
           <div className="flex flex-col space-y-6 lg:sticky lg:top-6">
-            <div className="rounded bg-white p-4">
-              <p className="text-sm text-gray-500">Instructor</p>
-              <p className="mt-1 text-2xl font-semibold">Instructor Info</p>
-            </div>
+            <InstructorCard instructors={course.instructors} />
 
             <div className="rounded bg-white p-4">
               <p className="text-sm text-gray-500">Students</p>
