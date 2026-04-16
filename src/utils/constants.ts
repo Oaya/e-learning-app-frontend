@@ -22,4 +22,5 @@ export const categories: string[] = [
 
 export const lessonTypes: string[] = ["Video", "Reading"];
 
-export const roles = ["admin", "instructor", "student"];
+export const roles = ["admin", "instructor", "student"] as const;
+export type Role = (typeof roles)[number];

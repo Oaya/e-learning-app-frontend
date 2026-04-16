@@ -38,11 +38,16 @@ export default function SidebarLayout() {
 
           <nav className="relative flex h-[calc(100vh-72px)] flex-col px-4 py-4">
             <div>
-              {(isAdmin || isInstructor) && (
+              {isAdmin || isInstructor ? (
                 <>
                   <StyledNavLink to="/admin/dashboard">Dashboard</StyledNavLink>
                   <StyledNavLink to="/admin/courses">Courses</StyledNavLink>
                   <StyledNavLink to="/admin/users">Users</StyledNavLink>
+                </>
+              ) : (
+                <>
+                  <StyledNavLink to="/dashboard">Dashboard</StyledNavLink>
+                  <StyledNavLink to="/admin/courses">Courses</StyledNavLink>
                 </>
               )}
               <StyledNavLink to="/profile">Profile</StyledNavLink>

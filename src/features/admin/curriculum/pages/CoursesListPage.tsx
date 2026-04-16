@@ -1,4 +1,4 @@
-import CourseCard from "../components/courses/CourseCard";
+import CourseCard from "../../../shared/profile/components/CourseCard";
 import { useCourses } from "../hooks/useCourses";
 
 export default function CoursesList() {

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Course } from "../../../../type/course";
 
-export default function coursesCard({
+export default function ProfileCoursesList({
   isCoursesLoading,
   courses,
 }: {

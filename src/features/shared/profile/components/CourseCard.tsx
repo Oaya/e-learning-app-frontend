@@ -1,13 +1,26 @@
 import { Link } from "react-router-dom";
-import type { Course } from "../../../../../type/course";
+import type { Course } from "../../../../type/course";
+import type { Role } from "../../../../utils/constants";
 
-export default function CourseCard({ course }: { course: Course }) {
+export default function CourseCard({
+  course,
+  role,
+}: {
+  course: Course;
+  role: Role;
+}) {
   return (
     <div
       key={course.id}
       className="rounded-xl bg-white shadow-md duration-500 hover:scale-105 hover:shadow-xl"
     >
-      <Link to={`/admin/courses/${course.id}/`}>
+      <Link
+        to={
+          role === "student"
+            ? `/student/courses/${course.id}/`
+            : `/admin/courses/${course.id}/`
+        }
+      >
         <img
           src={course.thumbnail ?? "/src/assets/placeholder.webp"}
           alt={course.title}
@@ -21,12 +34,15 @@ export default function CourseCard({ course }: { course: Course }) {
             {course.title}
           </p>
 
-          <Link
-            to={`/admin/courses/${course.id}/course-builder`}
-            className="text-center text-sm text-blue-600"
-          >
-            Edit
-          </Link>
+          {/* Only show edit link for admin and instructor */}
+          {role !== "student" && (
+            <Link
+              to={`/admin/courses/${course.id}/course-builder`}
+              className="text-center text-sm text-blue-600"
+            >
+              Edit
+            </Link>
+          )}
         </div>
 
         <div className="flex justify-between">

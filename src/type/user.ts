@@ -1,3 +1,5 @@
+import type { Role } from "../utils/constants";
+
 export type SignupUser = {
   email: string;
   password: string;
@@ -18,7 +20,7 @@ export type User = {
   email: string;
   first_name: string;
   last_name: string;
-  role: string;
+  role: Role;
   tenant: {
     id: string;
     name: string;
@@ -38,6 +40,7 @@ export type InviteUser = {
   role: string;
   first_name: string;
   last_name: string;
+  courses?: { id: string; title: string }[];
 };
 
 export type AcceptInviteUser = {

@@ -1,11 +1,9 @@
-import { GoPencil } from "react-icons/go";
 import { useParams } from "react-router-dom";
 
 import { useUserCourses } from "../../../admin/dashboard/hooks/useUserCourses";
 import { capitalize } from "../../../../utils/helper";
 import { useUser } from "../../../admin/users/hooks/useUser";
-import CourseCard from "../../../admin/curriculum/components/courses/CourseCard";
-import CoursesCard from "../components/coursesCard";
+import ProfileCoursesList from "../components/ProfileCoursesList";
 
 export default function UserProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -54,25 +52,10 @@ export default function UserProfile() {
 
         {/* course */}
 
-        <CoursesCard isCoursesLoading={isCoursesLoading} courses={courses} />
-
-        <div className="col-span-4 mt-3 space-y-6 rounded border border-gray-300 bg-white p-6">
-          <h3 className="text-xl font-semibold">Courses</h3>
-
-          {isCoursesLoading && <p>Loading courses…</p>}
-
-          {!isCoursesLoading && courses?.length === 0 && (
-            <p className="text-gray-500">No courses</p>
-          )}
-
-          <ul className="space-y-2">
-            {courses?.map((c) => (
-              <li key={c.id} className="rounded border p-3">
-                <p className="font-medium">{c.title}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ProfileCoursesList
+          isCoursesLoading={isCoursesLoading}
+          courses={courses}
+        />
       </div>
     </div>
   );

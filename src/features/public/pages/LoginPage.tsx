@@ -20,7 +20,11 @@ export default function LoginPage() {
       console.log("Login result:", res); // Debug log for tenant status
       if (res.success) {
         alert.success(res.data.message || "Login successful");
-        navigate("/admin/dashboard", { replace: true });
+        if (res.data.user.role === "student") {
+          navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/admin/dashboard", { replace: true });
+        }
       } else {
         alert.error(res.error || "Login failed");
         return;

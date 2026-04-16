@@ -6,6 +6,8 @@ import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useState } from "react";
 import { capitalize } from "../../../../utils/helper";
+import { useCourses } from "../../curriculum/hooks/useCourses";
+import type { Course } from "../../../../type/course";
 
 type InviteUserModalProps = {
   isOpen: boolean;
@@ -17,7 +19,11 @@ export default function InviteUserModal({
   onClose,
 }: InviteUserModalProps) {
   const alert = useAlert();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [role, setRole] = useState<string>("");
+  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+  const { courses } = useCourses();
+
   if (!isOpen) {
     return null;
   }
@@ -35,7 +41,12 @@ export default function InviteUserModal({
         role: fdString(formData, "role"),
         first_name: fdString(formData, "first_name"),
         last_name: fdString(formData, "last_name"),
+        courses: selectedCourses?.map((c) => ({
+          id: c.id,
+          title: c.title,
+        })),
       };
+
       const res = await inviteUser(data);
 
       if (res.success) {
@@ -55,7 +66,7 @@ export default function InviteUserModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-2xl rounded-lg bg-white p-8">
         <div className="mb-6 flex items-start justify-between">
-          <h2 className="text-2xl font-semibold">Invite new member</h2>
+          <h2 className="text-2xl font-semibold">Invite new user</h2>
 
           <button
             type="button"
@@ -92,6 +103,9 @@ export default function InviteUserModal({
                   value: role,
                   label: capitalize(role),
                 }))}
+                onChange={(selectedOption: any) =>
+                  setRole(selectedOption?.value || "")
+                }
               />
             </div>
           </div>
@@ -117,6 +131,32 @@ export default function InviteUserModal({
               />
             </div>
           </div>
+
+          {role === "student" && courses && (
+            <div className="mb-2">
+              <label className="sm-label">Course</label>
+              <CustomSelect
+                name="course"
+                className="w-full"
+                required
+                isMulti
+                options={courses.map((course) => ({
+                  value: course.id,
+                  label: capitalize(course.title),
+                }))}
+                onChange={(selected: any[]) => {
+                  const ids = Array.isArray(selected)
+                    ? selected.map((o) => o.value)
+                    : [];
+
+                  const picked = (courses ?? []).filter((i) =>
+                    ids.includes(i.id),
+                  );
+                  setSelectedCourses(picked);
+                }}
+              />
+            </div>
+          )}
 
           <div className="mt-6 flex justify-end gap-3">
             <button

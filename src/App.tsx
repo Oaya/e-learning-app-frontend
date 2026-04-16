@@ -2,6 +2,7 @@ import { BrowserRouter, Routes } from "react-router-dom";
 import PublicRoutes from "./routes/PublicRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import { Toaster } from "sonner";
+import StudentRoutes from "./routes/StudentRoutes";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         {PublicRoutes()}
         {AdminRoutes()}
+        {StudentRoutes()}
       </Routes>
     </BrowserRouter>
   );
