@@ -22,7 +22,8 @@ export default function InviteUserModal({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [role, setRole] = useState<string>("");
   const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const { courses } = useCourses();
+  const { courses: allCourses } = useCourses();
+  const courses = allCourses?.filter((c) => c.published);
 
   if (!isOpen) {
     return null;

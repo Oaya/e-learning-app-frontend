@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import CourseCard from "../../../shared/profile/components/CourseCard";
 import { useUserEnrollments } from "./hooks/useUserEnrollments";
+import { capitalize } from "../../../../utils/helper";
 
 export default function StudentDashboard() {
   const { user } = useAuth();
@@ -31,7 +32,15 @@ export default function StudentDashboard() {
                 <CourseCard
                   key={enrollment.course.id}
                   course={enrollment.course}
-                  role="student"
+                  role={user?.role ?? "student"}
+                  enrollmentStatus={
+                    enrollment.status
+                      ? capitalize(enrollment.status)
+                      : "Unknown"
+                  }
+                  enrollmentDate={new Date(
+                    enrollment.enrolled_at,
+                  ).toLocaleDateString()}
                 />
               ))}
             </div>

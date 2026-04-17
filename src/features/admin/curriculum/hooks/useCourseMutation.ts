@@ -55,7 +55,6 @@ export function useCourse(
     mutationFn: async ({ isEdit, values }: UpsertVariables) => {
       console.log({ isEdit, values, id });
       if (isEdit && id) {
-        console.log("fdssfd");
         return updateCourse(id, values);
       }
       return createCourse(values);

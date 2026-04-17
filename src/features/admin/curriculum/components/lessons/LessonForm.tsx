@@ -5,7 +5,7 @@ import { useAlert } from "../../../../../contexts/AlertContext";
 import type { Lesson, UpsertLesson } from "../../../../../type/lesson";
 import { lessonTypes } from "../../../../../utils/constants";
 import { fdString } from "../../../../../utils/formData";
-import { getVideoDuration } from "../../../../../utils/helper";
+import { capitalize, getVideoDuration } from "../../../../../utils/helper";
 import ReadingEditor from "./ReadingEditor";
 
 type Props = {
@@ -93,13 +93,13 @@ export default function LessonForm({
       video: videoFile,
       video_signed_id: "",
       duration_in_seconds: durationSeconds,
-      article: selectedType === "Reading" ? articleHtml : undefined,
+      article: selectedType === "reading" ? articleHtml : undefined,
     };
 
     onSubmit(data);
   };
 
-  const showVideoFields = selectedType === "Video";
+  const showVideoFields = selectedType === "video";
 
   return (
     <div className="mt-3 space-y-6 rounded border border-gray-300 p-6">
@@ -128,7 +128,7 @@ export default function LessonForm({
                       setSelectedType(type);
 
                       // Optional: if switching away from Video, clear pending file
-                      if (type !== "Video") {
+                      if (type !== "video") {
                         if (videoPreviewUrl && videoFile?.name)
                           URL.revokeObjectURL(videoPreviewUrl);
                         setVideoFile(null);
@@ -142,7 +142,7 @@ export default function LessonForm({
                     required
                     disabled={isSubmitting}
                   />
-                  {type}
+                  {capitalize(type)}
                 </label>
               );
             })}

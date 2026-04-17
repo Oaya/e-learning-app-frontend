@@ -104,14 +104,14 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
             <CustomSelect
               name="category"
               options={categories.map((category) => ({
-                value: category,
-                label: category,
+                value: category.value,
+                label: category.label,
               }))}
               defaultValue={
                 defaultValues?.level
                   ? {
                       value: defaultValues.category,
-                      label: defaultValues.category,
+                      label: categories.find((c) => c.value === defaultValues.category)?.label ?? defaultValues.category,
                     }
                   : undefined
               }
@@ -123,14 +123,14 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
             <CustomSelect
               name="level"
               options={levels.map((level) => ({
-                value: level,
-                label: level,
+                value: level.value,
+                label: level.label,
               }))}
               defaultValue={
                 defaultValues?.category
                   ? {
                       value: defaultValues.level,
-                      label: defaultValues.level,
+                      label: levels.find((l) => l.value === defaultValues.level)?.label ?? defaultValues.level,
                     }
                   : undefined
               }
