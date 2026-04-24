@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Enrollment } from "../../../../../type/enrollment";
-import { getUserEnrollments } from "../../../api/user";
+import type { Enrollment } from "../../../../type/enrollment";
+import { getUserEnrollments } from "../../api/user";
 
 export function useUserEnrollments(userId: string) {
   const userQuery = useQuery<Enrollment[], Error>({

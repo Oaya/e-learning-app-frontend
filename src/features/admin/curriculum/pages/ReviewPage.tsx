@@ -1,9 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import CourseDetailTable from "../components/courses/CourseDetailTable";
 import SectionDetails from "../components/sections/SectionDetails";
 import { useCourseOverview } from "../hooks/useCourseOverview";
 import { useCourse } from "../hooks/useCourseMutation";
+import CourseDetailTable from "../../../shared/profile/components/CourseDetailTable";
 
 export default function CourseReviewPage() {
   const navigate = useNavigate();

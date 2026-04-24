@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../contexts/AuthContext";
 import CourseCard from "../../../shared/profile/components/CourseCard";
-import { useUserEnrollments } from "./hooks/useUserEnrollments";
+import { useUserEnrollments } from "../hooks/useUserEnrollments";
 import { capitalize } from "../../../../utils/helper";
 
 export default function StudentDashboard() {
@@ -38,9 +38,6 @@ export default function StudentDashboard() {
                       ? capitalize(enrollment.status)
                       : "Unknown"
                   }
-                  enrollmentDate={new Date(
-                    enrollment.enrolled_at,
-                  ).toLocaleDateString()}
                 />
               ))}
             </div>

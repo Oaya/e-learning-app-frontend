@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { Instructor } from "../../../../../type/user";
+import type { Instructor } from "../../../../type/user";
 
 export default function InstructorCard({
   instructors,

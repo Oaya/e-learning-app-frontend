@@ -1,44 +1,50 @@
-import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import ConfirmModal from "../../../../ui/ConfirmModal";
-
-import SectionDetails from "../components/sections/SectionDetails";
-import { useCourse } from "../hooks/useCourseMutation";
-import { useCourseOverview } from "../hooks/useCourseOverview";
 import CourseDetailTable from "../../../shared/profile/components/CourseDetailTable";
 import InstructorCard from "../../../shared/profile/components/InstructorCard";
+import SectionDetails from "../../../admin/curriculum/components/sections/SectionDetails";
+
+import { useCourseOverview } from "../../../admin/curriculum/hooks/useCourseOverview";
+import { useUserEnrollmentStatus } from "../hooks/useUserEnrollmentStatus";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { useCourseStartMutation } from "../hooks/enrollmentStatusUpdateMutation";
 
 export default function CoursePage() {
   const { id } = useParams<{ id: string }>();
   const courseId = id ?? "";
+  const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const { course, isLoading } = useCourseOverview(courseId);
-  const { deleteCourse, isDeleting } = useCourse(courseId, {
-    onDeleteSuccess: () => {
-      navigate("/admin/dashboard");
-    },
-  });
+  const { enrollment } = useUserEnrollmentStatus(user?.id ?? "", courseId);
 
   if (isLoading || !course) return <p>Loading…</p>;
 
+  const { startEnrollmentMutation, isStarting } = useCourseStartMutation(
+    enrollment?.enrollment.id ?? "",
+    {
+      onStartSuccess: () => {
+        navigate(`/courses/${course.id}/lessons/${accessLessonId}`);
+      },
+    },
+  );
+
+  const firstLessonId = course.sections?.[0]?.lessons?.[0]?.id ?? "";
+  const accessLessonId =
+    enrollment?.enrollment.last_accessed_lesson_id ?? firstLessonId;
+
+  const handleStartOrContinue = async () => {
+    if (!enrollment) return;
+
+    // If user is enrolled but hasn't started, start the course
+    if (enrollment.enrollment.status === "enrolled") {
+      // Call API to start the course and create lesson progresses
+      await startEnrollmentMutation();
+    }
+  };
+
   return (
     <div>
-      <ConfirmModal
-        isOpen={isOpen}
-        isSubmitting={isDeleting}
-        message="Are you sure you want to delete this? This action cannot be undone."
-        onCancel={() => setIsOpen(false)}
-        onConfirm={() => {
-          if (!courseId) return;
-          setIsOpen(false);
-          deleteCourse();
-        }}
-      />
-
       <div className="space-y-6">
         {/* Header */}
         <div className="relative">
@@ -59,21 +65,18 @@ export default function CoursePage() {
             </div>
           </div>
 
-          {/* Top-right actions */}
+          {/* Top-right actions
+          if enrollment status is enrolled, show start Course and if not, show continue Course */}
+
           <div className="absolute top-4 right-4 flex gap-2">
-            <Link
-              to={`/admin/courses/${course.id}/course-builder`}
+            <button
+              onClick={handleStartOrContinue}
+              disabled={isStarting}
               className="btn-primary"
             >
-              Edit
-            </Link>
-
-            <button
-              type="button"
-              className="btn-primary bg-theme-pink-20 hover:bg-theme-pink-20/80"
-              onClick={() => setIsOpen(true)}
-            >
-              Delete
+              {enrollment?.enrollment.status === "enrolled"
+                ? "Start Course"
+                : "Continue Course"}
             </button>
           </div>
         </div>
@@ -94,13 +97,6 @@ export default function CoursePage() {
           {/* Right column (sidebar) */}
           <div className="flex flex-col space-y-6 lg:sticky lg:top-6">
             <InstructorCard instructors={course.instructors} />
-
-            <div className="rounded bg-white p-4">
-              <p className="text-sm text-gray-500">Students</p>
-              <p className="mt-1 text-2xl font-semibold">
-                Total Student Number
-              </p>
-            </div>
           </div>
         </div>
       </div>

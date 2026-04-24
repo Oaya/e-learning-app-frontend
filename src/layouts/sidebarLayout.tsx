@@ -5,12 +5,13 @@ import StyledNavLink from "../ui/NavLink";
 import { useAlert } from "../contexts/AlertContext";
 import SubscriptionBanner from "../features/public/components/SubscriptionBanner";
 
+
 export default function SidebarLayout() {
   const { logoutUser, user } = useAuth();
   const alert = useAlert();
 
-  const isAdmin = user?.role === "admin";
-  const isInstructor = user?.role === "instructor";
+  const isStudent = user?.role === "student";
+
   const isBillingOwner = user?.tenant.is_billing_owner;
   const showBanner = user?.tenant.status !== "active";
 
@@ -38,7 +39,7 @@ export default function SidebarLayout() {
 
           <nav className="relative flex h-[calc(100vh-72px)] flex-col px-4 py-4">
             <div>
-              {isAdmin || isInstructor ? (
+              {!isStudent ? (
                 <>
                   <StyledNavLink to="/admin/dashboard">Dashboard</StyledNavLink>
                   <StyledNavLink to="/admin/courses">Courses</StyledNavLink>
@@ -47,7 +48,6 @@ export default function SidebarLayout() {
               ) : (
                 <>
                   <StyledNavLink to="/dashboard">Dashboard</StyledNavLink>
-                  <StyledNavLink to="/admin/courses">Courses</StyledNavLink>
                 </>
               )}
               <StyledNavLink to="/profile">Profile</StyledNavLink>

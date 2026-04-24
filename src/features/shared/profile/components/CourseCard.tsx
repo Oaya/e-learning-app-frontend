@@ -6,10 +6,9 @@ export default function CourseCard({
   course,
   role,
   enrollmentStatus,
-  enrollmentDate,
 }: {
   course: Course;
-  role: Role;
+  role?: Role;
   enrollmentStatus?: string;
   enrollmentDate?: string;
 }) {
@@ -21,7 +20,7 @@ export default function CourseCard({
       <Link
         to={
           role === "student"
-            ? `/student/courses/${course.id}/`
+            ? `/courses/${course.id}/`
             : `/admin/courses/${course.id}/`
         }
       >
@@ -50,29 +49,14 @@ export default function CourseCard({
         </div>
 
         {role !== "student" ? (
-          <div className="flex justify-between">
             <p className="my-3 cursor-auto text-sm font-semibold text-gray-400">
               {course.published ? "Published" : "Draft"}
             </p>
-            <p className="my-3 cursor-auto text-sm text-gray-400">
-              created:
-              {course.created_at
-                ? new Date(course.created_at).toLocaleDateString()
-                : "N/A"}
-            </p>
-          </div>
+
         ) : (
-          <div className="flex justify-between">
             <p className="my-3 cursor-auto text-sm font-semibold text-gray-400">
               {enrollmentStatus ? enrollmentStatus : "unknown"}
             </p>
-            <p className="my-3 cursor-auto text-sm text-gray-400">
-              enrolled:
-              {enrollmentDate
-                ? new Date(enrollmentDate).toLocaleDateString()
-                : "N/A"}
-            </p>
-          </div>
         )}
       </div>
     </div>
