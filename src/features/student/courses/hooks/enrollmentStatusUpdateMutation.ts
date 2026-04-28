@@ -10,8 +10,10 @@ export function useCourseStartMutation(
   const queryClient = useQueryClient();
 
   const startEnrollmentMutation = useMutation({
-    mutationFn: async () => createLessonProgresses(enrollmentId),
-
+    mutationFn: async () => {
+      if (!enrollmentId) throw new Error("Missing enrollment id");
+      return createLessonProgresses(enrollmentId);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["user", "enrollments", enrollmentId],

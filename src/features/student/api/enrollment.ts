@@ -6,12 +6,9 @@ export async function createLessonProgresses(
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/enrollments/${enrollmentId}/start`;
-    const response = await axios.post(url, {
+    const response = await axios.post(url, null, {
       headers: {
         Authorization: `Bearer ${token}`,
-      },
-      data: {
-        enrollmentId,
       },
     });
 

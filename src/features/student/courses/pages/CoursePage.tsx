@@ -18,16 +18,16 @@ export default function CoursePage() {
   const { course, isLoading } = useCourseOverview(courseId);
   const { enrollment } = useUserEnrollmentStatus(user?.id ?? "", courseId);
 
-  if (isLoading || !course) return <p>Loading…</p>;
-
   const { startEnrollmentMutation, isStarting } = useCourseStartMutation(
     enrollment?.enrollment.id ?? "",
     {
       onStartSuccess: () => {
-        navigate(`/courses/${course.id}/lessons/${accessLessonId}`);
+        navigate(`/courses/${course?.id}/lessons/${accessLessonId}`);
       },
     },
   );
+
+  if (isLoading || !course) return <p>Loading…</p>;
 
   const firstLessonId = course.sections?.[0]?.lessons?.[0]?.id ?? "";
   const accessLessonId =
