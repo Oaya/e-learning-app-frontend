@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 import type { SectionWithLessons } from "../../../../../type/section";
+import type { LessonProgressStatus } from "../../../../../type/enrollment";
+
+type LessonProgress = {
+  lesson_id: string;
+  status: LessonProgressStatus;
+};
 
 export default function SectionDetails({
   section,
+  lessonProgresses,
 }: {
   section: SectionWithLessons;
+  lessonProgresses?: LessonProgress[];
 }) {
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [expandedLessons, setExpandedLessons] = useState<
@@ -48,6 +56,9 @@ export default function SectionDetails({
             const expanded = !!expandedLessons[lesson.id];
             const desc = lesson.description ?? "";
             const isLong = desc.length > 80;
+            const lessonStatus = lessonProgresses?.find(
+              (lp) => lp.lesson_id === lesson.id,
+            )?.status;
 
             return (
               <div
@@ -67,10 +78,16 @@ export default function SectionDetails({
                     </div>
                   </div>
 
-                  <div className="shrink-0 text-xs text-gray-500">
+                  <div className="flex shrink-0 items-center gap-2 text-xs text-gray-500">
                     {lesson.duration_in_seconds
                       ? Math.ceil(lesson.duration_in_seconds / 60) + " min"
                       : ""}
+                    {lessonStatus === "completed" && (
+                      <span className="font-medium text-green-600">✓</span>
+                    )}
+                    {lessonStatus === "in_progress" && (
+                      <span className="font-medium text-yellow-500">●</span>
+                    )}
                   </div>
                 </div>
 

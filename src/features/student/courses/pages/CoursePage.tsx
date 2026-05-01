@@ -7,11 +7,10 @@ import SectionDetails from "../../../admin/curriculum/components/sections/Sectio
 import { useCourseOverview } from "../../../admin/curriculum/hooks/useCourseOverview";
 import { useUserEnrollmentStatus } from "../hooks/useUserEnrollmentStatus";
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useCourseStartMutation } from "../hooks/enrollmentStatusUpdateMutation";
+import { useCourseStartMutation } from "../hooks/useCourseStartMutation";
 
 export default function CoursePage() {
-  const { id } = useParams<{ id: string }>();
-  const courseId = id ?? "";
+  const { id: courseId = "" } = useParams<{ id: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -36,10 +35,10 @@ export default function CoursePage() {
   const handleStartOrContinue = async () => {
     if (!enrollment) return;
 
-    // If user is enrolled but hasn't started, start the course
     if (enrollment.enrollment.status === "enrolled") {
-      // Call API to start the course and create lesson progresses
       await startEnrollmentMutation();
+    } else {
+      navigate(`/courses/${courseId}/lessons/${accessLessonId}`);
     }
   };
 
@@ -55,13 +54,27 @@ export default function CoursePage() {
               className="h-24 w-40 rounded-md object-cover"
             />
 
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <h1 className="truncate text-3xl font-semibold">
                 {course.title}
               </h1>
               <p className="text-sm text-gray-500">
                 {course.published ? "Published" : "Draft"}
               </p>
+              {enrollment && (
+                <div className="mt-2 space-y-1">
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>Progress</span>
+                    <span>{enrollment.progress_percentage}%</span>
+                  </div>
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-300">
+                    <div
+                      className="h-full rounded-full bg-blue-500 transition-all"
+                      style={{ width: `${enrollment.progress_percentage}%` }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -89,7 +102,11 @@ export default function CoursePage() {
             {/* Sections */}
             <div className="space-y-3">
               {course.sections.map((section) => (
-                <SectionDetails key={section.id} section={section} />
+                <SectionDetails
+                  key={section.id}
+                  section={section}
+                  lessonProgresses={enrollment?.lesson_progresses}
+                />
               ))}
             </div>
           </div>

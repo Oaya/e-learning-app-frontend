@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createLessonProgresses } from "../../api/enrollment";
+import { createLessonProgresses } from "../../api/lessonProgress";
 
 export function useCourseStartMutation(
   enrollmentId: string,
