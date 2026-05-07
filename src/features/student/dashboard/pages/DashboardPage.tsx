@@ -4,7 +4,7 @@ import CourseCard from "../../../shared/profile/components/CourseCard";
 import { useUserEnrollments } from "../hooks/useUserEnrollments";
 import { capitalize } from "../../../../utils/helper";
 
-export default function StudentDashboard() {
+export default function StudentDashboardPage() {
   const { user } = useAuth();
   const { enrollments } = useUserEnrollments(user?.id ?? "");
 

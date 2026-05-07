@@ -4,7 +4,7 @@ import { useUsers } from "../../users/hooks/useUsers";
 import CourseCard from "../../../shared/profile/components/CourseCard";
 import { useAuth } from "../../../../contexts/AuthContext";
 
-export default function AdminDashboard() {
+export default function AdminDashboardPage() {
   const { courses } = useCourses();
   const { users } = useUsers({});
   const { user } = useAuth();
@@ -12,7 +12,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <header className="curriculum-header">
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <h1 className="text-2xl font-semibold">Home</h1>
       </header>
       <div className="space-y-8">
         <div className="flex items-center justify-between">

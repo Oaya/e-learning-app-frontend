@@ -2,7 +2,6 @@ import { Route } from "react-router-dom";
 
 import RequireAuth from "./RequireAuth";
 
-import AdminDashboard from "../features/admin/dashboard/pages/DashboardPage";
 import SidebarLayout from "../layouts/SidebarLayout";
 import CoursePage from "../features/admin/curriculum/pages/CoursePage";
 import CourseBuilderPage from "../features/admin/curriculum/pages/CourseBuilderPage";
@@ -11,12 +10,13 @@ import UsersPage from "../features/admin/users/pages/UsersPage";
 import PricingPage from "../features/admin/curriculum/pages/PricingPage";
 import ReviewPage from "../features/admin/curriculum/pages/ReviewPage";
 import CoursesList from "../features/admin/curriculum/pages/CoursesListPage";
+import AdminDashboardPage from "../features/admin/dashboard/pages/DashboardPage";
 
 export default function AdminRoutes() {
   return (
     <Route element={<RequireAuth />}>
       <Route element={<SidebarLayout />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/courses/:id" element={<CoursePage />} />
         <Route path="/admin/courses" element={<CoursesList />} />
         <Route

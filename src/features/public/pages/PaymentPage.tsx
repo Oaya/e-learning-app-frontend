@@ -29,7 +29,7 @@ export default function PaymentPage() {
       alert.error(
         "You do not have access to this page. Please contact your administrator.",
       );
-      navigate("/admin/dashboard", { replace: true });
+      navigate("/admin", { replace: true });
       return;
     }
 
@@ -44,14 +44,14 @@ export default function PaymentPage() {
 
         if (!secret) {
           alert.error("Failed to start checkout. Please try again.");
-          navigate("/admin/dashboard", { replace: true });
+          navigate("/admin", { replace: true });
           return;
         }
 
         if (!cancelled) setClientSecret(secret);
       } catch (err: any) {
         alert.error("Failed to start checkout. Please try again.");
-        navigate("/admin/dashboard", { replace: true });
+        navigate("/admin", { replace: true });
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -71,13 +71,10 @@ export default function PaymentPage() {
   if (!clientSecret) {
     return (
       <div className="m-10 text-center text-2xl">
-        Missing checkout session. Please go back to the dashboard.
+        Missing checkout session. Please go back to the home.
         <div className="mt-4">
-          <button
-            className="btn-primary"
-            onClick={() => navigate("/admin/dashboard")}
-          >
-            Back to dashboard
+          <button className="btn-primary" onClick={() => navigate("/admin")}>
+            Back to home
           </button>
         </div>
       </div>

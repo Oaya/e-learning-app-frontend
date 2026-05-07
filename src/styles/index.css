@@ -80,6 +80,16 @@ input[type="number"] {
   color: #1d4ed8; /* Tailwind blue-700 */
 }
 
+/* Inline code in lesson articles */
+.prose :not(pre) > code {
+  color: #7c3aed;
+  background-color: #ede9fe;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
 /* Global react-select sizing to match .form-input */
 .rs__control {
   min-height: 52px !important;

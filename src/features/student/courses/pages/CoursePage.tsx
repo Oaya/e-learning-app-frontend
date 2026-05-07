@@ -69,7 +69,7 @@ export default function CoursePage() {
                   </div>
                   <div className="h-2 w-full overflow-hidden rounded-full bg-gray-300">
                     <div
-                      className="h-full rounded-full bg-blue-500 transition-all"
+                      className="bg-theme-purple-40 h-full rounded-full transition-all"
                       style={{ width: `${enrollment.progress_percentage}%` }}
                     />
                   </div>

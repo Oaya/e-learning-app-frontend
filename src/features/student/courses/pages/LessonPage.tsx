@@ -1,9 +1,22 @@
 import { useParams } from "react-router-dom";
+import { marked } from "marked";
+
+marked.use({ breaks: true, gfm: true });
 
 import { useCourseOverview } from "../../../admin/curriculum/hooks/useCourseOverview";
 import { useUserEnrollmentStatus } from "../hooks/useUserEnrollmentStatus";
 import { useAuth } from "../../../../contexts/AuthContext";
 import CourseSideBar from "../components/CourseSideBar";
+
+// Inserts a visible <br> for each blank line, but skips content inside code fences
+function addVisibleLineBreaks(content: string): string {
+  const parts = content.split(/(```[\s\S]*?```)/g);
+  return parts
+    .map((part, i) =>
+      i % 2 === 0 ? part.replace(/\n\n/g, "\n\n<br />\n\n") : part,
+    )
+    .join("");
+}
 
 export default function LessonPage() {
   const { id: courseId = "", lessonId = "" } = useParams<{
@@ -37,7 +50,7 @@ export default function LessonPage() {
       <div className="flex flex-1 flex-col gap-4">
         {/* Video area — hidden for reading lessons */}
         {!isReading && (
-          <div className="aspect-video w-full rounded-md bg-black">
+          <div className="h-[67vh] w-full rounded-md bg-black">
             {currentLesson.video ? (
               <video
                 src={currentLesson.video}
@@ -52,6 +65,18 @@ export default function LessonPage() {
           </div>
         )}
 
+        {/* Article content */}
+        {currentLesson.article && (
+          <div
+            className="prose h-[67vh] max-w-none overflow-y-auto border border-gray-300 p-4"
+            dangerouslySetInnerHTML={{
+              __html: marked(
+                addVisibleLineBreaks(currentLesson.article),
+              ) as string,
+            }}
+          />
+        )}
+
         {/* Lesson info */}
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold">{currentLesson.title}</h1>
@@ -59,14 +84,6 @@ export default function LessonPage() {
             <p className="text-gray-500">{currentLesson.description}</p>
           )}
         </div>
-
-        {/* Article content */}
-        {currentLesson.article && (
-          <div
-            className="prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: currentLesson.article }}
-          />
-        )}
       </div>
 
       {/* Sidebar – course outline */}
