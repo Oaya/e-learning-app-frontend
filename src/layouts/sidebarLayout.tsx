@@ -62,6 +62,9 @@ export default function SidebarLayout() {
                   <StyledNavLink to="/dashboard" icon={HiHome}>
                     Dashboard
                   </StyledNavLink>
+                  <StyledNavLink to="/student/courses" icon={HiAcademicCap}>
+                    Courses
+                  </StyledNavLink>
                 </>
               )}
             </div>
@@ -70,11 +73,7 @@ export default function SidebarLayout() {
               <StyledNavLink to="/profile" icon={HiUser}>
                 Profile
               </StyledNavLink>
-              <StyledNavLink
-                to="/logout"
-                icon={HiLogout}
-                onClick={handleLogout}
-              >
+              <StyledNavLink to="/" icon={HiLogout} onClick={handleLogout}>
                 Logout
               </StyledNavLink>
             </div>

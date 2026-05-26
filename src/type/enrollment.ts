@@ -23,5 +23,6 @@ export type UserEnrollmentWithStatus = {
     lesson_id: string;
     status: LessonProgressStatus;
     progress: number;
+    watched_seconds: number;
   }[];
 };

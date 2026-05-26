@@ -47,6 +47,20 @@ export async function createLessonProgresses(
   }
 }
 
+export async function saveVideoPosition(
+  lessonProgressId: string,
+  watchedSeconds: number,
+  durationSeconds: number,
+): Promise<void> {
+  const token = localStorage.getItem("jwt");
+  const url = `${import.meta.env.VITE_API_URL}/api/lesson_progresses/${lessonProgressId}/save_position`;
+  await axios.patch(
+    url,
+    { lesson_progress: { watched_seconds: watchedSeconds, duration_seconds: durationSeconds } },
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+}
+
 export async function getLessonProgress(
   lessonId: string,
   userId: string,

@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# E-Learning App — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript frontend for an e-learning platform with course management, student enrollment, lesson progress tracking, and Stripe payments.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Node.js](https://nodejs.org/) v18+
+- [npm](https://www.npmjs.com/) v9+ (or your preferred package manager)
+- A running instance of the Rails backend API
 
-## React Compiler
+## Installation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Clone the repository**
 
-## Expanding the ESLint configuration
+   ```bash
+   git clone <repository-url>
+   cd e-learning-app/frontend
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. **Install dependencies**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+   ```bash
+   npm install
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. **Configure environment variables**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   Create a `.env` file in the `frontend/` directory:
+
+   ```env
+   VITE_API_URL=http://localhost:3000
+   VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+   ```
+
+   | Variable | Description |
+   |---|---|
+   | `VITE_API_URL` | Base URL of the Rails backend API |
+   | `VITE_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key for payment processing |
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+   The app will be available at `http://localhost:5173`.
+
+## Available Scripts
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Start the development server with HMR |
+| `npm run build` | Type-check and build for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+
+## Project Structure
+
+```
+src/
+├── api/          # Axios instance and base API config
+├── contexts/     # Auth and Alert React contexts
+├── features/     # Feature modules by role (public, student, admin, shared)
+├── layouts/      # Page shell components
+├── routes/       # Route definitions and auth guards
+├── styles/       # Global CSS
+├── type/         # Shared TypeScript types
+├── ui/           # Reusable UI components
+└── utils/        # Utility functions
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **React 19** + **TypeScript** — UI and type safety
+- **Vite** — build tool
+- **Tailwind CSS** — styling
+- **React Router v7** — routing
+- **TanStack Query v5** — server state management
+- **Axios** — HTTP client
+- **Tiptap** — rich text editor
+- **Stripe** — payment processing
+- **dnd-kit** — drag and drop
