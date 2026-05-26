@@ -26,9 +26,7 @@ export async function getUsers({
     if (sorts) {
       const value = [];
       for (const sort of sorts) {
-        sort.dir === "desc"
-          ? value.push(`-${sort.field}`)
-          : value.push(sort.field);
+        value.push(sort.dir === "desc" ? `-${sort.field}` : sort.field);
       }
 
       if (value.length) params.append("sort", value.join(","));

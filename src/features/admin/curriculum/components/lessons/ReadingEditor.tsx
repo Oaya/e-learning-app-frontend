@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -127,11 +127,9 @@ export default function ReadingEditor({ value, onChange, disabled }: Props) {
     </button>
   );
 
-  //Chekc if any tesxt is selected
-  const hasSelection = useMemo(() => {
-    const { from, to } = editor?.state.selection;
-    return from !== to;
-  }, [editor.state.selection]);
+  const hasSelection = editor
+    ? editor.state.selection.from !== editor.state.selection.to
+    : false;
 
   if (!editor) return null;
 

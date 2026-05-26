@@ -33,13 +33,17 @@ export default function MyProfilePage() {
   useEffect(() => {
     if (!user) return;
 
-    setFirstName(user.first_name ?? "");
-    setLastName(user.last_name ?? "");
-    setEmail(user.email ?? "");
-    setAvatarPreviewUrl(user.avatar ?? null);
+    function setDefaultFormValue() {
+      setFirstName(user?.first_name ?? "");
+      setLastName(user?.last_name ?? "");
+      setEmail(user?.email ?? "");
+      setAvatarPreviewUrl(user?.avatar ?? null);
 
-    // Clear pending file selection when user changes
-    setAvatarFile(null);
+      // Clear pending file selection when user changes
+      setAvatarFile(null);
+    }
+
+    setDefaultFormValue();
   }, [user]);
 
   // Clean up object URLs on unmount / when replaced

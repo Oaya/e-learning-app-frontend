@@ -99,7 +99,7 @@ export default function LessonPage() {
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("pause", persistPosition);
     };
-  }, [lessonProgress?.id, persistPosition]);
+  }, [lessonProgress, persistPosition]);
 
   useEffect(() => {
     window.addEventListener("beforeunload", persistPosition);

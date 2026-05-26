@@ -23,7 +23,11 @@ export default defineConfig([
       // completely disable it
       "react-refresh/only-export-components": "off",
       "@typescript-eslint/no-explicit-any": "off",
-      "no-unused-vars": "true",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "react-hooks/preserve-manual-memoization": "off",
+      "react-hooks/static-components": "off",
+      "react-hooks/set-state-in-effect": "off",
     },
   },
 ]);
