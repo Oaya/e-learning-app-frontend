@@ -2,7 +2,6 @@ import { Route } from "react-router-dom";
 
 import RequireAuth from "./RequireAuth";
 
-import SidebarLayout from "../layouts/SidebarLayout";
 import CoursePage from "../features/admin/curriculum/pages/CoursePage";
 import CourseBuilderPage from "../features/admin/curriculum/pages/CourseBuilderPage";
 import CurriculumBuilderPage from "../features/admin/curriculum/pages/CurriculumBuilderPage";
@@ -11,6 +10,7 @@ import PricingPage from "../features/admin/curriculum/pages/PricingPage";
 import ReviewPage from "../features/admin/curriculum/pages/ReviewPage";
 import CoursesList from "../features/admin/curriculum/pages/CoursesListPage";
 import AdminDashboardPage from "../features/admin/dashboard/pages/DashboardPage";
+import SidebarLayout from "../layouts/SidebarLayout";
 
 export default function AdminRoutes() {
   return (
