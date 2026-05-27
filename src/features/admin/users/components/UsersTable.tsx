@@ -6,6 +6,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import { capitalize } from "../../../../utils/helper";
 import type { User, UserSort } from "../../../../type/user";
 import SortButton from "../../../../ui/SortButton";
+import { UserModel } from "../../../../models/user";
 
 export default function UsersTable({
   users,
@@ -25,7 +26,9 @@ export default function UsersTable({
   onToggleAll: () => void;
 }) {
   const { user } = useAuth();
-  const isAdmin = user?.role === "admin";
+
+  const userData = new UserModel(user);
+  const isAdmin = userData.isAdmin();
 
   const isSelf = (id: string) => id === user?.id;
 
@@ -143,7 +146,7 @@ export default function UsersTable({
                       to={`/users/${u.id}`}
                       className="text-blue-600 hover:underline"
                     >
-                      {u.first_name} {u.last_name}
+                      {new UserModel(u).fullName()}
                     </Link>
                   </td>
 

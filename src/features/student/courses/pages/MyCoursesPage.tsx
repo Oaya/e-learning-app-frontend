@@ -1,5 +1,6 @@
 import { useAuth } from "../../../../contexts/AuthContext";
 import CourseCard from "../../../shared/profile/components/CourseCard";
+import { UserModel } from "../../../../models/user";
 import { useUserEnrollments } from "../../dashboard/hooks/useUserEnrollments";
 import { capitalize } from "../../../../utils/helper";
 
@@ -23,7 +24,7 @@ export default function MyCoursesPage() {
             <CourseCard
               key={enrollment.course.id}
               course={enrollment.course}
-              role={user?.role ?? "student"}
+              userModel={new UserModel(user)}
               enrollmentStatus={
                 enrollment.status ? capitalize(enrollment.status) : "Unknown"
               }

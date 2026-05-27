@@ -13,6 +13,7 @@ import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";
 import { useUserSelections } from "../hooks/useUserSelections";
 import { useUserTableControl } from "../hooks/userUserTableControl";
+import { UserModel } from "../../../../models/user";
 
 export default function UsersPage() {
   const alert = useAlert();
@@ -24,7 +25,9 @@ export default function UsersPage() {
   const [openFilter, setOpenFilter] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [userOffset, setUserOffset] = useState(0);
-  const isAdmin = user?.role === "admin";
+
+  const userData = new UserModel(user);
+  const isAdmin = userData.isAdmin();
 
   const {
     sorts,

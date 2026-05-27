@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../../contexts/AlertContext";
 import { useAuth } from "../../../contexts/AuthContext";
+import { UserModel } from "../../../models/user";
 import type { LoginUser } from "../../../type/user";
 
 export default function LoginPage() {
@@ -17,10 +18,10 @@ export default function LoginPage() {
       const data = Object.fromEntries(formData.entries());
 
       const res = await loginUser(data as LoginUser);
-      console.log("Login result:", res); // Debug log for tenant status
+
       if (res.success) {
         alert.success(res.data.message || "Login successful");
-        if (res.data.user.role === "student") {
+        if (new UserModel(res.data.user).isStudent()) {
           navigate("/dashboard", { replace: true });
         } else {
           navigate("/admin/dashboard", { replace: true });

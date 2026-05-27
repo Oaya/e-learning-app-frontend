@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { UserSort } from "../../../../type/user";
-import { createFilters } from "../components/filters";
+import { createFilters } from "../../../../models/filters";
 import { capitalize } from "../../../../utils/helper";
 
 export function useUserTableControl() {

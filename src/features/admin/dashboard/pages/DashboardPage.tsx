@@ -3,6 +3,7 @@ import { useCourses } from "../../curriculum/hooks/useCourses";
 import { useUsers } from "../../users/hooks/useUsers";
 import CourseCard from "../../../shared/profile/components/CourseCard";
 import { useAuth } from "../../../../contexts/AuthContext";
+import { UserModel } from "../../../../models/user";
 
 export default function AdminDashboardPage() {
   const { courses } = useCourses();
@@ -46,7 +47,7 @@ export default function AdminDashboardPage() {
                 <CourseCard
                   key={course.id}
                   course={course}
-                  role={user?.role ?? "admin"}
+                  userModel={new UserModel(user)}
                 />
               ))}
             </div>

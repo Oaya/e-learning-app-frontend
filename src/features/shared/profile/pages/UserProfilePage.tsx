@@ -4,6 +4,7 @@ import { useUserCourses } from "../../../admin/dashboard/hooks/useUserCourses";
 import { capitalize } from "../../../../utils/helper";
 import { useUser } from "../../../admin/users/hooks/useUser";
 import ProfileCoursesList from "../components/ProfileCoursesList";
+import { UserModel } from "../../../../models/user";
 
 export default function UserProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -37,9 +38,7 @@ export default function UserProfile() {
                 <p className="text-theme-purple-20">
                   <span>{capitalize(user.role) ?? "-"}</span>
                 </p>
-                <p className="text-2xl">
-                  {user.first_name} {user.last_name}
-                </p>
+                <p className="text-2xl">{new UserModel(user).fullName()}</p>
               </div>
 
               <div className="mb-2">

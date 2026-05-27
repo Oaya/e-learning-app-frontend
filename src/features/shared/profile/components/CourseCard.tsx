@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import type { Course } from "../../../../type/course";
-import type { Role } from "../../../../utils/constants";
+import type { UserModel } from "../../../../models/user";
 
 export default function CourseCard({
   course,
-  role,
+  userModel,
   enrollmentStatus,
 }: {
   course: Course;
-  role?: Role;
+  userModel?: UserModel;
   enrollmentStatus?: string;
   enrollmentDate?: string;
 }) {
@@ -19,7 +19,7 @@ export default function CourseCard({
     >
       <Link
         to={
-          role === "student"
+          userModel?.isStudent()
             ? `/courses/${course.id}/`
             : `/admin/courses/${course.id}/`
         }
@@ -38,7 +38,7 @@ export default function CourseCard({
           </p>
 
           {/* Only show edit link for admin and instructor */}
-          {role !== "student" && (
+          {!userModel?.isStudent() && (
             <Link
               to={`/admin/courses/${course.id}/course-builder`}
               className="text-center text-sm text-blue-600"
@@ -48,7 +48,7 @@ export default function CourseCard({
           )}
         </div>
 
-        {role !== "student" ? (
+        {!userModel?.isStudent() ? (
             <p className="my-3 cursor-auto text-sm font-semibold text-gray-400">
               {course.published ? "Published" : "Draft"}
             </p>

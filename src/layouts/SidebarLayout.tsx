@@ -11,14 +11,17 @@ import { useAuth } from "../contexts/AuthContext";
 import StyledNavLink from "../ui/NavLink";
 import { useAlert } from "../contexts/AlertContext";
 import SubscriptionBanner from "../features/public/components/SubscriptionBanner";
+import { UserModel } from "../models/user";
 
 export default function SidebarLayout() {
   const { logoutUser, user } = useAuth();
   const alert = useAlert();
 
-  const isStudent = user?.role === "student";
+  const userData = new UserModel(user);
 
-  const isBillingOwner = user?.tenant.is_billing_owner;
+  const isStudent = userData.isStudent();
+  const isBillingOwner = userData.isBillingOwner();
+
   const showBanner = user?.tenant.status !== "active";
 
   function handleLogout() {
@@ -31,8 +34,8 @@ export default function SidebarLayout() {
       {showBanner && isBillingOwner && (
         <SubscriptionBanner
           isBillingOwner={isBillingOwner}
-          hasStripeSubscription={user?.tenant.has_stripe_subscription}
-          status={user?.tenant.status}
+          hasStripeSubscription={user?.tenant.has_stripe_subscription ?? false}
+          status={user?.tenant.status ?? ""}
         />
       )}
       <div

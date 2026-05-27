@@ -7,6 +7,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import { capitalize } from "../../../../utils/helper";
 import UpdatePasswordModal from "../../../admin/users/components/UpdatePasswordModal";
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
+import { UserModel } from "../../../../models/user";
 
 export default function MyProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
@@ -25,7 +26,7 @@ export default function MyProfilePage() {
     useState(false);
 
   const alert = useAlert();
-  const isBillingOwner = user?.tenant.is_billing_owner;
+  const isBillingOwner = new UserModel(user).isBillingOwner();
   const isCanceled =
     user?.tenant.cancel_at_period_end || user?.tenant.status === "canceled";
 
