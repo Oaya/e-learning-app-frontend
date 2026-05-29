@@ -38,13 +38,17 @@ export default function LessonCard({ lesson, courseId }: Props) {
 
       <div
         key={lesson.id}
-        className="group bg-theme-grey-10 py- flex items-center rounded border border-gray-100 px-3 py-1 hover:bg-gray-200"
+        className="group bg-theme-gray-10 py- flex items-center rounded border border-gray-100 px-3 py-1 hover:bg-gray-200"
       >
         <div className="flex items-center gap-3 text-left">
           <span className="text-xs text-gray-500">
             Lesson {lesson.position}
           </span>
-          <span className="bg-theme-yellow-10 border-theme-yellow-10 rounded-full px-2 py-0.5 text-xs font-medium text-white">
+          <span
+            className={`rounded-full border px-2 py-0.5 text-xs font-medium text-white badge-${
+              lesson.lesson_type
+            }`}
+          >
             {lesson.lesson_type}
           </span>
           <span>{lesson.title}</span>

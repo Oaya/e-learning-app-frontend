@@ -72,7 +72,9 @@ export default function SectionDetails({
                         {lesson.title}
                       </span>
 
-                      <span className="bg-theme-yellow-10 rounded-full px-2 py-0.5 text-xs font-medium text-white">
+                      <span
+                        className={`badge-${lesson.lesson_type} rounded-full px-2 py-0.5 text-xs font-medium text-white`}
+                      >
                         {lesson.lesson_type}
                       </span>
                     </div>

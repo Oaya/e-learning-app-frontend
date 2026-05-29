@@ -41,8 +41,6 @@ export default function LessonPage() {
     (lp) => lp.lesson_id === lessonId,
   );
 
-  console.log("fds", lessonProgress);
-
   const videoRef = useRef<HTMLVideoElement>(null);
   const lastSaveRef = useRef<number>(0);
   const hasAutoCompletedRef = useRef<boolean>(

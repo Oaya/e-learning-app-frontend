@@ -39,7 +39,7 @@ export default function SidebarLayout() {
         />
       )}
       <div
-        className={`bg-theme-grey-10 flex h-screen ${showBanner ? "pt-14" : ""}`}
+        className={`bg-theme-gray-10 flex h-screen ${showBanner ? "pt-14" : ""}`}
       >
         <aside className="bg-theme-purple-10 sticky top-0 h-screen w-20">
           {/* <div className="p-6">
