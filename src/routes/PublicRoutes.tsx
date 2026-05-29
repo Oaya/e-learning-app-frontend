@@ -12,6 +12,7 @@ import PublicLayout from "../layouts/PublicLayout";
 import SidebarLayout from "../layouts/SidebarLayout";
 import MyProfilePage from "../features/shared/profile/pages/MyProfilePage";
 import UserProfile from "../features/shared/profile/pages/UserProfilePage";
+import RefundPolicyPage from "../features/public/pages/RefundPolicyPage";
 
 export default function PublicRoutes() {
   return (
@@ -22,6 +23,7 @@ export default function PublicRoutes() {
         <Route path="/pricing" element={<PricingPage />}></Route>
         <Route path="/signup" element={<SignupPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="refund-policy" element={<RefundPolicyPage />}></Route>
       </Route>
 
       {/* Without Header & Footer */}

@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -93,6 +93,14 @@ export default function PaymentPage() {
           <EmbeddedCheckout />
         </EmbeddedCheckoutProvider>
       </div>
+
+      <p className="mt-6 text-center text-sm text-gray-500">
+        By subscribing you agree to our{" "}
+        <Link to="/refund-policy" className="underline hover:text-gray-700">
+          Cancellation & Refund Policy
+        </Link>
+        .
+      </p>
     </div>
   );
 }

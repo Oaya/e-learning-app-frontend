@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import PlanCard from "../components/PlanCard";
 import { usePlans } from "../hooks/usePlans";
 
@@ -44,6 +45,13 @@ export default function PricingPage() {
             </div>
           )}
         </section>
+
+        <p className="mt-10 max-w-xl text-sm text-gray-500">
+          By subscribing you agree to our{" "}
+          <Link to="/refund-policy" className="underline hover:text-gray-700">
+            Cancellation & Refund Policy
+          </Link>
+        </p>
       </main>
     </div>
   );
