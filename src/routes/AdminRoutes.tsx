@@ -1,16 +1,17 @@
+import { lazy } from "react";
 import { Route } from "react-router-dom";
 
 import RequireAuth from "./RequireAuth";
-
-import CoursePage from "../features/admin/curriculum/pages/CoursePage";
-import CourseBuilderPage from "../features/admin/curriculum/pages/CourseBuilderPage";
-import CurriculumBuilderPage from "../features/admin/curriculum/pages/CurriculumBuilderPage";
-import UsersPage from "../features/admin/users/pages/UsersPage";
-import PricingPage from "../features/admin/curriculum/pages/PricingPage";
-import ReviewPage from "../features/admin/curriculum/pages/ReviewPage";
-import CoursesList from "../features/admin/curriculum/pages/CoursesListPage";
-import AdminDashboardPage from "../features/admin/dashboard/pages/DashboardPage";
 import SidebarLayout from "../layouts/SidebarLayout";
+
+const CoursePage = lazy(() => import("../features/admin/curriculum/pages/CoursePage"));
+const CourseBuilderPage = lazy(() => import("../features/admin/curriculum/pages/CourseBuilderPage"));
+const CurriculumBuilderPage = lazy(() => import("../features/admin/curriculum/pages/CurriculumBuilderPage"));
+const UsersPage = lazy(() => import("../features/admin/users/pages/UsersPage"));
+const PricingPage = lazy(() => import("../features/admin/curriculum/pages/PricingPage"));
+const ReviewPage = lazy(() => import("../features/admin/curriculum/pages/ReviewPage"));
+const CoursesList = lazy(() => import("../features/admin/curriculum/pages/CoursesListPage"));
+const AdminDashboardPage = lazy(() => import("../features/admin/dashboard/pages/DashboardPage"));
 
 export default function AdminRoutes() {
   return (

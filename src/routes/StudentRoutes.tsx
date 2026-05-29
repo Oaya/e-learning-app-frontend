@@ -1,13 +1,13 @@
+import { lazy } from "react";
 import { Route } from "react-router-dom";
 
 import RequireAuth from "./RequireAuth";
-
 import SidebarLayout from "../layouts/SidebarLayout";
 
-import StudentDashboard from "../features/student/dashboard/pages/DashboardPage";
-import MyCoursesPage from "../features/student/courses/pages/MyCoursesPage";
-import CoursePage from "../features/student/courses/pages/CoursePage";
-import LessonPage from "../features/student/courses/pages/LessonPage";
+const StudentDashboard = lazy(() => import("../features/student/dashboard/pages/DashboardPage"));
+const MyCoursesPage = lazy(() => import("../features/student/courses/pages/MyCoursesPage"));
+const CoursePage = lazy(() => import("../features/student/courses/pages/CoursePage"));
+const LessonPage = lazy(() => import("../features/student/courses/pages/LessonPage"));
 
 export default function StudentRoutes() {
   return (

@@ -17,4 +17,23 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-query": ["@tanstack/react-query"],
+          "vendor-tiptap": [
+            "@tiptap/react",
+            "@tiptap/starter-kit",
+            "@tiptap/extension-image",
+            "@tiptap/extension-link",
+            "@tiptap/extension-text-style",
+          ],
+          "vendor-stripe": ["@stripe/react-stripe-js", "@stripe/stripe-js"],
+          "vendor-dnd": ["@dnd-kit/core", "@dnd-kit/sortable", "@dnd-kit/utilities"],
+        },
+      },
+    },
+  },
 });

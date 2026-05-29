@@ -1,18 +1,20 @@
+import { lazy } from "react";
 import { Route } from "react-router-dom";
 
-import HomePage from "../features/public/pages/HomePage";
-import PricingPage from "../features/public/pages/PricingPage";
-import AcceptInvitePage from "../features/public/pages/AcceptInvitePage";
-import EmailConfirmPage from "../features/public/pages/EmailConfirmPage";
-import LoginPage from "../features/public/pages/LoginPage";
-import PaymentPage from "../features/public/pages/PaymentPage";
-import SignupPage from "../features/public/pages/SignupPage";
 import PlainLayout from "../layouts/PlainLayout";
 import PublicLayout from "../layouts/PublicLayout";
 import SidebarLayout from "../layouts/SidebarLayout";
-import MyProfilePage from "../features/shared/profile/pages/MyProfilePage";
-import UserProfile from "../features/shared/profile/pages/UserProfilePage";
-import RefundPolicyPage from "../features/public/pages/RefundPolicyPage";
+
+const HomePage = lazy(() => import("../features/public/pages/HomePage"));
+const PricingPage = lazy(() => import("../features/public/pages/PricingPage"));
+const AcceptInvitePage = lazy(() => import("../features/public/pages/AcceptInvitePage"));
+const EmailConfirmPage = lazy(() => import("../features/public/pages/EmailConfirmPage"));
+const LoginPage = lazy(() => import("../features/public/pages/LoginPage"));
+const PaymentPage = lazy(() => import("../features/public/pages/PaymentPage"));
+const SignupPage = lazy(() => import("../features/public/pages/SignupPage"));
+const MyProfilePage = lazy(() => import("../features/shared/profile/pages/MyProfilePage"));
+const UserProfile = lazy(() => import("../features/shared/profile/pages/UserProfilePage"));
+const RefundPolicyPage = lazy(() => import("../features/public/pages/RefundPolicyPage"));
 
 export default function PublicRoutes() {
   return (
