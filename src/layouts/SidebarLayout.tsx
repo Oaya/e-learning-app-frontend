@@ -31,16 +31,7 @@ export default function SidebarLayout() {
 
   return (
     <>
-      {showBanner && isBillingOwner && (
-        <SubscriptionBanner
-          isBillingOwner={isBillingOwner}
-          hasStripeSubscription={user?.tenant.has_stripe_subscription ?? false}
-          status={user?.tenant.status ?? ""}
-        />
-      )}
-      <div
-        className={`bg-theme-gray-10 flex h-screen ${showBanner ? "pt-14" : ""}`}
-      >
+      <div className="bg-theme-gray-10 flex h-screen">
         <aside className="bg-theme-purple-10 sticky top-0 h-screen w-20">
           {/* <div className="p-6">
             <h1 className="text-2xl font-bold">EduApp</h1>
@@ -83,9 +74,20 @@ export default function SidebarLayout() {
           </nav>
         </aside>
 
-        <div className="flex flex-1 flex-col overflow-hidden p-4">
-          <main className="flex-1 overflow-y-auto p-6">
-            <Outlet />
+        <div className="flex flex-1 flex-col overflow-hidden">
+          {showBanner && isBillingOwner && (
+            <SubscriptionBanner
+              isBillingOwner={isBillingOwner}
+              hasStripeSubscription={
+                user?.tenant.has_stripe_subscription ?? false
+              }
+              status={user?.tenant.status ?? ""}
+            />
+          )}
+          <main className="flex-1 overflow-y-auto p-4">
+            <div className="p-6">
+              <Outlet />
+            </div>
           </main>
         </div>
       </div>

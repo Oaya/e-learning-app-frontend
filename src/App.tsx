@@ -7,7 +7,7 @@ import StudentRoutes from "./routes/StudentRoutes";
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-right" richColors duration={3000} />
+      <Toaster position="top-right" richColors duration={2000} offset={{ top: 64 }} />
       <Routes>
         {PublicRoutes()}
         {AdminRoutes()}
