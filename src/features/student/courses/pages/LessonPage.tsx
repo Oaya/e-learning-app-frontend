@@ -116,6 +116,7 @@ export default function LessonPage() {
       {/* Main content */}
       <div className="flex flex-1 flex-col gap-4">
         {/* Video area — hidden for reading lessons */}
+
         {!isReading && (
           <div className="h-[67vh] w-full rounded-md bg-black">
             {currentLesson.video ? (
@@ -136,7 +137,7 @@ export default function LessonPage() {
         {/* Article content */}
         {currentLesson.article && (
           <div
-            className="prose h-[67vh] max-w-none overflow-y-auto border border-gray-300 p-4"
+            className="prose h-[67vh] max-w-none overflow-y-auto border border-gray-300 px-20 py-4"
             dangerouslySetInnerHTML={{
               __html: marked(
                 addVisibleLineBreaks(currentLesson.article),

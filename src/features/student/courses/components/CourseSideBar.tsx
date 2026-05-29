@@ -16,7 +16,7 @@ export default function CourseSideBar({
   lessonId,
   userId,
 }: CourseSideBarProps) {
-  const { updateLessonProgress, isUpdating } = useLessonProgressMutation(
+  const { updateLessonProgress, pendingLessonProgressId } = useLessonProgressMutation(
     userId,
     course.id,
   );
@@ -56,7 +56,7 @@ export default function CourseSideBar({
                   isActive={lesson.id === lessonId}
                   lessonProgressId={lessonProgress?.id}
                   isCompleted={lessonProgress?.status === "completed"}
-                  isUpdating={isUpdating}
+                  isUpdating={pendingLessonProgressId === lessonProgress?.id}
                   onUpdate={updateLessonProgress}
                 />
               );

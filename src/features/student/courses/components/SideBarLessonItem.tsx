@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import type { Lesson } from "../../../../type/lesson";
 
 type LessonItemProps = {
@@ -23,12 +24,21 @@ export default function LessonItem({
   isUpdating,
   onUpdate,
 }: LessonItemProps) {
+  const [localChecked, setLocalChecked] = useState(isCompleted);
+
+  useEffect(() => {
+    setLocalChecked(isCompleted);
+  }, [isCompleted]);
+
   function handleCheckboxClick(e: React.MouseEvent) {
     e.stopPropagation();
   }
 
   function handleCheckboxChange() {
-    if (lessonProgressId) onUpdate({ lessonProgressId, isCompleted });
+    if (lessonProgressId) {
+      setLocalChecked((prev) => !prev);
+      onUpdate({ lessonProgressId, isCompleted });
+    }
   }
 
   return (
@@ -43,7 +53,7 @@ export default function LessonItem({
       >
         <input
           type="checkbox"
-          checked={isCompleted}
+          checked={localChecked}
           disabled={isUpdating}
           onClick={handleCheckboxClick}
           onChange={handleCheckboxChange}

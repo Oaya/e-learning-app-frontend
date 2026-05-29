@@ -53,6 +53,6 @@ export function useLessonProgressMutation(userId: string, courseId: string) {
 
   return {
     updateLessonProgress: mutation.mutateAsync,
-    isUpdating: mutation.isPending,
+    pendingLessonProgressId: mutation.isPending ? mutation.variables?.lessonProgressId : undefined,
   };
 }
