@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import placeholderImg from "../../../../assets/placeholder.webp";
 import { useState } from "react";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
@@ -177,7 +178,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
           <div className="mb-2">
             <div className="h-full w-full overflow-hidden rounded border border-gray-200 bg-gray-50">
               <img
-                src={thumbnailPreviewUrl || "/src/assets/placeholder.webp"}
+                src={thumbnailPreviewUrl || placeholderImg}
                 alt="Placeholder"
                 className={`h-full w-full ${
                   thumbnailPreviewUrl ? "object-cover" : "object-contain"

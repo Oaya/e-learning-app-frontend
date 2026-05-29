@@ -3,6 +3,7 @@ import Select, {
   type MultiValueGenericProps,
   type OptionProps,
 } from "react-select";
+import defaultAvatar from "../assets/user.png";
 
 type InstructorOptions = {
   value: string;
@@ -36,7 +37,7 @@ function CustomOption(props: OptionProps<InstructorOptions, true>) {
     <components.Option {...props}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <img
-          src={avatar || "/src/assets/user.png"}
+          src={avatar || defaultAvatar}
           alt={label}
           style={{
             width: 24,
@@ -60,7 +61,7 @@ function CustomMultiValueLabel(
     <components.MultiValueLabel {...props}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <img
-          src={avatar || "/src/assets/user.png"}
+          src={avatar || defaultAvatar}
           alt={label}
           style={{
             width: 16,

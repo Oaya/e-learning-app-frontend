@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import placeholderImg from "../../../../assets/placeholder.webp";
 
 import CourseDetailTable from "../../../shared/profile/components/CourseDetailTable";
 import InstructorCard from "../../../shared/profile/components/InstructorCard";
@@ -49,7 +50,7 @@ export default function CoursePage() {
         <div className="relative">
           <div className="flex items-center gap-4 rounded-md bg-gray-200 p-4 pr-36">
             <img
-              src={course.thumbnail ?? "/src/assets/placeholder.webp"}
+              src={course.thumbnail ?? placeholderImg}
               alt={course.title}
               className="h-24 w-40 rounded-md object-cover"
             />

@@ -8,6 +8,7 @@ import { capitalize } from "../../../../utils/helper";
 import UpdatePasswordModal from "../../../admin/users/components/UpdatePasswordModal";
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 import { UserModel } from "../../../../models/user";
+import defaultAvatar from "../../../../assets/user.png";
 
 export default function MyProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
@@ -130,7 +131,7 @@ export default function MyProfilePage() {
           <div className="flex justify-center">
             <div className="group relative h-32 w-32">
               <img
-                src={avatarPreviewUrl || user.avatar || "/src/assets/user.png"}
+                src={avatarPreviewUrl || user.avatar || defaultAvatar}
                 alt="avatar"
                 className="h-32 w-32 rounded-full object-cover"
               />

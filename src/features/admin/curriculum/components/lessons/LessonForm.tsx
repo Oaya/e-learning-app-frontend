@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import placeholderImg from "../../../../../assets/placeholder.webp";
 import { BiSolidTrashAlt } from "react-icons/bi";
 
 import { useAlert } from "../../../../../contexts/AlertContext";
@@ -206,7 +207,7 @@ export default function LessonForm({
                     />
                   ) : (
                     <img
-                      src="/src/assets/placeholder.webp"
+                      src={placeholderImg}
                       alt="Placeholder"
                       className="h-full w-full object-contain"
                     />

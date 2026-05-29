@@ -5,6 +5,7 @@ import { capitalize } from "../../../../utils/helper";
 import { useUser } from "../../../admin/users/hooks/useUser";
 import ProfileCoursesList from "../components/ProfileCoursesList";
 import { UserModel } from "../../../../models/user";
+import defaultAvatar from "../../../../assets/user.png";
 
 export default function UserProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -26,7 +27,7 @@ export default function UserProfile() {
           <div className="flex justify-center">
             <div className="group relative h-32 w-32">
               <img
-                src={user.avatar || "/src/assets/user.png"}
+                src={user.avatar || defaultAvatar}
                 alt="avatar"
                 className="h-32 w-32 rounded-full object-cover"
               />

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Instructor } from "../../../../type/user";
+import defaultAvatar from "../../../../assets/user.png";
 
 export default function InstructorCard({
   instructors,
@@ -18,7 +19,7 @@ export default function InstructorCard({
               to={`/users/${ins.id}`}
             >
               <img
-                src={ins.avatar || "/src/assets/user.png"}
+                src={ins.avatar || defaultAvatar}
                 alt="avatar"
                 className="h-10 w-10 rounded-full object-cover group-hover:opacity-80"
               />

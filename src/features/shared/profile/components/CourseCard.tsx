@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { Course } from "../../../../type/course";
 import type { UserModel } from "../../../../models/user";
+import placeholderImg from "../../../../assets/placeholder.webp";
 
 export default function CourseCard({
   course,
@@ -25,7 +26,7 @@ export default function CourseCard({
         }
       >
         <img
-          src={course.thumbnail ?? "/src/assets/placeholder.webp"}
+          src={course.thumbnail ?? placeholderImg}
           alt={course.title}
           className="h-40 w-full rounded-t-xl object-cover"
         />
