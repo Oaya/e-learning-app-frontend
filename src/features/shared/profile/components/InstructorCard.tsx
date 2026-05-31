@@ -15,6 +15,7 @@ export default function InstructorCard({
         {instructors ? (
           instructors.map((ins) => (
             <Link
+              key={ins.id}
               className="group flex items-center gap-4 pt-4"
               to={`/users/${ins.id}`}
             >

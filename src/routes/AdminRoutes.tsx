@@ -4,14 +4,34 @@ import { Route } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
 import SidebarLayout from "../layouts/SidebarLayout";
 
-const CoursePage = lazy(() => import("../features/admin/curriculum/pages/CoursePage"));
-const CourseBuilderPage = lazy(() => import("../features/admin/curriculum/pages/CourseBuilderPage"));
-const CurriculumBuilderPage = lazy(() => import("../features/admin/curriculum/pages/CurriculumBuilderPage"));
+const CoursePage = lazy(
+  () => import("../features/admin/curriculum/pages/CoursePage"),
+);
+const CourseBuilderPage = lazy(
+  () => import("../features/admin/curriculum/pages/CourseBuilderPage"),
+);
+const CurriculumBuilderPage = lazy(
+  () => import("../features/admin/curriculum/pages/CurriculumBuilderPage"),
+);
 const UsersPage = lazy(() => import("../features/admin/users/pages/UsersPage"));
-const PricingPage = lazy(() => import("../features/admin/curriculum/pages/PricingPage"));
-const ReviewPage = lazy(() => import("../features/admin/curriculum/pages/ReviewPage"));
-const CoursesList = lazy(() => import("../features/admin/curriculum/pages/CoursesListPage"));
-const AdminDashboardPage = lazy(() => import("../features/admin/dashboard/pages/DashboardPage"));
+const PricingPage = lazy(
+  () => import("../features/admin/curriculum/pages/PricingPage"),
+);
+const ReviewPage = lazy(
+  () => import("../features/admin/curriculum/pages/ReviewPage"),
+);
+const CoursesList = lazy(
+  () => import("../features/admin/curriculum/pages/CoursesListPage"),
+);
+const AdminDashboardPage = lazy(
+  () => import("../features/admin/dashboard/pages/DashboardPage"),
+);
+const MyProfilePage = lazy(
+  () => import("../features/shared/profile/pages/MyProfilePage"),
+);
+const UserProfile = lazy(
+  () => import("../features/shared/profile/pages/UserProfilePage"),
+);
 
 export default function AdminRoutes() {
   return (
@@ -35,6 +55,9 @@ export default function AdminRoutes() {
         <Route path="/admin/courses/:id/pricing" element={<PricingPage />} />
         <Route path="/admin/courses/:id/review" element={<ReviewPage />} />
         <Route path="/admin/users" element={<UsersPage />} />
+
+        <Route path="profile" element={<MyProfilePage />} />
+        <Route path="/users/:id" element={<UserProfile />} />
       </Route>
     </Route>
   );

@@ -7,14 +7,18 @@ import SidebarLayout from "../layouts/SidebarLayout";
 
 const HomePage = lazy(() => import("../features/public/pages/HomePage"));
 const PricingPage = lazy(() => import("../features/public/pages/PricingPage"));
-const AcceptInvitePage = lazy(() => import("../features/public/pages/AcceptInvitePage"));
-const EmailConfirmPage = lazy(() => import("../features/public/pages/EmailConfirmPage"));
+const AcceptInvitePage = lazy(
+  () => import("../features/public/pages/AcceptInvitePage"),
+);
+const EmailConfirmPage = lazy(
+  () => import("../features/public/pages/EmailConfirmPage"),
+);
 const LoginPage = lazy(() => import("../features/public/pages/LoginPage"));
 const PaymentPage = lazy(() => import("../features/public/pages/PaymentPage"));
 const SignupPage = lazy(() => import("../features/public/pages/SignupPage"));
-const MyProfilePage = lazy(() => import("../features/shared/profile/pages/MyProfilePage"));
-const UserProfile = lazy(() => import("../features/shared/profile/pages/UserProfilePage"));
-const RefundPolicyPage = lazy(() => import("../features/public/pages/RefundPolicyPage"));
+const RefundPolicyPage = lazy(
+  () => import("../features/public/pages/RefundPolicyPage"),
+);
 
 export default function PublicRoutes() {
   return (
@@ -33,12 +37,6 @@ export default function PublicRoutes() {
         <Route path="confirm-email" element={<EmailConfirmPage />}></Route>
         <Route path="accept-invite" element={<AcceptInvitePage />} />
         <Route path="/payment" element={<PaymentPage />} />
-      </Route>
-
-      {/* Profile Route with Sidebar */}
-      <Route element={<SidebarLayout />}>
-        <Route path="profile" element={<MyProfilePage />} />
-        <Route path="/users/:id" element={<UserProfile />} />
       </Route>
     </>
   );
