@@ -1,6 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRef, useEffect, useCallback } from "react";
 import { marked } from "marked";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 marked.use({ breaks: true, gfm: true });
 
@@ -26,16 +27,15 @@ export default function LessonPage() {
     lessonId: string;
   }>();
   const { user } = useAuth();
-
   const { course, isLoading: courseLoading } = useCourseOverview(courseId);
   const { enrollment, isLoading: enrollmentLoading } = useUserEnrollmentStatus(
     user?.id ?? "",
     courseId,
   );
+  const navigate = useNavigate();
 
-  const currentLesson = course?.sections
-    .flatMap((s) => s.lessons ?? [])
-    .find((l) => l.id === lessonId);
+  const flatLessons = course?.sections?.flatMap((s) => s.lessons ?? []) ?? [];
+  const currentLesson = flatLessons.find((l) => l.id === lessonId);
 
   const lessonProgress = enrollment?.lesson_progresses?.find(
     (lp) => lp.lesson_id === lessonId,
@@ -110,6 +110,13 @@ export default function LessonPage() {
   if (!currentLesson) return <p>Lesson not found.</p>;
 
   const isReading = currentLesson.lesson_type === "reading";
+  const nextLesson = flatLessons[flatLessons.indexOf(currentLesson) + 1];
+  const prevLesson = flatLessons[flatLessons.indexOf(currentLesson) - 1];
+  console.log(nextLesson, prevLesson);
+
+  function moveLesson(id: string) {
+    navigate(`/courses/${course?.id}/lessons/${id}`);
+  }
 
   return (
     <div className="flex h-full gap-6">
@@ -118,32 +125,58 @@ export default function LessonPage() {
         {/* Video area — hidden for reading lessons */}
 
         {!isReading && (
-          <div className="h-[67vh] w-full rounded-md bg-black">
+          <div className="relative h-[67vh] w-full bg-black">
             {currentLesson.video ? (
               <video
                 ref={videoRef}
                 src={currentLesson.video}
                 controls
-                className="h-full w-full rounded-md object-contain"
+                className="h-full w-full object-contain"
               />
             ) : (
               <div className="flex h-full items-center justify-center text-white">
                 No video available
               </div>
             )}
+            <button
+              className={`btn-page-move left-0 ${!prevLesson ? "invisible" : "cursor-pointer"}`}
+              onClick={() => moveLesson(prevLesson.id)}
+            >
+              <IoIosArrowBack size="16" color="white" />
+            </button>
+            <button
+              className={`btn-page-move right-0 ${!nextLesson ? "invisible" : "cursor-pointer"}`}
+              onClick={() => moveLesson(nextLesson.id)}
+            >
+              <IoIosArrowForward size="16" color="white" />
+            </button>
           </div>
         )}
 
         {/* Article content */}
         {currentLesson.article && (
-          <div
-            className="prose h-[67vh] max-w-none overflow-y-auto border border-gray-300 px-20 py-4"
-            dangerouslySetInnerHTML={{
-              __html: marked(
-                addVisibleLineBreaks(currentLesson.article),
-              ) as string,
-            }}
-          />
+          <div className="relative h-[67vh] border border-gray-300">
+            <div
+              className="prose h-full overflow-y-auto px-26 py-8 [scrollbar-gutter:stable]"
+              dangerouslySetInnerHTML={{
+                __html: marked(
+                  addVisibleLineBreaks(currentLesson.article),
+                ) as string,
+              }}
+            />
+            <button
+              className={`btn-page-move left-0 ${!prevLesson ? "invisible" : "cursor-pointer"}`}
+              onClick={() => moveLesson(prevLesson.id)}
+            >
+              <IoIosArrowBack size="16" color="white" />
+            </button>
+            <button
+              className={`btn-page-move right-0 ${!nextLesson ? "invisible" : "cursor-pointer"}`}
+              onClick={() => moveLesson(nextLesson.id)}
+            >
+              <IoIosArrowForward size="16" color="white" />
+            </button>
+          </div>
         )}
 
         {/* Lesson info */}

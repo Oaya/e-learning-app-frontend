@@ -116,7 +116,7 @@ export default function LessonForm({
                   key={type}
                   className={`cursor-pointer rounded-full border px-4 py-1 text-sm transition disabled:opacity-60 ${
                     checked
-                      ? "bg-theme-yellow-10 border-theme-yellow-10 text-white"
+                      ? `badge-${type} text-white`
                       : "border-gray-300 bg-white hover:bg-gray-50"
                   }`}
                 >
