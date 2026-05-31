@@ -8,7 +8,8 @@ import SectionDetails from "../components/sections/SectionDetails";
 import { useCourse } from "../hooks/useCourseMutation";
 import { useCourseOverview } from "../hooks/useCourseOverview";
 import CourseDetailTable from "../../../shared/profile/components/CourseDetailTable";
-import InstructorCard from "../../../shared/profile/components/InstructorCard";
+import UserCard from "../../../shared/profile/components/UserCard";
+import { useCourseEnrollments } from "../hooks/useCourseEnrollments";
 
 export default function CoursePage() {
   const { id } = useParams<{ id: string }>();
@@ -18,13 +19,18 @@ export default function CoursePage() {
   const [isOpen, setIsOpen] = useState(false);
 
   const { course, isLoading } = useCourseOverview(courseId);
+  const { enrollments, isLoading: isCourseEnrollmentLoading } =
+    useCourseEnrollments(courseId);
   const { deleteCourse, isDeleting } = useCourse(courseId, {
     onDeleteSuccess: () => {
       navigate("/admin/dashboard");
     },
   });
 
-  if (isLoading || !course) return <p>Loading…</p>;
+  //TODO: Need to add getting Total Student Number.
+  console.log(enrollments);
+
+  if (isLoading || !course || isCourseEnrollmentLoading) return <p>Loading…</p>;
 
   return (
     <div>
@@ -94,14 +100,12 @@ export default function CoursePage() {
 
           {/* Right column (sidebar) */}
           <div className="flex flex-col space-y-6 lg:sticky lg:top-6">
-            <InstructorCard instructors={course.instructors} />
+            <UserCard users={course.instructors} type="Instructors" />
 
-            <div className="rounded bg-white p-4">
-              <p className="text-sm text-gray-500">Students</p>
-              <p className="mt-1 text-2xl font-semibold">
-                Total Student Number
-              </p>
-            </div>
+            <UserCard
+              users={enrollments?.flatMap((e) => e.user)}
+              type="Students"
+            />
           </div>
         </div>
       </div>

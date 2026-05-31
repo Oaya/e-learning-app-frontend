@@ -1,5 +1,5 @@
 import type { SectionWithLessons } from "./section";
-import type { Instructor } from "./user";
+import type { UserNameAndAvatar } from "./user";
 
 export type Course = {
   id: string;
@@ -11,7 +11,7 @@ export type Course = {
   thumbnail?: string | null;
   price?: number | null;
   created_by: string;
-  instructors?: Instructor[];
+  instructors?: UserNameAndAvatar[];
   created_at: Date;
 };
 

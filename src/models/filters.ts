@@ -16,7 +16,7 @@ class UserFilters {
       type: "multi-select",
       options: [
         { value: "admin", label: "Admin" },
-        { value: "instructor", label: "Instructor" },
+        { value: "instructor", label: "UserNameAndAvatar" },
         { value: "student", label: "Student" },
       ],
     },

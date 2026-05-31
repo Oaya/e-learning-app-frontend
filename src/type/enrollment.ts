@@ -26,3 +26,14 @@ export type UserEnrollmentWithStatus = {
     watched_seconds: number;
   }[];
 };
+
+export type CourseEnrollments = {
+  id: string;
+  status: EnrollmentStatus;
+  user: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    avatar?: string;
+  };
+};

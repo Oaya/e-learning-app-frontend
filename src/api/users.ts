@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Instructor, InviteUser, User } from "../type/user";
+import type { UserNameAndAvatar, InviteUser, User } from "../type/user";
 import type { Course } from "../type/course";
 import type { UserQueryInput } from "../features/admin/users/hooks/useUsers";
 
@@ -105,7 +105,7 @@ export async function deleteUsers(userIds: string[]): Promise<void> {
   }
 }
 
-export async function getInstructors(): Promise<Instructor[]> {
+export async function getInstructors(): Promise<UserNameAndAvatar[]> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/instructors`;

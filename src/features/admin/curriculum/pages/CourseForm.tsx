@@ -5,7 +5,7 @@ import { BiSolidTrashAlt } from "react-icons/bi";
 
 import CustomSelect from "../../../../ui/CustomSelect";
 import type { Course, UpsertCourse } from "../../../../type/course";
-import type { Instructor } from "../../../../type/user";
+import type { UserNameAndAvatar } from "../../../../type/user";
 import { categories, levels } from "../../../../utils/constants";
 import { fdString } from "../../../../utils/formData";
 import { useInstructors } from "../hooks/useInstructors";
@@ -17,9 +17,9 @@ type CourseFormProps = {
 };
 export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
   const { instructors } = useInstructors();
-  const [selectedInstructor, setSelectedInstructor] = useState<Instructor[]>(
-    defaultValues?.instructors ?? [],
-  );
+  const [selectedInstructor, setSelectedInstructor] = useState<
+    UserNameAndAvatar[]
+  >(defaultValues?.instructors ?? []);
   const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(
     defaultValues?.thumbnail || null,
   );
@@ -146,7 +146,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
 
         <div className="gap-6">
           <div className="mb-2">
-            <label className="sm-label">Instructor</label>
+            <label className="sm-label">UserNameAndAvatar</label>
             <CustomSelect
               isMulti
               name="instructor"

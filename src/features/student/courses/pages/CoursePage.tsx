@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import placeholderImg from "../../../../assets/placeholder.webp";
 
 import CourseDetailTable from "../../../shared/profile/components/CourseDetailTable";
-import InstructorCard from "../../../shared/profile/components/InstructorCard";
+import UserCard from "../../../shared/profile/components/UserCard";
 import SectionDetails from "../../../admin/curriculum/components/sections/SectionDetails";
 
 import { useCourseOverview } from "../../../admin/curriculum/hooks/useCourseOverview";
@@ -114,7 +114,7 @@ export default function CoursePage() {
 
           {/* Right column (sidebar) */}
           <div className="flex flex-col space-y-6 lg:sticky lg:top-6">
-            <InstructorCard instructors={course.instructors} />
+            <UserCard users={course.instructors} type="Instructors" />
           </div>
         </div>
       </div>

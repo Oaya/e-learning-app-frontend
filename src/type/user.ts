@@ -61,7 +61,7 @@ export type UpdatePassword = {
   new_password: string;
 };
 
-export type Instructor = {
+export type UserNameAndAvatar = {
   id: string;
   avatar?: string;
   first_name: string;
