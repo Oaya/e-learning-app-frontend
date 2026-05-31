@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 
 import PlainLayout from "../layouts/PlainLayout";
 import PublicLayout from "../layouts/PublicLayout";
-import SidebarLayout from "../layouts/SidebarLayout";
 
 const HomePage = lazy(() => import("../features/public/pages/HomePage"));
 const PricingPage = lazy(() => import("../features/public/pages/PricingPage"));
