@@ -14,8 +14,11 @@ export default function UserCard({
     <div>
       <div className="rounded bg-white p-4">
         <div className="flex items-center gap-2">
-          <p className="text-sm text-gray-500">{type}</p>
-          <p>{users?.length ? ` Total: ${users.length}` : ""}</p>
+          <p className="text-sm text-gray-500">
+            {users?.length && type === "Students"
+              ? `${users.length} students`
+              : type}
+          </p>
         </div>
 
         {users ? (
@@ -28,7 +31,7 @@ export default function UserCard({
               <img
                 src={u.avatar || defaultAvatar}
                 alt="avatar"
-                className="h-10 w-10 rounded-full object-cover group-hover:opacity-80"
+                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
               />
 
               <p className="group-hover:text-blue-400">

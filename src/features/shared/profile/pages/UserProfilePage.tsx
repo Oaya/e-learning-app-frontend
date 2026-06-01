@@ -6,38 +6,19 @@ import { useUser } from "../../../admin/users/hooks/useUser";
 import ProfileCoursesList from "../components/ProfileCoursesList";
 import { UserModel } from "../../../../models/user";
 import defaultAvatar from "../../../../assets/user.png";
-import { useAuth } from "../../../../contexts/AuthContext";
-import { useUserEnrollments } from "../../../student/dashboard/hooks/useUserEnrollments";
 
 export default function UserProfile() {
   // Keep local form state, initialized safely even when user is null
   const { id } = useParams<{ id: string }>();
   const userId = id || "";
-  const { user: authUser, isLoading: isAuthLoading } = useAuth();
-
   const { user, isLoading } = useUser(userId);
   const { courses, isLoading: isCoursesLoading } = useUserCourses(userId);
 
-  const { enrollments, isLoading: isEnrollmentLoading } = useUserEnrollments(
-    authUser?.id || "",
-  );
-
   if (!userId) return <p>User ID is missing.</p>;
-  if (isAuthLoading || isLoading || isEnrollmentLoading) return <p>Loading…</p>;
+  if (isLoading) return <p>Loading…</p>;
   if (!user) return <p>User not found.</p>;
 
-  const isAdmin = new UserModel(authUser).isAdmin();
-  const coursesWithStAccess = new Map(
-    courses?.map((course) => [course.id, { ...course, access: false }]) ?? [],
-  );
-
-  if (!isAdmin && enrollments) {
-    enrollments.forEach((e) => {
-      const course = coursesWithStAccess.get(e.course.id);
-      if (course)
-        coursesWithStAccess.set(e.course.id, { ...course, access: true });
-    });
-  }
+  const profileRole = user.role;
 
   return (
     <div>
@@ -57,7 +38,7 @@ export default function UserProfile() {
             <div className="text-center">
               <div className="mb-2">
                 <p className="text-theme-purple-20">
-                  <span>{capitalize(user.role) ?? "-"}</span>
+                  <span>{capitalize(profileRole) ?? "-"}</span>
                 </p>
                 <p className="text-2xl">{new UserModel(user).fullName()}</p>
               </div>
@@ -71,11 +52,10 @@ export default function UserProfile() {
         </div>
 
         {/* course */}
-
         <ProfileCoursesList
-          isAdmin={isAdmin}
+          role={profileRole}
           isCoursesLoading={isCoursesLoading}
-          courses={[...coursesWithStAccess.values()]}
+          courses={courses}
         />
       </div>
     </div>
