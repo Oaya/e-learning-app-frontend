@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function SubscriptionBanner({
   isBillingOwner,
@@ -37,12 +37,12 @@ export default function SubscriptionBanner({
 
           {isBillingOwner && (
             <div className="mt-2 w-full shrink-0 lg:mt-0 lg:w-auto">
-              <Link
+              <NavLink
                 to={messageType === "payment" ? "/payment" : "/profile"}
                 className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-teal-600 shadow-sm hover:bg-teal-50"
               >
                 {messageType === "payment" ? "Pay Now" : "Reactivate"}
-              </Link>
+              </NavLink>
             </div>
           )}
         </div>

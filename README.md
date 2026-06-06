@@ -1,6 +1,6 @@
-# JobDesk — Frontend
+# E-Learning App — Frontend
 
-A React + TypeScript frontend for an jobDesk platform with job apply management, applications, interview progress tracking, and Stripe payments.
+A React + TypeScript frontend for an e-learning platform with course management, student enrollment, lesson progress tracking, and Stripe payments.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ A React + TypeScript frontend for an jobDesk platform with job apply management,
 
    ```bash
    git clone <repository-url>
-   cd job-desk/frontend
+   cd e-learning-app/frontend
    ```
 
 2. **Install dependencies**
@@ -32,9 +32,9 @@ A React + TypeScript frontend for an jobDesk platform with job apply management,
    VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
    ```
 
-   | Variable                      | Description                                   |
-   | ----------------------------- | --------------------------------------------- |
-   | `VITE_API_URL`                | Base URL of the Rails backend API             |
+   | Variable | Description |
+   |---|---|
+   | `VITE_API_URL` | Base URL of the Rails backend API |
    | `VITE_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key for payment processing |
 
 4. **Start the development server**
@@ -47,12 +47,12 @@ A React + TypeScript frontend for an jobDesk platform with job apply management,
 
 ## Available Scripts
 
-| Script            | Description                           |
-| ----------------- | ------------------------------------- |
-| `npm run dev`     | Start the development server with HMR |
-| `npm run build`   | Type-check and build for production   |
-| `npm run preview` | Preview the production build locally  |
-| `npm run lint`    | Run ESLint                            |
+| Script | Description |
+|---|---|
+| `npm run dev` | Start the development server with HMR |
+| `npm run build` | Type-check and build for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
 
 ## Project Structure
 

@@ -5,7 +5,7 @@ import PlainLayout from "../layouts/PlainLayout";
 import PublicLayout from "../layouts/PublicLayout";
 
 const HomePage = lazy(() => import("../features/public/pages/HomePage"));
-
+const PricingPage = lazy(() => import("../features/public/pages/PricingPage"));
 const AcceptInvitePage = lazy(
   () => import("../features/public/pages/AcceptInvitePage"),
 );
@@ -25,6 +25,7 @@ export default function PublicRoutes() {
       {/* Public Routes with Header & Footer */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<HomePage />}></Route>
+        <Route path="/pricing" element={<PricingPage />}></Route>
         <Route path="/signup" element={<SignupPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="refund-policy" element={<RefundPolicyPage />}></Route>

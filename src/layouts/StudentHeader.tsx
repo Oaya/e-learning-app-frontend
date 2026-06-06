@@ -5,13 +5,13 @@ export default function StudentHeader() {
     <nav className="bg-theme-purple-30 fixed start-0 top-0 left-0 z-20 w-full">
       <div className="mx-auto flex flex-wrap items-center justify-between px-20 py-4">
         <div className="flex items-center space-x-8">
-          <Link to="/" className="text-xl font-semibold">
+          <NavLink to="/" className="text-xl font-semibold">
             EduApp
-          </Link>
+          </NavLink>
 
-          <a href="/#pricing" className="font-medium">
+          <NavLink to="/pricing" className="font-medium">
             Pricing
-          </a>
+          </NavLink>
 
           <NavLink to="/courses" className="font-medium">
             Browse courses

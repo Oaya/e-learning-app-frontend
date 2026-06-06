@@ -4,19 +4,10 @@ import CourseCard from "../../../shared/profile/components/CourseCard";
 import { UserModel } from "../../../../models/user";
 import { useUserEnrollments } from "../hooks/useUserEnrollments";
 import { capitalize } from "../../../../utils/helper";
-import StatsBar from "../components/statsBar";
 
 export default function StudentDashboardPage() {
   const { user } = useAuth();
   const { enrollments } = useUserEnrollments(user?.id ?? "");
-
-  const stats = {
-    courses: 1,
-    hoursThisWeek: 4.5,
-    lessonsCompleted: 12,
-    totalLessons: 30,
-    streakDays: 5,
-  };
 
   return (
     <div>
@@ -24,15 +15,14 @@ export default function StudentDashboardPage() {
         <h1 className="text-2xl font-semibold">Dashboard</h1>
       </header>
       <div className="space-y-8">
-        <StatsBar {...stats} />
-        {/* <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="rounded bg-white p-4">
             <p className="text-sm text-gray-500">Your Courses</p>
             <p className="mt-1 text-2xl font-semibold">
               {enrollments?.length ?? 0}
             </p>
           </div>
-        </div> */}
+        </div>
 
         {enrollments && enrollments.length > 0 ? (
           <>
