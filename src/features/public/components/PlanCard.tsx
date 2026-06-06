@@ -13,7 +13,7 @@ function PlanList({ text }: { text: string }) {
   );
 }
 
-function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
+function PlanCard({ plan }: { plan: Plan }) {
   const navigate = useNavigate();
   const projectNum = plan.features.max_courses;
   const userNum = plan.features.max_users;
@@ -23,10 +23,7 @@ function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
       onClick={() =>
         navigate("/signup", { state: { selectedPlan: plan.name } })
       }
-      className={[
-        "border-default block w-100 rounded-2xl border border-gray-200 p-6 text-left shadow-md transition hover:shadow-2xl",
-        bgColor ?? "bg-white",
-      ].join(" ")}
+      className="border-default block w-100 rounded-2xl border border-gray-200 p-6 text-left shadow-md transition hover:shadow-2xl"
     >
       <h1 className="text-heading mb-3 text-3xl leading-8 font-semibold tracking-tight capitalize">
         {plan.name}
