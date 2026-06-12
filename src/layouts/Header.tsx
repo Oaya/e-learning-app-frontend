@@ -9,12 +9,15 @@ export default function Header() {
             fluently
           </NavLink>
 
-          <a href="#features" className="font-medium">
+          <Link to="/#features" className="font-medium">
             Features
-          </a>
-          <a href="#pricing" className="font-medium">
+          </Link>
+          <Link to="/#how" className="font-medium">
+            How it work
+          </Link>
+          <Link to="/#pricing" className="font-medium">
             Pricing
-          </a>
+          </Link>
         </div>
 
         <div className="flex space-x-4">
