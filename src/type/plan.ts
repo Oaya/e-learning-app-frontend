@@ -3,9 +3,13 @@ export type Plan = {
   name: string;
   price: number;
   features: {
-    max_users: number;
-    max_courses: number;
-    quizzes: boolean;
+    max_students: string | number;
+    session_schedule: boolean;
+    homework_assignments: boolean;
+    payment_tracking: boolean;
+    session_recording: boolean;
+    student_goals: boolean;
+    ai_homework_generation: boolean;
   };
   stripe_price_id?: string;
 };

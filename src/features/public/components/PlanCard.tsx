@@ -4,19 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
 import type { Plan } from "../../../type/plan";
 
-function PlanList({ text }: { text: string }) {
+function PlanFeatureRow({ label, value }: { label: string; value: boolean }) {
   return (
     <p className="mb-2 flex items-center gap-2">
-      <TbSquareRoundedCheckFilled size={26} className="text-theme-purple-20" />
-      <span>{text}</span>
+      {value ? (
+        <TbSquareRoundedCheckFilled
+          size={26}
+          className="text-theme-purple-20"
+        />
+      ) : (
+        <MdOutlineClose size={26} className="text-theme-purple-20" />
+      )}
+      <span>{label}</span>
     </p>
   );
 }
 
 function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
   const navigate = useNavigate();
-  const projectNum = plan.features.max_courses;
-  const userNum = plan.features.max_users;
+  const studentNum = plan.features.max_students;
 
   return (
     <div
@@ -36,26 +42,42 @@ function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
       </h2>
 
       <div className="text-body my-6 text-lg">
-        <PlanList text="Unlimited video lessons" />
-        <PlanList text="Progress tracking" />
-        <PlanList text="Student management" />
-        <PlanList text="Basic analytics" />
-        <PlanList text={`${projectNum} course${projectNum === 1 ? "" : "s"}`} />
-        <PlanList text={`${userNum} user${userNum === 1 ? "" : "s"}`} />
-
         <p className="mb-2 flex items-center gap-2">
-          {plan.features.quizzes ? (
-            <TbSquareRoundedCheckFilled
-              size={26}
-              className="text-theme-purple-20"
-            />
-          ) : (
-            <MdOutlineClose size={26} className="text-theme-purple-20" />
-          )}
+          <TbSquareRoundedCheckFilled
+            size={26}
+            className="text-theme-purple-20"
+          />
           <span>
-            {plan.features.quizzes ? "Quizzes included" : "No quizzes"}
+            {typeof studentNum === "number"
+              ? `Up to ${studentNum} students`
+              : studentNum}
           </span>
         </p>
+        <PlanFeatureRow
+          label="Session scheduling"
+          value={plan.features.session_schedule}
+        />
+        <PlanFeatureRow
+          label="Homework assignments"
+          value={plan.features.homework_assignments}
+        />
+
+        <PlanFeatureRow
+          label="Session recordings"
+          value={plan.features.session_recording}
+        />
+        <PlanFeatureRow
+          label="Student goals"
+          value={plan.features.student_goals}
+        />
+        <PlanFeatureRow
+          label="Payment tracking"
+          value={plan.features.payment_tracking}
+        />
+        <PlanFeatureRow
+          label="AI homework generation"
+          value={plan.features.ai_homework_generation}
+        />
       </div>
     </div>
   );
