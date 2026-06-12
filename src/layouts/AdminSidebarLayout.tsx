@@ -131,10 +131,8 @@ export default function AdminSidebarLayout() {
               status={user?.status ?? ""}
             />
           )}
-          <main className="flex-1 overflow-y-auto p-4">
-            <div className="p-6">
-              <Outlet />
-            </div>
+          <main className="flex-1 overflow-y-auto">
+            <Outlet />
           </main>
         </div>
       </div>
