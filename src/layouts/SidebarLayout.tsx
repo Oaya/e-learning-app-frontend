@@ -46,8 +46,8 @@ export default function SidebarLayout() {
                   <StyledNavLink to="/admin/courses" icon={HiAcademicCap}>
                     Courses
                   </StyledNavLink>
-                  <StyledNavLink to="/admin/users" icon={HiUsers}>
-                    Users
+                  <StyledNavLink to="/admin/students" icon={HiUsers}>
+                    Students
                   </StyledNavLink>
                 </>
               ) : (

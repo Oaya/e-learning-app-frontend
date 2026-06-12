@@ -5,7 +5,7 @@ import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { capitalize } from "../../../../utils/helper";
-import UpdatePasswordModal from "../../../admin/users/components/UpdatePasswordModal";
+import UpdatePasswordModal from "../../../admin/students/components/UpdatePasswordModal";
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 import { UserModel } from "../../../../models/user";
 import defaultAvatar from "../../../../assets/user.png";
@@ -27,9 +27,10 @@ export default function MyProfilePage() {
     useState(false);
 
   const alert = useAlert();
-  const isBillingOwner = new UserModel(user).isBillingOwner();
+  const isAdmin = new UserModel(user);
   const isCanceled =
-    user?.tenant.cancel_at_period_end || user?.tenant.status === "canceled";
+    user?.subscription?.cancel_at_period_end ||
+    user?.subscription?.status === "canceled";
 
   // When user loads/changes, hydrate the form state
   useEffect(() => {
@@ -119,7 +120,7 @@ export default function MyProfilePage() {
       <UpdateSubscriptionModal
         isOpen={isUpdatePlanModalOpen}
         onClose={() => setIsUpdatePlanModalOpen(false)}
-        plan={user.tenant.plan}
+        plan={user.subscription?.plan as string}
         mode={isCanceled ? "Reactivate" : "Update"}
       />
       <h2 className="text-3xl font-semibold">Profile & settings</h2>
@@ -162,11 +163,6 @@ export default function MyProfilePage() {
               </div>
 
               <div className="mb-2">
-                <div className="sm-label">Tenant</div>
-                <div className="read-only-input">{user.tenant.name ?? "-"}</div>
-              </div>
-
-              <div className="mb-2">
                 <label className="sm-label">Email</label>
                 <input
                   name="email"
@@ -196,23 +192,22 @@ export default function MyProfilePage() {
                   {capitalize(user.role) ?? "-"}
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="mb-2">
+            <label className="sm-label">Password</label>
 
-              <div className="mb-2">
-                <label className="sm-label">Password</label>
+            <div className="flex gap-2">
+              <div className="read-only-input w-full">************</div>
 
-                <div className="flex gap-2">
-                  <div className="read-only-input w-full">************</div>
-
-                  <button
-                    onClick={() => setIsPasswordModalOpen(true)}
-                    type="button"
-                    className="bg-theme-purple-20 flex h-11.5 items-center justify-center rounded border px-3 text-white"
-                    aria-label="Change password"
-                  >
-                    <GoPencil size={16} />
-                  </button>
-                </div>
-              </div>
+              <button
+                onClick={() => setIsPasswordModalOpen(true)}
+                type="button"
+                className="bg-theme-purple-20 flex h-11.5 items-center justify-center rounded border px-3 text-white"
+                aria-label="Change password"
+              >
+                <GoPencil size={16} />
+              </button>
             </div>
           </div>
 
@@ -226,10 +221,10 @@ export default function MyProfilePage() {
         </form>
       </div>
 
-      {isBillingOwner && (
+      {isAdmin && (
         <div className="mt-3 space-y-6 rounded border border-gray-300 bg-white p-6">
           <h2 className="text-xl font-semibold">Billing Info</h2>
-          {user.tenant.cancel_at_period_end && (
+          {user.subscription?.cancel_at_period_end && (
             <p className="text-xl font-bold text-red-500">
               Your account will be canceled at the Access ends Date
             </p>
@@ -239,21 +234,23 @@ export default function MyProfilePage() {
               <div className="mb-2">
                 <div className="sm-label">Plan</div>
                 <div className="read-only-input">
-                  {capitalize(user.tenant.plan) ?? "-"}
+                  {user.subscription?.plan
+                    ? capitalize(user.subscription?.plan)
+                    : "-"}
                 </div>
               </div>
 
               <div className="mb-2">
                 <div className="sm-label">
-                  {user.tenant.cancel_at_period_end
+                  {user.subscription?.cancel_at_period_end
                     ? "Access Ends"
                     : "Next Billing Date"}
                 </div>
                 <div className="read-only-input">
                   {" "}
-                  {user.tenant.current_period_end
+                  {user.subscription?.current_period_end
                     ? new Date(
-                        user.tenant.current_period_end,
+                        user.subscription?.current_period_end,
                       ).toLocaleDateString()
                     : "-"}
                 </div>
@@ -264,7 +261,9 @@ export default function MyProfilePage() {
               <div className="mb-2">
                 <div className="sm-label">Status</div>
                 <div className="read-only-input">
-                  {capitalize(user.tenant.status) ?? "-"}
+                  {user.subscription?.status
+                    ? capitalize(user.subscription?.status)
+                    : "-"}
                 </div>
               </div>
             </div>

@@ -13,7 +13,9 @@ const CourseBuilderPage = lazy(
 const CurriculumBuilderPage = lazy(
   () => import("../features/admin/curriculum/pages/CurriculumBuilderPage"),
 );
-const UsersPage = lazy(() => import("../features/admin/users/pages/UsersPage"));
+const StudentsPage = lazy(
+  () => import("../features/admin/students/pages/StudentsPage"),
+);
 const PricingPage = lazy(
   () => import("../features/admin/curriculum/pages/PricingPage"),
 );
@@ -54,7 +56,7 @@ export default function AdminRoutes() {
         />
         <Route path="/admin/courses/:id/pricing" element={<PricingPage />} />
         <Route path="/admin/courses/:id/review" element={<ReviewPage />} />
-        <Route path="/admin/users" element={<UsersPage />} />
+        <Route path="/admin/students" element={<StudentsPage />} />
 
         <Route path="profile" element={<MyProfilePage />} />
         <Route path="/users/:id" element={<UserProfile />} />

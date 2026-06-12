@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { UserNameAndAvatar, InviteUser, User } from "../type/user";
 import type { Course } from "../type/course";
-import type { UserQueryInput } from "../features/admin/users/hooks/useUsers";
+import type { UserQueryInput } from "../features/admin/students/hooks/useUsers";
 
 export async function getUsers({
   filters,

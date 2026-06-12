@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { IoIosCheckbox } from "react-icons/io";
 
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
-import { useAuth } from "../../../../contexts/AuthContext";
 import { capitalize } from "../../../../utils/helper";
 import type { User, UserSort } from "../../../../type/user";
 import SortButton from "../../../../ui/SortButton";
@@ -25,13 +24,6 @@ export default function UsersTable({
   onToggleOne: (id: string) => void;
   onToggleAll: () => void;
 }) {
-  const { user } = useAuth();
-
-  const userData = new UserModel(user);
-  const isAdmin = userData.isAdmin();
-
-  const isSelf = (id: string) => id === user?.id;
-
   function getSortValue(field: UserSort["field"]) {
     return sorts.find((s) => s.field === field)?.dir;
   }
@@ -42,23 +34,21 @@ export default function UsersTable({
         <table className="min-w-full text-sm">
           <thead>
             <tr className="bg-theme-purple-10/20 text-left">
-              {isAdmin && (
-                <th className="w-10 p-3">
-                  {allSelected ? (
-                    <IoIosCheckbox
-                      size={18}
-                      className="text-theme-purple-10 cursor-pointer"
-                      onClick={() => onToggleAll()}
-                    />
-                  ) : (
-                    <MdOutlineCheckBoxOutlineBlank
-                      size={18}
-                      className="text-theme-purple-10 cursor-pointer"
-                      onClick={() => onToggleAll()}
-                    />
-                  )}
-                </th>
-              )}
+              <th className="w-10 p-3">
+                {allSelected ? (
+                  <IoIosCheckbox
+                    size={18}
+                    className="text-theme-purple-10 cursor-pointer"
+                    onClick={() => onToggleAll()}
+                  />
+                ) : (
+                  <MdOutlineCheckBoxOutlineBlank
+                    size={18}
+                    className="text-theme-purple-10 cursor-pointer"
+                    onClick={() => onToggleAll()}
+                  />
+                )}
+              </th>
 
               <th className="p-3">
                 <div className="flex items-center">
@@ -83,26 +73,12 @@ export default function UsersTable({
 
               <th className="p-3">
                 <div className="flex items-center">
-                  Role
-                  <button type="button" onClick={() => onToggleSort("role")}>
-                    <SortButton sort={getSortValue("role")} />
+                  Status
+                  <button type="button" onClick={() => onToggleSort("status")}>
+                    <SortButton sort={getSortValue("status")} />
                   </button>
                 </div>
               </th>
-
-              {isAdmin && (
-                <th className="p-3">
-                  <div className="flex items-center">
-                    Status
-                    <button
-                      type="button"
-                      onClick={() => onToggleSort("status")}
-                    >
-                      <SortButton sort={getSortValue("status")} />
-                    </button>
-                  </div>
-                </th>
-              )}
             </tr>
           </thead>
 
@@ -116,30 +92,21 @@ export default function UsersTable({
             ) : (
               users.map((u) => (
                 <tr key={u.id} className="border-t">
-                  {isAdmin && (
-                    <td className="p-3">
-                      {isSelf(u.id) ? (
-                        <span className="cursor-not-allowed opacity-40">
-                          <MdOutlineCheckBoxOutlineBlank
-                            size={18}
-                            className="text-theme-purple-10"
-                          />
-                        </span>
-                      ) : selected.has(u.id) ? (
-                        <IoIosCheckbox
-                          className="text-theme-purple-10 cursor-pointer"
-                          onClick={() => onToggleOne(u.id)}
-                          size={18}
-                        />
-                      ) : (
-                        <MdOutlineCheckBoxOutlineBlank
-                          className="text-theme-purple-10 cursor-pointer"
-                          onClick={() => onToggleOne(u.id)}
-                          size={18}
-                        />
-                      )}
-                    </td>
-                  )}
+                  <td className="p-3">
+                    {selected.has(u.id) ? (
+                      <IoIosCheckbox
+                        className="text-theme-purple-10 cursor-pointer"
+                        onClick={() => onToggleOne(u.id)}
+                        size={18}
+                      />
+                    ) : (
+                      <MdOutlineCheckBoxOutlineBlank
+                        className="text-theme-purple-10 cursor-pointer"
+                        onClick={() => onToggleOne(u.id)}
+                        size={18}
+                      />
+                    )}
+                  </td>
 
                   <td className="p-3">
                     <Link
@@ -151,10 +118,7 @@ export default function UsersTable({
                   </td>
 
                   <td className="p-3">{u.email}</td>
-                  <td className="p-3">{capitalize(u.role) ?? ""}</td>
-                  {isAdmin && (
-                    <td className="p-3">{capitalize(u.status) ?? ""}</td>
-                  )}
+                  <td className="p-3">{capitalize(u.status) ?? ""}</td>
                 </tr>
               ))
             )}

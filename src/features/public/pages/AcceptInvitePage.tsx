@@ -8,7 +8,7 @@ export default function AcceptInvitePage() {
   const [searchParams] = useSearchParams();
   const { acceptInviteUser, isLoading } = useAuth();
   const alert = useAlert();
-  const tenantName = searchParams.get("tenant");
+  const teacher = searchParams.get("invited_by");
   const navigate = useNavigate();
 
   const handleCreatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,7 +52,7 @@ export default function AcceptInvitePage() {
   return (
     <div className="m-10 mx-auto w-150 text-2xl">
       <h2 className="pb-4 text-center text-5xl">
-        You are invited to {tenantName}
+        You are invited to Learning with {teacher}
       </h2>
 
       <form onSubmit={handleCreatePassword}>

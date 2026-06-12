@@ -1,4 +1,4 @@
-import type { Role } from "../utils/constants";
+import type { Level, Role } from "../utils/constants";
 
 export type SignupUser = {
   email: string;
@@ -33,10 +33,9 @@ export type User = {
 
 export type InviteUser = {
   email: string;
-  role: string;
+  level?: Level;
   first_name: string;
   last_name: string;
-  courses?: { id: string; title: string }[];
 };
 
 export type AcceptInviteUser = {

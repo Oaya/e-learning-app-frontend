@@ -1,10 +1,3 @@
-export const levels: { value: string; label: string }[] = [
-  { value: "beginner", label: "Beginner" },
-  { value: "intermediate", label: "Intermediate" },
-  { value: "advanced", label: "Advanced" },
-  { value: "all_levels", label: "All Levels" },
-];
-
 export const categories: { value: string; label: string }[] = [
   { value: "development", label: "Development" },
   { value: "business", label: "Business" },
@@ -20,6 +13,9 @@ export const categories: { value: string; label: string }[] = [
   { value: "teaching_academics", label: "Teaching & Academics" },
 ];
 
+export const levels = ["beginner", "intermediate", "advanced"] as const;
+export type Level = (typeof levels)[number];
+
 export const lessonTypes: string[] = ["video", "reading"];
-export const roles = ["admin", "instructor", "student"] as const;
+export const roles = ["admin", "student"] as const;
 export type Role = (typeof roles)[number];

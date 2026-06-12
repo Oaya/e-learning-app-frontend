@@ -1,13 +1,11 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { roles } from "../../../../utils/constants";
+import { levels, type Level } from "../../../../utils/constants";
 import { inviteUser } from "../../../../api/users";
 import { fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useState } from "react";
 import { capitalize } from "../../../../utils/helper";
-import { useCourses } from "../../curriculum/hooks/useCourses";
-import type { Course } from "../../../../type/course";
 
 type InviteUserModalProps = {
   isOpen: boolean;
@@ -20,11 +18,6 @@ export default function InviteUserModal({
 }: InviteUserModalProps) {
   const alert = useAlert();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [role, setRole] = useState<string>("");
-  const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
-  const { courses: allCourses } = useCourses();
-  const courses = allCourses?.filter((c) => c.published);
-
   if (!isOpen) {
     return null;
   }
@@ -39,13 +32,9 @@ export default function InviteUserModal({
 
       const data = {
         email: fdString(formData, "email"),
-        role: fdString(formData, "role"),
+        level: fdString(formData, "level") as Level,
         first_name: fdString(formData, "first_name"),
         last_name: fdString(formData, "last_name"),
-        courses: selectedCourses?.map((c) => ({
-          id: c.id,
-          title: c.title,
-        })),
       };
 
       const res = await inviteUser(data);
@@ -67,7 +56,7 @@ export default function InviteUserModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-2xl rounded-lg bg-white p-8">
         <div className="mb-6 flex items-start justify-between">
-          <h2 className="text-2xl font-semibold">Invite new user</h2>
+          <h2 className="text-2xl font-semibold">Invite a new student</h2>
 
           <button
             type="button"
@@ -80,7 +69,7 @@ export default function InviteUserModal({
 
         <p>
           An invitation will be sent to this email address with a link to
-          complete their account and/or join your organization.
+          complete their account.
         </p>
         <form onSubmit={handleInvite} className="my-6">
           <div className="grid grid-cols-3 gap-6">
@@ -95,18 +84,14 @@ export default function InviteUserModal({
             </div>
 
             <div className="col-span-1 mb-2">
-              <label className="sm-label">Role</label>
+              <label className="sm-label">Level</label>
               <CustomSelect
-                name="role"
+                name="level"
                 className="w-full"
-                required
-                options={roles.map((role) => ({
-                  value: role,
-                  label: capitalize(role),
+                options={levels.map((level) => ({
+                  value: level,
+                  label: capitalize(level),
                 }))}
-                onChange={(selectedOption: any) =>
-                  setRole(selectedOption?.value || "")
-                }
               />
             </div>
           </div>
@@ -132,32 +117,6 @@ export default function InviteUserModal({
               />
             </div>
           </div>
-
-          {role === "student" && courses && (
-            <div className="mb-2">
-              <label className="sm-label">Course</label>
-              <CustomSelect
-                name="course"
-                className="w-full"
-                required
-                isMulti
-                options={courses.map((course) => ({
-                  value: course.id,
-                  label: capitalize(course.title),
-                }))}
-                onChange={(selected: any[]) => {
-                  const ids = Array.isArray(selected)
-                    ? selected.map((o) => o.value)
-                    : [];
-
-                  const picked = (courses ?? []).filter((i) =>
-                    ids.includes(i.id),
-                  );
-                  setSelectedCourses(picked);
-                }}
-              />
-            </div>
-          )}
 
           <div className="mt-6 flex justify-end gap-3">
             <button

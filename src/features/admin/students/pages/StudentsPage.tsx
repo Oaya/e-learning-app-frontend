@@ -15,7 +15,7 @@ import { useUserSelections } from "../hooks/useUserSelections";
 import { useUserTableControl } from "../hooks/userUserTableControl";
 import { UserModel } from "../../../../models/user";
 
-export default function UsersPage() {
+export default function StudentsPage() {
   const alert = useAlert();
   const { user } = useAuth();
 
@@ -110,7 +110,7 @@ export default function UsersPage() {
     }
   }
 
-  function deleteUsers() {
+  function deleteStudents() {
     deleteUsersMutation([...selected]);
     closeAction();
     clearSelection();
@@ -118,13 +118,13 @@ export default function UsersPage() {
   }
 
   if (isLoading) {
-    return <div className="p-6">Loading users...</div>;
+    return <div className="p-6">Loading students...</div>;
   }
 
   if (isError) {
     return (
       <div className="p-6">
-        {error instanceof Error ? error.message : "Failed to load users"}
+        {error instanceof Error ? error.message : "Failed to load students"}
       </div>
     );
   }
@@ -144,20 +144,20 @@ export default function UsersPage() {
           title="Delete Users"
           message={`Are you sure you want to delete ${selectedEmails.join(", ")}? This action cannot be undone.`}
           isSubmitting={isDeleting}
-          onConfirm={deleteUsers}
+          onConfirm={deleteStudents}
           onCancel={() => setDeleteModalOpen(false)}
         />
       )}
 
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Users</h1>
+        <h1 className="text-xl font-semibold">Your Students</h1>
       </div>
 
       <div className="flex">
         <input
           className="form-input w-full"
           type="text"
-          placeholder="Search user by First, Last name or Email"
+          placeholder="Search student by First, Last name or Email"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
@@ -249,7 +249,7 @@ export default function UsersPage() {
                 className="btn-primary"
                 onClick={() => setInviteOpen(true)}
               >
-                Invite User
+                Invite Student
               </button>
             </div>
           )}
