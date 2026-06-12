@@ -6,7 +6,6 @@ export type SignupUser = {
   password_confirm: string;
   first_name: string;
   last_name: string;
-  tenant: string;
   plan: string;
 };
 
@@ -21,18 +20,15 @@ export type User = {
   first_name: string;
   last_name: string;
   role: Role;
-  tenant: {
-    id: string;
-    name: string;
-    status: string;
-    is_billing_owner: boolean;
-    current_period_end?: Date | null;
-    cancel_at_period_end?: boolean | null;
-    plan: string;
-    has_stripe_subscription: boolean;
-  };
   status: string;
   avatar?: string;
+  subscription?: {
+    status: string;
+    plan: string;
+    current_period_end?: Date | null;
+    cancel_at_period_end?: boolean | null;
+    has_stripe_subscription: boolean;
+  };
 };
 
 export type InviteUser = {

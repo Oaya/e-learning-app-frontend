@@ -1,23 +1,16 @@
 import { NavLink } from "react-router-dom";
 
 export default function SubscriptionBanner({
-  isBillingOwner,
   hasStripeSubscription,
   status,
 }: {
-  isBillingOwner: boolean;
   hasStripeSubscription: boolean;
   status: string;
 }) {
   let message = "";
-  let messageType: "payment" | "reactivate" | "contact_admin" = "payment";
-  console.log({ isBillingOwner, hasStripeSubscription, status });
+  let messageType: "payment" | "reactivate";
 
-  if (!isBillingOwner) {
-    messageType = "contact_admin";
-    message =
-      "Your organization does not have an active subscription. Please contact your administrator.";
-  } else if (!hasStripeSubscription && status === "active") {
+  if (!hasStripeSubscription && status === "active") {
     messageType = "payment";
     message =
       "Your subscription is inactive. Please complete your subscription payment.";
@@ -35,16 +28,14 @@ export default function SubscriptionBanner({
             <p className="ml-3 text-center font-medium text-white">{message}</p>
           </div>
 
-          {isBillingOwner && (
-            <div className="mt-2 w-full shrink-0 lg:mt-0 lg:w-auto">
-              <NavLink
-                to={messageType === "payment" ? "/payment" : "/profile"}
-                className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-teal-600 shadow-sm hover:bg-teal-50"
-              >
-                {messageType === "payment" ? "Pay Now" : "Reactivate"}
-              </NavLink>
-            </div>
-          )}
+          <div className="mt-2 w-full shrink-0 lg:mt-0 lg:w-auto">
+            <NavLink
+              to={messageType === "payment" ? "/payment" : "/profile"}
+              className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-teal-600 shadow-sm hover:bg-teal-50"
+            >
+              {messageType === "payment" ? "Pay Now" : "Reactivate"}
+            </NavLink>
+          </div>
         </div>
       </div>
     </div>

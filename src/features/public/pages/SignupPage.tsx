@@ -45,6 +45,16 @@ export default function SignupPage() {
           <label className="block text-lg">Email</label>
           <input name="email" className="form-input" />
         </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="mb-2">
+            <label className="block text-lg">First Name</label>
+            <input name="first_name" className="form-input" />
+          </div>
+          <div className="mb-2">
+            <label className="block text-lg">Last Name</label>
+            <input name="last_name" className="form-input" />
+          </div>
+        </div>
 
         <div className="mb-2">
           <label className="block text-lg">Password</label>
@@ -58,34 +68,17 @@ export default function SignupPage() {
             className="form-input"
           />
         </div>
-        <div className="grid grid-cols-2 gap-6">
-          <div className="mb-2">
-            <label className="block text-lg">First Name</label>
-            <input name="first_name" className="form-input" />
-          </div>
-          <div className="mb-2">
-            <label className="block text-lg">Last Name</label>
-            <input name="last_name" className="form-input" />
-          </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-6">
-          <div className="mb-2">
-            <label className="block text-lg">Tenant Name</label>
-            <input name="tenant" className="form-input" />
-          </div>
-          <div className="mb-2">
-            <label className="block text-lg">Plan</label>
-            <select
-              name="plan"
-              className="form-select"
-              defaultValue={selectedPlan}
-            >
-              <option value="basic">Basic</option>
-              <option value="standard">Standard</option>
-              <option value="premium">Premium</option>
-            </select>
-          </div>
+        <div className="mb-2">
+          <label className="block text-lg">Plan</label>
+          <select
+            name="plan"
+            className="form-select"
+            defaultValue={selectedPlan}
+          >
+            <option value="free">Free</option>
+            <option value="pro">Pro</option>
+          </select>
         </div>
 
         <button

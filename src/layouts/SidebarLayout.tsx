@@ -20,9 +20,8 @@ export default function SidebarLayout() {
   const userData = new UserModel(user);
 
   const isStudent = userData.isStudent();
-  const isBillingOwner = userData.isBillingOwner();
 
-  const showBanner = user?.tenant.status !== "active";
+  const showBanner = user?.status !== "active";
 
   function handleLogout() {
     logoutUser();
@@ -75,13 +74,12 @@ export default function SidebarLayout() {
         </aside>
 
         <div className="flex flex-1 flex-col overflow-hidden">
-          {showBanner && isBillingOwner && (
+          {showBanner && !isStudent && (
             <SubscriptionBanner
-              isBillingOwner={isBillingOwner}
               hasStripeSubscription={
-                user?.tenant.has_stripe_subscription ?? false
+                user?.subscription?.has_stripe_subscription ?? false
               }
-              status={user?.tenant.status ?? ""}
+              status={user?.status ?? ""}
             />
           )}
           <main className="flex-1 overflow-y-auto p-4">
