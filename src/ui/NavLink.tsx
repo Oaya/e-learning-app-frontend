@@ -20,13 +20,13 @@ export default function StyledNavLink({
       onClick={onClick}
       className={({ isActive }) =>
         [
-          "flex w-full flex-col items-center gap-1 rounded px-4 py-2 text-xs font-medium transition-transform hover:scale-110",
-          isActive ? "text-white" : "text-gray-600",
+          "flex w-full items-center gap-3 px-12 py-2 text-xs font-medium transition-transform hover:scale-110",
+          isActive ? "bg-theme-purple-50 text-white" : "text-gray-600",
         ].join(" ")
       }
     >
       <Icon size={20} />
-      <span className="text-[10px]">{children}</span>
+      <span className="text-[16px]">{children}</span>
     </NavLink>
   );
 }

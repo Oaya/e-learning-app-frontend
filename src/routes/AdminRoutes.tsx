@@ -2,7 +2,7 @@ import { lazy } from "react";
 import { Route } from "react-router-dom";
 
 import RequireAuth from "./RequireAuth";
-import SidebarLayout from "../layouts/SidebarLayout";
+import AdminSidebarLayout from "../layouts/AdminSidebarLayout";
 
 const CoursePage = lazy(
   () => import("../features/admin/curriculum/pages/CoursePage"),
@@ -38,7 +38,7 @@ const UserProfile = lazy(
 export default function AdminRoutes() {
   return (
     <Route element={<RequireAuth />}>
-      <Route element={<SidebarLayout />}>
+      <Route element={<AdminSidebarLayout />}>
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/courses/:id" element={<CoursePage />} />
         <Route path="/admin/courses" element={<CoursesList />} />
