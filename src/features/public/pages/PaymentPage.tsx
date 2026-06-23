@@ -18,13 +18,14 @@ export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const plan = location.state?.plan || user?.tenant.plan;
+  const plan = location.state?.plan || user?.subscription?.plan;
 
   useEffect(() => {
     // Guard: do not continue the effect if user is missing
     if (
       !user ||
-      (user.tenant.status === "active" && user.tenant.has_stripe_subscription)
+      (user.subscription?.status === "active" &&
+        user.subscription.has_stripe_subscription)
     ) {
       alert.error(
         "You do not have access to this page. Please contact your administrator.",

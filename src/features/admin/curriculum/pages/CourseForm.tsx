@@ -124,7 +124,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
 
           <div className="mb-2">
             <label className="sm-label">Level</label>
-            <CustomSelect
+            {/* <CustomSelect
               name="level"
               options={levels.map((level) => ({
                 value: level.value,
@@ -140,7 +140,7 @@ export default function CourseForm({ isEdit, defaultValues }: CourseFormProps) {
                     }
                   : undefined
               }
-            />
+            /> */}
           </div>
         </div>
 
