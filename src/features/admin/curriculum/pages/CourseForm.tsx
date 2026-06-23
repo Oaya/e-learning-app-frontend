@@ -6,7 +6,7 @@ import { BiSolidTrashAlt } from "react-icons/bi";
 import CustomSelect from "../../../../ui/CustomSelect";
 import type { Course, UpsertCourse } from "../../../../type/course";
 import type { UserNameAndAvatar } from "../../../../type/user";
-import { categories, levels } from "../../../../utils/constants";
+import { categories } from "../../../../utils/constants";
 import { fdString } from "../../../../utils/formData";
 import { useInstructors } from "../hooks/useInstructors";
 import { useCourse } from "../hooks/useCourseMutation";
