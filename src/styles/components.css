@@ -16,7 +16,7 @@
   }
 
   .btn-primary {
-    @apply bg-theme-purple-20 hover:bg-theme-purple-20/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
+    @apply bg-theme-purple-50 hover:bg-theme-purple-50/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
   }
 
   .btn-secondary {

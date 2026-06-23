@@ -10,6 +10,8 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import { useUsers } from "../../students/hooks/useUsers";
 import StatCard from "../components/StatCard";
 import { greeting } from "../../../../utils/helper";
+import { useState } from "react";
+import CreateSessionModal from "../components/CreateSessionModal";
 
 const MOCK_SESSIONS = [
   {
@@ -122,6 +124,7 @@ function initials(first: string, last: string) {
 export default function AdminDashboardPage() {
   const { user } = useAuth();
   const { users: students } = useUsers({});
+  const [isCreateSessionOpen, setCreateSessionOpen] = useState(false);
 
   return (
     <div className="space-y-6">
@@ -133,12 +136,12 @@ export default function AdminDashboardPage() {
             <span className="text-theme-purple-40">{user?.first_name}</span>
           </h1>
         </div>
-        <Link
-          to="/admin/sessions"
-          className="bg-theme-purple-50 rounded-lg px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+        <button
+          onClick={() => setCreateSessionOpen(true)}
+          className="btn-primary"
         >
           + New session
-        </Link>
+        </button>
       </div>
 
       {/* Stat cards */}
@@ -221,7 +224,7 @@ export default function AdminDashboardPage() {
             <div className="py-8 text-center text-sm text-gray-400">
               No students yet.{" "}
               <Link to="/admin/students" className="text-emerald-600 underline">
-                Invite one
+                CreateSession one
               </Link>
             </div>
           ) : (
@@ -261,6 +264,14 @@ export default function AdminDashboardPage() {
           )}
         </div>
       </div>
+
+      {isCreateSessionOpen && students && (
+        <CreateSessionModal
+          isOpen={isCreateSessionOpen}
+          onClose={() => setCreateSessionOpen(false)}
+          students={students}
+        />
+      )}
     </div>
   );
 }

@@ -12,7 +12,7 @@ export default function StatCard({
   subColor?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
+    <div className="h-40 rounded-xl border border-gray-200 bg-white p-4">
       <div className="mb-2 flex items-center gap-2 text-xs text-gray-400">
         {icon}
         {label}
