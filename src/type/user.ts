@@ -49,7 +49,7 @@ export type UpdateUser = {
   email: string;
   first_name: string;
   last_name: string;
-  timezone: string;
+  timezone: string | null;
   avatar?: File | null;
 };
 
