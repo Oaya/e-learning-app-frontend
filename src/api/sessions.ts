@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { CreateSession } from "../type/session";
+import type { CreateSession, Session } from "../type/session";
 
 export async function createSession(data: CreateSession): Promise<ApiResponse> {
   try {
@@ -16,5 +16,23 @@ export async function createSession(data: CreateSession): Promise<ApiResponse> {
     return { success: true, data: response.data };
   } catch (e: any) {
     return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function getTodaySessions(): Promise<Session[]> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/sessions/today`;
+
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Get Today Session response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
   }
 }

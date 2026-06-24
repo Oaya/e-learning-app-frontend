@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,6 +11,7 @@ import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
 import type { User } from "../../../../type/user";
 import { createSession } from "../../../../api/sessions";
+import type { Session } from "../../../../type/session";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -19,6 +20,7 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   students?: User[];
+  sessions?: Session[];
   timezone?: string;
 };
 
@@ -28,10 +30,37 @@ export default function CreateSessionModal({
   isOpen,
   onClose,
   students,
+  sessions,
+  timezone,
 }: ModalProps) {
   const alert = useAlert();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [date, setDate] = useState<Date | null>(null);
+  const [selectedDuration, setSelectedDuration] = useState(30);
+
+  const tz = timezone ?? dayjs.tz.guess();
+
+  const bookedDates = useMemo(() => {
+    return (sessions ?? [])
+      .filter((s) => s.status === "scheduled")
+      .map((s) => {
+        const d = dayjs.utc(s.scheduled_at).tz(tz);
+        return new Date(d.year(), d.month(), d.date());
+      });
+  }, [sessions, tz]);
+
+  const filterTime = (time: Date) => {
+    const newStart = dayjs(time);
+    if (newStart.isBefore(dayjs())) return false;
+    const newEnd = newStart.add(selectedDuration, "minute");
+    return !(sessions ?? [])
+      .filter((s) => s.status === "scheduled")
+      .some((s) => {
+        const existingStart = dayjs.utc(s.scheduled_at).tz(tz);
+        const existingEnd = existingStart.add(s.duration_in_minutes, "minute");
+        return newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart);
+      });
+  };
 
   if (!isOpen) return null;
 
@@ -54,6 +83,8 @@ export default function CreateSessionModal({
         duration_in_minutes: fdNumber(formData, "duration") as number,
         scheduled_at: date,
       };
+
+      console.log(data);
 
       const res = await createSession(data);
 
@@ -115,6 +146,8 @@ export default function CreateSessionModal({
                 showTimeSelect
                 dateFormat="Pp"
                 minDate={new Date()}
+                excludeDates={bookedDates}
+                filterTime={filterTime}
                 placeholderText="Select date & time"
                 className="form-input w-full"
               />
@@ -129,6 +162,8 @@ export default function CreateSessionModal({
                   value: d,
                   label: `${d} min`,
                 }))}
+                value={{ value: selectedDuration, label: `${selectedDuration} min` }}
+                onChange={(opt: { value: number }) => setSelectedDuration(opt.value)}
               />
             </div>
           </div>

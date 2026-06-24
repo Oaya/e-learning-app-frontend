@@ -23,6 +23,7 @@ export type User = {
   status: string;
   avatar?: string;
   timezone?: string;
+  created_at: string;
   subscription?: {
     status: string;
     plan: string;
