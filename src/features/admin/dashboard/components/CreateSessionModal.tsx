@@ -10,8 +10,8 @@ import { fdNumber, fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
 import type { User } from "../../../../type/user";
-import { createSession } from "../../../../api/sessions";
 import type { Session } from "../../../../type/session";
+import { useSessions } from "../../sessions/hooks/useSessions";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -34,7 +34,12 @@ export default function CreateSessionModal({
   timezone,
 }: ModalProps) {
   const alert = useAlert();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createSession, isCreating } = useSessions({
+    onCreateSuccess: () => {
+      alert.success("Session created successfully.");
+      onClose();
+    },
+  });
   const [date, setDate] = useState<Date | null>(null);
   const [selectedDuration, setSelectedDuration] = useState(30);
 
@@ -73,7 +78,6 @@ export default function CreateSessionModal({
     }
 
     try {
-      setIsSubmitting(true);
       const form = e.currentTarget;
       const formData = new FormData(form);
 
@@ -84,20 +88,9 @@ export default function CreateSessionModal({
         scheduled_at: date,
       };
 
-      console.log(data);
-
-      const res = await createSession(data);
-
-      if (res.success) {
-        alert.success("Session created successfully.");
-        onClose();
-      } else {
-        alert.error(res.error || "Failed to send invitation. Try again later.");
-      }
+      createSession(data);
     } catch {
       alert.error("Failed to create session. Try again later.");
-    } finally {
-      setIsSubmitting(false);
     }
   }
 
@@ -162,8 +155,13 @@ export default function CreateSessionModal({
                   value: d,
                   label: `${d} min`,
                 }))}
-                value={{ value: selectedDuration, label: `${selectedDuration} min` }}
-                onChange={(opt: { value: number }) => setSelectedDuration(opt.value)}
+                value={{
+                  value: selectedDuration,
+                  label: `${selectedDuration} min`,
+                }}
+                onChange={(opt: { value: number }) =>
+                  setSelectedDuration(opt.value)
+                }
               />
             </div>
           </div>
@@ -180,9 +178,9 @@ export default function CreateSessionModal({
             <button
               type="submit"
               className="btn-primary-pink"
-              disabled={isSubmitting}
+              disabled={isCreating}
             >
-              {isSubmitting ? "Creating..." : "Create Session"}
+              {isCreating ? "Creating..." : "Create Session"}
             </button>
           </div>
         </form>

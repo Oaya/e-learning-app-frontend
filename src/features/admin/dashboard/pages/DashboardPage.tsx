@@ -15,7 +15,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
-import { useSessions } from "../../students/hooks/useSessions";
+import { useSessions } from "../../sessions/hooks/useSessions";
 import TodaySessionsPanel from "../components/TodaySessionsPanel";
 import AllStudentPanel from "../components/AllStudentPanel";
 
