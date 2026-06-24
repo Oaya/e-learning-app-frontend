@@ -2,6 +2,9 @@ import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import dayjsTimezone from "dayjs/plugin/timezone";
 
 import { fdNumber, fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
@@ -9,10 +12,14 @@ import CustomSelect from "../../../../ui/CustomSelect";
 import type { User } from "../../../../type/user";
 import { createSession } from "../../../../api/sessions";
 
+dayjs.extend(utc);
+dayjs.extend(dayjsTimezone);
+
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   students?: User[];
+  timezone?: string;
 };
 
 const duration = [30, 60, 90, 120];

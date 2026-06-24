@@ -22,6 +22,7 @@ export type User = {
   role: Role;
   status: string;
   avatar?: string;
+  timezone?: string;
   subscription?: {
     status: string;
     plan: string;
@@ -48,6 +49,7 @@ export type UpdateUser = {
   email: string;
   first_name: string;
   last_name: string;
+  timezone: string;
   avatar?: File | null;
 };
 

@@ -95,6 +95,7 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
       email: data.email,
       first_name: data.first_name,
       last_name: data.last_name,
+      timezone: data.timezone,
     };
 
     // Replace avatar

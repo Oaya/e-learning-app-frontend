@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { HiHome, HiUsers } from "react-icons/hi";
 import { LuNewspaper, LuGoal, LuCalendar1, LuVideo } from "react-icons/lu";
 import { MdPayment } from "react-icons/md";
+import { IoMdSettings } from "react-icons/io";
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -76,6 +77,9 @@ export default function AdminSidebarLayout() {
               <h2 className="px-10">ADMIN</h2>
               <StyledNavLink to="/admin/payment" icon={MdPayment}>
                 Payment
+              </StyledNavLink>
+              <StyledNavLink to="/profile" icon={IoMdSettings}>
+                Profile
               </StyledNavLink>
             </section>
 

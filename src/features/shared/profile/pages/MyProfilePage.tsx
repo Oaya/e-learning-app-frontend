@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
 import { useAlert } from "../../../../contexts/AlertContext";
@@ -9,6 +15,7 @@ import UpdatePasswordModal from "../../../admin/students/components/UpdatePasswo
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 import { UserModel } from "../../../../models/user";
 import defaultAvatar from "../../../../assets/user.png";
+import TimezoneSelector from "../components/timezoneSelector";
 
 export default function MyProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
@@ -18,6 +25,7 @@ export default function MyProfilePage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
+  const [timezone, setTimezone] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -25,6 +33,8 @@ export default function MyProfilePage() {
   const [isUpdatePlanModalOpen, setIsUpdatePlanModalOpen] = useState(false);
   const [isCancelSubscriptionModalOpen, setIsCancelSubscriptionModalOpen] =
     useState(false);
+
+  console.log(timezone);
 
   const alert = useAlert();
   const isAdmin = new UserModel(user);
@@ -41,7 +51,7 @@ export default function MyProfilePage() {
       setLastName(user?.last_name ?? "");
       setEmail(user?.email ?? "");
       setAvatarPreviewUrl(user?.avatar ?? null);
-
+      setTimezone(user?.timezone ?? null);
       // Clear pending file selection when user changes
       setAvatarFile(null);
     }
@@ -78,6 +88,7 @@ export default function MyProfilePage() {
       first_name: firstName,
       last_name: lastName,
       email,
+      timezone: timezone,
       avatar: avatarFile, // File or null/undefined depending on your API contract
     });
 
@@ -93,6 +104,7 @@ export default function MyProfilePage() {
       first_name: user?.first_name ?? "",
       last_name: user?.last_name ?? "",
       email: user?.email ?? "",
+      timezone: user?.timezone ?? null,
       avatar: user?.avatar ?? null,
     };
   }, [user]);
@@ -101,6 +113,7 @@ export default function MyProfilePage() {
     firstName !== initialProfile.first_name ||
     lastName !== initialProfile.last_name ||
     email !== initialProfile.email ||
+    timezone !== initialProfile.timezone ||
     avatarFile !== null ||
     avatarPreviewUrl !== initialProfile.avatar;
 
@@ -108,7 +121,7 @@ export default function MyProfilePage() {
   if (!user) return <p>Loading…</p>;
 
   return (
-    <div>
+    <div className="p-10">
       <UpdatePasswordModal
         isOpen={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
@@ -187,10 +200,8 @@ export default function MyProfilePage() {
               </div>
 
               <div className="mb-2">
-                <div className="sm-label">User Role</div>
-                <div className="read-only-input">
-                  {capitalize(user.role) ?? "-"}
-                </div>
+                <div className="sm-label">Time zone</div>
+                <TimezoneSelector value={timezone} onChange={setTimezone} />
               </div>
             </div>
           </div>
