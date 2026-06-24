@@ -9,7 +9,7 @@ import { useUsers } from "../../students/hooks/useUsers";
 import StatCard from "../components/StatCard";
 import { greeting } from "../../../../utils/helper";
 import { useState } from "react";
-import CreateSessionModal from "../components/CreateSessionModal";
+
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -18,13 +18,13 @@ dayjs.extend(timezone);
 import { useSessions } from "../../sessions/hooks/useSessions";
 import TodaySessionsPanel from "../components/TodaySessionsPanel";
 import AllStudentPanel from "../components/AllStudentPanel";
+import NewSessionModal from "../../sessions/components/NewSessionModal";
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
   const { users: students } = useUsers({});
   const { sessions } = useSessions();
-
-  const [isCreateSessionOpen, setCreateSessionOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   //Stat cards sub//
   const studentSub = students?.filter(
@@ -41,10 +41,7 @@ export default function AdminDashboardPage() {
             <span className="text-theme-purple-40">{user?.first_name}</span>
           </h1>
         </div>
-        <button
-          onClick={() => setCreateSessionOpen(true)}
-          className="btn-primary"
-        >
+        <button onClick={() => setModalOpen(true)} className="btn-primary">
           + New session
         </button>
       </div>
@@ -88,10 +85,10 @@ export default function AdminDashboardPage() {
         {students && <AllStudentPanel students={students} />}
       </div>
 
-      {isCreateSessionOpen && students && (
-        <CreateSessionModal
-          isOpen={isCreateSessionOpen}
-          onClose={() => setCreateSessionOpen(false)}
+      {students && (
+        <NewSessionModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
           students={students}
           sessions={sessions}
           timezone={user?.timezone}

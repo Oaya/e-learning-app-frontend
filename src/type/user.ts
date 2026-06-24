@@ -1,4 +1,7 @@
-import type { Level, Role } from "../utils/constants";
+import type { Level } from "../utils/constants";
+
+export const roles = ["admin", "student"] as const;
+export type Role = (typeof roles)[number];
 
 export type SignupUser = {
   email: string;

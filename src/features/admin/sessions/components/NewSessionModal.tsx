@@ -1,55 +1,110 @@
-import { useState } from "react";
-import { HiOutlineX } from "react-icons/hi";
-import { useUsers } from "../../students/hooks/useUsers";
+import { useMemo, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import dayjsTimezone from "dayjs/plugin/timezone";
 
-type Props = {
+import { fdNumber, fdString } from "../../../../utils/formData";
+import { useAlert } from "../../../../contexts/AlertContext";
+import CustomSelect from "../../../../ui/CustomSelect";
+import type { User } from "../../../../type/user";
+import type { Session } from "../../../../type/session";
+import { useSessions } from "../hooks/useSessions";
+import { HiOutlineX } from "react-icons/hi";
+
+dayjs.extend(utc);
+dayjs.extend(dayjsTimezone);
+
+type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: NewSessionData) => void;
+  students?: User[];
+  sessions?: Session[];
+  timezone?: string;
 };
 
-export type NewSessionData = {
-  student_id: string;
-  scheduled_at: string;
-  duration_in_minutes: number;
-  topic: string;
-  notes: string;
-};
+const DURATIONS = [30, 60, 90, 120];
 
-const DURATIONS = [30, 45, 60, 90, 120];
-
-export default function NewSessionModal({ isOpen, onClose, onSubmit }: Props) {
-  const { users } = useUsers({});
-  const students = (users ?? []).filter((u) => u.role === "student");
-
-  const [form, setForm] = useState<NewSessionData>({
-    student_id: "",
-    scheduled_at: "",
-    duration_in_minutes: 60,
-    topic: "",
-    notes: "",
+export default function CreateSessionModal({
+  isOpen,
+  onClose,
+  students,
+  sessions,
+  timezone,
+}: ModalProps) {
+  const alert = useAlert();
+  const { createSession, isCreating } = useSessions({
+    onCreateSuccess: () => {
+      alert.success("Session created successfully.");
+      onClose();
+    },
   });
+  const [date, setDate] = useState<Date | null>(null);
+  const [selectedDuration, setSelectedDuration] = useState(30);
+
+  const tz = timezone ?? dayjs.tz.guess();
+
+  const bookedDates = useMemo(() => {
+    return (sessions ?? [])
+      .filter((s) => s.status === "scheduled")
+      .map((s) => {
+        const d = dayjs.utc(s.scheduled_at).tz(tz);
+        return new Date(d.year(), d.month(), d.date());
+      });
+  }, [sessions, tz]);
+
+  const filterTime = (time: Date) => {
+    const newStart = dayjs(time);
+    if (newStart.isBefore(dayjs())) return false;
+    const newEnd = newStart.add(selectedDuration, "minute");
+    return !(sessions ?? [])
+      .filter((s) => s.status === "scheduled")
+      .some((s) => {
+        const existingStart = dayjs.utc(s.scheduled_at).tz(tz);
+        const existingEnd = existingStart.add(s.duration_in_minutes, "minute");
+        return newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart);
+      });
+  };
 
   if (!isOpen) return null;
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: name === "duration_in_minutes" ? Number(value) : value }));
-  }
-
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    onSubmit(form);
-    onClose();
+
+    if (!date) {
+      alert.error("Please select a date.");
+      return;
+    }
+
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+
+      const data = {
+        student_id: fdString(formData, "student"),
+        topic: fdString(formData, "topic"),
+        duration_in_minutes: fdNumber(formData, "duration") as number,
+        scheduled_at: date,
+        note: fdString(formData, "note"),
+      };
+
+      createSession(data);
+    } catch {
+      alert.error("Failed to create session. Try again later.");
+    }
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-xl">
+      <div className="w-full max-w-xl rounded-lg bg-white shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
           <h2 className="text-base font-semibold text-gray-800">New session</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600"
+          >
             <HiOutlineX className="h-5 w-5" />
           </button>
         </div>
@@ -57,49 +112,49 @@ export default function NewSessionModal({ isOpen, onClose, onSubmit }: Props) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
           {/* Student */}
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">Student</label>
-            <select
-              name="student_id"
+          <div className="mb-4">
+            <label className="sm-label">Student</label>
+            <CustomSelect
+              name="student"
               required
-              value={form.student_id}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:border-emerald-500 focus:outline-none"
-            >
-              <option value="">Select a student…</option>
-              {students.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.first_name} {s.last_name}
-                </option>
-              ))}
-            </select>
+              withAvatar
+              options={(students ?? []).map((i) => ({
+                value: i.id,
+                label: `${i.first_name} ${i.last_name}`,
+                avatar: i.avatar,
+              }))}
+            />
           </div>
 
           {/* Date + time */}
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">Date & time</label>
-            <input
-              type="datetime-local"
-              name="scheduled_at"
-              required
-              value={form.scheduled_at}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 focus:border-emerald-500 focus:outline-none"
+          <div className="mb-4">
+            <label className="sm-label">Date</label>
+            <DatePicker
+              selected={date}
+              onChange={(d: Date | null) => setDate(d)}
+              showTimeSelect
+              dateFormat="Pp"
+              minDate={new Date()}
+              excludeDates={bookedDates}
+              filterTime={filterTime}
+              placeholderText="Select date & time"
+              wrapperClassName="w-full"
+              className="form-input w-full"
             />
           </div>
 
           {/* Duration */}
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">Duration</label>
+          <div className="mb-4">
+            <label className="sm-label">Duration</label>
             <div className="flex gap-2">
               {DURATIONS.map((d) => (
                 <button
                   key={d}
                   type="button"
-                  onClick={() => setForm((prev) => ({ ...prev, duration_in_minutes: d }))}
+                  onClick={() => setSelectedDuration(d)}
                   className={`flex-1 rounded-lg border py-2 text-xs font-medium transition ${
-                    form.duration_in_minutes === d
-                      ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                    selectedDuration === d
+                      ? "border-theme-yellow-20 text-theme-yellow-20 bg-theme-yellow-10"
                       : "border-gray-200 text-gray-500 hover:border-gray-300"
                   }`}
                 >
@@ -110,48 +165,39 @@ export default function NewSessionModal({ isOpen, onClose, onSubmit }: Props) {
           </div>
 
           {/* Topic */}
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">Topic</label>
-            <input
-              type="text"
-              name="topic"
-              required
-              placeholder="e.g. Past tense revision"
-              value={form.topic}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 focus:border-emerald-500 focus:outline-none"
-            />
+          <div className="mb-4">
+            <label className="sm-label">Topic</label>
+            <input name="topic" type="text" required className="form-input" />
           </div>
 
           {/* Notes */}
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">
-              Notes <span className="text-gray-300">(optional)</span>
+          <div className="mb-4">
+            <label className="sm-label">
+              Note <span className="text-gray-300">(optional)</span>
             </label>
             <textarea
-              name="notes"
+              name="note"
               rows={3}
               placeholder="Preparation notes, goals for this session…"
-              value={form.notes}
-              onChange={handleChange}
               className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 focus:border-emerald-500 focus:outline-none"
             />
           </div>
 
-          {/* Actions */}
-          <div className="flex justify-end gap-2 pt-1">
+          <div className="mt-6 flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
+              className="btn-primary-white mr-2"
             >
               Cancel
             </button>
+
             <button
               type="submit"
-              className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+              className="btn-primary-pink"
+              disabled={isCreating}
             >
-              Book session
+              {isCreating ? "Creating..." : "Create Session"}
             </button>
           </div>
         </form>

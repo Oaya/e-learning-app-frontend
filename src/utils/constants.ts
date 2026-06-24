@@ -22,8 +22,6 @@ export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
 
 export const lessonTypes: string[] = ["video", "reading"];
-export const roles = ["admin", "student"] as const;
-export type Role = (typeof roles)[number];
 
 export const howItWorks = [
   {
