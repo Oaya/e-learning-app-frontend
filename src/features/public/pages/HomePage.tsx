@@ -2,77 +2,12 @@ import { Link } from "react-router-dom";
 
 import { usePlans } from "../hooks/usePlans";
 import PlanCard from "../components/PlanCard";
-import { LuCalendar1, LuVideo, LuNotebookPen } from "react-icons/lu";
-import { GoGoal } from "react-icons/go";
-import { MdPayment } from "react-icons/md";
-import { TbRobot } from "react-icons/tb";
+
 import { BsStars } from "react-icons/bs";
-
-const howItWorks = [
-  {
-    title: "Add your students",
-    desc: "Invite students by email. Set their language, level, and learning goals. Each student gets their own profile page with everything in one place.",
-    budge: "2 minutes to set up",
-  },
-  {
-    title: "Schedule a session",
-    desc: "Book a lesson with a date, time, and duration. After the session, add notes on what was covered.",
-    budge: "Keeps your week organised",
-  },
-  {
-    title: "Run the video session - and revisit it anytime",
-    desc: "Conduct your lesson over video. Upload the recording directly to the student's profile so both of you can review it later. Recordings are organised by session date and easy to find.",
-    budge: "Run your session with zoom",
-  },
-  {
-    title: "Assign homework",
-    desc: "Create a homework task manually, or let AI generate exercises based on the student's level and what you covered in class. Students submit directly in the app.",
-    budge: "AI-assisted",
-  },
-  {
-    title: "Track progress and payments",
-    desc: "See each student's completed goals, homework scores, and outstanding balance at a glance. No more spreadsheets or chasing invoices manually.",
-    budge: "Everything in one view",
-  },
-];
-
-const features = [
-  {
-    icon: <LuCalendar1 size={20} className="text-theme-pink-20" />,
-    title: "Session scheduling",
-    desc: "Book lessons, track attendance, add notes after each session.",
-  },
-  {
-    icon: <GoGoal size={20} className="text-theme-pink-20" />,
-    title: "Student goals",
-    desc: "Set learning goals and track progress for every student.",
-  },
-  {
-    icon: <LuNotebookPen size={20} className="text-theme-pink-20" />,
-    title: "Homework",
-    desc: "Assign tasks, review submissions, and generate exercises with AI.",
-  },
-  {
-    icon: <MdPayment size={20} className="text-theme-pink-20" />,
-    title: "Payment tracking",
-    desc: "Log payments per student. See who's up to date at a glance.",
-  },
-  {
-    icon: <LuVideo size={20} className="text-theme-pink-20" />,
-    title: "Session recordings",
-    desc: "Upload and store lesson recordings linked to each student.",
-  },
-  {
-    icon: <TbRobot size={20} className="text-theme-pink-20" />,
-    title: "AI homework gen",
-    desc: "Generate tailored exercises from topic, level, and past sessions.",
-  },
-];
+import { features, howItWorks } from "../../../utils/constants";
 
 export default function HomePage() {
   const { plans, isLoading, isError } = usePlans();
-  if (isLoading) return <div>Loading plans...</div>;
-  if (isError) return <div>Error loading plans.</div>;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -116,13 +51,13 @@ export default function HomePage() {
             Everything you need to land the job
           </h2>
           <div className="grid grid-cols-3 gap-10">
-            {features.map(({ icon, title, desc }) => (
+            {features.map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
                 className="rounded-xl border border-gray-200 bg-white p-6"
               >
                 <div className="bg-theme-pink-10 mb-3.5 flex h-10 w-10 items-center justify-center rounded-md text-xl">
-                  {icon}
+                  <Icon size={20} className="text-theme-pink-20" />
                 </div>
                 <div className="mb-2 text-[15px] font-semibold">{title}</div>
                 <p className="text-sm leading-relaxed text-gray-500">{desc}</p>
@@ -167,6 +102,7 @@ export default function HomePage() {
       </section>
 
       {/* Pricing */}
+
       <section id="pricing" className="bg-gray-50 px-12 py-20">
         <div className="mx-auto max-w-275 text-center">
           <p className="text-theme-purple-50 mb-2.5 text-xs font-semibold tracking-widest uppercase">
@@ -175,12 +111,14 @@ export default function HomePage() {
           <h2 className="mb-12 text-4xl font-bold tracking-tight">
             Simple, honest pricing
           </h2>
-          {plans && (
+          {(!isLoading || !isError) && plans ? (
             <div className="flex justify-center gap-10 pt-8">
               {plans.map((plan) => {
                 return <PlanCard key={plan.id} plan={plan} />;
               })}
             </div>
+          ) : (
+            <div>Loading plans...</div>
           )}
         </div>
       </section>
@@ -189,7 +127,7 @@ export default function HomePage() {
       <section className="px-12 py-20">
         <div className="bg-theme-purple-40 mx-auto max-w-250 rounded-2xl px-12 py-14 text-center">
           <h2 className="mb-3 text-3xl font-bold tracking-tight text-white">
-            Ready to get organised?
+            Ready to get organized?
           </h2>
           <p className="mb-7 text-base text-white/70">
             Join teachers who've simplified their workflow.
