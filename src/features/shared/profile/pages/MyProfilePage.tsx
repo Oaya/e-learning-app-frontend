@@ -15,7 +15,7 @@ import UpdatePasswordModal from "../../../admin/students/components/UpdatePasswo
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 import { UserModel } from "../../../../models/user";
 import defaultAvatar from "../../../../assets/user.png";
-import TimezoneSelector from "../components/timezoneSelector";
+import TimezoneSelector from "../components/TimezoneSelector";
 
 export default function MyProfilePage() {
   const { user, updateUser, isLoading } = useAuth();
