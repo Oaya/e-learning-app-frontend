@@ -12,6 +12,7 @@ import type { Session } from "../../../../type/session";
 import { useSessions } from "../hooks/useSessions";
 import { useUsers } from "../../students/hooks/useUsers";
 import { HiOutlineX } from "react-icons/hi";
+import type { User } from "../../../../type/user";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -26,6 +27,7 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   type: "Create" | "Edit";
+  student?: User;
   session?: Session;
   sessions?: Session[];
   timezone?: string;
@@ -38,6 +40,7 @@ export default function UpsertSessionModal({
   onClose,
   type,
   session,
+  student,
   sessions,
   timezone,
 }: ModalProps) {
@@ -62,12 +65,14 @@ export default function UpsertSessionModal({
   const [selectedDuration, setSelectedDuration] = useState(
     session?.duration_in_minutes ?? 30,
   );
+
+  const sData = session ? session.student : student ? student : null;
   const [selectedStudent, setSelectedStudent] = useState<StudentOption | null>(
-    session
+    sData
       ? {
-          value: session.student.id,
-          label: `${session.student.first_name} ${session.student.last_name}`,
-          avatar: session.student.avatar,
+          value: sData.id,
+          label: `${sData.first_name} ${sData.last_name}`,
+          avatar: sData.avatar,
         }
       : null,
   );
@@ -159,6 +164,7 @@ export default function UpsertSessionModal({
             <CustomSelect
               name="student"
               withAvatar
+              isDisabled={!!sData}
               value={selectedStudent}
               onChange={(opt: StudentOption | null) => setSelectedStudent(opt)}
               options={(students ?? []).map((i) => ({

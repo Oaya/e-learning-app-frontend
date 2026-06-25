@@ -31,7 +31,6 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
   const [cancelingSessionId, setCancelingSessionId] = useState<string | null>(
     null,
   );
-
   const [editSessionId, setEditSessionId] = useState<string | null>(null);
 
   const { isDeleting, isCanceling, deleteSession, cancelSession } = useSessions(

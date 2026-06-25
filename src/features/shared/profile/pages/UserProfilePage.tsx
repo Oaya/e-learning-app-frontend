@@ -9,12 +9,19 @@ import {
   HiDocumentText,
   HiUsers,
 } from "react-icons/hi";
+import UpsertSessionModal from "../../../admin/sessions/components/UpsertSessionModal";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { useSessions } from "../../../admin/sessions/hooks/useSessions";
+import { useState } from "react";
 
 export default function UserProfile() {
   // Keep local form state, initialized safely even when user is null
   const { id } = useParams<{ id: string }>();
   const userId = id || "";
   const { user, isLoading } = useUser(userId);
+  const { user: authUser } = useAuth();
+  const { sessions } = useSessions();
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (!userId) return <p>User ID is missing.</p>;
   if (isLoading) return <p>Loading…</p>;
@@ -46,8 +53,10 @@ export default function UserProfile() {
           </div>
         </div>
 
-        <div className="flex">
-          <button className="btn-primary">Book Session</button>
+        <div className="flex gap-4">
+          <button className="btn-primary" onClick={() => setModalOpen(true)}>
+            Book Session
+          </button>
           <button className="btn-primary">Message</button>
         </div>
       </section>
@@ -79,6 +88,15 @@ export default function UserProfile() {
           sub="1 session owed"
         />
       </section>
+
+      <UpsertSessionModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        type="Create"
+        student={user}
+        sessions={sessions}
+        timezone={authUser?.timezone}
+      />
     </div>
   );
 }

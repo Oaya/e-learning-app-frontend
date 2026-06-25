@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import placeholderImg from "../../../../assets/placeholder.webp";
 
-import ConfirmModal from "../../../../ui/DeleteConfirmModal";
+import ConfirmModal from "../../../../ui/ConfirmModal";
 
 import SectionDetails from "../components/sections/SectionDetails";
 import { useCourse } from "../hooks/useCourseMutation";
