@@ -7,20 +7,18 @@ import {
 } from "react-icons/hi";
 import ActionBtn from "./ActionButton";
 import type { Session } from "../../../../type/session";
-
-const AVATAR_COLOR: Record<string, string> = {
-  green: "bg-emerald-100 text-emerald-700",
-  blue: "bg-blue-100   text-blue-700",
-  amber: "bg-amber-100  text-amber-700",
-  pink: "bg-pink-100   text-pink-700",
-  purple: "bg-purple-100 text-purple-700",
-};
+import {
+  capitalize,
+  formatDay,
+  formatTime,
+  initials,
+} from "../../../../utils/helper";
 
 const BORDER_COLOR: Record<string, string> = {
-  scheduled: "border-l-emerald-500",
+  scheduled: "border-l-theme-green-20",
   completed: "border-l-gray-300",
-  cancelled: "border-l-red-400",
-  no_show: "border-l-amber-400",
+  cancelled: "border-l-theme-pink-20",
+  no_show: "border-l-theme-yellow-20",
 };
 
 const STATUS_BADGE: Record<string, string> = {
@@ -29,28 +27,6 @@ const STATUS_BADGE: Record<string, string> = {
   cancelled: "bg-red-50    text-red-600",
   no_show: "bg-amber-50  text-amber-700",
 };
-
-const STATUS_LABEL: Record<string, string> = {
-  scheduled: "Upcoming",
-  completed: "Done",
-  cancelled: "Cancelled",
-  no_show: "No show",
-};
-
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-function formatDay(iso: string) {
-  const d = new Date(iso);
-  return {
-    day: d.getDate(),
-    mon: d.toLocaleString("en-GB", { month: "short" }),
-  };
-}
 
 type Props = {
   session: Session;
@@ -107,11 +83,20 @@ export default function SessionCard({ session }: Props) {
             min
           </span>
           <span className="flex items-center gap-1.5 text-xs text-gray-400">
-            <span
-              className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold ${AVATAR_COLOR[session.student_color]}`}
-            >
-              {/* {session.student_initials} */}ao
-            </span>
+            {session.student.avatar ? (
+              <img
+                src={session.student.avatar}
+                alt="avatar"
+                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+              />
+            ) : (
+              <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
+                {initials(
+                  session.student.first_name,
+                  session.student.last_name,
+                )}
+              </span>
+            )}
             {session.student.first_name} {session.student.last_name}
           </span>
           {/* {session.has_recording && (
@@ -127,7 +112,7 @@ export default function SessionCard({ session }: Props) {
         <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${STATUS_BADGE[session.status]}`}
         >
-          {STATUS_LABEL[session.status]}
+          {capitalize(session.status)}
         </span>
         {/* <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${

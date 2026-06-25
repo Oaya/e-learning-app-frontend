@@ -4,16 +4,9 @@ import SessionCard from "./SessionCard";
 type SessionListProps = {
   type: string;
   sessions: Session[];
-  // onCancel?: () => void;
-  // onDelete?: () => void;
 };
 
-export default function SessionList({
-  type,
-  sessions,
-  // onCancel,
-  // onDelete,
-}: SessionListProps) {
+export default function SessionList({ type, sessions }: SessionListProps) {
   return (
     <section>
       <p className="mb-3 text-[11px] font-semibold tracking-widest text-gray-400 uppercase">
@@ -21,12 +14,7 @@ export default function SessionList({
       </p>
       <div className="space-y-2">
         {sessions.map((s) => (
-          <SessionCard
-            key={s.id}
-            session={s}
-            // onDelete={onDelete}
-            // onCancel={onCancel}
-          />
+          <SessionCard key={s.id} session={s} />
         ))}
       </div>
     </section>

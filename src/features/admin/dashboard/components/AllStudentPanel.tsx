@@ -1,6 +1,7 @@
 import { HiArrowRight, HiUsers } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import type { User } from "../../../../type/user";
+import { initials } from "../../../../utils/helper";
 
 function HwBadge({ hw }: { hw: string }) {
   if (hw === "done")
@@ -34,10 +35,6 @@ function PayDot({ paid }: { paid: boolean }) {
       Owed
     </span>
   );
-}
-
-function initials(first: string, last: string) {
-  return `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase();
 }
 
 const STUDENT_META: Record<number, { hw: string; paid: boolean }> = {

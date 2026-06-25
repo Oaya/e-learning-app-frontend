@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export function getVideoDuration(file: File): Promise<number> {
   const video = document.createElement("video");
 
@@ -31,4 +33,21 @@ export function greeting() {
   if (h < 12) return "Good morning";
   if (h < 18) return "Good afternoon";
   return "Good evening";
+}
+
+export function initials(first: string, last: string) {
+  return `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase();
+}
+
+//Time Converter//
+export function formatTime(iso: string) {
+  return dayjs(iso).format("h:mm A");
+}
+
+export function formatDay(iso: string) {
+  const d = dayjs(iso);
+  return {
+    day: d.date(),
+    mon: d.format("MMM"),
+  };
 }
