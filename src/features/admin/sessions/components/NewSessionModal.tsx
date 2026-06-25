@@ -84,7 +84,7 @@ export default function CreateSessionModal({
       const data = {
         student_id: fdString(formData, "student"),
         topic: fdString(formData, "topic"),
-        duration_in_minutes: fdNumber(formData, "duration") as number,
+        duration_in_minutes: selectedDuration,
         scheduled_at: date,
         note: fdString(formData, "note"),
       };

@@ -4,7 +4,7 @@ export type CreateSession = {
   duration_in_minutes: number;
   scheduled_at: Date;
 };
-export type SessionStatus = "done" | "scheduled" | "cancelled" | "completed";
+export type SessionStatus = "done" | "scheduled" | "canceled" | "completed";
 
 export type Session = {
   id: string;

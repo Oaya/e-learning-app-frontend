@@ -17,7 +17,7 @@ const TABS: { key: FilterTab; label: string }[] = [
   { key: "all", label: "All" },
   { key: "scheduled", label: "Upcoming" },
   { key: "completed", label: "Completed" },
-  { key: "cancelled", label: "Cancelled" },
+  { key: "canceled", label: "Cancelled" },
   // { key: "unpaid", label: "Unpaid" },
 ];
 

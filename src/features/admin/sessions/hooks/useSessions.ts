@@ -1,10 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAlert } from "../../../../contexts/AlertContext";
 import type { CreateSession, Session } from "../../../../type/session";
-import { createSession, getTodaySessions } from "../../../../api/sessions";
+import {
+  cancelSession,
+  createSession,
+  deleteSession,
+  getTodaySessions,
+} from "../../../../api/sessions";
 
 export function useSessions(options?: {
   onCreateSuccess?: (createdSession: Session) => void;
+  onDeleteSuccess?: () => void;
+  onCancelSuccess?: () => void;
 }) {
   const queryClient = useQueryClient();
   const alert = useAlert();
@@ -28,11 +35,45 @@ export function useSessions(options?: {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (sessionId: string) => deleteSession(sessionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["sessions"],
+      });
+      options?.onDeleteSuccess?.();
+    },
+    onError: (error) => {
+      alert.error(
+        error instanceof Error ? error.message : "Failed to delete lesson",
+      );
+    },
+  });
+
+  const cancelMutation = useMutation({
+    mutationFn: (sessionId: string) => cancelSession(sessionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["sessions"],
+      });
+      options?.onCancelSuccess?.();
+    },
+    onError: (error) => {
+      alert.error(
+        error instanceof Error ? error.message : "Failed to delete lesson",
+      );
+    },
+  });
+
   return {
     ...sessionsQuery,
     sessions: sessionsQuery.data,
     createSession: createMutation.mutateAsync,
+    deleteSession: deleteMutation.mutateAsync,
+    cancelSession: cancelMutation.mutateAsync,
 
     isCreating: createMutation.isPending,
+    isDeleting: deleteMutation.isPending,
+    isCanceling: cancelMutation.isPending,
   };
 }

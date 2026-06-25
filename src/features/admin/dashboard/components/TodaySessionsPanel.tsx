@@ -1,27 +1,14 @@
 import { HiArrowRight, HiCalendar } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import type { Session, SessionStatus } from "../../../../type/session";
+import type { Session } from "../../../../type/session";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import type { User } from "../../../../type/user";
+import { STATUS_BADGE } from "../../../../utils/constants";
+import { capitalize } from "../../../../utils/helper";
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
-function SessionStatusBadge({ status }: { status: SessionStatus }) {
-  if (status === "done")
-    return (
-      <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
-        Done
-      </span>
-    );
-  if (status === "scheduled")
-    return (
-      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
-        Upcoming
-      </span>
-    );
-}
 
 type TodaySessionPanelProps = {
   user: User;
@@ -66,7 +53,12 @@ export default function TodaySessionsPanel({
               </p>
               <p className="text-xs text-gray-400">{s.topic}</p>
             </div>
-            <SessionStatusBadge status={s.status} />
+
+            <span
+              className={`rounded-full bg-emerald-50 px-2 py-0.5 text-xs ${STATUS_BADGE[s.status]}`}
+            >
+              {capitalize(s.status)}
+            </span>
           </div>
         ))}
       </div>

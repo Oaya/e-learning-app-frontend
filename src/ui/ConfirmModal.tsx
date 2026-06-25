@@ -7,7 +7,7 @@ type ConfirmModalProps = {
   onCancel?: () => void;
 };
 
-export default function ConfirmModal({
+export default function DeleteConfirmModal({
   isOpen,
   isSubmitting,
   title,
@@ -35,7 +35,7 @@ export default function ConfirmModal({
             className="bg-theme-pink-20 rounded px-4 py-2 text-white"
             disabled={!!isSubmitting}
           >
-            {isSubmitting ? "Deleting..." : "Delete"}
+            {isSubmitting ? "Deleting..." : "Yes"}
           </button>
         </div>
       </div>

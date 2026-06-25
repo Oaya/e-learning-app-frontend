@@ -83,3 +83,17 @@ export const features = [
     desc: "Generate tailored exercises from topic, level, and past sessions.",
   },
 ];
+
+export const BORDER_COLOR: Record<string, string> = {
+  scheduled: "border-l-theme-green-20",
+  completed: "border-l-gray-300",
+  canceled: "border-l-theme-pink-20",
+  no_show: "border-l-theme-yellow-20",
+};
+
+export const STATUS_BADGE: Record<string, string> = {
+  scheduled: "bg-theme-green-30 text-theme-green-20",
+  completed: "bg-gray-100  text-gray-500",
+  canceled: "bg-theme-pink-10 text-theme-pink-20",
+  no_show: "bg-theme-yellow-10  text-theme-yellow-20",
+};

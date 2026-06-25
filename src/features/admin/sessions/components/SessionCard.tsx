@@ -13,50 +13,41 @@ import {
   formatTime,
   initials,
 } from "../../../../utils/helper";
-
-const BORDER_COLOR: Record<string, string> = {
-  scheduled: "border-l-theme-green-20",
-  completed: "border-l-gray-300",
-  cancelled: "border-l-theme-pink-20",
-  no_show: "border-l-theme-yellow-20",
-};
-
-const STATUS_BADGE: Record<string, string> = {
-  scheduled: "bg-emerald-50 text-emerald-700",
-  completed: "bg-gray-100  text-gray-500",
-  cancelled: "bg-red-50    text-red-600",
-  no_show: "bg-amber-50  text-amber-700",
-};
+import { BORDER_COLOR, STATUS_BADGE } from "../../../../utils/constants";
+import ConfirmModal from "../../../../ui/ConfirmModal";
+import { useSessions } from "../hooks/useSessions";
+import { useState } from "react";
 
 type Props = {
   session: Session;
 };
-
-function handleCancel(session: Session) {
-  // setSessions((prev) =>
-  //   prev.map((s) =>
-  //     s.id === session.id ? { ...s, status: "cancelled" as const } : s,
-  //   ),
-  // );
-}
-
-function handleDelete(session: Session) {
-  // setSessions((prev) => prev.filter((s) => s.id !== session.id));
-}
 
 function handleEdit(session: Session) {
   // setSessions((prev) => prev.filter((s) => s.id !== session.id));
 }
 
 export default function SessionCard({ session }: Props) {
+  const [deletingSessionId, setDeletingSessionId] = useState<string | null>(
+    null,
+  );
+  const [cancelingSessionId, setCancelingSessionId] = useState<string | null>(
+    null,
+  );
+
+  const { isDeleting, isCanceling, deleteSession, cancelSession } = useSessions(
+    {
+      onDeleteSuccess: () => setDeletingSessionId(null),
+      onCancelSuccess: () => setCancelingSessionId(null),
+    },
+  );
   const { day, mon } = formatDay(session.scheduled_at);
   const isPast =
-    session.status === "completed" || session.status === "cancelled";
+    session.status === "completed" || session.status === "canceled";
 
   return (
     <div
       className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${BORDER_COLOR[session.status]}`}
-      style={{ opacity: session.status === "cancelled" ? 0.7 : 1 }}
+      style={{ opacity: session.status === "canceled" ? 0.7 : 1 }}
     >
       {/* Date block */}
       <div className="w-12 shrink-0 text-center">
@@ -134,7 +125,7 @@ export default function SessionCard({ session }: Props) {
             </ActionBtn>
             <ActionBtn
               title="Cancel session"
-              onClick={() => handleCancel(session)}
+              onClick={() => setCancelingSessionId(session.id)}
             >
               <HiOutlineX className="h-4 w-4" />
             </ActionBtn>
@@ -142,9 +133,6 @@ export default function SessionCard({ session }: Props) {
         )}
         {isPast && (
           <>
-            <ActionBtn title="Notes">
-              <HiOutlineDocumentText className="h-4 w-4" />
-            </ActionBtn>
             {/* {session.has_recording && (
               <ActionBtn title="View recording">
                 <HiOutlineVideoCamera className="h-4 w-4" />
@@ -153,14 +141,44 @@ export default function SessionCard({ session }: Props) {
             <ActionBtn title="Edit" onClick={() => handleEdit(session)}>
               <HiOutlinePencil className="h-4 w-4" />
             </ActionBtn>
-            {session.status === "cancelled" && (
-              <ActionBtn title="Delete" onClick={() => handleDelete(session)}>
+            {session.status === "canceled" && (
+              <ActionBtn
+                title="Delete"
+                onClick={() => setDeletingSessionId(session.id)}
+              >
                 <HiOutlineTrash className="h-4 w-4" />
               </ActionBtn>
             )}
           </>
         )}
       </div>
+
+      {/* Delete confirm */}
+      <ConfirmModal
+        isOpen={deletingSessionId !== null}
+        title="Delete Session"
+        isSubmitting={isDeleting}
+        message="Are you sure you want to delete this? This action cannot be undone."
+        onCancel={() => setDeletingSessionId(null)}
+        onConfirm={() => {
+          if (!deletingSessionId) return;
+          deleteSession(deletingSessionId);
+        }}
+      />
+
+      {/* Cancel confirm */}
+      <ConfirmModal
+        isOpen={cancelingSessionId !== null}
+        title="Cancel Session"
+        isSubmitting={isCanceling}
+        message="Are you sure you want to cancel this session? "
+        onCancel={() => setCancelingSessionId(null)}
+        onConfirm={() => {
+          if (!cancelingSessionId) return;
+          cancelSession(cancelingSessionId);
+          setCancelingSessionId(null);
+        }}
+      />
     </div>
   );
 }
