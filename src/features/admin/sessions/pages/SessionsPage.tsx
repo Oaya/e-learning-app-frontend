@@ -2,14 +2,13 @@ import dayjs from "dayjs";
 import { useMemo, useState } from "react";
 import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
-import NewSessionModal from "../components/NewSessionModal";
 
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useUsers } from "../../students/hooks/useUsers";
 import { useSessions } from "../hooks/useSessions";
 import StatCard from "../../dashboard/components/StatCard";
 import SessionList from "../components/SessionList";
 import type { SessionStatus } from "../../../../type/session";
+import UpsertSessionModal from "../components/UpsertSessionModal";
 
 type FilterTab = "all" | SessionStatus;
 
@@ -26,7 +25,6 @@ export default function SessionsPage() {
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
-  const { users: students } = useUsers({});
   const { sessions } = useSessions();
 
   const filtered = useMemo(() => {
@@ -146,19 +144,29 @@ export default function SessionsPage() {
       ) : (
         <div className="space-y-6">
           {upcoming && upcoming.length > 0 && (
-            <SessionList type="upcoming" sessions={upcoming} />
+            <SessionList
+              type="upcoming"
+              sessions={upcoming}
+              allSessions={sessions}
+              timezone={user?.timezone}
+            />
           )}
 
           {past && past.length > 0 && (
-            <SessionList type="upcoming" sessions={past} />
+            <SessionList
+              type="past"
+              sessions={past}
+              allSessions={sessions}
+              timezone={user?.timezone}
+            />
           )}
         </div>
       )}
 
-      <NewSessionModal
+      <UpsertSessionModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        students={students}
+        type="Create"
         sessions={sessions}
         timezone={user?.timezone}
       />

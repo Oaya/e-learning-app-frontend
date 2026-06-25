@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { CreateSession, Session } from "../type/session";
+import type { CreateSession, UpdateSession, Session } from "../type/session";
 
 export async function createSession(data: CreateSession): Promise<Session> {
   try {
@@ -50,6 +50,22 @@ export async function cancelSession(id: string): Promise<void> {
       },
     );
 
+    return response.data;
+  } catch (err: any) {
+    throw new Error(err.response?.data?.error);
+  }
+}
+
+export async function updateSession(
+  id: string,
+  data: UpdateSession,
+): Promise<Session> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url = `${import.meta.env.VITE_API_URL}/api/sessions/${id}`;
+    const response = await axios.patch(url, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (err: any) {
     throw new Error(err.response?.data?.error);

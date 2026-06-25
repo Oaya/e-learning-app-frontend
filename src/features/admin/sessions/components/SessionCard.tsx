@@ -1,9 +1,8 @@
 import {
-  HiOutlinePencil,
   HiOutlineVideoCamera,
-  HiOutlineDocumentText,
   HiOutlineX,
   HiOutlineTrash,
+  HiOutlinePencil,
 } from "react-icons/hi";
 import ActionBtn from "./ActionButton";
 import type { Session } from "../../../../type/session";
@@ -17,22 +16,23 @@ import { BORDER_COLOR, STATUS_BADGE } from "../../../../utils/constants";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useSessions } from "../hooks/useSessions";
 import { useState } from "react";
+import UpsertSessionModal from "./UpsertSessionModal";
 
 type Props = {
   session: Session;
+  allSessions?: Session[];
+  timezone?: string;
 };
 
-function handleEdit(session: Session) {
-  // setSessions((prev) => prev.filter((s) => s.id !== session.id));
-}
-
-export default function SessionCard({ session }: Props) {
+export default function SessionCard({ session, allSessions, timezone }: Props) {
   const [deletingSessionId, setDeletingSessionId] = useState<string | null>(
     null,
   );
   const [cancelingSessionId, setCancelingSessionId] = useState<string | null>(
     null,
   );
+
+  const [editSessionId, setEditSessionId] = useState<string | null>(null);
 
   const { isDeleting, isCanceling, deleteSession, cancelSession } = useSessions(
     {
@@ -120,7 +120,10 @@ export default function SessionCard({ session }: Props) {
       <div className="flex shrink-0 items-center gap-1">
         {!isPast && (
           <>
-            <ActionBtn title="Edit" onClick={() => handleEdit(session)}>
+            <ActionBtn
+              title="Edit"
+              onClick={() => setEditSessionId(session.id)}
+            >
               <HiOutlinePencil className="h-4 w-4" />
             </ActionBtn>
             <ActionBtn
@@ -138,9 +141,6 @@ export default function SessionCard({ session }: Props) {
                 <HiOutlineVideoCamera className="h-4 w-4" />
               </ActionBtn>
             )} */}
-            <ActionBtn title="Edit" onClick={() => handleEdit(session)}>
-              <HiOutlinePencil className="h-4 w-4" />
-            </ActionBtn>
             {session.status === "canceled" && (
               <ActionBtn
                 title="Delete"
@@ -178,6 +178,16 @@ export default function SessionCard({ session }: Props) {
           cancelSession(cancelingSessionId);
           setCancelingSessionId(null);
         }}
+      />
+
+      {/* Edit Session */}
+      <UpsertSessionModal
+        isOpen={editSessionId !== null}
+        onClose={() => setEditSessionId(null)}
+        type="Edit"
+        session={session}
+        sessions={allSessions}
+        timezone={timezone}
       />
     </div>
   );

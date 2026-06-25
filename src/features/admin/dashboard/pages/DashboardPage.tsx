@@ -18,7 +18,7 @@ dayjs.extend(timezone);
 import { useSessions } from "../../sessions/hooks/useSessions";
 import TodaySessionsPanel from "../components/TodaySessionsPanel";
 import AllStudentPanel from "../components/AllStudentPanel";
-import NewSessionModal from "../../sessions/components/NewSessionModal";
+import UpsertSessionModal from "../../sessions/components/UpsertSessionModal";
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
@@ -85,15 +85,13 @@ export default function AdminDashboardPage() {
         {students && <AllStudentPanel students={students} />}
       </div>
 
-      {students && (
-        <NewSessionModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          students={students}
-          sessions={sessions}
-          timezone={user?.timezone}
-        />
-      )}
+      <UpsertSessionModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        type="Create"
+        sessions={sessions}
+        timezone={user?.timezone}
+      />
     </div>
   );
 }

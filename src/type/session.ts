@@ -3,6 +3,15 @@ export type CreateSession = {
   topic: string;
   duration_in_minutes: number;
   scheduled_at: Date;
+  note?: string;
+};
+
+export type UpdateSession = {
+  student_id?: string;
+  topic?: string;
+  duration_in_minutes?: number;
+  scheduled_at?: Date;
+  note?: string;
 };
 export type SessionStatus = "done" | "scheduled" | "canceled" | "completed";
 

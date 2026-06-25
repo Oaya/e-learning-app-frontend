@@ -1,15 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAlert } from "../../../../contexts/AlertContext";
-import type { CreateSession, Session } from "../../../../type/session";
+import type { CreateSession, UpdateSession, Session } from "../../../../type/session";
 import {
   cancelSession,
   createSession,
   deleteSession,
   getTodaySessions,
+  updateSession as updateSessionApi,
 } from "../../../../api/sessions";
 
 export function useSessions(options?: {
   onCreateSuccess?: (createdSession: Session) => void;
+  onUpdateSuccess?: () => void;
   onDeleteSuccess?: () => void;
   onCancelSuccess?: () => void;
 }) {
@@ -53,14 +55,26 @@ export function useSessions(options?: {
   const cancelMutation = useMutation({
     mutationFn: (sessionId: string) => cancelSession(sessionId),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["sessions"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["sessions"] });
       options?.onCancelSuccess?.();
     },
     onError: (error) => {
       alert.error(
-        error instanceof Error ? error.message : "Failed to delete lesson",
+        error instanceof Error ? error.message : "Failed to cancel session",
+      );
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: UpdateSession }) =>
+      updateSessionApi(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sessions"] });
+      options?.onUpdateSuccess?.();
+    },
+    onError: (error) => {
+      alert.error(
+        error instanceof Error ? error.message : "Failed to update session",
       );
     },
   });
@@ -69,10 +83,12 @@ export function useSessions(options?: {
     ...sessionsQuery,
     sessions: sessionsQuery.data,
     createSession: createMutation.mutateAsync,
+    updateSession: updateMutation.mutateAsync,
     deleteSession: deleteMutation.mutateAsync,
     cancelSession: cancelMutation.mutateAsync,
 
     isCreating: createMutation.isPending,
+    isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
     isCanceling: cancelMutation.isPending,
   };
