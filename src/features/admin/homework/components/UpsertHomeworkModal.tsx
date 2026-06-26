@@ -15,7 +15,7 @@ import type { Homework } from "../../../../type/homework";
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  type: "Create" | "Edit";
+  type: "Assign" | "Edit";
   hw?: Homework;
 };
 

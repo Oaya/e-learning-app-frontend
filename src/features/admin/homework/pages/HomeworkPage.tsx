@@ -8,7 +8,7 @@ import {
 } from "react-icons/hi2";
 import HomeworkCard from "../components/HomeworkCard";
 import UpsertHomeworkModal from "../components/UpsertHomeworkModal";
-import type { Homework, HomeworkStatus } from "../../../../type/homework";
+import type { HomeworkStatus } from "../../../../type/homework";
 import AiBanner from "../components/AiBanner";
 import StatCard from "../../dashboard/components/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
@@ -89,7 +89,7 @@ export default function HomeworkPage() {
       </div>
 
       {/* AI banner */}
-      <AiBanner />
+      <AiBanner onOpen={() => setModalOpen(true)} />
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
