@@ -44,8 +44,8 @@ type Score = "needs_work" | "good" | "excellent" | null;
 
 const SCORE_OPTIONS: { key: Score; label: string }[] = [
   { key: "needs_work", label: "⭐ Needs work" },
-  { key: "good",       label: "👍 Good" },
-  { key: "excellent",  label: "🌟 Excellent" },
+  { key: "good", label: "👍 Good" },
+  { key: "excellent", label: "🌟 Excellent" },
 ];
 
 export default function HomeworkReviewPage() {
@@ -55,11 +55,11 @@ export default function HomeworkReviewPage() {
   // In production replace MOCK_REVIEW with: const { data: hw } = useHomework(id)
   const hw = MOCK_REVIEW;
 
-  const [score, setScore]               = useState<Score>(null);
-  const [feedback, setFeedback]         = useState("");
+  const [score, setScore] = useState<Score>(null);
+  const [feedback, setFeedback] = useState("");
   const [privateNotes, setPrivateNotes] = useState("");
-  const [aiLoading, setAiLoading]       = useState(false);
-  const [saving, setSaving]             = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   async function handleGenerateAiFeedback() {
     setAiLoading(true);
@@ -88,8 +88,7 @@ export default function HomeworkReviewPage() {
   }
 
   return (
-    <div className="space-y-5">
-
+    <div className="space-y-5 p-10">
       {/* Top bar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <button
@@ -122,15 +121,21 @@ export default function HomeworkReviewPage() {
         <h1 className="mb-2 text-lg font-semibold text-gray-800">{hw.title}</h1>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <div className={`flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-semibold ${hw.student_color}`}>
+            <div
+              className={`flex h-5 w-5 items-center justify-center rounded-full text-[9px] font-semibold ${hw.student_color}`}
+            >
               {hw.student_initials}
             </div>
             <span className="text-xs text-gray-500">{hw.student_name}</span>
           </div>
           <span className="text-xs text-gray-300">·</span>
-          <span className="text-xs text-gray-400">Submitted {hw.submitted_at}</span>
+          <span className="text-xs text-gray-400">
+            Submitted {hw.submitted_at}
+          </span>
           <span className="text-xs text-gray-400">·</span>
-          <span className="text-xs text-gray-400">{hw.language} · {hw.level}</span>
+          <span className="text-xs text-gray-400">
+            {hw.language} · {hw.level}
+          </span>
           <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700">
             Submitted
           </span>
@@ -144,31 +149,31 @@ export default function HomeworkReviewPage() {
 
       {/* Two column body */}
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
-
         {/* LEFT — submission */}
         <div className="space-y-4">
-
           {/* Instructions */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
               Assignment instructions
             </p>
-            <p className="text-sm leading-relaxed text-gray-500">{hw.instructions}</p>
+            <p className="text-sm leading-relaxed text-gray-500">
+              {hw.instructions}
+            </p>
           </div>
 
           {/* Submission */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
               Student's written answer
             </p>
-            <div className="rounded-lg bg-gray-50 p-4 text-sm leading-loose text-gray-800 whitespace-pre-line">
+            <div className="rounded-lg bg-gray-50 p-4 text-sm leading-loose whitespace-pre-line text-gray-800">
               {hw.submission_text}
             </div>
 
             {/* Attachment */}
             {hw.attachment && (
               <div className="mt-4">
-                <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+                <p className="mb-2 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
                   Attached file
                 </p>
                 <div className="flex items-center gap-3 rounded-lg bg-gray-50 px-4 py-3">
@@ -176,8 +181,12 @@ export default function HomeworkReviewPage() {
                     <HiOutlineDocumentArrowDown className="h-4 w-4 text-emerald-700" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-gray-800">{hw.attachment.name}</p>
-                    <p className="text-xs text-gray-400">{hw.attachment.size} · {hw.attachment.type}</p>
+                    <p className="truncate text-sm font-medium text-gray-800">
+                      {hw.attachment.name}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      {hw.attachment.size} · {hw.attachment.type}
+                    </p>
                   </div>
                   <button className="text-xs font-medium text-emerald-600 hover:underline">
                     Download
@@ -190,10 +199,11 @@ export default function HomeworkReviewPage() {
 
         {/* RIGHT — feedback */}
         <div className="space-y-4 lg:sticky lg:top-6">
-
           {/* Score */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Score</p>
+            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
+              Score
+            </p>
             <div className="flex gap-2">
               {SCORE_OPTIONS.map((opt) => (
                 <button
@@ -216,7 +226,7 @@ export default function HomeworkReviewPage() {
             <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <HiOutlineSparkles className="h-4 w-4 text-purple-600" />
-                <p className="text-[10px] font-semibold uppercase tracking-widest text-purple-600">
+                <p className="text-[10px] font-semibold tracking-widest text-purple-600 uppercase">
                   Claude's suggestion
                 </p>
               </div>
@@ -228,7 +238,9 @@ export default function HomeworkReviewPage() {
                 {aiLoading ? "Generating…" : "Regenerate"}
               </button>
             </div>
-            <p className="text-xs leading-relaxed text-purple-800">{hw.ai_suggestion}</p>
+            <p className="text-xs leading-relaxed text-purple-800">
+              {hw.ai_suggestion}
+            </p>
             <button
               onClick={useAiSuggestion}
               className="mt-3 flex items-center gap-1 text-xs font-medium text-purple-600 hover:text-purple-800"
@@ -240,7 +252,7 @@ export default function HomeworkReviewPage() {
 
           {/* Feedback for student */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
               Feedback for student
             </p>
             <textarea
@@ -254,10 +266,12 @@ export default function HomeworkReviewPage() {
 
           {/* Private notes */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-1 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
               Private notes
             </p>
-            <p className="mb-3 text-[11px] text-gray-400">Only you can see this</p>
+            <p className="mb-3 text-[11px] text-gray-400">
+              Only you can see this
+            </p>
             <textarea
               rows={3}
               placeholder="Notes for yourself…"
@@ -272,7 +286,9 @@ export default function HomeworkReviewPage() {
       {/* Bottom action bar */}
       <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-6 py-4">
         <p className="text-xs text-gray-400">
-          Feedback will be sent to <span className="font-medium text-gray-600">{hw.student_name}</span> when you mark as reviewed.
+          Feedback will be sent to{" "}
+          <span className="font-medium text-gray-600">{hw.student_name}</span>{" "}
+          when you mark as reviewed.
         </p>
         <div className="flex gap-2">
           <button

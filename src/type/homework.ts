@@ -30,3 +30,14 @@ export type UpsertHomework = {
   level: string;
   ai_generated: boolean;
 };
+
+export type HomeworkSubmission = {
+  homework: Homework;
+  submission_text?: string;
+  attachment: {
+    name: string;
+    size: string;
+    type: string;
+  };
+  ai_suggestion?: string;
+};

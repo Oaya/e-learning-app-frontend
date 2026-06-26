@@ -1,7 +1,12 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import type { Role } from "../type/user";
 
-export default function RequireAuth() {
+interface Props {
+  role?: Role;
+}
+
+export default function RequireAuth({ role }: Props) {
   const { user, isLoading } = useAuth();
   const location = useLocation();
 
@@ -11,6 +16,10 @@ export default function RequireAuth() {
 
   if (!user) {
     return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  if (role && user.role !== role) {
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

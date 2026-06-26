@@ -16,7 +16,7 @@ const UserProfile = lazy(() => import("../features/shared/profile/pages/UserProf
 
 export default function AdminRoutes() {
   return (
-    <Route element={<RequireAuth />}>
+    <Route element={<RequireAuth role="admin" />}>
       <Route element={<AdminSidebarLayout />}>
         <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/students" element={<StudentsPage />} />

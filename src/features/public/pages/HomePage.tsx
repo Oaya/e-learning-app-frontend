@@ -1,13 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { usePlans } from "../hooks/usePlans";
 import PlanCard from "../components/PlanCard";
 
 import { BsStars } from "react-icons/bs";
 import { features, howItWorks } from "../../../utils/constants";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function HomePage() {
   const { plans, isLoading, isError } = usePlans();
+  const { user } = useAuth();
+
+  if (user?.role === "admin") return <Navigate to="/admin/dashboard" replace />;
+  if (user?.role === "student") return <Navigate to="/dashboard" replace />;
 
   return (
     <div className="flex min-h-screen flex-col">
