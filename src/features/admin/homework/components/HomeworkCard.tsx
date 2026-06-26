@@ -7,6 +7,7 @@ import {
   HiOutlineSparkles,
 } from "react-icons/hi2";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import type { Homework } from "../../../../type/homework";
 import { capitalize, initials } from "../../../../utils/helper";
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export default function HomeworkCard({ hw }: Props) {
+  const navigate = useNavigate();
   const [deletingHWId, setDeletingHWId] = useState<string | null>(null);
   const [editHWId, setEditHWId] = useState<string | null>(null);
   const { isDeleting, deleteHomework } = useHomeworks({
@@ -76,8 +78,11 @@ export default function HomeworkCard({ hw }: Props) {
           {capitalize(hw.status)}
         </span>
         <div className="flex gap-1">
-          {/* View always */}
-          <ActionBtn title="View">
+          {/* View — goes to review page for submitted/reviewed, otherwise just icon */}
+          <ActionBtn
+            title="View"
+            onClick={() => navigate(`/admin/homework/${hw.id}/review`)}
+          >
             <HiOutlineEye className="h-4 w-4" />
           </ActionBtn>
 

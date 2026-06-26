@@ -28,20 +28,34 @@ type Props = {
 };
 
 export default function SessionCard({ session, allSessions, timezone }: Props) {
-  const [deletingSessionId, setDeletingSessionId] = useState<string | null>(
+  const [targetSessionId, setTargetSessionId] = useState<string | null>(null);
+  const [actionType, setActionType] = useState<"Delete" | "Cancel" | null>(
     null,
   );
-  const [cancelingSessionId, setCancelingSessionId] = useState<string | null>(
-    null,
-  );
+
   const [editSessionId, setEditSessionId] = useState<string | null>(null);
 
   const { isDeleting, isCanceling, deleteSession, cancelSession } = useSessions(
     {
-      onDeleteSuccess: () => setDeletingSessionId(null),
-      onCancelSuccess: () => setCancelingSessionId(null),
+      onDeleteSuccess: () => setTargetSessionId(null),
+      onCancelSuccess: () => setTargetSessionId(null),
     },
   );
+
+  function handleModalActionChange(id: string, type: "Delete" | "Cancel") {
+    setTargetSessionId(id);
+    setActionType(type);
+  }
+
+  function handelCancelOrDelete() {
+    if (!targetSessionId) return;
+
+    if (actionType === "Delete") {
+      deleteSession(targetSessionId);
+    } else {
+      cancelSession(targetSessionId);
+    }
+  }
   const { day, mon } = formatDay(session.scheduled_at);
   const isPast =
     session.status === "completed" || session.status === "canceled";
@@ -130,7 +144,7 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
             </ActionBtn>
             <ActionBtn
               title="Cancel session"
-              onClick={() => setCancelingSessionId(session.id)}
+              onClick={() => handleModalActionChange(session.id, "Cancel")}
             >
               <HiOutlineX className="h-4 w-4" />
             </ActionBtn>
@@ -146,7 +160,7 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
             {session.status === "canceled" && (
               <ActionBtn
                 title="Delete"
-                onClick={() => setDeletingSessionId(session.id)}
+                onClick={() => handleModalActionChange(session.id, "Delete")}
               >
                 <HiOutlineTrash className="h-4 w-4" />
               </ActionBtn>
@@ -155,31 +169,18 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
         )}
       </div>
 
-      {/* Delete confirm */}
+      {/* Delete & Cancel confirm */}
       <ConfirmModal
-        isOpen={deletingSessionId !== null}
-        title="Delete Session"
-        isSubmitting={isDeleting}
-        message="Are you sure you want to delete this? This action cannot be undone."
-        onCancel={() => setDeletingSessionId(null)}
-        onConfirm={() => {
-          if (!deletingSessionId) return;
-          deleteSession(deletingSessionId);
-        }}
-      />
-
-      {/* Cancel confirm */}
-      <ConfirmModal
-        isOpen={cancelingSessionId !== null}
-        title="Cancel Session"
-        isSubmitting={isCanceling}
-        message="Are you sure you want to cancel this session? "
-        onCancel={() => setCancelingSessionId(null)}
-        onConfirm={() => {
-          if (!cancelingSessionId) return;
-          cancelSession(cancelingSessionId);
-          setCancelingSessionId(null);
-        }}
+        isOpen={targetSessionId !== null}
+        title={`${actionType} session`}
+        isSubmitting={isDeleting || isCanceling}
+        message={
+          actionType === "Delete"
+            ? "Are you sure you want to delete this? This action cannot be undone."
+            : "Are you sure you want to cancel this session? "
+        }
+        onCancel={() => setTargetSessionId(null)}
+        onConfirm={() => handelCancelOrDelete()}
       />
 
       {/* Edit Session */}
