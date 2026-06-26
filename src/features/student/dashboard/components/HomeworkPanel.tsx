@@ -1,6 +1,6 @@
 import { HiArrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
+import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import type { Homework } from "../../../../type/homework";
 
 type HWPanelProps = {
@@ -8,14 +8,6 @@ type HWPanelProps = {
 };
 
 export default function HomeworkPanel({ hws }: HWPanelProps) {
-  // Homework to show on dashboard (overdue first, then pending, then latest reviewed)
-  const dashHW = [
-    ...(hws ?? []).filter((h) => h.status === "overdue"),
-    ...(hws ?? []).filter((h) => h.status === "pending"),
-    ...(hws ?? []).filter(
-      (h) => h.status === "submitted" || h.status === "reviewed",
-    ),
-  ].slice(0, 4);
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <div className="mb-4 flex items-center justify-between">
@@ -30,11 +22,11 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
         </Link>
       </div>
 
-      {dashHW.length === 0 ? (
+      {hws?.length === 0 ? (
         <p className="text-sm text-gray-400">No homework yet.</p>
       ) : (
         <div className="divide-y divide-gray-100">
-          {dashHW.map((hw) => {
+          {hws?.slice(0, 4).map((hw) => {
             const dateLabel =
               hw.status === "reviewed" && hw.reviewed_at
                 ? `Reviewed ${hw.reviewed_at}`
@@ -43,9 +35,6 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
                   : `Due ${hw.due_date}`;
             return (
               <div key={hw.id} className="flex items-center gap-3 py-3">
-                <div
-                  className={`h-2 w-2 shrink-0 rounded-full ${HW_BORDER_COLOR[hw.status]}`}
-                />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm text-gray-800">{hw.title}</p>
                   <p className="text-xs text-gray-400">{dateLabel}</p>
