@@ -83,7 +83,23 @@ export async function getTodaySessions(): Promise<Session[]> {
       },
     });
 
-    console.log("Get Today Session response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
+export async function getSessions(): Promise<Session[]> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/sessions`;
+
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

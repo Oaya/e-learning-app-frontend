@@ -27,7 +27,7 @@ export default function TodaySessionsPanel({
         </h2>
         <Link
           to="/admin/sessions"
-          className="flex items-center gap-1 text-xs text-emerald-600 hover:underline"
+          className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
         >
           View all <HiArrowRight className="h-3 w-3" />
         </Link>

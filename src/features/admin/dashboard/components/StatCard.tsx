@@ -1,8 +1,8 @@
 import type { IconType } from "react-icons";
 
 type StatCardProps = {
-  icon: IconType;
-  iconColor: string;
+  icon?: IconType;
+  iconColor?: string;
   label: string;
   value: string | number;
   sub?: string;
@@ -20,7 +20,7 @@ export default function StatCard({
   return (
     <div className="h-40 rounded-xl border border-gray-200 bg-white p-4">
       <div className="mb-2 flex items-center gap-2 text-xs text-gray-400">
-        <Icon size={20} className={`h-4 w-4 ${iconColor}`} />
+        {Icon && <Icon size={20} className={`h-4 w-4 ${iconColor}`} />}
         {label}
       </div>
       <p className="text-2xl font-semibold text-gray-800">{value}</p>
