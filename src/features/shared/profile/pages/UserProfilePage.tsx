@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { UserModel } from "../../../../models/user";
 import defaultAvatar from "../../../../assets/user.png";
 import { useUser } from "../../../admin/students/hooks/useUser";
 import StatCard from "../../../admin/dashboard/components/StatCard";
@@ -43,7 +42,7 @@ export default function UserProfile() {
           <div className="text-left">
             <div className="mb-2">
               <p className="text-2xl font-semibold">
-                {new UserModel(user).fullName()}
+                {user.first_name} {user.last_name}
               </p>
             </div>
 

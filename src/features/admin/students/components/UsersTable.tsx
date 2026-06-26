@@ -5,7 +5,6 @@ import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { capitalize } from "../../../../utils/helper";
 import type { User, UserSort } from "../../../../type/user";
 import SortButton from "../../../../ui/SortButton";
-import { UserModel } from "../../../../models/user";
 
 export default function UsersTable({
   users,
@@ -113,7 +112,7 @@ export default function UsersTable({
                       to={`/users/${u.id}`}
                       className="text-blue-600 hover:underline"
                     >
-                      {new UserModel(u).fullName()}
+                      {u?.first_name} {u.last_name}
                     </Link>
                   </td>
 

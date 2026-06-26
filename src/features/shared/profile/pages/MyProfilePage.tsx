@@ -13,7 +13,6 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import { capitalize } from "../../../../utils/helper";
 import UpdatePasswordModal from "../../../admin/students/components/UpdatePasswordModal";
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
-import { UserModel } from "../../../../models/user";
 import defaultAvatar from "../../../../assets/user.png";
 import TimezoneSelector from "../components/TimezoneSelector";
 
@@ -35,7 +34,7 @@ export default function MyProfilePage() {
     useState(false);
 
   const alert = useAlert();
-  const isAdmin = new UserModel(user).isAdmin();
+  const isAdmin = user?.role === "admin";
   const isCanceled =
     user?.subscription?.cancel_at_period_end ||
     user?.subscription?.status === "canceled";
