@@ -1,7 +1,7 @@
 import axios from "axios";
-import type { CreateSession, UpdateSession, Session } from "../type/session";
+import type { UpsertSession, Session } from "../type/session";
 
-export async function createSession(data: CreateSession): Promise<Session> {
+export async function createSession(data: UpsertSession): Promise<Session> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/sessions`;
@@ -58,7 +58,7 @@ export async function cancelSession(id: string): Promise<void> {
 
 export async function updateSession(
   id: string,
-  data: UpdateSession,
+  data: UpsertSession,
 ): Promise<Session> {
   try {
     const token = localStorage.getItem("jwt");

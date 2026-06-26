@@ -27,6 +27,7 @@ export type User = {
   avatar?: string;
   timezone?: string;
   created_at: string;
+  learning_languages?: string[];
   subscription?: {
     status: string;
     plan: string;
@@ -41,6 +42,7 @@ export type InviteUser = {
   level?: Level;
   first_name: string;
   last_name: string;
+  learning_languages?: string[];
 };
 
 export type AcceptInviteUser = {
@@ -82,4 +84,11 @@ export type UserTableFilter = {
     value: string;
     label: string;
   }[];
+};
+
+export type StudentOption = {
+  value: string;
+  label: string;
+  avatar?: string | null;
+  languages?: string[];
 };

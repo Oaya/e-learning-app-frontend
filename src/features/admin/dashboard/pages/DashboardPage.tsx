@@ -49,25 +49,29 @@ export default function AdminDashboardPage() {
       {/* Stat cards */}
       <div className="grid grid-cols-2 gap-4 p-10 lg:grid-cols-4">
         <StatCard
-          icon={<HiUsers size={20} className="text-theme-yellow-20" />}
+          icon={HiUsers}
+          iconColor="text-theme-yellow-20"
           label="Students"
           value={students ? students?.length : 0}
           sub={`+${studentSub?.length ?? 0} this month`}
           subColor={studentSub?.length ? true : false}
         />
         <StatCard
-          icon={<HiCalendar size={20} className="text-theme-yellow-20" />}
+          icon={HiCalendar}
+          iconColor="text-theme-yellow-20"
           label="Sessions today"
           value={sessions?.length ?? 0}
         />
         <StatCard
-          icon={<HiDocumentText size={20} className="text-theme-yellow-20" />}
+          icon={HiDocumentText}
+          iconColor="text-theme-yellow-20"
           label="Homework pending"
           value={5}
           sub="2 overdue"
         />
         <StatCard
-          icon={<HiCreditCard size={20} className="text-theme-yellow-20" />}
+          icon={HiCreditCard}
+          iconColor="text-theme-yellow-20"
           label="Unpaid sessions"
           value="$240"
           sub="Across 3 students"

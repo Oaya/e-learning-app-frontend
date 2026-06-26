@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAlert } from "../../../../contexts/AlertContext";
-import type { CreateSession, UpdateSession, Session } from "../../../../type/session";
+import type { Session, UpsertSession } from "../../../../type/session";
 import {
   cancelSession,
   createSession,
@@ -25,7 +25,7 @@ export function useSessions(options?: {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: CreateSession) => createSession(data),
+    mutationFn: (data: UpsertSession) => createSession(data),
     onSuccess: (createdSession) => {
       queryClient.invalidateQueries({ queryKey: ["sessions"] });
       options?.onCreateSuccess?.(createdSession);
@@ -66,7 +66,7 @@ export function useSessions(options?: {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateSession }) =>
+    mutationFn: ({ id, data }: { id: string; data: UpsertSession }) =>
       updateSessionApi(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sessions"] });

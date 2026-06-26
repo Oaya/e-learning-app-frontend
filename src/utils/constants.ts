@@ -21,6 +21,8 @@ export const categories: { value: string; label: string }[] = [
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
 
+export const sessionDuration = [30, 60, 90, 120] as const;
+
 export const lessonTypes: string[] = ["video", "reading"];
 
 export const howItWorks = [
@@ -84,16 +86,30 @@ export const features = [
   },
 ];
 
-export const BORDER_COLOR: Record<string, string> = {
+export const SESSION_BORDER_COLOR: Record<string, string> = {
   scheduled: "border-l-theme-green-20",
   completed: "border-l-gray-300",
   canceled: "border-l-theme-pink-20",
   no_show: "border-l-theme-yellow-20",
 };
 
-export const STATUS_BADGE: Record<string, string> = {
+export const SESSION_STATUS_BADGE: Record<string, string> = {
   scheduled: "bg-theme-green-30 text-theme-green-20",
   completed: "bg-gray-100  text-gray-500",
   canceled: "bg-theme-pink-10 text-theme-pink-20",
   no_show: "bg-theme-yellow-10  text-theme-yellow-20",
+};
+
+export const HW_BORDER_COLOR: Record<string, string> = {
+  submitted: "border-l-theme-green-20",
+  pending: "border-l-gray-300",
+  overdue: "border-l-theme-pink-20",
+  reviewed: "border-l-theme-yellow-20",
+};
+
+export const HW_STATUS_BADGE: Record<string, string> = {
+  submitted: "bg-theme-green-30 text-theme-green-20",
+  pending: "bg-gray-100  text-gray-500",
+  overdue: "bg-theme-pink-10 text-theme-pink-20",
+  reviewed: "bg-theme-yellow-10  text-theme-yellow-20",
 };

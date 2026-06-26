@@ -12,7 +12,10 @@ import {
   formatTime,
   initials,
 } from "../../../../utils/helper";
-import { BORDER_COLOR, STATUS_BADGE } from "../../../../utils/constants";
+import {
+  SESSION_BORDER_COLOR,
+  SESSION_STATUS_BADGE,
+} from "../../../../utils/constants";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useSessions } from "../hooks/useSessions";
 import { useState } from "react";
@@ -45,7 +48,7 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
 
   return (
     <div
-      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${BORDER_COLOR[session.status]}`}
+      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${SESSION_BORDER_COLOR[session.status]}`}
       style={{ opacity: session.status === "canceled" ? 0.7 : 1 }}
     >
       {/* Date block */}
@@ -100,7 +103,7 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-1">
         <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${STATUS_BADGE[session.status]}`}
+          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${SESSION_STATUS_BADGE[session.status]}`}
         >
           {capitalize(session.status)}
         </span>

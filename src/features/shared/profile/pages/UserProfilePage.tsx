@@ -63,26 +63,30 @@ export default function UserProfile() {
 
       <section className="grid grid-cols-2 gap-4 py-10 lg:grid-cols-4">
         <StatCard
-          icon={<HiUsers size={20} className="text-theme-yellow-20" />}
+          icon={HiUsers}
+          iconColor="text-theme-yellow-20"
           label="Total sessions"
           value={10}
           sub="3 this month"
           subColor
         />
         <StatCard
-          icon={<HiCalendar size={20} className="text-theme-yellow-20" />}
+          icon={HiCalendar}
+          iconColor="text-theme-yellow-20"
           label="Homework rate"
           value={80}
           sub="On track"
         />
         <StatCard
-          icon={<HiDocumentText size={20} className="text-theme-yellow-20" />}
+          icon={HiDocumentText}
+          iconColor="text-theme-yellow-20"
           label="Goal completed"
           value={"2/3"}
           sub="2 in progress"
         />
         <StatCard
-          icon={<HiCreditCard size={20} className="text-theme-yellow-20" />}
+          icon={HiCreditCard}
+          iconColor="text-theme-yellow-20"
           label="Balance"
           value="$60"
           sub="1 session owed"

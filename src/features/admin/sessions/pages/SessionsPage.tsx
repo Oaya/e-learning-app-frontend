@@ -9,15 +9,16 @@ import StatCard from "../../dashboard/components/StatCard";
 import SessionList from "../components/SessionList";
 import type { SessionStatus } from "../../../../type/session";
 import UpsertSessionModal from "../components/UpsertSessionModal";
+import TabFilters from "../../homework/components/TabFilters";
 
 type FilterTab = "all" | SessionStatus;
 
-const TABS: { key: FilterTab; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "scheduled", label: "Upcoming" },
-  { key: "completed", label: "Completed" },
-  { key: "canceled", label: "Cancelled" },
-  // { key: "unpaid", label: "Unpaid" },
+const TABS: FilterTab[] = [
+  "all",
+  "scheduled",
+  "completed",
+  "canceled",
+  //  "unpaid",
 ];
 
 export default function SessionsPage() {
@@ -84,21 +85,22 @@ export default function SessionsPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
-          icon={<HiOutlineCalendar className="text-theme-green-20 h-4 w-4" />}
+          icon={HiOutlineCalendar}
+          iconColor="text-theme-green-20"
           label="This month"
           value={thisMonth?.length ?? 0}
           sub="sessions"
         />
         <StatCard
-          icon={<HiOutlineClock className="text-theme-green-20 h-4 w-4" />}
+          icon={HiOutlineClock}
+          iconColor="text-theme-green-20"
           label="Hours taught"
           value={`${hoursThisMonth.toFixed(1)}h`}
           sub="this month"
         />
         <StatCard
-          icon={
-            <HiOutlineCalendarDays className="text-theme-green-20 h-4 w-4" />
-          }
+          icon={HiOutlineCalendarDays}
+          iconColor="text-theme-green-20"
           label="Upcoming"
           value={upcomingCountForThisWeek ?? 0}
           sub="next 7 days"
@@ -113,28 +115,14 @@ export default function SessionsPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-2">
-        {TABS.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key)}
-            className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${
-              activeTab === tab.key
-                ? "border-theme-yellow-20 bg-theme-yellow-20 text-white"
-                : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-        <input
-          type="text"
-          placeholder="Search student or topic…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="focus:border-theme-green-20 ml-auto w-80 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:outline-none"
-        />
-      </div>
+      <TabFilters
+        tabs={TABS}
+        activeTab={activeTab}
+        onTabChange={(tab) => setActiveTab(tab as FilterTab)}
+        search={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search student or topic…"
+      />
 
       {/* Session list */}
       {filtered?.length === 0 ? (

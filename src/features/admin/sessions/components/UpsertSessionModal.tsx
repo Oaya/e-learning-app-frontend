@@ -12,16 +12,11 @@ import type { Session } from "../../../../type/session";
 import { useSessions } from "../hooks/useSessions";
 import { useUsers } from "../../students/hooks/useUsers";
 import { HiOutlineX } from "react-icons/hi";
-import type { User } from "../../../../type/user";
+import type { StudentOption, User } from "../../../../type/user";
+import { sessionDuration } from "../../../../utils/constants";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
-
-type StudentOption = {
-  value: string;
-  label: string;
-  avatar?: string | null;
-};
 
 type ModalProps = {
   isOpen: boolean;
@@ -32,8 +27,6 @@ type ModalProps = {
   sessions?: Session[];
   timezone?: string;
 };
-
-const DURATIONS = [30, 60, 90, 120];
 
 export default function UpsertSessionModal({
   isOpen,
@@ -196,7 +189,7 @@ export default function UpsertSessionModal({
           <div className="mb-4">
             <label className="sm-label">Duration</label>
             <div className="flex gap-2">
-              {DURATIONS.map((d) => (
+              {sessionDuration.map((d) => (
                 <button
                   key={d}
                   type="button"

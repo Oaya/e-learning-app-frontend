@@ -1,5 +1,7 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { levels, type Level } from "../../../../utils/constants";
+import ISO6391 from "iso-639-1";
+
+import { type Level } from "../../../../utils/constants";
 import { inviteUser } from "../../../../api/users";
 import { fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
@@ -18,9 +20,11 @@ export default function InviteUserModal({
 }: InviteUserModalProps) {
   const alert = useAlert();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   if (!isOpen) {
     return null;
   }
+  const codes = ISO6391.getAllCodes();
 
   async function handleInvite(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,11 +34,16 @@ export default function InviteUserModal({
       const form = e.currentTarget;
       const formData = new FormData(form);
 
+      if (selectedLanguages.length === 0) {
+        alert.error("Need to select at least one languages");
+      }
+
       const data = {
         email: fdString(formData, "email"),
         level: fdString(formData, "level") as Level,
         first_name: fdString(formData, "first_name"),
         last_name: fdString(formData, "last_name"),
+        learning_languages: selectedLanguages,
       };
 
       const res = await inviteUser(data);
@@ -72,28 +81,9 @@ export default function InviteUserModal({
           complete their account.
         </p>
         <form onSubmit={handleInvite} className="my-6">
-          <div className="grid grid-cols-3 gap-6">
-            <div className="col-span-2 mb-2">
-              <label className="sm-label">Email</label>
-              <input
-                name="email"
-                type="email"
-                required
-                className="form-input"
-              />
-            </div>
-
-            <div className="col-span-1 mb-2">
-              <label className="sm-label">Level</label>
-              <CustomSelect
-                name="level"
-                className="w-full"
-                options={levels.map((level) => ({
-                  value: level,
-                  label: capitalize(level),
-                }))}
-              />
-            </div>
+          <div className="mb-2">
+            <label className="sm-label">Email</label>
+            <input name="email" type="email" required className="form-input" />
           </div>
 
           <div className="grid grid-cols-2 gap-6">
@@ -116,6 +106,25 @@ export default function InviteUserModal({
                 className="form-input"
               />
             </div>
+          </div>
+
+          <div className="mb-2">
+            <label className="sm-label">Learning Languages</label>
+            <CustomSelect
+              isMulti
+              name="learning_languages"
+              required
+              className="w-full"
+              options={codes.map((code) => ({
+                value: ISO6391.getName(code),
+                label: capitalize(ISO6391.getName(code)),
+              }))}
+              onChange={(selected: any) =>
+                setSelectedLanguages(
+                  selected ? selected.map((s: any) => s.value) : [],
+                )
+              }
+            />
           </div>
 
           <div className="mt-6 flex justify-end gap-3">
