@@ -33,7 +33,7 @@ export default function SidebarLayout() {
 
       <section className="text-sm font-semibold text-gray-600">
         <h2 className="px-10">ACCOUNT</h2>
-        <StyledNavLink to="/profile" icon={IoMdSettings}>
+        <StyledNavLink to="/student/profile" icon={IoMdSettings}>
           Profile
         </StyledNavLink>
       </section>

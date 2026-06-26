@@ -1,5 +1,4 @@
 import type { User } from "../type/user";
-import { capitalize } from "../utils/helper";
 
 export class UserModel {
   private user: User | null | undefined;
@@ -16,10 +15,5 @@ export class UserModel {
   }
   fullName() {
     return `${this.user?.first_name ?? ""} ${this.user?.last_name ?? ""}`.trim();
-  }
-  displayRole() {
-    const role = this.user?.role;
-    if (!role) return "-";
-    return capitalize(role);
   }
 }

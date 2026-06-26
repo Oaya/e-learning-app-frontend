@@ -34,10 +34,8 @@ export default function MyProfilePage() {
   const [isCancelSubscriptionModalOpen, setIsCancelSubscriptionModalOpen] =
     useState(false);
 
-  console.log(timezone);
-
   const alert = useAlert();
-  const isAdmin = new UserModel(user);
+  const isAdmin = new UserModel(user).isAdmin();
   const isCanceled =
     user?.subscription?.cancel_at_period_end ||
     user?.subscription?.status === "canceled";
