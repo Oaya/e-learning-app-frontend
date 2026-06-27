@@ -10,7 +10,7 @@ import StatCard from "../../../admin/dashboard/components/StatCard";
 import UpcomingLessonsPanel from "../components/UpcomingLessonsPanel";
 import HomeworkPanel from "../components/HomeworkPanel";
 import GoalPanel from "../components/GoalPanel";
-import { useStudentLesson } from "../../lessons/hooks/useStudentLessons";
+import { useAllLessons } from "../../../admin/lessons/hooks/useAllLessons";
 
 // ── mock goals (replace with API when goals are built) ────────────────────────
 const MOCK_GOALS = [
@@ -21,7 +21,7 @@ const MOCK_GOALS = [
 
 export default function StudentDashboardPage() {
   const { user } = useAuth();
-  const { lessons } = useStudentLesson();
+  const { lessons } = useAllLessons();
   const { homeworks } = useHomeworks({});
 
   const today = dayjs();

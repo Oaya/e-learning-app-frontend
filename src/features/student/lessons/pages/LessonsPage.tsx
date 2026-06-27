@@ -4,12 +4,13 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import type { LessonStatus } from "../../../../type/lesson";
-import { useStudentLesson } from "../hooks/useStudentLessons";
+
 import TabFilters from "../../../admin/homework/components/TabFilters";
 
 import LessonList from "../../../admin/lessons/components/LessonCardHeader";
 import StudentLessonCard from "../components/StudentLessonCard";
 import StatCard from "../../../admin/dashboard/components/StatCard";
+import { useAllLesson } from "../../../admin/lessons/hooks/useAllLessons";
 
 dayjs.extend(relativeTime);
 
@@ -19,7 +20,7 @@ const TABS: FilterTab[] = ["all", "scheduled", "completed", "canceled"];
 
 export default function StudentLessonsPage() {
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
-  const { lessons, isLoading } = useStudentLesson();
+  const { lessons, isLoading } = useAllLessons();
   const now = dayjs();
 
   const filtered = useMemo(() => {

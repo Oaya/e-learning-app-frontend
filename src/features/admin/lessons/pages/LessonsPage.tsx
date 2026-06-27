@@ -11,6 +11,7 @@ import type { LessonStatus } from "../../../../type/lesson";
 import UpsertLessonModal from "../components/UpsertLessonModal";
 import TabFilters from "../../homework/components/TabFilters";
 import LessonCard from "../components/LessonCard";
+import { useAllLessons } from "../hooks/useAllLessons";
 
 type FilterTab = "all" | LessonStatus;
 
@@ -27,7 +28,7 @@ export default function LessonsPage() {
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
-  const { lessons } = useLessons();
+  const { lessons } = useAllLessons();
   const now = dayjs();
 
   const filtered = useMemo(() => {

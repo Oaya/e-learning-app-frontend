@@ -23,5 +23,6 @@ export type Lesson = {
     last_name: string;
     email: string;
     avatar?: string;
+    learning_languages: string[];
   };
 };

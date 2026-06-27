@@ -14,6 +14,7 @@ import { useUsers } from "../../students/hooks/useUsers";
 import { HiOutlineX } from "react-icons/hi";
 import type { StudentOption, User } from "../../../../type/user";
 import { lessonDuration } from "../../../../utils/constants";
+import { capitalize } from "../../../../utils/helper";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -59,13 +60,15 @@ export default function UpsertLessonModal({
     lesson?.duration_in_minutes ?? 30,
   );
 
-  const sData = lesson ? lesson.student : student ? student : null;
+  const lData = lesson ? lesson.student : student ? student : null;
+  const defaultLanguage = lesson ? lesson.language : null;
   const [selectedStudent, setSelectedStudent] = useState<StudentOption | null>(
-    sData
+    lData
       ? {
-          value: sData.id,
-          label: `${sData.first_name} ${sData.last_name}`,
-          avatar: sData.avatar,
+          value: lData.id,
+          label: `${lData.first_name} ${lData.last_name}`,
+          avatar: lData.avatar,
+          languages: lData.learning_languages,
         }
       : null,
   );
@@ -117,6 +120,7 @@ export default function UpsertLessonModal({
         student_id: selectedStudent.value,
         topic: fdString(formData, "topic"),
         duration_in_minutes: selectedDuration,
+        language: fdString(formData, "language"),
         scheduled_at: date,
         note: fdString(formData, "note"),
       };
@@ -152,20 +156,44 @@ export default function UpsertLessonModal({
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
           {/* Student */}
-          <div className="mb-4">
-            <label className="sm-label">Student</label>
-            <CustomSelect
-              name="student"
-              withAvatar
-              isDisabled={!!sData}
-              value={selectedStudent}
-              onChange={(opt: StudentOption | null) => setSelectedStudent(opt)}
-              options={(students ?? []).map((i) => ({
-                value: i.id,
-                label: `${i.first_name} ${i.last_name}`,
-                avatar: i.avatar,
-              }))}
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="mb-4">
+              <label className="sm-label">Student</label>
+              <CustomSelect
+                name="student"
+                withAvatar
+                isDisabled={!!lData}
+                value={selectedStudent}
+                onChange={(opt: StudentOption | null) =>
+                  setSelectedStudent(opt)
+                }
+                options={(students ?? []).map((i) => ({
+                  value: i.id,
+                  label: `${i.first_name} ${i.last_name}`,
+                  avatar: i.avatar,
+                  languages: i.learning_languages,
+                }))}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="sm-label">Language</label>
+              <CustomSelect
+                name="language"
+                defaultValue={
+                  defaultLanguage
+                    ? {
+                        value: defaultLanguage,
+                        label: capitalize(defaultLanguage),
+                      }
+                    : undefined
+                }
+                options={selectedStudent?.languages?.map((lang) => ({
+                  value: lang,
+                  label: capitalize(lang),
+                }))}
+              />
+            </div>
           </div>
 
           {/* Date + time */}
