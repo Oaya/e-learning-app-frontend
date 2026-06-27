@@ -14,9 +14,9 @@ import StatCard from "../../dashboard/components/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
 import TabFilters from "../components/TabFilters";
 
-type FilterTab = "all" | HomeworkStatus;
+export type HomeworkFilterTab = "all" | HomeworkStatus;
 
-const TABS: FilterTab[] = [
+export const HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",
   "pending",
   "submitted",
@@ -24,13 +24,13 @@ const TABS: FilterTab[] = [
   "reviewed",
 ];
 
-const GROUP_ORDER: HomeworkStatus[] = [
+export const HOMEWORK_GROUP_ORDER: HomeworkStatus[] = [
   "overdue",
   "pending",
   "submitted",
   "reviewed",
 ];
-const GROUP_LABELS: Record<HomeworkStatus, string> = {
+const HOMEWORK_GROUP_LABELS: Record<HomeworkStatus, string> = {
   overdue: "Overdue",
   pending: "Awaiting submission",
   submitted: "Submitted — needs review",
@@ -38,7 +38,7 @@ const GROUP_LABELS: Record<HomeworkStatus, string> = {
 };
 
 export default function HomeworkPage() {
-  const [activeTab, setActiveTab] = useState<FilterTab>("all");
+  const [activeTab, setActiveTab] = useState<HomeworkFilterTab>("all");
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { homeworks } = useHomeworks();
@@ -128,12 +128,17 @@ export default function HomeworkPage() {
       {/* Filters */}
 
       <TabFilters
-        tabs={TABS}
+        tabs={HOMEWORK_TABS}
         activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab as FilterTab)}
-        search={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search student or task…"
+        onTabChange={(tab) => setActiveTab(tab as HomeworkFilterTab)}
+      />
+
+      <input
+        type="text"
+        placeholder="Search student or task…"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="focus:border-theme-green-20 ml-auto w-80 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:outline-none"
       />
 
       {/* Grouped list */}
@@ -143,13 +148,13 @@ export default function HomeworkPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {GROUP_ORDER.map((status) => {
+          {HOMEWORK_GROUP_ORDER.map((status) => {
             const group = filtered?.filter((h) => h.status === status);
             if (group?.length === 0) return null;
             return (
               <section key={status}>
                 <p className="mb-3 text-[11px] font-semibold tracking-widest text-gray-400 uppercase">
-                  {GROUP_LABELS[status]}
+                  {HOMEWORK_GROUP_LABELS[status]}
                 </p>
                 <div className="space-y-2">
                   {group?.map((hw) => (

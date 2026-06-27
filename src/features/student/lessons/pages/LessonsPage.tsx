@@ -3,31 +3,27 @@ import { useMemo, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import type { LessonStatus } from "../../../../type/lesson";
-
 import TabFilters from "../../../admin/homework/components/TabFilters";
 
 import LessonList from "../../../admin/lessons/components/LessonCardHeader";
 import StudentLessonCard from "../components/StudentLessonCard";
 import StatCard from "../../../admin/dashboard/components/StatCard";
 import { useAllLessons } from "../../../admin/lessons/hooks/useAllLessons";
+import {
+  LESSON_TABS,
+  type LessonFilterTab,
+} from "../../../admin/lessons/pages/LessonsPage";
 
 dayjs.extend(relativeTime);
 
-type FilterTab = "all" | LessonStatus;
-
-const TABS: FilterTab[] = ["all", "scheduled", "completed", "canceled"];
-
 export default function StudentLessonsPage() {
-  const [activeTab, setActiveTab] = useState<FilterTab>("all");
+  const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
   const { lessons, isLoading } = useAllLessons();
   const now = dayjs();
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {
-      const matchTab = activeTab === "all" ? true : s.status === activeTab;
-
-      return matchTab;
+      return activeTab === "all" ? true : s.status === activeTab;
     });
   }, [lessons, activeTab]);
 
@@ -86,9 +82,9 @@ export default function StudentLessonsPage() {
 
         {/* Filter tabs */}
         <TabFilters
-          tabs={TABS}
+          tabs={LESSON_TABS}
           activeTab={activeTab}
-          onTabChange={(tab) => setActiveTab(tab as FilterTab)}
+          onTabChange={(tab) => setActiveTab(tab as LessonFilterTab)}
         />
 
         {isLoading && <p className="text-sm text-gray-400">Loading lessons…</p>}

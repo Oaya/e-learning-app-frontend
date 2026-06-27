@@ -4,7 +4,6 @@ import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useLessons } from "../hooks/useLessons";
 import StatCard from "../../dashboard/components/StatCard";
 import LessonList from "../components/LessonCardHeader";
 import type { LessonStatus } from "../../../../type/lesson";
@@ -13,9 +12,9 @@ import TabFilters from "../../homework/components/TabFilters";
 import LessonCard from "../components/LessonCard";
 import { useAllLessons } from "../hooks/useAllLessons";
 
-type FilterTab = "all" | LessonStatus;
+export type LessonFilterTab = "all" | LessonStatus;
 
-const TABS: FilterTab[] = [
+export const LESSON_TABS: LessonFilterTab[] = [
   "all",
   "scheduled",
   "completed",
@@ -24,7 +23,7 @@ const TABS: FilterTab[] = [
 ];
 
 export default function LessonsPage() {
-  const [activeTab, setActiveTab] = useState<FilterTab>("all");
+  const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
@@ -122,9 +121,9 @@ export default function LessonsPage() {
 
       {/* Filters */}
       <TabFilters
-        tabs={TABS}
+        tabs={LESSON_TABS}
         activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab as FilterTab)}
+        onTabChange={(tab) => setActiveTab(tab as LessonFilterTab)}
       />
 
       <input

@@ -123,7 +123,7 @@ export default function UpsertHomeworkModal({
                   : "border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100"
               }`}
             >
-              <HiOutlineSparkles className="h-3.5 w-3.5" />
+              <HiOutlineSparkles size={14} />
               Generate with AI
             </button>
             <button
@@ -155,7 +155,7 @@ export default function UpsertHomeworkModal({
                 disabled={generating || !aiTopic.trim()}
                 className="mt-2 flex items-center gap-1.5 rounded-lg bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700 disabled:opacity-50"
               >
-                <HiOutlineSparkles className="h-3.5 w-3.5" />
+                <HiOutlineSparkles size={14} />
                 {generating ? "Generating…" : "Generate"}
               </button>
             </div>

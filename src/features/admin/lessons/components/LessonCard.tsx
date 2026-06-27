@@ -82,7 +82,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         </p>
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
-            <HiOutlineVideoCamera className="h-3.5 w-3.5" />
+            <HiOutlineVideoCamera size={14} />
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1.5 text-xs text-gray-400">
@@ -101,7 +101,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           </span>
           {/* {lesson.has_recording && (
             <span className="flex items-center gap-1 text-xs text-emerald-600">
-              <HiOutlineVideoCamera className="h-3.5 w-3.5" /> Recording
+              <HiOutlineVideoCamera size={14} /> Recording
             </span>
           )} */}
         </div>

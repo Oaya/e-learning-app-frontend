@@ -245,7 +245,7 @@ export default function HomeworkReviewPage() {
               onClick={useAiSuggestion}
               className="mt-3 flex items-center gap-1 text-xs font-medium text-purple-600 hover:text-purple-800"
             >
-              <HiOutlineArrowDown className="h-3.5 w-3.5" />
+              <HiOutlineArrowDown size={14} />
               Use this as feedback
             </button>
           </div>
