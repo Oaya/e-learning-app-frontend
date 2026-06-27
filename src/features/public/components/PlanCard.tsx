@@ -54,8 +54,8 @@ function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
           </span>
         </p>
         <PlanFeatureRow
-          label="Session scheduling"
-          value={plan.features.session_schedule}
+          label="Lesson scheduling"
+          value={plan.features.lesson_schedule}
         />
         <PlanFeatureRow
           label="Homework assignments"
@@ -63,8 +63,8 @@ function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
         />
 
         <PlanFeatureRow
-          label="Session recordings"
-          value={plan.features.session_recording}
+          label="Lesson recordings"
+          value={plan.features.lesson_recording}
         />
         <PlanFeatureRow
           label="Student goals"

@@ -99,7 +99,7 @@ export default function UpsertHomeworkModal({
         await createHomework(data);
       }
     } catch (error) {
-      alert.error("Failed to save session. Try again later.");
+      alert.error("Failed to save lesson. Try again later.");
     }
   }
 

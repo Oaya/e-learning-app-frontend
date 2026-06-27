@@ -72,7 +72,7 @@ export default function PaymentPage() {
   if (!clientSecret) {
     return (
       <div className="m-10 text-center text-2xl">
-        Missing checkout session. Please go back to the home.
+        Missing checkout lesson. Please go back to the home.
         <div className="mt-4">
           <button className="btn-primary" onClick={() => navigate("/admin")}>
             Back to home

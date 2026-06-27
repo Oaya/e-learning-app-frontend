@@ -37,7 +37,7 @@ const MOCK_REVIEW = {
     type: "PDF",
   },
   ai_suggestion:
-    "Great use of た-form throughout! All 10 sentences are grammatically correct. Encourage Sara to vary sentence length and add time expressions like 朝 or 午後 to make sentences more natural. Consider introducing て-form chaining in the next session.",
+    "Great use of た-form throughout! All 10 sentences are grammatically correct. Encourage Sara to vary sentence length and add time expressions like 朝 or 午後 to make sentences more natural. Consider introducing て-form chaining in the next lesson.",
 };
 
 type Score = "needs_work" | "good" | "excellent" | null;

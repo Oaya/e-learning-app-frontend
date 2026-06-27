@@ -8,12 +8,12 @@ import dayjsTimezone from "dayjs/plugin/timezone";
 import { fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
-import type { Session } from "../../../../type/session";
-import { useSessions } from "../hooks/useSessions";
+import type { Lesson } from "../../../../type/lesson";
+import { useLessons } from "../hooks/useLessons";
 import { useUsers } from "../../students/hooks/useUsers";
 import { HiOutlineX } from "react-icons/hi";
 import type { StudentOption, User } from "../../../../type/user";
-import { sessionDuration } from "../../../../utils/constants";
+import { lessonDuration } from "../../../../utils/constants";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -23,29 +23,29 @@ type ModalProps = {
   onClose: () => void;
   type: "Create" | "Edit";
   student?: User;
-  session?: Session;
-  sessions?: Session[];
+  lesson?: Lesson;
+  lessons?: Lesson[];
   timezone?: string;
 };
 
-export default function UpsertSessionModal({
+export default function UpsertLessonModal({
   isOpen,
   onClose,
   type,
-  session,
+  lesson,
   student,
-  sessions,
+  lessons,
   timezone,
 }: ModalProps) {
   const alert = useAlert();
   const { users: students } = useUsers({});
-  const { createSession, isCreating, updateSession, isUpdating } = useSessions({
+  const { createLesson, isCreating, updateLesson, isUpdating } = useLessons({
     onCreateSuccess: () => {
-      alert.success("Session created successfully.");
+      alert.success("Lesson created successfully.");
       onClose();
     },
     onUpdateSuccess: () => {
-      alert.success("Session updated successfully.");
+      alert.success("Lesson updated successfully.");
       onClose();
     },
   });
@@ -53,13 +53,13 @@ export default function UpsertSessionModal({
   const tz = timezone ?? dayjs.tz.guess();
 
   const [date, setDate] = useState<Date | null>(
-    session ? dayjs.utc(session.scheduled_at).tz(tz).toDate() : null,
+    lesson ? dayjs.utc(lesson.scheduled_at).tz(tz).toDate() : null,
   );
   const [selectedDuration, setSelectedDuration] = useState(
-    session?.duration_in_minutes ?? 30,
+    lesson?.duration_in_minutes ?? 30,
   );
 
-  const sData = session ? session.student : student ? student : null;
+  const sData = lesson ? lesson.student : student ? student : null;
   const [selectedStudent, setSelectedStudent] = useState<StudentOption | null>(
     sData
       ? {
@@ -70,25 +70,25 @@ export default function UpsertSessionModal({
       : null,
   );
 
-  // Exclude the session being edited from conflict detection
-  const conflictSessions = useMemo(() => {
-    return (sessions ?? []).filter(
-      (s) => s.status === "scheduled" && s.id !== session?.id,
+  // Exclude the lesson being edited from conflict detection
+  const conflictLessons = useMemo(() => {
+    return (lessons ?? []).filter(
+      (s) => s.status === "scheduled" && s.id !== lesson?.id,
     );
-  }, [sessions, session]);
+  }, [lessons, lesson]);
 
   const bookedDates = useMemo(() => {
-    return conflictSessions.map((s) => {
+    return conflictLessons.map((s) => {
       const d = dayjs.utc(s.scheduled_at).tz(tz);
       return new Date(d.year(), d.month(), d.date());
     });
-  }, [conflictSessions, tz]);
+  }, [conflictLessons, tz]);
 
   const filterTime = (time: Date) => {
     const newStart = dayjs(time);
     if (newStart.isBefore(dayjs())) return false;
     const newEnd = newStart.add(selectedDuration, "minute");
-    return !conflictSessions.some((s) => {
+    return !conflictLessons.some((s) => {
       const existingStart = dayjs.utc(s.scheduled_at).tz(tz);
       const existingEnd = existingStart.add(s.duration_in_minutes, "minute");
       return newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart);
@@ -121,13 +121,13 @@ export default function UpsertSessionModal({
         note: fdString(formData, "note"),
       };
 
-      if (type === "Edit" && session) {
-        await updateSession({ id: session.id, data });
+      if (type === "Edit" && lesson) {
+        await updateLesson({ id: lesson.id, data });
       } else {
-        await createSession(data);
+        await createLesson(data);
       }
     } catch {
-      alert.error("Failed to save session. Try again later.");
+      alert.error("Failed to save lesson. Try again later.");
     }
   }
 
@@ -139,7 +139,7 @@ export default function UpsertSessionModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
           <h2 className="text-base font-semibold text-gray-800">
-            {type === "Create" ? "Create New" : "Edit"} Session
+            {type === "Create" ? "Create New" : "Edit"} Lesson
           </h2>
           <button
             onClick={onClose}
@@ -189,7 +189,7 @@ export default function UpsertSessionModal({
           <div className="mb-4">
             <label className="sm-label">Duration</label>
             <div className="flex gap-2">
-              {sessionDuration.map((d) => (
+              {lessonDuration.map((d) => (
                 <button
                   key={d}
                   type="button"
@@ -213,7 +213,7 @@ export default function UpsertSessionModal({
               name="topic"
               type="text"
               required
-              defaultValue={session?.topic ?? ""}
+              defaultValue={lesson?.topic ?? ""}
               className="form-input"
             />
           </div>
@@ -226,8 +226,8 @@ export default function UpsertSessionModal({
             <textarea
               name="note"
               rows={3}
-              defaultValue={session?.note ?? ""}
-              placeholder="Preparation notes, goals for this session…"
+              defaultValue={lesson?.note ?? ""}
+              placeholder="Preparation notes, goals for this lesson…"
               className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 focus:border-emerald-500 focus:outline-none"
             />
           </div>
@@ -252,7 +252,7 @@ export default function UpsertSessionModal({
                   : "Creating..."
                 : type === "Edit"
                   ? "Save Changes"
-                  : "Create Session"}
+                  : "Create Lesson"}
             </button>
           </div>
         </form>

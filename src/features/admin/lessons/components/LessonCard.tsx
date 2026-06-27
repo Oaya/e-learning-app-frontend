@@ -5,7 +5,7 @@ import {
   HiOutlinePencil,
 } from "react-icons/hi";
 import ActionBtn from "./ActionButton";
-import type { Session } from "../../../../type/session";
+import type { Lesson } from "../../../../type/lesson";
 import {
   capitalize,
   formatDay,
@@ -17,53 +17,50 @@ import {
   SESSION_STATUS_BADGE,
 } from "../../../../utils/constants";
 import ConfirmModal from "../../../../ui/ConfirmModal";
-import { useSessions } from "../hooks/useSessions";
+import { useLessons } from "../hooks/useLessons";
 import { useState } from "react";
-import UpsertSessionModal from "./UpsertSessionModal";
+import UpsertLessonModal from "./UpsertLessonModal";
 
 type Props = {
-  session: Session;
-  allSessions?: Session[];
+  lesson: Lesson;
+  allLessons?: Lesson[];
   timezone?: string;
 };
 
-export default function SessionCard({ session, allSessions, timezone }: Props) {
-  const [targetSessionId, setTargetSessionId] = useState<string | null>(null);
+export default function LessonCard({ lesson, allLessons, timezone }: Props) {
+  const [targetLessonId, setTargetLessonId] = useState<string | null>(null);
   const [actionType, setActionType] = useState<"Delete" | "Cancel" | null>(
     null,
   );
 
-  const [editSessionId, setEditSessionId] = useState<string | null>(null);
+  const [editLessonId, setEditLessonId] = useState<string | null>(null);
 
-  const { isDeleting, isCanceling, deleteSession, cancelSession } = useSessions(
-    {
-      onDeleteSuccess: () => setTargetSessionId(null),
-      onCancelSuccess: () => setTargetSessionId(null),
-    },
-  );
+  const { isDeleting, isCanceling, deleteLesson, cancelLesson } = useLessons({
+    onDeleteSuccess: () => setTargetLessonId(null),
+    onCancelSuccess: () => setTargetLessonId(null),
+  });
 
   function handleModalActionChange(id: string, type: "Delete" | "Cancel") {
-    setTargetSessionId(id);
+    setTargetLessonId(id);
     setActionType(type);
   }
 
   function handelCancelOrDelete() {
-    if (!targetSessionId) return;
+    if (!targetLessonId) return;
 
     if (actionType === "Delete") {
-      deleteSession(targetSessionId);
+      deleteLesson(targetLessonId);
     } else {
-      cancelSession(targetSessionId);
+      cancelLesson(targetLessonId);
     }
   }
-  const { day, mon } = formatDay(session.scheduled_at);
-  const isPast =
-    session.status === "completed" || session.status === "canceled";
+  const { day, mon } = formatDay(lesson.scheduled_at);
+  const isPast = lesson.status === "completed" || lesson.status === "canceled";
 
   return (
     <div
-      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${SESSION_BORDER_COLOR[session.status]}`}
-      style={{ opacity: session.status === "canceled" ? 0.7 : 1 }}
+      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${SESSION_BORDER_COLOR[lesson.status]}`}
+      style={{ opacity: lesson.status === "canceled" ? 0.7 : 1 }}
     >
       {/* Date block */}
       <div className="w-12 shrink-0 text-center">
@@ -81,32 +78,28 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
       {/* Main info */}
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-gray-800">
-          {session.topic}
+          {lesson.topic}
         </p>
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
             <HiOutlineVideoCamera className="h-3.5 w-3.5" />
-            {formatTime(session.scheduled_at)} · {session.duration_in_minutes}{" "}
-            min
+            {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1.5 text-xs text-gray-400">
-            {session.student.avatar ? (
+            {lesson.student.avatar ? (
               <img
-                src={session.student.avatar}
+                src={lesson.student.avatar}
                 alt="avatar"
                 className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
               />
             ) : (
               <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
-                {initials(
-                  session.student.first_name,
-                  session.student.last_name,
-                )}
+                {initials(lesson.student.first_name, lesson.student.last_name)}
               </span>
             )}
-            {session.student.first_name} {session.student.last_name}
+            {lesson.student.first_name} {lesson.student.last_name}
           </span>
-          {/* {session.has_recording && (
+          {/* {lesson.has_recording && (
             <span className="flex items-center gap-1 text-xs text-emerald-600">
               <HiOutlineVideoCamera className="h-3.5 w-3.5" /> Recording
             </span>
@@ -117,18 +110,18 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-1">
         <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${SESSION_STATUS_BADGE[session.status]}`}
+          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${SESSION_STATUS_BADGE[lesson.status]}`}
         >
-          {capitalize(session.status)}
+          {capitalize(lesson.status)}
         </span>
         {/* <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
-            session.payment_status === "paid"
+            lesson.payment_status === "paid"
               ? "bg-emerald-50 text-emerald-700"
               : "bg-amber-50 text-amber-700"
           }`}
         >
-          {session.payment_status === "paid" ? "Paid" : "Unpaid"}
+          {lesson.payment_status === "paid" ? "Paid" : "Unpaid"}
         </span> */}
       </div>
 
@@ -136,15 +129,12 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
       <div className="flex shrink-0 items-center gap-1">
         {!isPast && (
           <>
-            <ActionBtn
-              title="Edit"
-              onClick={() => setEditSessionId(session.id)}
-            >
+            <ActionBtn title="Edit" onClick={() => setEditLessonId(lesson.id)}>
               <HiOutlinePencil className="h-4 w-4" />
             </ActionBtn>
             <ActionBtn
-              title="Cancel session"
-              onClick={() => handleModalActionChange(session.id, "Cancel")}
+              title="Cancel lesson"
+              onClick={() => handleModalActionChange(lesson.id, "Cancel")}
             >
               <HiOutlineX className="h-4 w-4" />
             </ActionBtn>
@@ -152,15 +142,15 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
         )}
         {isPast && (
           <>
-            {/* {session.has_recording && (
+            {/* {lesson.has_recording && (
               <ActionBtn title="View recording">
                 <HiOutlineVideoCamera className="h-4 w-4" />
               </ActionBtn>
             )} */}
-            {session.status === "canceled" && (
+            {lesson.status === "canceled" && (
               <ActionBtn
                 title="Delete"
-                onClick={() => handleModalActionChange(session.id, "Delete")}
+                onClick={() => handleModalActionChange(lesson.id, "Delete")}
               >
                 <HiOutlineTrash className="h-4 w-4" />
               </ActionBtn>
@@ -171,25 +161,25 @@ export default function SessionCard({ session, allSessions, timezone }: Props) {
 
       {/* Delete & Cancel confirm */}
       <ConfirmModal
-        isOpen={targetSessionId !== null}
-        title={`${actionType} session`}
+        isOpen={targetLessonId !== null}
+        title={`${actionType} lesson`}
         isSubmitting={isDeleting || isCanceling}
         message={
           actionType === "Delete"
             ? "Are you sure you want to delete this? This action cannot be undone."
-            : "Are you sure you want to cancel this session? "
+            : "Are you sure you want to cancel this lesson? "
         }
-        onCancel={() => setTargetSessionId(null)}
+        onCancel={() => setTargetLessonId(null)}
         onConfirm={() => handelCancelOrDelete()}
       />
 
-      {/* Edit Session */}
-      <UpsertSessionModal
-        isOpen={editSessionId !== null}
-        onClose={() => setEditSessionId(null)}
+      {/* Edit Lesson */}
+      <UpsertLessonModal
+        isOpen={editLessonId !== null}
+        onClose={() => setEditLessonId(null)}
         type="Edit"
-        session={session}
-        sessions={allSessions}
+        lesson={lesson}
+        lessons={allLessons}
         timezone={timezone}
       />
     </div>

@@ -1,34 +1,34 @@
 import dayjs from "dayjs";
 import { HiArrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import type { Session } from "../../../../type/session";
+import type { Lesson } from "../../../../type/lesson";
 
-type UpcomingSessionPanelProps = {
-  sessions?: Session[];
+type UpcomingLessonPanelProps = {
+  lessons?: Lesson[];
 };
 
-export default function UpcomingSessionPanel({
-  sessions,
-}: UpcomingSessionPanelProps) {
+export default function UpcomingLessonsPanel({
+  lessons,
+}: UpcomingLessonPanelProps) {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <div className="mb-4 flex items-center justify-between">
         <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-          Upcoming sessions
+          Upcoming lessons
         </p>
         <Link
-          to="/student/sessions"
+          to="/student/lessons"
           className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
         >
           View all <HiArrowRight className="h-3 w-3" />
         </Link>
       </div>
 
-      {sessions?.length === 0 ? (
-        <p className="text-sm text-gray-400">No upcoming sessions.</p>
+      {lessons?.length === 0 ? (
+        <p className="text-sm text-gray-400">No upcoming lessons.</p>
       ) : (
         <div className="space-y-0 divide-y divide-gray-100">
-          {sessions?.map((s) => {
+          {lessons?.map((s) => {
             const dt = dayjs(s.scheduled_at);
             return (
               <div key={s.id} className="flex items-center gap-4 py-3">

@@ -66,7 +66,7 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
         <div className="py-8 text-center text-sm text-gray-400">
           No students yet.{" "}
           <Link to="/admin/students" className="text-emerald-600 underline">
-            CreateSession one
+            CreateLesson one
           </Link>
         </div>
       ) : (

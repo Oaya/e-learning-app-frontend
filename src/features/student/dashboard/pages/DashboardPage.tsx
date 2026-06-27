@@ -1,18 +1,16 @@
-import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useSessions } from "../../../admin/sessions/hooks/useSessions";
 import { useHomeworks } from "../../../admin/homework/hooks/useHomeworks";
 import { greeting } from "../../../../utils/helper";
 
 import StatCard from "../../../admin/dashboard/components/StatCard";
-import UpcomingSessionPanel from "../components/UpcomingSessionPanel";
+import UpcomingLessonsPanel from "../components/UpcomingLessonsPanel";
 import HomeworkPanel from "../components/HomeworkPanel";
 import GoalPanel from "../components/GoalPanel";
-import { useStudentSession } from "../hooks/useStudentSessions";
+import { useStudentLesson } from "../hooks/useStudentLessons";
 
 // ── mock goals (replace with API when goals are built) ────────────────────────
 const MOCK_GOALS = [
@@ -23,24 +21,24 @@ const MOCK_GOALS = [
 
 export default function StudentDashboardPage() {
   const { user } = useAuth();
-  const { sessions } = useStudentSession();
+  const { lessons } = useStudentLesson();
   const { homeworks } = useHomeworks({});
 
   const today = dayjs();
 
-  // Upcoming sessions — scheduled and in the future
-  const upcoming = (sessions ?? [])
+  // Upcoming lessons — scheduled and in the future
+  const upcoming = (lessons ?? [])
     .filter(
       (s) => s.status === "scheduled" && dayjs(s.scheduled_at).isAfter(today),
     )
     .sort((a, b) => dayjs(a.scheduled_at).diff(dayjs(b.scheduled_at)))
     .slice(0, 3);
 
-  // Next session label
-  const nextSession = upcoming[0];
-  const nextLabel = nextSession
-    ? `Your next session is ${dayjs(nextSession.scheduled_at).fromNow()}`
-    : "No upcoming sessions";
+  // Next lesson label
+  const nextLesson = upcoming[0];
+  const nextLabel = nextLesson
+    ? `Your next lesson is ${dayjs(nextLesson.scheduled_at).fromNow()}`
+    : "No upcoming lessons";
 
   // Homework stats
   const completedHW = (homeworks ?? []).filter(
@@ -51,8 +49,8 @@ export default function StudentDashboardPage() {
     (h) => h.status === "pending",
   ).length;
 
-  // Completed sessions
-  const completedSessions = (sessions ?? []).filter(
+  // Completed lessons
+  const completedLessons = (lessons ?? []).filter(
     (s) => s.status === "completed",
   ).length;
 
@@ -78,9 +76,9 @@ export default function StudentDashboardPage() {
         {/* Stat cards */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
           <StatCard
-            label="Sessions completed"
+            label="Lessons completed"
             iconColor="text-theme-green-20"
-            value={completedSessions}
+            value={completedLessons}
             sub="Keep it up!"
             subColor
           />
@@ -94,9 +92,9 @@ export default function StudentDashboardPage() {
 
         {/* Two panels */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {/* Upcoming sessions */}
+          {/* Upcoming lessons */}
 
-          <UpcomingSessionPanel sessions={upcoming} />
+          <UpcomingLessonsPanel lessons={upcoming} />
 
           {/* Homework */}
           <HomeworkPanel hws={homeworks} />

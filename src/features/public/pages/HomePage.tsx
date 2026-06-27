@@ -29,7 +29,7 @@ export default function HomePage() {
           worry less
         </h1>
         <p className="mx-auto mb-9 max-w-160 text-lg text-gray-500">
-          Manage your students, sessions, homework, and payments. All in one
+          Manage your students, lessons, homework, and payments. All in one
           place. Spend more time teaching, less time on admin.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">

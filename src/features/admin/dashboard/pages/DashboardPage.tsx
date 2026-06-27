@@ -15,15 +15,15 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import { useUsers } from "../../students/hooks/useUsers";
 import StatCard from "../components/StatCard";
 import { greeting } from "../../../../utils/helper";
-import { useSessions } from "../../sessions/hooks/useSessions";
-import TodaySessionsPanel from "../components/TodaySessionsPanel";
+import { useLessons } from "../../lessons/hooks/useLessons";
+import TodayLessonsPanel from "../components/TodayLessonsPanel";
 import AllStudentPanel from "../components/AllStudentPanel";
-import UpsertSessionModal from "../../sessions/components/UpsertSessionModal";
+import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
   const { users: students } = useUsers({});
-  const { sessions } = useSessions();
+  const { lessons } = useLessons();
   const [modalOpen, setModalOpen] = useState(false);
 
   //Stat cards sub//
@@ -42,7 +42,7 @@ export default function AdminDashboardPage() {
           </h1>
         </div>
         <button onClick={() => setModalOpen(true)} className="btn-primary">
-          + New session
+          + New lesson
         </button>
       </div>
 
@@ -59,8 +59,8 @@ export default function AdminDashboardPage() {
         <StatCard
           icon={HiCalendar}
           iconColor="text-theme-yellow-20"
-          label="Sessions today"
-          value={sessions?.length ?? 0}
+          label="Lessons today"
+          value={lessons?.length ?? 0}
         />
         <StatCard
           icon={HiDocumentText}
@@ -72,7 +72,7 @@ export default function AdminDashboardPage() {
         <StatCard
           icon={HiCreditCard}
           iconColor="text-theme-yellow-20"
-          label="Unpaid sessions"
+          label="Unpaid lessons"
           value="$240"
           sub="Across 3 students"
         />
@@ -80,20 +80,18 @@ export default function AdminDashboardPage() {
 
       {/* Two panels */}
       <div className="grid grid-cols-1 gap-4 p-10 lg:grid-cols-2">
-        {/* Today sessions */}
-        {sessions && user && (
-          <TodaySessionsPanel sessions={sessions} user={user} />
-        )}
+        {/* Today lessons */}
+        {lessons && user && <TodayLessonsPanel lessons={lessons} user={user} />}
 
         {/* All students */}
         {students && <AllStudentPanel students={students} />}
       </div>
 
-      <UpsertSessionModal
+      <UpsertLessonModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         type="Create"
-        sessions={sessions}
+        lessons={lessons}
         timezone={user?.timezone}
       />
     </div>

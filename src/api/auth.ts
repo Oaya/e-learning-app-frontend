@@ -20,9 +20,9 @@ export async function signup(data: SignupUser): Promise<ApiResponse> {
   }
 }
 
-export async function getTenantSubscriptionData(sessionId: string) {
+export async function getTenantSubscriptionData(lessonId: string) {
   try {
-    const url = `${import.meta.env.VITE_API_URL}/api/auth/tenant_subscription/${sessionId}`;
+    const url = `${import.meta.env.VITE_API_URL}/api/auth/tenant_subscription/${lessonId}`;
     const res = await axios.get(url);
 
     console.log("Tenant subscription status response:", res);

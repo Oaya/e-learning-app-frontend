@@ -1,6 +1,6 @@
 import { HiArrowRight, HiCalendar } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import type { Session } from "../../../../type/session";
+import type { Lesson } from "../../../../type/lesson";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -10,30 +10,30 @@ import { capitalize } from "../../../../utils/helper";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-type TodaySessionPanelProps = {
+type TodayLessonPanelProps = {
   user: User;
-  sessions: Session[];
+  lessons: Lesson[];
 };
 
-export default function TodaySessionsPanel({
+export default function TodayLessonsPanel({
   user,
-  sessions,
-}: TodaySessionPanelProps) {
+  lessons,
+}: TodayLessonPanelProps) {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-          <HiCalendar className="h-4 w-4" /> Today's sessions
+          <HiCalendar className="h-4 w-4" /> Today's lessons
         </h2>
         <Link
-          to="/admin/sessions"
+          to="/admin/lessons"
           className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
         >
           View all <HiArrowRight className="h-3 w-3" />
         </Link>
       </div>
       <div className="divide-y divide-gray-100">
-        {sessions?.map((s) => (
+        {lessons?.map((s) => (
           <div key={s.id} className="flex items-start gap-3 py-2.5">
             <span className="w-20 shrink-0 pt-0.5 text-xs text-gray-400">
               {dayjs

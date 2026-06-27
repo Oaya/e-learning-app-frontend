@@ -31,8 +31,8 @@ export default function AdminSidebarLayout() {
         <StyledNavLink to="/admin/students" icon={HiUsers}>
           Students
         </StyledNavLink>
-        <StyledNavLink to="/admin/sessions" icon={LuCalendar1}>
-          Sessions
+        <StyledNavLink to="/admin/lessons" icon={LuCalendar1}>
+          Lessons
         </StyledNavLink>
       </section>
 

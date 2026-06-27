@@ -13,8 +13,8 @@ export default function SidebarLayout() {
         <StyledNavLink to="/dashboard" icon={HiHome}>
           Dashboard
         </StyledNavLink>
-        <StyledNavLink to="/student/sessions" icon={LuCalendar1}>
-          Sessions
+        <StyledNavLink to="/student/lessons" icon={LuCalendar1}>
+          Lessons
         </StyledNavLink>
       </section>
 

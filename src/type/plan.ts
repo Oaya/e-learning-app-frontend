@@ -4,10 +4,10 @@ export type Plan = {
   price: number;
   features: {
     max_students: string | number;
-    session_schedule: boolean;
+    lesson_schedule: boolean;
     homework_assignments: boolean;
     payment_tracking: boolean;
-    session_recording: boolean;
+    lesson_recording: boolean;
     student_goals: boolean;
     ai_homework_generation: boolean;
   };

@@ -8,9 +8,9 @@ import {
   HiDocumentText,
   HiUsers,
 } from "react-icons/hi";
-import UpsertSessionModal from "../../../admin/sessions/components/UpsertSessionModal";
+import UpsertLessonModal from "../../../admin/lessons/components/UpsertLessonModal";
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useSessions } from "../../../admin/sessions/hooks/useSessions";
+import { useLessons } from "../../../admin/lessons/hooks/useLessons";
 import { useState } from "react";
 
 export default function UserProfile() {
@@ -19,7 +19,7 @@ export default function UserProfile() {
   const userId = id || "";
   const { user, isLoading } = useUser(userId);
   const { user: authUser } = useAuth();
-  const { sessions } = useSessions();
+  const { lessons } = useLessons();
   const [modalOpen, setModalOpen] = useState(false);
 
   if (!userId) return <p>User ID is missing.</p>;
@@ -54,7 +54,7 @@ export default function UserProfile() {
 
         <div className="flex gap-4">
           <button className="btn-primary" onClick={() => setModalOpen(true)}>
-            Book Session
+            Book Lesson
           </button>
           <button className="btn-primary">Message</button>
         </div>
@@ -64,7 +64,7 @@ export default function UserProfile() {
         <StatCard
           icon={HiUsers}
           iconColor="text-theme-yellow-20"
-          label="Total sessions"
+          label="Total lessons"
           value={10}
           sub="3 this month"
           subColor
@@ -88,16 +88,16 @@ export default function UserProfile() {
           iconColor="text-theme-yellow-20"
           label="Balance"
           value="$60"
-          sub="1 session owed"
+          sub="1 lesson owed"
         />
       </section>
 
-      <UpsertSessionModal
+      <UpsertLessonModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         type="Create"
         student={user}
-        sessions={sessions}
+        lessons={lessons}
         timezone={authUser?.timezone}
       />
     </div>

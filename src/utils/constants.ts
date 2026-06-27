@@ -21,7 +21,7 @@ export const categories: { value: string; label: string }[] = [
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
 
-export const sessionDuration = [30, 60, 90, 120] as const;
+export const lessonDuration = [30, 60, 90, 120] as const;
 
 export const lessonTypes: string[] = ["video", "reading"];
 
@@ -32,14 +32,14 @@ export const howItWorks = [
     budge: "2 minutes to set up",
   },
   {
-    title: "Schedule a session",
-    desc: "Book a lesson with a date, time, and duration. After the session, add notes on what was covered.",
+    title: "Schedule a lesson",
+    desc: "Book a lesson with a date, time, and duration. After the lesson, add notes on what was covered.",
     budge: "Keeps your week organised",
   },
   {
-    title: "Run the video session - and revisit it anytime",
-    desc: "Conduct your lesson over video. Upload the recording directly to the student's profile so both of you can review it later. Recordings are organised by session date and easy to find.",
-    budge: "Run your session with zoom",
+    title: "Run the video lesson - and revisit it anytime",
+    desc: "Conduct your lesson over video. Upload the recording directly to the student's profile so both of you can review it later. Recordings are organised by lesson date and easy to find.",
+    budge: "Run your lesson with zoom",
   },
   {
     title: "Assign homework",
@@ -56,8 +56,8 @@ export const howItWorks = [
 export const features = [
   {
     icon: LuCalendar1,
-    title: "Session scheduling",
-    desc: "Book lessons, track attendance, add notes after each session.",
+    title: "Lesson scheduling",
+    desc: "Book lessons, track attendance, add notes after each lesson.",
   },
   {
     icon: GoGoal,
@@ -76,13 +76,13 @@ export const features = [
   },
   {
     icon: LuVideo,
-    title: "Session recordings",
+    title: "Lesson recordings",
     desc: "Upload and store lesson recordings linked to each student.",
   },
   {
     icon: TbRobot,
     title: "AI homework gen",
-    desc: "Generate tailored exercises from topic, level, and past sessions.",
+    desc: "Generate tailored exercises from topic, level, and past lessons.",
   },
 ];
 

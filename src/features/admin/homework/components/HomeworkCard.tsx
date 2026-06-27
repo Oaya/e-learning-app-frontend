@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import type { Homework } from "../../../../type/homework";
 import { capitalize, initials } from "../../../../utils/helper";
 import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
-import ActionBtn from "../../sessions/components/ActionButton";
+import ActionBtn from "../../lessons/components/ActionButton";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useHomeworks } from "../hooks/useHomeworks";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";

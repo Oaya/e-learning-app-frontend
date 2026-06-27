@@ -7,8 +7,8 @@ import SidebarLayout from "../layouts/SidebarLayout";
 const StudentDashboard = lazy(
   () => import("../features/student/dashboard/pages/DashboardPage"),
 );
-const StudentSessionsPage = lazy(
-  () => import("../features/student/sessions/pages/SessionsPage"),
+const StudentLessonsPage = lazy(
+  () => import("../features/student/lessons/pages/LessonsPage"),
 );
 const StudentHomeworkPage = lazy(
   () => import("../features/student/homework/pages/HomeworkPage"),
@@ -28,7 +28,7 @@ export default function StudentRoutes() {
     <Route element={<RequireAuth role="student" />}>
       <Route element={<SidebarLayout />}>
         <Route path="/dashboard" element={<StudentDashboard />} />
-        <Route path="/student/sessions" element={<StudentSessionsPage />} />
+        <Route path="/student/lessons" element={<StudentLessonsPage />} />
         <Route path="/student/homework" element={<StudentHomeworkPage />} />
         <Route path="/student/goals" element={<StudentGoalsPage />} />
         <Route path="/student/recordings" element={<StudentRecordingsPage />} />
