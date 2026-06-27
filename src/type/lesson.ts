@@ -1,5 +1,6 @@
 export type UpsertLesson = {
   student_id: string;
+  language: string;
   topic: string;
   duration_in_minutes: number;
   scheduled_at: Date;
@@ -14,6 +15,7 @@ export type Lesson = {
   duration_in_minutes: number;
   topic: string;
   note: string | null;
+  language: string;
   status: LessonStatus;
   student: {
     id: string;

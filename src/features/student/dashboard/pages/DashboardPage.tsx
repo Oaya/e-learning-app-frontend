@@ -10,7 +10,7 @@ import StatCard from "../../../admin/dashboard/components/StatCard";
 import UpcomingLessonsPanel from "../components/UpcomingLessonsPanel";
 import HomeworkPanel from "../components/HomeworkPanel";
 import GoalPanel from "../components/GoalPanel";
-import { useStudentLesson } from "../hooks/useStudentLessons";
+import { useStudentLesson } from "../../lessons/hooks/useStudentLessons";
 
 // ── mock goals (replace with API when goals are built) ────────────────────────
 const MOCK_GOALS = [

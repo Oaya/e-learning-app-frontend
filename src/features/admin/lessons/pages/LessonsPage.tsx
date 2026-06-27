@@ -6,10 +6,11 @@ import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useLessons } from "../hooks/useLessons";
 import StatCard from "../../dashboard/components/StatCard";
-import LessonList from "../components/LessonList";
+import LessonList from "../components/LessonCardHeader";
 import type { LessonStatus } from "../../../../type/lesson";
 import UpsertLessonModal from "../components/UpsertLessonModal";
 import TabFilters from "../../homework/components/TabFilters";
+import LessonCard from "../components/LessonCard";
 
 type FilterTab = "all" | LessonStatus;
 
@@ -27,6 +28,7 @@ export default function LessonsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
   const { lessons } = useLessons();
+  const now = dayjs();
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {
@@ -43,7 +45,10 @@ export default function LessonsPage() {
     });
   }, [lessons, activeTab, search]);
 
-  const upcoming = filtered?.filter((s) => s.status === "scheduled");
+  const upcoming = lessons?.filter(
+    (s) => s.status === "scheduled" && dayjs(s.scheduled_at).isAfter(now),
+  );
+
   const past = filtered?.filter((s) => s.status !== "scheduled");
 
   // Stats
@@ -119,9 +124,14 @@ export default function LessonsPage() {
         tabs={TABS}
         activeTab={activeTab}
         onTabChange={(tab) => setActiveTab(tab as FilterTab)}
-        search={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search student or topic…"
+      />
+
+      <input
+        type="text"
+        placeholder="Search student or topic…"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="focus:border-theme-green-20 ml-auto w-80 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:outline-none"
       />
 
       {/* Lesson list */}
@@ -132,21 +142,25 @@ export default function LessonsPage() {
       ) : (
         <div className="space-y-6">
           {upcoming && upcoming.length > 0 && (
-            <LessonList
-              type="upcoming"
-              lessons={upcoming}
-              allLessons={lessons}
-              timezone={user?.timezone}
-            />
+            <section>
+              <LessonList type="upcoming" />
+              <div className="space-y-2">
+                {upcoming.map((s) => (
+                  <LessonCard key={s.id} lesson={s} />
+                ))}
+              </div>
+            </section>
           )}
 
           {past && past.length > 0 && (
-            <LessonList
-              type="past"
-              lessons={past}
-              allLessons={lessons}
-              timezone={user?.timezone}
-            />
+            <section>
+              <LessonList type="past" />
+              <div className="space-y-2">
+                {past.map((s) => (
+                  <LessonCard key={s.id} lesson={s} />
+                ))}
+              </div>
+            </section>
           )}
         </div>
       )}

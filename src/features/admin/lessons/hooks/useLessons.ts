@@ -19,7 +19,7 @@ export function useLessons(options?: {
   const alert = useAlert();
 
   const lessonsQuery = useQuery<Lesson[], Error>({
-    queryKey: ["lessons"],
+    queryKey: ["lessons", "today"],
     queryFn: () => getTodayLessons(),
     staleTime: 60_000,
   });
@@ -27,7 +27,7 @@ export function useLessons(options?: {
   const createMutation = useMutation({
     mutationFn: (data: UpsertLesson) => createLesson(data),
     onSuccess: (createdLesson) => {
-      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       options?.onCreateSuccess?.(createdLesson);
     },
     onError: (err) => {
@@ -41,7 +41,7 @@ export function useLessons(options?: {
     mutationFn: (lessonId: string) => deleteLesson(lessonId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["lessons"],
+        queryKey: ["lessons", "today"],
       });
       options?.onDeleteSuccess?.();
     },
@@ -55,7 +55,7 @@ export function useLessons(options?: {
   const cancelMutation = useMutation({
     mutationFn: (lessonId: string) => cancelLesson(lessonId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       options?.onCancelSuccess?.();
     },
     onError: (error) => {
@@ -69,7 +69,7 @@ export function useLessons(options?: {
     mutationFn: ({ id, data }: { id: string; data: UpsertLesson }) =>
       updateLessonApi(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       options?.onUpdateSuccess?.();
     },
     onError: (error) => {

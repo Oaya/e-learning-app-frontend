@@ -13,8 +13,8 @@ import {
   initials,
 } from "../../../../utils/helper";
 import {
-  SESSION_BORDER_COLOR,
-  SESSION_STATUS_BADGE,
+  LESSON_BORDER_COLOR,
+  LESSON_STATUS_BADGE,
 } from "../../../../utils/constants";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useLessons } from "../hooks/useLessons";
@@ -59,7 +59,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
   return (
     <div
-      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${SESSION_BORDER_COLOR[lesson.status]}`}
+      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${LESSON_BORDER_COLOR[lesson.status]}`}
       style={{ opacity: lesson.status === "canceled" ? 0.7 : 1 }}
     >
       {/* Date block */}
@@ -110,7 +110,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-1">
         <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${SESSION_STATUS_BADGE[lesson.status]}`}
+          className={`rounded-full px-2 py-0.5 text-sm font-medium ${LESSON_STATUS_BADGE[lesson.status]}`}
         >
           {capitalize(lesson.status)}
         </span>
@@ -130,13 +130,13 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         {!isPast && (
           <>
             <ActionBtn title="Edit" onClick={() => setEditLessonId(lesson.id)}>
-              <HiOutlinePencil className="h-4 w-4" />
+              <HiOutlinePencil size={16} />
             </ActionBtn>
             <ActionBtn
               title="Cancel lesson"
               onClick={() => handleModalActionChange(lesson.id, "Cancel")}
             >
-              <HiOutlineX className="h-4 w-4" />
+              <HiOutlineX size={16} />
             </ActionBtn>
           </>
         )}
@@ -144,7 +144,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           <>
             {/* {lesson.has_recording && (
               <ActionBtn title="View recording">
-                <HiOutlineVideoCamera className="h-4 w-4" />
+                <HiOutlineVideoCamera size={16} />
               </ActionBtn>
             )} */}
             {lesson.status === "canceled" && (
@@ -152,7 +152,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
                 title="Delete"
                 onClick={() => handleModalActionChange(lesson.id, "Delete")}
               >
-                <HiOutlineTrash className="h-4 w-4" />
+                <HiOutlineTrash size={16} />
               </ActionBtn>
             )}
           </>

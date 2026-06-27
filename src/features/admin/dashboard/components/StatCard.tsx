@@ -18,7 +18,7 @@ export default function StatCard({
   subColor,
 }: StatCardProps) {
   return (
-    <div className="h-40 rounded-xl border border-gray-200 bg-white p-4">
+    <div className="h-32 rounded-xl border border-gray-200 bg-white p-4">
       <div className="mb-2 flex items-center gap-2 text-xs text-gray-400">
         {Icon && <Icon size={20} className={`h-4 w-4 ${iconColor}`} />}
         {label}

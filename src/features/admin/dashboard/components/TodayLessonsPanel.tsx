@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import type { User } from "../../../../type/user";
-import { SESSION_STATUS_BADGE } from "../../../../utils/constants";
+import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import { capitalize } from "../../../../utils/helper";
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -55,7 +55,7 @@ export default function TodayLessonsPanel({
             </div>
 
             <span
-              className={`rounded-full bg-emerald-50 px-2 py-0.5 text-xs ${SESSION_STATUS_BADGE[s.status]}`}
+              className={`rounded-full bg-emerald-50 px-2 py-0.5 text-xs ${LESSON_STATUS_BADGE[s.status]}`}
             >
               {capitalize(s.status)}
             </span>
