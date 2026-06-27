@@ -10,7 +10,7 @@ import TabFilters from "../../../admin/homework/components/TabFilters";
 import LessonList from "../../../admin/lessons/components/LessonCardHeader";
 import StudentLessonCard from "../components/StudentLessonCard";
 import StatCard from "../../../admin/dashboard/components/StatCard";
-import { useAllLesson } from "../../../admin/lessons/hooks/useAllLessons";
+import { useAllLessons } from "../../../admin/lessons/hooks/useAllLessons";
 
 dayjs.extend(relativeTime);
 
