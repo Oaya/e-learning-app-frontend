@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import type { Homework } from "../../../../type/homework";
 import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
 import {
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export default function StudentHomeworkCard({ hw }: Props) {
+  const navigate = useNavigate();
   const SCORE_ICON: Record<string, React.ReactNode> = {
     excellent: <HiOutlineStar size={14} />,
     good: <HiOutlineHandThumbUp size={14} />,
@@ -102,7 +104,12 @@ export default function StudentHomeworkCard({ hw }: Props) {
         </span>
 
         {(hw.status === "pending" || hw.status === "overdue") && (
-          <button className="btn-primary-pink">Submit</button>
+          <button
+            onClick={() => navigate(`/student/homework/${hw.id}/submit`)}
+            className="btn-primary-pink"
+          >
+            Submit
+          </button>
         )}
 
         {(hw.status === "submitted" || hw.status === "reviewed") && (

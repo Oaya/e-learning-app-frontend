@@ -51,19 +51,6 @@ export function useHomeworks(options?: {
     },
   });
 
-  // const cancelMutation = useMutation({
-  //   mutationFn: (homeworkId: string) => cancelhomework(homeworkId),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["homeworks"] });
-  //     options?.onCancelSuccess?.();
-  //   },
-  //   onError: (error) => {
-  //     alert.error(
-  //       error instanceof Error ? error.message : "Failed to cancel homework",
-  //     );
-  //   },
-  // });
-
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpsertHomework }) =>
       updateHomework(id, data),
@@ -84,11 +71,9 @@ export function useHomeworks(options?: {
     createHomework: createMutation.mutateAsync,
     updateHomework: updateMutation.mutateAsync,
     deleteHomework: deleteMutation.mutateAsync,
-    // cancelhomework: cancelMutation.mutateAsync,
 
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
-    // isCanceling: cancelMutation.isPending,
   };
 }

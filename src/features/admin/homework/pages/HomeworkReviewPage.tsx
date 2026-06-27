@@ -95,7 +95,7 @@ export default function HomeworkReviewPage() {
           onClick={() => navigate("/admin/homework")}
           className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600"
         >
-          <HiOutlineArrowLeft className="h-4 w-4" />
+          <HiOutlineArrowLeft size={16} />
           Back to homework
         </button>
         <div className="flex gap-2">
@@ -110,7 +110,7 @@ export default function HomeworkReviewPage() {
             disabled={saving || !feedback.trim()}
             className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
           >
-            <HiOutlineCheck className="h-4 w-4" />
+            <HiOutlineCheck size={16} />
             {saving ? "Saving…" : "Mark as reviewed"}
           </button>
         </div>
@@ -153,9 +153,7 @@ export default function HomeworkReviewPage() {
         <div className="space-y-4">
           {/* Instructions */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-              Assignment instructions
-            </p>
+            <p className="panel-header">Assignment instructions</p>
             <p className="text-sm leading-relaxed text-gray-500">
               {hw.instructions}
             </p>
@@ -163,9 +161,7 @@ export default function HomeworkReviewPage() {
 
           {/* Submission */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-              Student's written answer
-            </p>
+            <p className="panel-header">Student's written answer</p>
             <div className="rounded-lg bg-gray-50 p-4 text-sm leading-loose whitespace-pre-line text-gray-800">
               {hw.submission_text}
             </div>
@@ -201,9 +197,7 @@ export default function HomeworkReviewPage() {
         <div className="space-y-4 lg:sticky lg:top-6">
           {/* Score */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-              Score
-            </p>
+            <p className="panel-header">Score</p>
             <div className="flex gap-2">
               {SCORE_OPTIONS.map((opt) => (
                 <button
@@ -252,9 +246,7 @@ export default function HomeworkReviewPage() {
 
           {/* Feedback for student */}
           <div className="rounded-xl border border-gray-200 bg-white p-5">
-            <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-              Feedback for student
-            </p>
+            <p className="panel-header">Feedback for student</p>
             <textarea
               rows={5}
               placeholder="Write feedback visible to the student…"
@@ -302,7 +294,7 @@ export default function HomeworkReviewPage() {
             disabled={saving || !feedback.trim()}
             className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
           >
-            <HiOutlineCheck className="h-4 w-4" />
+            <HiOutlineCheck size={16} />
             {saving ? "Saving…" : "Mark as reviewed"}
           </button>
         </div>

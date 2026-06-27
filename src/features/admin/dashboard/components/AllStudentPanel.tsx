@@ -53,7 +53,7 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-          <HiUsers className="h-4 w-4" /> All students
+          <HiUsers size={16} /> All students
         </h2>
         <Link
           to="/admin/students"

@@ -18,6 +18,23 @@ export async function getHomeworks(): Promise<Homework[]> {
   }
 }
 
+export async function getHomework(id: string): Promise<Homework> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks/${id}`;
+
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
 export async function createHomework(data: UpsertHomework): Promise<Homework> {
   try {
     const token = localStorage.getItem("jwt");

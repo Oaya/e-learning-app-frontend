@@ -78,7 +78,7 @@ export default function SidebarShell({ children, banner }: Props) {
                       className="flex w-full items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
                       onClick={handleLogout}
                     >
-                      <HiArrowRightOnRectangle className="h-4 w-4" />
+                      <HiArrowRightOnRectangle size={16} />
                       Sign out
                     </button>
                   </div>

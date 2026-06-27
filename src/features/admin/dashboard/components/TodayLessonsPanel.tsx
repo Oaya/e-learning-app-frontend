@@ -23,7 +23,7 @@ export default function TodayLessonsPanel({
     <div className="rounded-xl border border-gray-200 bg-white p-5">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-          <HiCalendar className="h-4 w-4" /> Today's lessons
+          <HiCalendar size={16} /> Today's lessons
         </h2>
         <Link
           to="/admin/lessons"

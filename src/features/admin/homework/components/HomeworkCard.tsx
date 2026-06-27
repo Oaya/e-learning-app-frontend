@@ -83,19 +83,19 @@ export default function HomeworkCard({ hw }: Props) {
             title="View"
             onClick={() => navigate(`/admin/homework/${hw.id}/review`)}
           >
-            <HiOutlineEye className="h-4 w-4" />
+            <HiOutlineEye size={16} />
           </ActionBtn>
 
           {(hw.status === "pending" || hw.status === "overdue") && (
             <>
               <ActionBtn title="Edit" onClick={() => setEditHWId(hw.id)}>
-                <HiOutlinePencil className="h-4 w-4" />
+                <HiOutlinePencil size={16} />
               </ActionBtn>
               <ActionBtn title="Remind student">
-                <HiOutlineBell className="h-4 w-4" />
+                <HiOutlineBell size={16} />
               </ActionBtn>
               <ActionBtn title="Delete" onClick={() => setDeletingHWId(hw.id)}>
-                <HiOutlineTrash className="h-4 w-4" />
+                <HiOutlineTrash size={16} />
               </ActionBtn>
             </>
           )}
@@ -105,7 +105,7 @@ export default function HomeworkCard({ hw }: Props) {
               title="Mark as reviewed"
               // onClick={() => onMarkReviewed?.(hw)}
             >
-              <HiOutlineCheck className="h-4 w-4" />
+              <HiOutlineCheck size={16} />
             </ActionBtn>
           )}
         </div>

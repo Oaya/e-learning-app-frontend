@@ -80,7 +80,7 @@ export default function HomeworkPage() {
             }}
             className="flex items-center gap-1.5 rounded-lg border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-700 hover:bg-purple-100"
           >
-            <HiOutlineSparkles className="h-4 w-4" /> Generate with AI
+            <HiOutlineSparkles size={16} /> Generate with AI
           </button>
           <button onClick={() => setModalOpen(true)} className="btn-secondary">
             + Assign homework

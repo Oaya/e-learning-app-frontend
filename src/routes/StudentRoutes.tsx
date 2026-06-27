@@ -10,6 +10,9 @@ const StudentDashboard = lazy(
 const StudentLessonsPage = lazy(
   () => import("../features/student/lessons/pages/LessonsPage"),
 );
+const HomeworkSubmitPage = lazy(
+  () => import("../features/student/homework/pages/HomeworkSubmitPage"),
+);
 const StudentHomeworkPage = lazy(
   () => import("../features/student/homework/pages/HomeworkPage"),
 );
@@ -30,6 +33,10 @@ export default function StudentRoutes() {
         <Route path="/dashboard" element={<StudentDashboard />} />
         <Route path="/student/lessons" element={<StudentLessonsPage />} />
         <Route path="/student/homework" element={<StudentHomeworkPage />} />
+        <Route
+          path="/student/homework/:id/submit"
+          element={<HomeworkSubmitPage />}
+        />
         <Route path="/student/goals" element={<StudentGoalsPage />} />
         <Route path="/student/recordings" element={<StudentRecordingsPage />} />
         <Route path="/student/profile" element={<MyProfilePage />} />

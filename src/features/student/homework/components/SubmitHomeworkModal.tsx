@@ -13,9 +13,14 @@ type Props = {
   onSubmit: (hwId: string, text: string, file: File | null) => Promise<void>;
 };
 
-export default function SubmitHomeworkModal({ hw, isOpen, onClose, onSubmit }: Props) {
-  const [text, setText]         = useState("");
-  const [file, setFile]         = useState<File | null>(null);
+export default function SubmitHomeworkModal({
+  hw,
+  isOpen,
+  onClose,
+  onSubmit,
+}: Props) {
+  const [text, setText] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -37,10 +42,15 @@ export default function SubmitHomeworkModal({ hw, isOpen, onClose, onSubmit }: P
         {/* Header */}
         <div className="flex items-start justify-between border-b border-gray-100 px-6 py-4">
           <div>
-            <h2 className="text-base font-semibold text-gray-800">Submit homework</h2>
+            <h2 className="text-base font-semibold text-gray-800">
+              Submit homework
+            </h2>
             <p className="mt-0.5 text-sm text-gray-400">{hw.title}</p>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600"
+          >
             <HiOutlineXMark className="h-5 w-5" />
           </button>
         </div>
@@ -48,8 +58,10 @@ export default function SubmitHomeworkModal({ hw, isOpen, onClose, onSubmit }: P
         <div className="space-y-4 px-6 py-5">
           {/* Instructions reminder */}
           {hw.instructions && (
-            <div className="rounded-lg bg-gray-50 px-4 py-3 text-sm text-gray-500 leading-relaxed">
-              <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Assignment</p>
+            <div className="rounded-lg bg-gray-50 px-4 py-3 text-sm leading-relaxed text-gray-500">
+              <p className="mb-1 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
+                Assignment
+              </p>
               {hw.instructions}
             </div>
           )}
@@ -71,17 +83,20 @@ export default function SubmitHomeworkModal({ hw, isOpen, onClose, onSubmit }: P
           {/* File upload */}
           <div>
             <label className="mb-1.5 block text-xs font-medium text-gray-600">
-              Attach a file <span className="font-normal text-gray-400">(optional)</span>
+              Attach a file{" "}
+              <span className="font-normal text-gray-400">(optional)</span>
             </label>
             {file ? (
               <div className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3">
                 <HiOutlineDocumentArrowUp className="h-5 w-5 shrink-0 text-emerald-600" />
-                <span className="flex-1 truncate text-sm text-gray-700">{file.name}</span>
+                <span className="flex-1 truncate text-sm text-gray-700">
+                  {file.name}
+                </span>
                 <button
                   onClick={() => setFile(null)}
                   className="text-gray-400 hover:text-red-500"
                 >
-                  <HiOutlineTrash className="h-4 w-4" />
+                  <HiOutlineTrash size={16} />
                 </button>
               </div>
             ) : (
@@ -89,7 +104,7 @@ export default function SubmitHomeworkModal({ hw, isOpen, onClose, onSubmit }: P
                 onClick={() => fileRef.current?.click()}
                 className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-400 hover:border-emerald-400 hover:text-emerald-600"
               >
-                <HiOutlineDocumentArrowUp className="h-4 w-4" />
+                <HiOutlineDocumentArrowUp size={16} />
                 Click to upload
               </button>
             )}
