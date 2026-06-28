@@ -4,6 +4,7 @@ import type { UpsertHomework, Homework } from "../../../../type/homework";
 import {
   createHomework,
   deleteHomework,
+  getHomework,
   getHomeworks,
   updateHomework,
 } from "../../../../api/homeworks";

@@ -2,6 +2,11 @@ import { LuCalendar1, LuVideo, LuNotebookPen } from "react-icons/lu";
 import { GoGoal } from "react-icons/go";
 import { MdPayment } from "react-icons/md";
 import { TbRobot } from "react-icons/tb";
+import type { IconType } from "react-icons";
+import { HiOutlineLink, HiOutlineVideoCamera } from "react-icons/hi";
+import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
+
+import type { UploadType } from "../features/student/homework/pages/HomeworkSubmitPage";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
@@ -95,4 +100,33 @@ export const HW_STATUS_BADGE: Record<string, string> = {
   pending: "bg-gray-100  text-gray-500",
   overdue: "bg-theme-pink-10 text-theme-pink-20",
   reviewed: "bg-theme-yellow-10  text-theme-yellow-20",
+};
+
+export const HW_UPLOAD_BUTTON: Record<
+  UploadType,
+  {
+    buttonCss: string;
+    icon: IconType;
+    color: string;
+    bg: string;
+  }
+> = {
+  file: {
+    buttonCss: "hover:border-emerald-400 hover:bg-emerald-50",
+    icon: HiOutlineDocumentArrowUp,
+    color: "text-theme-green-20",
+    bg: "bg-theme-green-30",
+  },
+  video: {
+    buttonCss: "hover:border-blue-300 hover:bg-blue-50",
+    icon: HiOutlineVideoCamera,
+    color: "text-blue-700",
+    bg: "bg-blue-100",
+  },
+  link: {
+    buttonCss: "hover:border-gray-400 hover:bg-gray-50",
+    icon: HiOutlineLink,
+    color: "text-gray-600",
+    bg: "bg-gray-100",
+  },
 };

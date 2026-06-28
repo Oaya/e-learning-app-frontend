@@ -32,6 +32,7 @@ export type UpsertHomework = {
 };
 
 export type HomeworkSubmission = {
+  id: string;
   homework: Homework;
   submission_text?: string;
   attachment: {

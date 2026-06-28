@@ -9,7 +9,7 @@ import {
 } from "../../../admin/homework/pages/HomeworkPage";
 import StatCard from "../../../admin/dashboard/components/StatCard";
 import TabFilters from "../../../admin/homework/components/TabFilters";
-import StudentHomeworkCard from "../../lessons/components/StudentHomeworkCard";
+import StudentHomeworkCard from "../components/StudentHomeworkCard";
 
 const HOMEWORK_GROUP_LABELS: Record<HomeworkStatus, string> = {
   overdue: "Overdue",
