@@ -8,13 +8,18 @@ import {
 } from "react-icons/hi2";
 import HomeworkCard from "../components/HomeworkCard";
 import UpsertHomeworkModal from "../components/UpsertHomeworkModal";
-import type { HomeworkStatus } from "../../../../type/homework";
 import AiBanner from "../components/AiBanner";
 import StatCard from "../../dashboard/components/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
 import TabFilters from "../components/TabFilters";
+import type { HomeworkSubmissionStatus } from "../../../../type/homework_submission";
 
-export type HomeworkFilterTab = "all" | HomeworkStatus;
+export type HomeworkFilterTab =
+  | "all"
+  | "pending"
+  | "submitted"
+  | "overdue"
+  | "reviewed";
 
 export const HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",
@@ -24,44 +29,61 @@ export const HOMEWORK_TABS: HomeworkFilterTab[] = [
   "reviewed",
 ];
 
-export const HOMEWORK_GROUP_ORDER: HomeworkStatus[] = [
+export const HOMEWORK_GROUP_ORDER: Exclude<HomeworkFilterTab, "all">[] = [
   "overdue",
   "pending",
   "submitted",
   "reviewed",
 ];
-const HOMEWORK_GROUP_LABELS: Record<HomeworkStatus, string> = {
-  overdue: "Overdue",
-  pending: "Awaiting submission",
-  submitted: "Submitted — needs review",
-  reviewed: "Reviewed",
-};
+
+export function matchesTab(
+  h: { submission?: { status: HomeworkSubmissionStatus } | null },
+  tab: HomeworkFilterTab,
+) {
+  if (tab === "all") return true;
+  if (tab === "pending")
+    return h.submission == null || h.submission?.status === "draft";
+  return h.submission?.status === tab;
+}
+
+export function inGroup(
+  h: { submission?: { status: HomeworkSubmissionStatus } | null },
+  group: Exclude<HomeworkFilterTab, "all">,
+) {
+  if (group === "pending")
+    return h.submission == null || h.submission?.status === "draft";
+  return h.submission?.status === group;
+}
 
 export default function HomeworkPage() {
   const [activeTab, setActiveTab] = useState<HomeworkFilterTab>("all");
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const { homeworks } = useHomeworks();
+  const { homeworks, isLoading } = useHomeworks();
 
   const filtered = useMemo(() => {
     return homeworks?.filter((hw) => {
-      const matchTab = activeTab === "all" || hw.status === activeTab;
+      const matchedTab = matchesTab(hw, activeTab);
       const studentName = `${hw.student.first_name} ${hw.student.last_name}`;
       const q = search.toLowerCase();
       const matchSearch =
         !q ||
         hw.title.toLowerCase().includes(q) ||
         studentName.toLowerCase().includes(q);
-      return matchTab && matchSearch;
+      return matchedTab && matchSearch;
     });
   }, [homeworks, activeTab, search]);
 
-  // Stats
-  const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
-  const submitted =
-    homeworks?.filter((h) => h.status === "submitted").length ?? 0;
-  const pending = homeworks?.filter((h) => h.status === "pending").length ?? 0;
+  // Stats — draft counts as pending
   const total = homeworks?.length ?? 0;
+  const pending =
+    homeworks?.filter(
+      (h) => h.submission == null || h.submission?.status === "draft",
+    ).length ?? 0;
+  const submitted =
+    homeworks?.filter((h) => h.submission?.status === "submitted").length ?? 0;
+  const overdue =
+    homeworks?.filter((h) => h.submission?.status === "overdue").length ?? 0;
 
   return (
     <div className="space-y-6 p-10">
@@ -126,20 +148,23 @@ export default function HomeworkPage() {
       </div>
 
       {/* Filters */}
+      <div className="flex">
+        <TabFilters
+          tabs={HOMEWORK_TABS}
+          activeTab={activeTab}
+          onTabChange={(tab) => setActiveTab(tab as HomeworkFilterTab)}
+        />
 
-      <TabFilters
-        tabs={HOMEWORK_TABS}
-        activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab as HomeworkFilterTab)}
-      />
+        <input
+          type="text"
+          placeholder="Search student or task…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="focus:border-theme-green-20 ml-auto w-80 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:outline-none"
+        />
+      </div>
 
-      <input
-        type="text"
-        placeholder="Search student or task…"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="focus:border-theme-green-20 ml-auto w-80 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:outline-none"
-      />
+      {isLoading && <p className="text-sm text-gray-400">Loading homework…</p>}
 
       {/* Grouped list */}
       {filtered?.length === 0 ? (
@@ -149,12 +174,12 @@ export default function HomeworkPage() {
       ) : (
         <div className="space-y-6">
           {HOMEWORK_GROUP_ORDER.map((status) => {
-            const group = filtered?.filter((h) => h.status === status);
-            if (group?.length === 0) return null;
+            const group = filtered?.filter((h) => inGroup(h, status));
+            if (!group?.length) return null;
             return (
               <section key={status}>
                 <p className="mb-3 text-[11px] font-semibold tracking-widest text-gray-400 uppercase">
-                  {HOMEWORK_GROUP_LABELS[status]}
+                  {status === "submitted" ? "Submitted — needs review" : status}
                 </p>
                 <div className="space-y-2">
                   {group?.map((hw) => (

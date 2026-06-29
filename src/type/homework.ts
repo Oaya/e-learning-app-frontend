@@ -1,13 +1,10 @@
-export type HomeworkStatus = "pending" | "submitted" | "overdue" | "reviewed";
+import type { HomeworkSubmissionStatus } from "./homework_submission";
 
 export type Homework = {
   id: string;
   title: string;
   instructions?: string;
   due_date: string; // ISO date string
-  submitted_at?: string;
-  reviewed_at?: string;
-  status: HomeworkStatus;
   language?: string;
   level?: string;
   ai_generated: boolean;
@@ -18,6 +15,13 @@ export type Homework = {
     email: string;
     avatar?: string;
     learning_languages: string[];
+  };
+  submission?: {
+    id: string;
+    status: HomeworkSubmissionStatus;
+    answer_text?: string;
+    submitted_at?: string;
+    reviewed_at?: string;
   };
 };
 

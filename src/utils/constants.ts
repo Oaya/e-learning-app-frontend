@@ -90,15 +90,24 @@ export const LESSON_STATUS_BADGE: Record<string, string> = {
 export const HW_BORDER_COLOR: Record<string, string> = {
   submitted: "border-l-theme-green-20",
   pending: "border-l-gray-300",
+  draft: "border-l-theme-yellow-20",
   overdue: "border-l-theme-pink-20",
   reviewed: "border-l-theme-yellow-20",
 };
 
 export const HW_STATUS_BADGE: Record<string, string> = {
   submitted: "bg-theme-green-30 text-theme-green-20",
-  pending: "bg-gray-100  text-gray-500",
+  pending: "bg-gray-100 text-gray-500",
+  draft: "bg-theme-yellow-10 text-theme-yellow-20",
   overdue: "bg-theme-pink-10 text-theme-pink-20",
-  reviewed: "bg-theme-yellow-10  text-theme-yellow-20",
+  reviewed: "bg-theme-yellow-10 text-theme-yellow-20",
+};
+
+export const ADMIN_HW_STATUS_BADGE: Record<string, string> = {
+  submitted: "bg-theme-green-30 text-theme-green-20",
+  pending: "bg-gray-100 text-gray-500",
+  overdue: "bg-theme-pink-10 text-theme-pink-20",
+  reviewed: "bg-theme-yellow-10 text-theme-yellow-20",
 };
 
 export const HW_UPLOAD_BUTTON: Record<

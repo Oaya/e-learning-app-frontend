@@ -13,7 +13,7 @@ import {
   HiOutlineLanguage,
   HiOutlineWrenchScrewdriver,
 } from "react-icons/hi2";
-import { capitalize } from "../../../../utils/helper";
+import { capitalize, getHomeworkDateLabel } from "../../../../utils/helper";
 
 type Props = {
   hw: Homework;
@@ -33,12 +33,8 @@ export default function StudentHomeworkCard({ hw }: Props) {
     needs_work: "Needs work",
   };
 
-  const dateLabel =
-    hw.status === "reviewed" && hw.reviewed_at
-      ? `Reviewed ${hw.reviewed_at}`
-      : hw.status === "submitted" && hw.submitted_at
-        ? `Submitted ${hw.submitted_at}`
-        : `Due ${hw.due_date}`;
+  const status = hw.submission ? hw.submission.status : "pending";
+  const dateLabel = getHomeworkDateLabel(hw);
 
   // Mock feedback — replace with real API field when available
   const mockFeedback: Record<string, { text: string; score: string }> = {
@@ -47,11 +43,11 @@ export default function StudentHomeworkCard({ hw }: Props) {
       score: "good",
     },
   };
-  const feedback = hw.status === "reviewed" ? mockFeedback["reviewed"] : null;
+  const feedback = status === "reviewed" ? mockFeedback["reviewed"] : null;
 
   return (
     <div
-      className={`flex items-start gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${HW_BORDER_COLOR[hw.status]}`}
+      className={`flex items-start gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${HW_BORDER_COLOR[status ?? ""]}`}
     >
       {/* Main */}
       <div className="min-w-0 flex-1">
@@ -98,12 +94,14 @@ export default function StudentHomeworkCard({ hw }: Props) {
       {/* Right */}
       <div className="flex shrink-0 flex-col items-end gap-2">
         <span
-          className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[hw.status]}`}
+          className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[status ?? ""]}`}
         >
-          {hw.status}
+          {status}
         </span>
 
-        {(hw.status === "pending" || hw.status === "overdue") && (
+        {(status === "pending" ||
+          status === "draft" ||
+          status === "overdue") && (
           <button
             onClick={() => navigate(`/student/homework/${hw.id}/submit`)}
             className="btn-primary-pink"
@@ -112,7 +110,7 @@ export default function StudentHomeworkCard({ hw }: Props) {
           </button>
         )}
 
-        {(hw.status === "submitted" || hw.status === "reviewed") && (
+        {(status === "submitted" || status === "reviewed") && (
           <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">
             <HiOutlineEye size={14} />
             View

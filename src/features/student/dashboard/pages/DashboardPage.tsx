@@ -22,7 +22,7 @@ const MOCK_GOALS = [
 export default function StudentDashboardPage() {
   const { user } = useAuth();
   const { lessons } = useAllLessons();
-  const { homeworks } = useHomeworks({});
+  const { homeworks } = useHomeworks();
 
   const today = dayjs();
 
@@ -42,11 +42,13 @@ export default function StudentDashboardPage() {
 
   // Homework stats
   const completedHW = (homeworks ?? []).filter(
-    (h) => h.status === "submitted" || h.status === "reviewed",
+    (h) =>
+      h.submission?.status === "submitted" ||
+      h.submission?.status === "reviewed",
   ).length;
   const totalHW = (homeworks ?? []).length;
   const pendingHW = (homeworks ?? []).filter(
-    (h) => h.status === "pending",
+    (h) => h.submission?.status === "pending" || !h.submission,
   ).length;
 
   // Completed lessons

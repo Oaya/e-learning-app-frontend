@@ -1,50 +1,41 @@
 import { useMemo, useState } from "react";
-import { useHomeworks } from "../../../admin/homework/hooks/useHomeworks";
-import type { Homework, HomeworkStatus } from "../../../../type/homework";
-import SubmitHomeworkModal from "../components/SubmitHomeworkModal";
 import {
-  HOMEWORK_GROUP_ORDER,
-  HOMEWORK_TABS,
-  type HomeworkFilterTab,
-} from "../../../admin/homework/pages/HomeworkPage";
+  HiOutlineDocumentText,
+  HiOutlineCheck,
+  HiOutlineClock,
+  HiOutlineExclamationCircle,
+} from "react-icons/hi2";
+import { useHomeworks } from "../../../admin/homework/hooks/useHomeworks";
 import StatCard from "../../../admin/dashboard/components/StatCard";
 import TabFilters from "../../../admin/homework/components/TabFilters";
 import StudentHomeworkCard from "../components/StudentHomeworkCard";
-
-const HOMEWORK_GROUP_LABELS: Record<HomeworkStatus, string> = {
-  overdue: "Overdue",
-  pending: "Pending",
-  submitted: "Submitted — waiting for review",
-  reviewed: "Reviewed",
-};
+import {
+  HOMEWORK_GROUP_ORDER,
+  HOMEWORK_TABS,
+  inGroup,
+  matchesTab,
+  type HomeworkFilterTab,
+} from "../../../admin/homework/pages/HomeworkPage";
 
 export default function StudentHomeworkPage() {
   const [activeTab, setActiveTab] = useState<HomeworkFilterTab>("all");
-  const [submitHw, setSubmitHw] = useState<Homework | null>(null);
   const { homeworks, isLoading } = useHomeworks();
 
-  const filtered = useMemo(() => {
-    return homeworks?.filter((s) => {
-      return activeTab === "all" ? true : s.status === activeTab;
-    });
-  }, [homeworks, activeTab]);
-
-  const stats = homeworks?.reduce(
-    (acc, h) => {
-      acc.total++;
-      acc[h.status] = (acc[h.status] ?? 0) + 1;
-      return acc;
-    },
-    { total: 0, pending: 0, submitted: 0, reviewed: 0 } as Record<
-      string,
-      number
-    >,
+  const filtered = useMemo(
+    () => homeworks?.filter((h) => matchesTab(h, activeTab)),
+    [homeworks, activeTab],
   );
 
-  async function handleSubmit(hwId: string, text: string, file: File | null) {
-    // TODO: POST /api/homeworks/:id/submit { submission_text: text, file }
-    console.log("submit", { hwId, text, file });
-  }
+  //Stats - draft counts as pending
+  const total = homeworks?.length ?? 0;
+  const pending =
+    homeworks?.filter(
+      (h) => h.submission == null || h.submission?.status === "draft",
+    ).length ?? 0;
+  const submitted =
+    homeworks?.filter((h) => h.submission?.status === "submitted").length ?? 0;
+  const overdue =
+    homeworks?.filter((h) => h.submission?.status === "overdue").length ?? 0;
 
   return (
     <div>
@@ -55,9 +46,33 @@ export default function StudentHomeworkPage() {
       <div className="space-y-6 p-10">
         {/* Stat cards */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {Object.entries(stats ?? {}).map(([label, value]) => (
-            <StatCard key={label} label={label} value={value} />
-          ))}
+          <StatCard
+            icon={HiOutlineDocumentText}
+            iconColor="text-theme-green-20"
+            label="Total assigned"
+            value={total}
+          />
+          <StatCard
+            icon={HiOutlineClock}
+            iconColor="text-theme-green-20"
+            label="Pending"
+            value={pending}
+            sub="not finished yet"
+          />
+          <StatCard
+            icon={HiOutlineCheck}
+            iconColor="text-theme-green-20"
+            label="Submitted"
+            value={submitted}
+            sub="waiting for review"
+          />
+          <StatCard
+            icon={HiOutlineExclamationCircle}
+            iconColor="text-theme-pink-20"
+            label="Overdue"
+            value={overdue}
+            sub="past due date"
+          />
         </div>
 
         {/* Filters */}
@@ -72,7 +87,6 @@ export default function StudentHomeworkPage() {
         )}
 
         {/* Grouped list */}
-
         {filtered?.length === 0 ? (
           <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400">
             No homework matches your filter.
@@ -80,15 +94,17 @@ export default function StudentHomeworkPage() {
         ) : (
           <div className="space-y-6">
             {HOMEWORK_GROUP_ORDER.map((status) => {
-              const group = filtered?.filter((h) => h.status === status);
-              if (group?.length === 0) return null;
+              const group = filtered?.filter((h) => inGroup(h, status));
+              if (!group?.length) return null;
               return (
                 <section key={status}>
                   <p className="mb-3 text-[11px] font-semibold tracking-widest text-gray-400 uppercase">
-                    {HOMEWORK_GROUP_LABELS[status]}
+                    {status == "submitted"
+                      ? "Submitted — waiting for review"
+                      : status}
                   </p>
                   <div className="space-y-2">
-                    {group?.map((hw) => (
+                    {group.map((hw) => (
                       <StudentHomeworkCard key={hw.id} hw={hw} />
                     ))}
                   </div>
@@ -98,16 +114,6 @@ export default function StudentHomeworkPage() {
           </div>
         )}
       </div>
-
-      {/* Submit modal */}
-      {submitHw && (
-        <SubmitHomeworkModal
-          hw={submitHw}
-          isOpen={true}
-          onClose={() => setSubmitHw(null)}
-          onSubmit={handleSubmit}
-        />
-      )}
     </div>
   );
 }

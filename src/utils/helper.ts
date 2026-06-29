@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import type { Homework } from "../type/homework";
 
 export function getVideoDuration(file: File): Promise<number> {
   const video = document.createElement("video");
@@ -50,4 +51,15 @@ export function formatDay(iso: string) {
     day: d.date(),
     mon: d.format("MMM"),
   };
+}
+
+export function getHomeworkDateLabel(hw: Homework) {
+  const value =
+    hw.submission?.status === "reviewed" && hw.submission.reviewed_at
+      ? `Reviewed ${hw.submission.reviewed_at}`
+      : hw.submission?.status === "submitted" && hw.submission.submitted_at
+        ? `Submitted ${hw.submission.submitted_at}`
+        : `Due ${hw.due_date}`;
+
+  return value;
 }

@@ -10,7 +10,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import type { Homework } from "../../../../type/homework";
-import { capitalize, initials } from "../../../../utils/helper";
+import {
+  capitalize,
+  getHomeworkDateLabel,
+  initials,
+} from "../../../../utils/helper";
 import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
 import ActionBtn from "../../lessons/components/ActionButton";
 import ConfirmModal from "../../../../ui/ConfirmModal";
@@ -29,16 +33,14 @@ export default function HomeworkCard({ hw }: Props) {
     onDeleteSuccess: () => setDeletingHWId(null),
   });
 
-  const dateLabel =
-    hw.status === "reviewed" && hw.reviewed_at
-      ? `Reviewed ${hw.reviewed_at}`
-      : hw.status === "submitted" && hw.submitted_at
-        ? `Submitted ${hw.submitted_at}`
-        : `Due ${hw.due_date}`;
+  const status = hw.submission ? hw.submission.status : "pending";
+  const displayStatus = status === "draft" ? "pending" : status;
+
+  const dateLabel = getHomeworkDateLabel(hw);
 
   return (
     <div
-      className={`flex items-start gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${HW_BORDER_COLOR[hw.status]}`}
+      className={`flex items-start gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${HW_BORDER_COLOR[displayStatus]}`}
     >
       {/* Main */}
       <div className="min-w-0 flex-1">
@@ -73,20 +75,24 @@ export default function HomeworkCard({ hw }: Props) {
       {/* Badge + actions */}
       <div className="flex shrink-0 flex-col items-end gap-2">
         <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${HW_STATUS_BADGE[hw.status]}`}
+          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${HW_STATUS_BADGE[displayStatus]}`}
         >
-          {capitalize(hw.status)}
+          {capitalize(displayStatus)}
         </span>
         <div className="flex gap-1">
           {/* View — goes to review page for submitted/reviewed, otherwise just icon */}
-          <ActionBtn
-            title="View"
-            onClick={() => navigate(`/admin/homework/${hw.id}/review`)}
-          >
-            <HiOutlineEye size={16} />
-          </ActionBtn>
+          {(status === "submitted" || status === "reviewed") && (
+            <ActionBtn
+              title="View"
+              onClick={() => navigate(`/admin/homework/${hw.id}/review`)}
+            >
+              <HiOutlineEye size={16} />
+            </ActionBtn>
+          )}
 
-          {(hw.status === "pending" || hw.status === "overdue") && (
+          {(status === "pending" ||
+            status === "draft" ||
+            status === "overdue") && (
             <>
               <ActionBtn title="Edit" onClick={() => setEditHWId(hw.id)}>
                 <HiOutlinePencil size={16} />
@@ -100,7 +106,7 @@ export default function HomeworkCard({ hw }: Props) {
             </>
           )}
 
-          {hw.status === "submitted" && (
+          {status === "submitted" && (
             <ActionBtn
               title="Mark as reviewed"
               // onClick={() => onMarkReviewed?.(hw)}

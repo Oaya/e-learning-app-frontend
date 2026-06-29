@@ -1,6 +1,11 @@
 import type { Homework } from "./homework";
 
-type HomeworkSubmissionStatus = "draft" | "submitted" | "reviewed";
+export type HomeworkSubmissionStatus =
+  | "pending"
+  | "draft"
+  | "submitted"
+  | "overdue"
+  | "reviewed";
 
 export const ATTACHMENT_TYPE = ["file", "video", "link"] as const;
 export type AttachmentType = (typeof ATTACHMENT_TYPE)[number];
