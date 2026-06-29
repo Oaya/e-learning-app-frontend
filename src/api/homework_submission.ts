@@ -1,7 +1,9 @@
 import axios from "axios";
 import { directUploadToActiveStorage } from "./files";
-import type { UpsertHomeworkSubmission } from "../type/homework_submission";
-import type { HomeworkSubmission } from "../type/homework";
+import type {
+  HomeworkSubmission,
+  UpsertHomeworkSubmission,
+} from "../type/homework_submission";
 
 export async function getHomeworkSubmission(
   id: string,
@@ -34,20 +36,27 @@ export async function createHomeworkSubmission(
     if (data.attachments) {
       uploadedAttachments = await Promise.all(
         data.attachments.map(async (a) => {
-          if (a.kind === "link") return { kind: "link", url: a.url };
+          if (a.type === "link")
+            return { url: a.url, kind: "homework", type: a.type };
           const signed_id = await directUploadToActiveStorage(
             a.file!,
-            a.kind === "video" ? "homework_video" : "homework_file",
+            "homework",
+            a.type,
           );
-          return { kind: a.kind, signed_id };
+          return { kind: "homework", signed_id, type: a.type };
         }),
       );
     }
 
-    const url = `${import.meta.env.VITE_API_URL}/api/homeworks_submissions`;
+    const url = `${import.meta.env.VITE_API_URL}/api/homework_submissions`;
     const response = await axios.post(
       url,
-      { answer_text: data.answer_text, attachments: uploadedAttachments },
+      {
+        homework_id: data.homework_id,
+        answer_text: data.answer_text,
+        status: data.status,
+        attachments: uploadedAttachments,
+      },
       { headers: { Authorization: `Bearer ${token}` } },
     );
     console.log("Create homework submissions response:", response);
@@ -69,12 +78,14 @@ export async function draftSaveHomeworkSubmission(
     if (data.attachments) {
       uploadedAttachments = await Promise.all(
         data.attachments.map(async (a) => {
-          if (a.kind === "link") return { kind: "link", url: a.url };
+          if (a.type === "link")
+            return { type: a.type, url: a.url, kind: "homework" };
           const signed_id = await directUploadToActiveStorage(
             a.file!,
-            a.kind === "video" ? "homework_video" : "homework_file",
+            "homework",
+            a.type,
           );
-          return { kind: a.kind, signed_id };
+          return { kind: "homework", signed_id, type: a.type };
         }),
       );
     }

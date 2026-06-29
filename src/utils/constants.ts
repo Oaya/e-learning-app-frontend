@@ -5,8 +5,7 @@ import { TbRobot } from "react-icons/tb";
 import type { IconType } from "react-icons";
 import { HiOutlineLink, HiOutlineVideoCamera } from "react-icons/hi";
 import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
-
-import type { UploadType } from "../features/student/homework/pages/HomeworkSubmitPage";
+import type { AttachmentType } from "../type/homework_submission";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
@@ -103,7 +102,7 @@ export const HW_STATUS_BADGE: Record<string, string> = {
 };
 
 export const HW_UPLOAD_BUTTON: Record<
-  UploadType,
+  AttachmentType,
   {
     buttonCss: string;
     icon: IconType;
@@ -124,9 +123,9 @@ export const HW_UPLOAD_BUTTON: Record<
     bg: "bg-blue-100",
   },
   link: {
-    buttonCss: "hover:border-gray-400 hover:bg-gray-50",
+    buttonCss: "hover:border-theme-pink-20 hover:bg-theme-pink-10/30",
     icon: HiOutlineLink,
-    color: "text-gray-600",
-    bg: "bg-gray-100",
+    color: "text-theme-pink-20",
+    bg: "bg-theme-pink-10",
   },
 };

@@ -10,6 +10,7 @@ async function md5Base64(file: File): Promise<string> {
 export async function directUploadToActiveStorage(
   file: File,
   kind: string,
+  type: string,
 ): Promise<string> {
   const token = localStorage.getItem("jwt");
   const url = `${import.meta.env.VITE_API_URL}/api/rails/active_storage/direct_uploads`;
@@ -23,6 +24,7 @@ export async function directUploadToActiveStorage(
       byte_size: file.size,
       checksum: await md5Base64(file),
       kind,
+      type,
     },
     {
       headers: {

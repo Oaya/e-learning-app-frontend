@@ -1,6 +1,6 @@
 import { HiOutlineXMark } from "react-icons/hi2";
 import { HW_UPLOAD_BUTTON } from "../../../../utils/constants";
-import type { Attachment } from "../pages/HomeworkSubmitPage";
+import type { Attachment } from "../../../../type/homework_submission";
 
 type Props = {
   attachments: Attachment[];
@@ -11,10 +11,11 @@ export default function HomeworkAttachedFiles({
   attachments,
   onRemove,
 }: Props) {
+  console.log(attachments);
   return (
     <div className="mt-4 space-y-2">
       {attachments.map((a) => {
-        const { icon: Icon, bg, color } = HW_UPLOAD_BUTTON[a.kind];
+        const { icon: Icon, bg, color } = HW_UPLOAD_BUTTON[a.type];
         return (
           <div
             key={a.id}
@@ -27,7 +28,18 @@ export default function HomeworkAttachedFiles({
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-medium text-gray-800">
-                {a.label}
+                {a.type === "link" ? (
+                  <a
+                    href={a.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-theme-pink-20 hover:underline"
+                  >
+                    Link
+                  </a>
+                ) : (
+                  a.label
+                )}
               </p>
               <p className="text-[10px] text-gray-400">{a.sub}</p>
             </div>

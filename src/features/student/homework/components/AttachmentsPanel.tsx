@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import UploadButton from "./UploadButton";
 import HomeworkAttachedFiles from "./HomeworkAttachedFiles";
-import type { Attachment, UploadType } from "../pages/HomeworkSubmitPage";
 import { capitalize } from "../../../../utils/helper";
+import type {
+  Attachment,
+  AttachmentType,
+} from "../../../../type/homework_submission";
 
 type Props = {
   attachments: Attachment[];
@@ -21,12 +24,12 @@ export default function AttachmentsPanel({
 
   function handleFileChange(
     e: React.ChangeEvent<HTMLInputElement>,
-    type: UploadType,
+    type: AttachmentType,
   ) {
     const file = e.target.files?.[0];
     if (!file) return;
     onAdd({
-      kind: type,
+      type: type,
       label: file.name,
       sub: `${(file.size / 1024 / 1024).toFixed(1)} MB · ${capitalize(type)}`,
       file,
@@ -40,7 +43,7 @@ export default function AttachmentsPanel({
       ? linkInput
       : `https://${linkInput}`;
     onAdd({
-      kind: "link",
+      type: "link",
       label: linkInput,
       sub: new URL(url).hostname,
       url,

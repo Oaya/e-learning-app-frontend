@@ -1,8 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAlert } from "../../../../contexts/AlertContext";
-import type { HomeworkSubmission } from "../../../../type/homework";
 
-import type { UpsertHomeworkSubmission } from "../../../../type/homework_submission";
+import type {
+  HomeworkSubmission,
+  UpsertHomeworkSubmission,
+} from "../../../../type/homework_submission";
 import {
   createHomeworkSubmission,
   draftSaveHomeworkSubmission,

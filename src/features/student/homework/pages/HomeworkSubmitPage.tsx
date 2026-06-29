@@ -6,18 +6,7 @@ import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
 import AttachmentsPanel from "../components/AttachmentsPanel";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomework } from "../../../admin/homework/hooks/useHomework";
-
-const UPLOAD_TYPE = ["file", "video", "link"] as const;
-export type UploadType = (typeof UPLOAD_TYPE)[number];
-
-export type Attachment = {
-  id: string;
-  kind: UploadType;
-  label: string;
-  sub: string;
-  file?: File;
-  url?: string;
-};
+import type { Attachment } from "../../../../type/homework_submission";
 
 export default function HomeworkSubmitPage() {
   const { id } = useParams<{ id: string }>();
@@ -55,7 +44,7 @@ export default function HomeworkSubmitPage() {
         answer_text: text || undefined,
         status: "submitted",
         attachments: attachments.map((a) => ({
-          kind: a.kind,
+          type: a.type,
           file: a.file,
           url: a.url,
         })),
@@ -72,7 +61,7 @@ export default function HomeworkSubmitPage() {
         status: "draft",
         answer_text: text || undefined,
         attachments: attachments.map((a) => ({
-          kind: a.kind,
+          type: a.type,
           file: a.file,
           url: a.url,
         })),
@@ -89,7 +78,7 @@ export default function HomeworkSubmitPage() {
 
   return (
     <div className="flex flex-col">
-      {/* Top bar */}=
+      {/* Top bar */}
       <div className="flex items-center justify-between bg-gray-200 px-10 py-4">
         <button
           onClick={() => navigate("/student/homework")}
@@ -99,9 +88,6 @@ export default function HomeworkSubmitPage() {
           Back to homework
         </button>
         <div className="flex flex-col items-end gap-1">
-          <p className="text-xs text-gray-400">
-            You can edit your submission until your teacher reviews it.
-          </p>
           <div className="flex gap-2">
             <button onClick={handleSaveDraft} className="btn-primary-white">
               {isSaving ? "Saving…" : "Save draft"}
@@ -115,6 +101,9 @@ export default function HomeworkSubmitPage() {
               {isCreating ? "Submitting…" : "Submit"}
             </button>
           </div>
+          <p className="text-xs text-gray-400">
+            You can edit your submission until your teacher reviews it.
+          </p>
         </div>
       </div>
       <div className="space-y-5 p-10">

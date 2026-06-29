@@ -1,6 +1,6 @@
 import axios from "axios";
-import type { UserNameAndAvatar, InviteUser, User } from "../type/user";
-import type { Course } from "../type/course";
+import type { InviteUser, User } from "../type/user";
+
 import type { UserQueryInput } from "../features/admin/students/hooks/useUsers";
 
 export async function getUsers({
@@ -99,40 +99,6 @@ export async function deleteUsers(userIds: string[]): Promise<void> {
     });
 
     console.log("Delete users response:", response);
-    return response.data;
-  } catch (e: any) {
-    throw new Error(e.response?.data?.error);
-  }
-}
-
-export async function getInstructors(): Promise<UserNameAndAvatar[]> {
-  try {
-    const token = localStorage.getItem("jwt");
-    const url: string = `${import.meta.env.VITE_API_URL}/api/users/instructors`;
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log("Get instructors response:", response);
-    return response.data;
-  } catch (e: any) {
-    throw new Error(e.response?.data?.error);
-  }
-}
-
-export async function getUserCourses(userId: string): Promise<Course[]> {
-  try {
-    const token = localStorage.getItem("jwt");
-    const url: string = `${import.meta.env.VITE_API_URL}/api/users/${userId}/courses`;
-    const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    console.log("Get user courses response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);
