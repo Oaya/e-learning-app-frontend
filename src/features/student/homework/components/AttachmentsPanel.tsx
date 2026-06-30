@@ -5,11 +5,12 @@ import { capitalize } from "../../../../utils/helper";
 import type {
   Attachment,
   AttachmentType,
+  HomeworkAttachmentInput,
 } from "../../../../type/homework_submission";
 
 type Props = {
   attachments: Attachment[];
-  onAdd: (a: Omit<Attachment, "id">) => void;
+  onAdd: (a: Omit<HomeworkAttachmentInput, "id">) => void;
   onRemove: (id: string) => void;
 };
 
@@ -30,7 +31,6 @@ export default function AttachmentsPanel({
     if (!file) return;
     onAdd({
       type: type,
-      label: file.name,
       sub: `${(file.size / 1024 / 1024).toFixed(1)} MB · ${capitalize(type)}`,
       file,
     });
@@ -44,7 +44,6 @@ export default function AttachmentsPanel({
       : `https://${linkInput}`;
     onAdd({
       type: "link",
-      label: linkInput,
       sub: new URL(url).hostname,
       url,
     });

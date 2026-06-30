@@ -13,10 +13,10 @@ export type AttachmentType = (typeof ATTACHMENT_TYPE)[number];
 export type Attachment = {
   id: string;
   type: AttachmentType;
-  label: string;
   sub: string;
   file?: File;
   url?: string;
+  filename?: string;
 };
 export type HomeworkAttachmentInput = {
   type: AttachmentType;

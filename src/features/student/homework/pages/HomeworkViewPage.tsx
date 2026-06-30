@@ -4,6 +4,7 @@ import {
   HiOutlinePaperClip,
   HiOutlineStar,
   HiOutlineChatBubbleLeftEllipsis,
+  HiOutlinePencilSquare,
 } from "react-icons/hi2";
 import {
   HiOutlineHandThumbUp,
@@ -88,11 +89,22 @@ export default function HomeworkViewPage() {
           <HiOutlineArrowLeft size={16} />
           Back to homework
         </button>
-        <span
-          className={`rounded-full px-3 py-1 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[status] ?? ""}`}
-        >
-          {status}
-        </span>
+        <div className="flex items-center gap-3">
+          <span
+            className={`rounded-full px-3 py-1 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[status] ?? ""}`}
+          >
+            {status}
+          </span>
+          {!isReviewed && (
+            <button
+              onClick={() => navigate(`/student/homework/${hwId}/submit`)}
+              className="btn-primary-white flex items-center gap-1.5"
+            >
+              <HiOutlinePencilSquare size={15} />
+              Edit submission
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="space-y-5 p-10">

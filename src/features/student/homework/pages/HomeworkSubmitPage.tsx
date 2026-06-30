@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineCheck } from "react-icons/hi2";
 import { useHomeworkSubmission } from "../../../admin/homework/hooks/useHomeworkSubmission";
@@ -15,7 +15,18 @@ export default function HomeworkSubmitPage() {
   const alert = useAlert();
   const [text, setText] = useState("");
   const [attachments, setAttachments] = useState<Attachment[]>([]);
+
   const { homework, isLoading } = useHomework(hwId);
+
+  const submission = homework?.submission;
+
+  useEffect(() => {
+    if (submission) {
+      setText(submission.answer_text ?? "");
+      setAttachments(submission.attachments ?? []);
+    }
+  }, [submission]);
+
   const {
     createHomeworkSubmission,
     saveHomeworkSubmission,
@@ -78,6 +89,7 @@ export default function HomeworkSubmitPage() {
   if (isLoading || !homework)
     return <p className="p-10 text-sm text-gray-400">Loading…</p>;
 
+  console.log(homework);
   return (
     <div className="flex flex-col">
       {/* Top bar */}

@@ -46,7 +46,6 @@ export async function createHomeworkSubmission(
         }),
       );
     }
-
     const url = `${import.meta.env.VITE_API_URL}/api/homework_submissions`;
     const response = await axios.post(
       url,

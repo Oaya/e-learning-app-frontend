@@ -11,7 +11,7 @@ export default function HomeworkAttachedFiles({
   attachments,
   onRemove,
 }: Props) {
-  console.log(attachments);
+  console.log("att", attachments);
   return (
     <div className="mt-4 space-y-2">
       {attachments.map((a) => {
@@ -30,7 +30,7 @@ export default function HomeworkAttachedFiles({
               <p className="truncate text-xs font-medium text-gray-800">
                 {a.type === "link" ? (
                   <a
-                    href={a.label}
+                    href={a.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-theme-pink-20 hover:underline"
@@ -38,7 +38,7 @@ export default function HomeworkAttachedFiles({
                     Link
                   </a>
                 ) : (
-                  a.label
+                  a.file?.name
                 )}
               </p>
               <p className="text-[10px] text-gray-400">{a.sub}</p>
