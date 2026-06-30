@@ -11,7 +11,6 @@ export default function HomeworkAttachedFiles({
   attachments,
   onRemove,
 }: Props) {
-  console.log("att", attachments);
   return (
     <div className="mt-4 space-y-2">
       {attachments.map((a) => {

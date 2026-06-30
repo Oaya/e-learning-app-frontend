@@ -6,7 +6,10 @@ import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
 import AttachmentsPanel from "../components/AttachmentsPanel";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomework } from "../../../admin/homework/hooks/useHomework";
-import type { Attachment } from "../../../../type/homework_submission";
+import type {
+  Attachment,
+  HomeworkSubmissionStatus,
+} from "../../../../type/homework_submission";
 
 export default function HomeworkSubmitPage() {
   const { id } = useParams<{ id: string }>();
@@ -27,17 +30,17 @@ export default function HomeworkSubmitPage() {
     }
   }, [submission]);
 
-  const {
-    createHomeworkSubmission,
-    saveHomeworkSubmission,
-    isCreating,
-    isSaving,
-  } = useHomeworkSubmission({
-    onCreateSuccess: () => {
-      alert.success("Homework Submission created successfully.");
-      navigate("/student/homework");
+  const { upsertHomeworkSubmission, isUpserting } = useHomeworkSubmission(
+    hwId,
+    {
+      onUpsertSuccess: () => {
+        alert.success(
+          `Homework Submission ${submission?.status} successfully.`,
+        );
+        navigate("/student/homework");
+      },
     },
-  });
+  );
 
   function addAttachment(a: Omit<Attachment, "id">) {
     setAttachments((prev) => [...prev, { ...a, id: crypto.randomUUID() }]);
@@ -47,13 +50,16 @@ export default function HomeworkSubmitPage() {
     setAttachments((prev) => prev.filter((a) => a.id !== attachId));
   }
 
-  async function handleSubmit() {
-    if (!text.trim() && attachments.length === 0) return;
+  async function handleSave(type: "draft" | "submitted") {
+    if (type === "submitted") {
+      if (!text.trim() && attachments.length === 0) return;
+    }
+
     try {
-      await createHomeworkSubmission({
+      await upsertHomeworkSubmission({
         homework_id: hwId,
-        answer_text: text || undefined,
-        status: "submitted",
+        answer_text: text,
+        status: type as HomeworkSubmissionStatus,
         attachments: attachments.map((a) => ({
           type: a.type,
           file: a.file,
@@ -66,30 +72,11 @@ export default function HomeworkSubmitPage() {
     }
   }
 
-  async function handleSaveDraft() {
-    try {
-      await saveHomeworkSubmission({
-        homework_id: hwId,
-        status: "draft",
-        answer_text: text || undefined,
-        attachments: attachments.map((a) => ({
-          type: a.type,
-          file: a.file,
-          url: a.url,
-          sub: a.sub,
-        })),
-      });
-    } catch (error) {
-      alert.error("Failed to autosave Homework Submission. Try again later.");
-    }
-  }
-
   const canSubmit = text.trim().length > 0 || attachments.length > 0;
 
   if (isLoading || !homework)
     return <p className="p-10 text-sm text-gray-400">Loading…</p>;
 
-  console.log(homework);
   return (
     <div className="flex flex-col">
       {/* Top bar */}
@@ -103,16 +90,19 @@ export default function HomeworkSubmitPage() {
         </button>
         <div className="flex flex-col items-end gap-1">
           <div className="flex gap-2">
-            <button onClick={handleSaveDraft} className="btn-primary-white">
-              {isSaving ? "Saving…" : "Save draft"}
+            <button
+              onClick={() => handleSave("draft")}
+              className="btn-primary-white"
+            >
+              {isUpserting ? "Saving…" : "Save draft"}
             </button>
             <button
-              onClick={handleSubmit}
-              disabled={isCreating || !canSubmit}
+              onClick={() => handleSave("submitted")}
+              disabled={isUpserting || !canSubmit}
               className="btn-primary-pink"
             >
               <HiOutlineCheck size={16} />
-              {isCreating ? "Submitting…" : "Submit"}
+              {isUpserting ? "Submitting…" : "Submit"}
             </button>
           </div>
           <p className="text-xs text-gray-400">

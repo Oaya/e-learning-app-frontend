@@ -1,51 +1,32 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAlert } from "../../../../contexts/AlertContext";
 
 import type {
   HomeworkSubmission,
   UpsertHomeworkSubmission,
 } from "../../../../type/homework_submission";
-import {
-  createHomeworkSubmission,
-  draftSaveHomeworkSubmission,
-} from "../../../../api/homework_submission";
+import { upsertHomeworkSubmission } from "../../../../api/homework_submission";
 
-export function useHomeworkSubmission(options?: {
-  onCreateSuccess?: (createdHWSubmission: HomeworkSubmission) => void;
-  onSaveDraftSuccess?: (draft: HomeworkSubmission) => void;
-}) {
-  // const queryClient = useQueryClient();
+export function useHomeworkSubmission(
+  id: string,
+  options?: {
+    onUpsertSuccess?: (upsertHWSubmission: HomeworkSubmission) => void;
+  },
+) {
+  const queryClient = useQueryClient();
   const alert = useAlert();
 
-  // const homeworkSubmissionQuery = useQuery<HomeworkSubmission, Error>({
-  //   queryKey: ["homeworkSubmissions", id],
-  //   queryFn: () => getHomeworkSubmission(id),
-  //   enabled: !!id,
-  //   staleTime: 60_000,
-  // });
-
-  const createMutation = useMutation({
+  const upsertMutation = useMutation({
     mutationFn: (data: UpsertHomeworkSubmission) =>
-      createHomeworkSubmission(data),
-    onSuccess: (createdHWSubmission) => {
-      // queryClient.invalidateQueries({ queryKey: ["homeworkSubmissions", id] });
-      options?.onCreateSuccess?.(createdHWSubmission);
+      upsertHomeworkSubmission(data),
+    onSuccess: (upsertHWSubmission) => {
+      queryClient.invalidateQueries({ queryKey: ["homework", id] });
+      options?.onUpsertSuccess?.(upsertHWSubmission);
     },
     onError: (err) => {
       alert.error(
-        err instanceof Error ? err.message : "Failed to create homework",
+        err instanceof Error ? err.message : `Failed to submit homework`,
       );
-    },
-  });
-
-  const saveDraftMutation = useMutation({
-    mutationFn: (data: UpsertHomeworkSubmission) =>
-      draftSaveHomeworkSubmission(data),
-    onSuccess: (draftHWSubmission) => {
-      options?.onSaveDraftSuccess?.(draftHWSubmission);
-    },
-    onError: (err) => {
-      alert.error(err instanceof Error ? err.message : "Failed to save draft");
     },
   });
 
@@ -94,14 +75,14 @@ export function useHomeworkSubmission(options?: {
   return {
     // ...homeworkSubmissionQuery,
     // homeworkSubmission: homeworkSubmissionQuery.data,
-    createHomeworkSubmission: createMutation.mutateAsync,
-    saveHomeworkSubmission: saveDraftMutation.mutateAsync,
+    upsertHomeworkSubmission: upsertMutation.mutateAsync,
+
     // updateHomework: updateMutation.mutateAsync,
     // deleteHomework: deleteMutation.mutateAsync,
     // // cancelhomework: cancelMutation.mutateAsync,
 
-    isCreating: createMutation.isPending,
-    isSaving: saveDraftMutation.isPending,
+    isUpserting: upsertMutation.isPending,
+
     // isUpdating: updateMutation.isPending,
     // isDeleting: deleteMutation.isPending,
     // isCanceling: cancelMutation.isPending,

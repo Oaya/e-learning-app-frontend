@@ -1,6 +1,5 @@
 import type {
   Attachment,
-  AttachmentType,
   HomeworkSubmissionStatus,
 } from "./homework_submission";
 

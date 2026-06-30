@@ -171,7 +171,7 @@ export default function HomeworkViewPage() {
                         <button
                           className="shrink-0 rounded-md border border-gray-200 bg-white px-3 py-1 text-xs text-gray-600 hover:bg-gray-100"
                           onClick={() =>
-                            handleAttachment(a.type, a.url, a.filename)
+                            handleAttachment(a.type, a.url!, a.filename)
                           }
                         >
                           {a.type === "link" ? "Open" : "Download"}

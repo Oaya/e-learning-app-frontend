@@ -104,7 +104,7 @@ export default function StudentHomeworkCard({ hw }: Props) {
           status === "overdue") && (
           <button
             onClick={() => navigate(`/student/homework/${hw.id}/submit`)}
-            className="btn-primary-pink px-3 py-1.5"
+            className="btn-primary px-3 py-1.5"
           >
             Submit
           </button>
