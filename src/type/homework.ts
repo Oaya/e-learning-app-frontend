@@ -1,4 +1,7 @@
-import type { HomeworkSubmissionStatus } from "./homework_submission";
+import type {
+  AttachmentType,
+  HomeworkSubmissionStatus,
+} from "./homework_submission";
 
 export type Homework = {
   id: string;
@@ -22,6 +25,13 @@ export type Homework = {
     answer_text?: string;
     submitted_at?: string;
     reviewed_at?: string;
+    attachments?: {
+      id: string;
+      type: AttachmentType;
+      filename?: string;
+      url: string;
+      sub: string;
+    }[];
   };
 };
 

@@ -37,13 +37,12 @@ export async function createHomeworkSubmission(
       uploadedAttachments = await Promise.all(
         data.attachments.map(async (a) => {
           if (a.type === "link")
-            return { url: a.url, kind: "homework", type: a.type };
+            return { url: a.url, type: a.type, sub: a.sub };
           const signed_id = await directUploadToActiveStorage(
             a.file!,
             "homework",
-            a.type,
           );
-          return { kind: "homework", signed_id, type: a.type };
+          return { signed_id, type: a.type, sub: a.sub };
         }),
       );
     }
@@ -83,9 +82,8 @@ export async function draftSaveHomeworkSubmission(
           const signed_id = await directUploadToActiveStorage(
             a.file!,
             "homework",
-            a.type,
           );
-          return { kind: "homework", signed_id, type: a.type };
+          return { signed_id, type: a.type, sub: a.sub };
         }),
       );
     }

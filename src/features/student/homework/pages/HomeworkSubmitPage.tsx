@@ -47,6 +47,7 @@ export default function HomeworkSubmitPage() {
           type: a.type,
           file: a.file,
           url: a.url,
+          sub: a.sub,
         })),
       });
     } catch (error) {
@@ -64,6 +65,7 @@ export default function HomeworkSubmitPage() {
           type: a.type,
           file: a.file,
           url: a.url,
+          sub: a.sub,
         })),
       });
     } catch (error) {

@@ -13,6 +13,9 @@ const StudentLessonsPage = lazy(
 const HomeworkSubmitPage = lazy(
   () => import("../features/student/homework/pages/HomeworkSubmitPage"),
 );
+const HomeworkViewPage = lazy(
+  () => import("../features/student/homework/pages/HomeworkViewPage"),
+);
 const StudentHomeworkPage = lazy(
   () => import("../features/student/homework/pages/HomeworkPage"),
 );
@@ -36,6 +39,10 @@ export default function StudentRoutes() {
         <Route
           path="/student/homework/:id/submit"
           element={<HomeworkSubmitPage />}
+        />
+        <Route
+          path="/student/homework/:id/view"
+          element={<HomeworkViewPage />}
         />
         <Route path="/student/goals" element={<StudentGoalsPage />} />
         <Route path="/student/recordings" element={<StudentRecordingsPage />} />

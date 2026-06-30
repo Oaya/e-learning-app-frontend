@@ -103,7 +103,6 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
       updatePayload.avatar_signed_id = await directUploadToActiveStorage(
         data.avatar,
         "avatars",
-        "file",
       );
     }
 

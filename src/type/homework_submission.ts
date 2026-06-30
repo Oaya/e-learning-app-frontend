@@ -22,6 +22,7 @@ export type HomeworkAttachmentInput = {
   type: AttachmentType;
   file?: File;
   url?: string;
+  sub: string;
 };
 
 export type UpsertHomeworkSubmission = {

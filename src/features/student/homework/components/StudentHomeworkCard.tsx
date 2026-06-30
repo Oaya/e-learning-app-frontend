@@ -104,14 +104,17 @@ export default function StudentHomeworkCard({ hw }: Props) {
           status === "overdue") && (
           <button
             onClick={() => navigate(`/student/homework/${hw.id}/submit`)}
-            className="btn-primary-pink"
+            className="btn-primary-pink px-3 py-1.5"
           >
             Submit
           </button>
         )}
 
         {(status === "submitted" || status === "reviewed") && (
-          <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">
+          <button
+            onClick={() => navigate(`/student/homework/${hw.id}/view`)}
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50"
+          >
             <HiOutlineEye size={14} />
             View
           </button>

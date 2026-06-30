@@ -7,6 +7,7 @@ type Props = {
 };
 
 export default function HomeworkHeaderPanel({ hw }: Props) {
+  const status = hw.submission ? hw.submission.status : "pending";
   return (
     <div className="rounded-xl border border-gray-200 bg-white px-6 py-4">
       <h1 className="mb-2 text-base font-semibold text-gray-800">{hw.title}</h1>
@@ -21,10 +22,16 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
             {hw.language} · {hw.level}
           </span>
         )}
+
+        {hw.submission?.submitted_at && (
+          <span className="text-xs text-gray-400">
+            Submitted {hw.submission.submitted_at}
+          </span>
+        )}
         <span
-          className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[hw.status] ?? ""}`}
+          className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[status] ?? ""}`}
         >
-          {hw.status}
+          {status}
         </span>
       </div>
       {hw.instructions && (
