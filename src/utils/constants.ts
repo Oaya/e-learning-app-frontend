@@ -13,8 +13,7 @@ import {
   HiOutlineHandThumbUp,
   HiOutlineWrenchScrewdriver,
 } from "react-icons/hi2";
-import type { AttachmentType } from "../type/homework_submission";
-import type { ScoreType } from "../features/admin/homework/pages/HomeworkReviewPage";
+import type { AttachmentType, ScoreType } from "../type/homework_submission";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];

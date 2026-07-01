@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  HiOutlineArrowLeft,
-  HiOutlineCheck,
-  HiOutlineSparkles,
-} from "react-icons/hi2";
+import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
 import { useHomework } from "../hooks/useHomework";
 import { capitalize, initials } from "../../../../utils/helper";
 import { HW_STATUS_BADGE, SCORE_COLOR } from "../../../../utils/constants";
