@@ -1,5 +1,4 @@
 import type { Level } from "../utils/constants";
-import type { HomeworkSubmissionStatus } from "./homework_submission";
 
 export const roles = ["admin", "student"] as const;
 export type Role = (typeof roles)[number];
