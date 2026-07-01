@@ -11,7 +11,7 @@ type GoalPanelProps = {
 
 export default function GoalPanel({ goals }: GoalPanelProps) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
+    <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
         <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
           Goal progress

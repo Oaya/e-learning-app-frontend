@@ -256,7 +256,7 @@ export default function UpsertLessonModal({
               rows={3}
               defaultValue={lesson?.note ?? ""}
               placeholder="Preparation notes, goals for this lesson…"
-              className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 focus:border-emerald-500 focus:outline-none"
+              className="form-textarea"
             />
           </div>
 

@@ -19,6 +19,7 @@ export type Attachment = {
   filename?: string;
 };
 export type HomeworkAttachmentInput = {
+  id?: string;
   type: AttachmentType;
   file?: File;
   url?: string;
@@ -42,4 +43,13 @@ export type HomeworkSubmission = {
     type: AttachmentType;
   }[];
   ai_suggestion?: string;
+};
+
+export type ScoreType = "needs_work" | "good" | "excellent";
+
+export type FeedbackData = {
+  submission_id: string;
+  score: ScoreType;
+  feedback: string;
+  notes?: string;
 };

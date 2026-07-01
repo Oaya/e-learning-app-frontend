@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   HiOutlineArrowLeft,
-  HiOutlinePaperClip,
   HiOutlineStar,
   HiOutlineChatBubbleLeftEllipsis,
   HiOutlinePencilSquare,
@@ -11,10 +10,10 @@ import {
   HiOutlineWrenchScrewdriver,
 } from "react-icons/hi2";
 import { useHomework } from "../../../admin/homework/hooks/useHomework";
-import { HW_STATUS_BADGE, HW_UPLOAD_BUTTON } from "../../../../utils/constants";
 
+import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
-import type { AttachmentType } from "../../../../type/homework_submission";
+import AttachmentsList from "../components/AttachmentsList";
 
 const MOCK_FEEDBACK = {
   score: "good" as const,
@@ -57,23 +56,6 @@ export default function HomeworkViewPage() {
 
   const submission = homework.submission;
 
-  function handleAttachment(
-    type: AttachmentType,
-    url: string,
-    filename?: string,
-  ) {
-    if (type !== "link" && filename) {
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } else if (type === "link") {
-      window.open(url, "_blank", "noopener,noreferrer");
-    }
-  }
-
   const feedback = isReviewed ? MOCK_FEEDBACK : null;
 
   const scoreConfig = feedback ? SCORE_CONFIG[feedback.score] : null;
@@ -81,7 +63,7 @@ export default function HomeworkViewPage() {
   return (
     <div className="flex flex-col">
       {/* Top bar */}
-      <div className="flex items-center justify-between bg-gray-200 px-10 py-4">
+      <div className="top-bar">
         <button
           onClick={() => navigate("/student/homework")}
           className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
@@ -116,7 +98,7 @@ export default function HomeworkViewPage() {
           {/* LEFT — answer + attachments */}
           <div className="flex min-w-0 flex-1 flex-col gap-4">
             {/* Written answer */}
-            <div className="rounded-xl border border-gray-200 bg-white p-5">
+            <div className="panel-box">
               <div className="mb-3 flex items-center justify-between">
                 <p className="panel-header">Your answer</p>
               </div>
@@ -133,53 +115,11 @@ export default function HomeworkViewPage() {
 
             {/* Attachments */}
             {submission?.attachments && submission.attachments.length > 0 && (
-              <div className="rounded-xl border border-gray-200 bg-white p-5">
-                <div className="mb-3 flex items-center gap-2">
-                  <HiOutlinePaperClip className="h-4 w-4 text-gray-400" />
-                  <p className="panel-header">Attachments</p>
-                </div>
-                <div className="space-y-2">
-                  {submission.attachments.map((a) => {
-                    const { icon: Icon, bg, color } = HW_UPLOAD_BUTTON[a.type];
-                    return (
-                      <div
-                        key={a.id}
-                        className="flex items-center gap-3 rounded-lg border border-gray-100 bg-gray-50 px-4 py-2.5"
-                      >
-                        <div
-                          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${bg} ${color}`}
-                        >
-                          <Icon size={14} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-xs font-medium text-gray-800">
-                            {a.type === "link" ? (
-                              <a
-                                href={a.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-theme-pink-20 hover:underline"
-                              >
-                                Link
-                              </a>
-                            ) : (
-                              a.filename
-                            )}
-                          </p>
-                          <p className="text-[10px] text-gray-400">{a.sub}</p>
-                        </div>
-                        <button
-                          className="shrink-0 rounded-md border border-gray-200 bg-white px-3 py-1 text-xs text-gray-600 hover:bg-gray-100"
-                          onClick={() =>
-                            handleAttachment(a.type, a.url!, a.filename)
-                          }
-                        >
-                          {a.type === "link" ? "Open" : "Download"}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
+              <div className="panel-box">
+                <AttachmentsList
+                  atts={submission.attachments}
+                  title="Attachments"
+                />
               </div>
             )}
           </div>
@@ -187,7 +127,7 @@ export default function HomeworkViewPage() {
           {/* RIGHT — feedback + what's next */}
           <div className="flex w-72 shrink-0 flex-col gap-4">
             {/* Teacher feedback */}
-            <div className="rounded-xl border border-gray-200 bg-white p-5">
+            <div className="panel-box">
               <div className="mb-3 flex items-center gap-2">
                 <HiOutlineChatBubbleLeftEllipsis className="h-4 w-4 text-gray-400" />
                 <p className="panel-header">Teacher feedback</p>
@@ -221,7 +161,7 @@ export default function HomeworkViewPage() {
             </div>
 
             {/* What's next */}
-            <div className="rounded-xl border border-gray-200 bg-white p-5">
+            <div className="panel-box">
               <p className="panel-header mb-2">What's next</p>
               <p className="text-sm text-gray-500">
                 Your next lesson is coming up. Keep practising until then!

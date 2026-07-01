@@ -50,14 +50,14 @@ type AllStudentPanelProps = {
 
 export default function AllStudentPanel({ students }: AllStudentPanelProps) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
+    <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700">
           <HiUsers size={16} /> All students
         </h2>
         <Link
           to="/admin/students"
-          className="flex items-center gap-1 text-xs text-emerald-600 hover:underline"
+          className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
         >
           Manage <HiArrowRight className="h-3 w-3" />
         </Link>
@@ -65,8 +65,8 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
       {students?.length === 0 ? (
         <div className="py-8 text-center text-sm text-gray-400">
           No students yet.{" "}
-          <Link to="/admin/students" className="text-emerald-600 underline">
-            CreateLesson one
+          <Link to="/admin/students" className="text-theme-green-20 underline">
+            Create Student
           </Link>
         </div>
       ) : (

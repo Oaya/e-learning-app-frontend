@@ -3,7 +3,6 @@ import {
   HiOutlineEye,
   HiOutlineTrash,
   HiOutlineBell,
-  HiOutlineCheck,
   HiOutlineSparkles,
 } from "react-icons/hi2";
 import { useState } from "react";
@@ -83,7 +82,7 @@ export default function HomeworkCard({ hw }: Props) {
           {/* View — goes to review page for submitted/reviewed, otherwise just icon */}
           {(status === "submitted" || status === "reviewed") && (
             <ActionBtn
-              title="View"
+              title="Review"
               onClick={() => navigate(`/admin/homework/${hw.id}/review`)}
             >
               <HiOutlineEye size={16} />
@@ -106,14 +105,14 @@ export default function HomeworkCard({ hw }: Props) {
             </>
           )}
 
-          {status === "submitted" && (
+          {/* {status === "submitted" && (
             <ActionBtn
               title="Mark as reviewed"
               // onClick={() => onMarkReviewed?.(hw)}
             >
               <HiOutlineCheck size={16} />
             </ActionBtn>
-          )}
+          )} */}
         </div>
       </div>
 

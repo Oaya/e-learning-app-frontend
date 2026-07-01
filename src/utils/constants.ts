@@ -3,9 +3,18 @@ import { GoGoal } from "react-icons/go";
 import { MdPayment } from "react-icons/md";
 import { TbRobot } from "react-icons/tb";
 import type { IconType } from "react-icons";
-import { HiOutlineLink, HiOutlineVideoCamera } from "react-icons/hi";
-import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
+import {
+  HiOutlineLink,
+  HiOutlineStar,
+  HiOutlineVideoCamera,
+} from "react-icons/hi";
+import {
+  HiOutlineDocumentArrowUp,
+  HiOutlineHandThumbUp,
+  HiOutlineWrenchScrewdriver,
+} from "react-icons/hi2";
 import type { AttachmentType } from "../type/homework_submission";
+import type { ScoreType } from "../features/admin/homework/pages/HomeworkReviewPage";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
@@ -136,5 +145,26 @@ export const HW_UPLOAD_BUTTON: Record<
     icon: HiOutlineLink,
     color: "text-theme-pink-20",
     bg: "bg-theme-pink-10",
+  },
+};
+
+export const SCORE_COLOR: Record<
+  ScoreType,
+  {
+    css: string;
+    icon: IconType;
+  }
+> = {
+  needs_work: {
+    css: "bg-theme-pink-10 text-theme-pink-20 border-theme-pink-20",
+    icon: HiOutlineWrenchScrewdriver,
+  },
+  good: {
+    css: "bg-theme-yellow-10  text-theme-yellow-20 border-theme-yellow-20",
+    icon: HiOutlineHandThumbUp,
+  },
+  excellent: {
+    css: "bg-theme-green-30 text-theme-green-20 border-theme-green-20",
+    icon: HiOutlineStar,
   },
 };

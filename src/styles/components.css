@@ -1,14 +1,10 @@
 @layer components {
   .form-input {
-    @apply mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2 text-lg shadow-md disabled:bg-gray-50;
+    @apply focus:border-theme-purple-50 mb-2 w-full rounded border border-gray-200 bg-white px-3 py-3 text-sm focus:outline-none disabled:bg-gray-50;
   }
 
   .form-textarea {
-    @apply mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2 text-lg shadow-md;
-  }
-
-  .form-select {
-    @apply mb-2 w-full rounded border border-gray-300 bg-white px-3 py-2.5 text-lg shadow-md;
+    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-3 py-2 text-sm placeholder-gray-300 focus:outline-none;
   }
 
   .curriculum-header {
@@ -20,10 +16,10 @@
   }
 
   .btn-secondary {
-    @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 rounded-lg px-4 py-2 text-sm text-white disabled:opacity-50;
+    @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
   .btn-primary-white {
-    @apply mr-4 inline-flex items-center justify-center rounded-lg border border-gray-300 px-5 py-3 text-sm hover:opacity-50 disabled:opacity-50;
+    @apply mr-4 inline-flex items-center justify-center rounded border border-gray-300 px-5 py-3 text-sm hover:opacity-50 disabled:opacity-50;
   }
 
   .btn-edit-icon {
@@ -31,15 +27,7 @@
   }
 
   .btn-primary-pink {
-    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex appearance-none items-center justify-center rounded-lg px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
-  }
-
-  .btn-page-move {
-    @apply bg-theme-green-10 absolute top-1/2 -translate-y-1/2 rounded px-1 py-3;
-  }
-
-  .curriculum-container {
-    @apply mx-auto max-w-5xl space-y-6 border border-gray-300 bg-white p-6 shadow-lg;
+    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
   }
 
   .sm-label {
@@ -55,6 +43,13 @@
   }
   .panel-header {
     @apply mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase;
+  }
+  .panel-box {
+    @apply rounded-xl border border-gray-200 bg-white p-5;
+  }
+
+  .top-bar {
+    @apply flex items-center justify-between bg-gray-200 px-10 py-4;
   }
 
   @media (hover: none) {

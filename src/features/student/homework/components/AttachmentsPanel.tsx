@@ -51,7 +51,7 @@ export default function AttachmentsPanel({
   }
 
   return (
-    <div className="flex flex-1 flex-col rounded-xl border border-gray-200 bg-white p-5">
+    <div className="panel-box flex flex-1 flex-col">
       <p className="panel-header">Attachments</p>
 
       <div className="mb-4 grid grid-cols-3 gap-3">

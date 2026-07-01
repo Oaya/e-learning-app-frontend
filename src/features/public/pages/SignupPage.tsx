@@ -1,25 +1,32 @@
-import { useLocation } from "react-router-dom";
 import { useAlert } from "../../../contexts/AlertContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import type { SignupUser } from "../../../type/user";
+import CustomSelect from "../../../ui/CustomSelect";
+import { capitalize } from "../../../utils/helper";
+import { fdString } from "../../../utils/formData";
+
+const PLANS = ["free", "pro"];
 
 export default function SignupPage() {
-  const location = useLocation();
-
-  const selectedPlan = location.state?.selectedPlan as string | undefined;
   const { signupUser, isLoading } = useAuth();
   const alert = useAlert();
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Signup form submitted");
     try {
       const form = e.currentTarget;
       const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+      const data = {
+        email: fdString(formData, "email"),
+        first_name: fdString(formData, "first_name"),
+        last_name: fdString(formData, "last_name"),
+        password: fdString(formData, "password"),
+        password_confirm: fdString(formData, "password_confirm"),
+        plan: fdString(formData, "plan"),
+      };
 
-      //Check the password and confirm_password is same or not
-      if (data.password !== data.password_confirmation) {
+      //Check the password and password_confirm is same or not
+      if (data.password !== data.password_confirm) {
         alert.error("Password and Confirm Password should match");
         return;
       }
@@ -63,7 +70,7 @@ export default function SignupPage() {
         <div className="mb-2">
           <label className="block text-lg">Confirm Password</label>
           <input
-            name="password_confirmation"
+            name="password_confirm"
             type="password"
             className="form-input"
           />
@@ -71,14 +78,13 @@ export default function SignupPage() {
 
         <div className="mb-2">
           <label className="block text-lg">Plan</label>
-          <select
+          <CustomSelect
             name="plan"
-            className="form-select"
-            defaultValue={selectedPlan}
-          >
-            <option value="free">Free</option>
-            <option value="pro">Pro</option>
-          </select>
+            options={(PLANS ?? []).map((p) => ({
+              value: p,
+              label: capitalize(p),
+            }))}
+          ></CustomSelect>
         </div>
 
         <button

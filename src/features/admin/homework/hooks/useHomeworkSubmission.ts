@@ -2,30 +2,63 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAlert } from "../../../../contexts/AlertContext";
 
 import type {
+  FeedbackData,
   HomeworkSubmission,
   UpsertHomeworkSubmission,
 } from "../../../../type/homework_submission";
-import { upsertHomeworkSubmission } from "../../../../api/homework_submission";
+import {
+  createFeedback,
+  upsertHomeworkSubmission,
+} from "../../../../api/homework_submission";
 
 export function useHomeworkSubmission(
   id: string,
   options?: {
-    onUpsertSuccess?: (upsertHWSubmission: HomeworkSubmission) => void;
+    onSaveDraftSuccess?: (submission: HomeworkSubmission) => void;
+    onSubmitSuccess?: (submission: HomeworkSubmission) => void;
   },
 ) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
-  const upsertMutation = useMutation({
+  const saveDraftMutation = useMutation({
     mutationFn: (data: UpsertHomeworkSubmission) =>
       upsertHomeworkSubmission(data),
-    onSuccess: (upsertHWSubmission) => {
+    onSuccess: (submission) => {
       queryClient.invalidateQueries({ queryKey: ["homework", id] });
-      options?.onUpsertSuccess?.(upsertHWSubmission);
+      options?.onSaveDraftSuccess?.(submission);
+    },
+    onError: (err) => {
+      console.log(err);
+      alert.error(err instanceof Error ? err.message : "Failed to save draft");
+    },
+  });
+
+  const submitMutation = useMutation({
+    mutationFn: (data: UpsertHomeworkSubmission) =>
+      upsertHomeworkSubmission(data),
+    onSuccess: (submission) => {
+      queryClient.invalidateQueries({ queryKey: ["homework", id] });
+      options?.onSubmitSuccess?.(submission);
     },
     onError: (err) => {
       alert.error(
-        err instanceof Error ? err.message : `Failed to submit homework`,
+        err instanceof Error ? err.message : "Failed to submit homework",
+      );
+    },
+  });
+
+  const feedbackMutation = useMutation({
+    mutationFn: (data: FeedbackData) => createFeedback(data),
+    onSuccess: (submission) => {
+      queryClient.invalidateQueries({ queryKey: ["homework", id] });
+      options?.onSubmitSuccess?.(submission);
+    },
+    onError: (err) => {
+      alert.error(
+        err instanceof Error
+          ? err.message
+          : "Failed to submit homework feedback",
       );
     },
   });
@@ -73,18 +106,11 @@ export function useHomeworkSubmission(
   // });
 
   return {
-    // ...homeworkSubmissionQuery,
-    // homeworkSubmission: homeworkSubmissionQuery.data,
-    upsertHomeworkSubmission: upsertMutation.mutateAsync,
-
-    // updateHomework: updateMutation.mutateAsync,
-    // deleteHomework: deleteMutation.mutateAsync,
-    // // cancelhomework: cancelMutation.mutateAsync,
-
-    isUpserting: upsertMutation.isPending,
-
-    // isUpdating: updateMutation.isPending,
-    // isDeleting: deleteMutation.isPending,
-    // isCanceling: cancelMutation.isPending,
+    saveDraft: saveDraftMutation.mutateAsync,
+    submitHomework: submitMutation.mutateAsync,
+    submitFeedback: feedbackMutation.mutateAsync,
+    isSavingDraft: saveDraftMutation.isPending,
+    isSubmitting: submitMutation.isPending,
+    isSubmittingFeedback: feedbackMutation.isPending,
   };
 }

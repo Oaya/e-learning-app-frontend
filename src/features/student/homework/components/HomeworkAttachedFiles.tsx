@@ -37,7 +37,7 @@ export default function HomeworkAttachedFiles({
                     Link
                   </a>
                 ) : (
-                  a.file?.name
+                  a.file?.name || a.filename
                 )}
               </p>
               <p className="text-[10px] text-gray-400">{a.sub}</p>

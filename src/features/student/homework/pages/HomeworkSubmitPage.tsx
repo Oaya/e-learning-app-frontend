@@ -6,10 +6,7 @@ import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
 import AttachmentsPanel from "../components/AttachmentsPanel";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomework } from "../../../admin/homework/hooks/useHomework";
-import type {
-  Attachment,
-  HomeworkSubmissionStatus,
-} from "../../../../type/homework_submission";
+import type { Attachment } from "../../../../type/homework_submission";
 
 export default function HomeworkSubmitPage() {
   const { id } = useParams<{ id: string }>();
@@ -30,17 +27,14 @@ export default function HomeworkSubmitPage() {
     }
   }, [submission]);
 
-  const { upsertHomeworkSubmission, isUpserting } = useHomeworkSubmission(
-    hwId,
-    {
-      onUpsertSuccess: () => {
-        alert.success(
-          `Homework Submission ${submission?.status} successfully.`,
-        );
+  const { saveDraft, submitHomework, isSavingDraft, isSubmitting } =
+    useHomeworkSubmission(hwId, {
+      onSaveDraftSuccess: () => alert.success("Draft saved."),
+      onSubmitSuccess: () => {
+        alert.success("Homework submitted successfully.");
         navigate("/student/homework");
       },
-    },
-  );
+    });
 
   function addAttachment(a: Omit<Attachment, "id">) {
     setAttachments((prev) => [...prev, { ...a, id: crypto.randomUUID() }]);
@@ -50,25 +44,32 @@ export default function HomeworkSubmitPage() {
     setAttachments((prev) => prev.filter((a) => a.id !== attachId));
   }
 
-  async function handleSave(type: "draft" | "submitted") {
-    if (type === "submitted") {
-      if (!text.trim() && attachments.length === 0) return;
-    }
+  const submissionData = {
+    homework_id: hwId,
+    answer_text: text,
+    attachments: attachments.map((a) => ({
+      id: a.id,
+      type: a.type,
+      file: a.file,
+      url: a.url,
+      sub: a.sub,
+    })),
+  };
 
+  async function handleSaveDraft() {
     try {
-      await upsertHomeworkSubmission({
-        homework_id: hwId,
-        answer_text: text,
-        status: type as HomeworkSubmissionStatus,
-        attachments: attachments.map((a) => ({
-          type: a.type,
-          file: a.file,
-          url: a.url,
-          sub: a.sub,
-        })),
-      });
-    } catch (error) {
-      alert.error("Failed to save Homework Submission. Try again later.");
+      await saveDraft({ ...submissionData, status: "draft" });
+    } catch {
+      alert.error("Failed to save draft. Try again later.");
+    }
+  }
+
+  async function handleSubmit() {
+    if (!text.trim() && attachments.length === 0) return;
+    try {
+      await submitHomework({ ...submissionData, status: "submitted" });
+    } catch {
+      alert.error("Failed to submit homework. Try again later.");
     }
   }
 
@@ -80,7 +81,7 @@ export default function HomeworkSubmitPage() {
   return (
     <div className="flex flex-col">
       {/* Top bar */}
-      <div className="flex items-center justify-between bg-gray-200 px-10 py-4">
+      <div className="top-bar">
         <button
           onClick={() => navigate("/student/homework")}
           className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
@@ -91,18 +92,19 @@ export default function HomeworkSubmitPage() {
         <div className="flex flex-col items-end gap-1">
           <div className="flex gap-2">
             <button
-              onClick={() => handleSave("draft")}
+              onClick={handleSaveDraft}
+              disabled={isSavingDraft || isSubmitting}
               className="btn-primary-white"
             >
-              {isUpserting ? "Saving…" : "Save draft"}
+              {isSavingDraft ? "Saving…" : "Save draft"}
             </button>
             <button
-              onClick={() => handleSave("submitted")}
-              disabled={isUpserting || !canSubmit}
+              onClick={handleSubmit}
+              disabled={isSubmitting || isSavingDraft || !canSubmit}
               className="btn-primary-pink"
             >
               <HiOutlineCheck size={16} />
-              {isUpserting ? "Submitting…" : "Submit"}
+              {isSubmitting ? "Submitting…" : "Submit"}
             </button>
           </div>
           <p className="text-xs text-gray-400">
@@ -115,13 +117,13 @@ export default function HomeworkSubmitPage() {
 
         <div className="flex items-stretch gap-5">
           {/* Written answer */}
-          <div className="flex shrink-0 grow-0 basis-[65%] flex-col rounded-xl border border-gray-200 bg-white p-5">
+          <div className="panel-box flex shrink-0 grow-0 basis-[65%] flex-col">
             <p className="panel-header">Written answer</p>
             <textarea
               placeholder="Write your answer here…"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="min-h-90 w-full flex-1 resize-none rounded-lg border border-gray-200 px-3 py-2.5 text-sm leading-relaxed text-gray-800 placeholder-gray-300 focus:border-emerald-400 focus:outline-none"
+              className="form-textarea min-h-90"
             />
           </div>
 

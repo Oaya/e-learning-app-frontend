@@ -20,7 +20,7 @@ export default function TodayLessonsPanel({
   lessons,
 }: TodayLessonPanelProps) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
+    <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700">
           <HiCalendar size={16} /> Today's lessons

@@ -1,5 +1,6 @@
 import type {
   Attachment,
+  FeedbackData,
   HomeworkSubmissionStatus,
 } from "./homework_submission";
 
@@ -19,7 +20,7 @@ export type Homework = {
     avatar?: string;
     learning_languages: string[];
   };
-  submission?: {
+  submission?: FeedbackData & {
     id: string;
     status: HomeworkSubmissionStatus;
     answer_text?: string;

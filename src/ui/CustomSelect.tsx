@@ -15,8 +15,13 @@ type InstructorOptions = {
 export default function CustomSelect(props: any) {
   return (
     <Select
-      className="mt-1"
+      className="mb-2 w-full"
       classNamePrefix="rs"
+      classNames={{
+        control: () =>
+          "!rounded !border !border-gray-200 !bg-white !text-sm !shadow-none",
+        valueContainer: () => "!px-3 !py-2",
+      }}
       components={
         props.withAvatar
           ? {
