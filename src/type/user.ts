@@ -1,4 +1,5 @@
 import type { Level } from "../utils/constants";
+import type { HomeworkSubmissionStatus } from "./homework_submission";
 
 export const roles = ["admin", "student"] as const;
 export type Role = (typeof roles)[number];
@@ -35,6 +36,17 @@ export type User = {
     cancel_at_period_end?: boolean | null;
     has_stripe_subscription: boolean;
   };
+};
+
+export type UserWithStatues = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  avatar?: string;
+  timezone?: string;
+  created_at: string;
+  hw_status: string;
+  payment_status?: string;
 };
 
 export type InviteUser = {

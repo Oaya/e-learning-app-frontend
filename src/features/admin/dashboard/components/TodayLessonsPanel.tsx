@@ -49,7 +49,7 @@ export default function TodayLessonsPanel({
             </span>
             <div className="flex-1">
               <p className="text-sm font-medium text-gray-800">
-                {s.student.first_name} {s.student.first_name}
+                {s.student.first_name} {s.student.last_name}
               </p>
               <p className="text-xs text-gray-400">{s.topic}</p>
             </div>

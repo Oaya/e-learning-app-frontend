@@ -51,6 +51,8 @@ export default function UpsertLessonModal({
     },
   });
 
+  const selectableStudent = students?.filter((s) => s.status === "active");
+
   const tz = timezone ?? dayjs.tz.guess();
 
   const [date, setDate] = useState<Date | null>(
@@ -76,16 +78,9 @@ export default function UpsertLessonModal({
   // Exclude the lesson being edited from conflict detection
   const conflictLessons = useMemo(() => {
     return (lessons ?? []).filter(
-      (s) => s.status === "scheduled" && s.id !== lesson?.id,
+      (l) => l.status === "scheduled" && l.id !== lesson?.id,
     );
   }, [lessons, lesson]);
-
-  const bookedDates = useMemo(() => {
-    return conflictLessons.map((s) => {
-      const d = dayjs.utc(s.scheduled_at).tz(tz);
-      return new Date(d.year(), d.month(), d.date());
-    });
-  }, [conflictLessons, tz]);
 
   const filterTime = (time: Date) => {
     const newStart = dayjs(time);
@@ -167,7 +162,7 @@ export default function UpsertLessonModal({
                 onChange={(opt: StudentOption | null) =>
                   setSelectedStudent(opt)
                 }
-                options={(students ?? []).map((i) => ({
+                options={(selectableStudent ?? []).map((i) => ({
                   value: i.id,
                   label: `${i.first_name} ${i.last_name}`,
                   avatar: i.avatar,
@@ -205,7 +200,6 @@ export default function UpsertLessonModal({
               showTimeSelect
               dateFormat="Pp"
               minDate={new Date()}
-              excludeDates={bookedDates}
               filterTime={filterTime}
               placeholderText="Select date & time"
               wrapperClassName="w-full"

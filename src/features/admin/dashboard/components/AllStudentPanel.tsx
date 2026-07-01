@@ -1,27 +1,8 @@
 import { HiArrowRight, HiUsers } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import type { User } from "../../../../type/user";
+import type { UserWithStatues } from "../../../../type/user";
 import { initials } from "../../../../utils/helper";
-
-function HwBadge({ hw }: { hw: string }) {
-  if (hw === "done")
-    return (
-      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">
-        HW done
-      </span>
-    );
-  if (hw === "due")
-    return (
-      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
-        HW due
-      </span>
-    );
-  return (
-    <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs text-red-600">
-      Overdue
-    </span>
-  );
-}
+import { HW_DASHBOARD_BADGE } from "../../../../utils/constants";
 
 function PayDot({ paid }: { paid: boolean }) {
   return paid ? (
@@ -37,15 +18,8 @@ function PayDot({ paid }: { paid: boolean }) {
   );
 }
 
-const STUDENT_META: Record<number, { hw: string; paid: boolean }> = {
-  0: { hw: "done", paid: true },
-  1: { hw: "due", paid: false },
-  2: { hw: "done", paid: true },
-  3: { hw: "overdue", paid: false },
-};
-
 type AllStudentPanelProps = {
-  students: User[];
+  students: UserWithStatues[];
 };
 
 export default function AllStudentPanel({ students }: AllStudentPanelProps) {
@@ -71,9 +45,7 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
         </div>
       ) : (
         <div className="divide-y divide-gray-100">
-          {students?.map((student, i) => {
-            const meta = STUDENT_META[i % 4] ?? { hw: "done", paid: true };
-
+          {students?.map((student) => {
             return (
               <div key={student.id} className="flex items-center gap-3 py-2.5">
                 {student.avatar ? (
@@ -93,8 +65,15 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
                   </p>
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-0.5">
-                  <HwBadge hw={meta.hw} />
-                  <PayDot paid={meta.paid} />
+                  {student.hw_status && (
+                    <span
+                      className={`rounded-full ${HW_DASHBOARD_BADGE[student.hw_status]} px-2 py-0.5 text-xs`}
+                    >
+                      HW {student.hw_status}
+                    </span>
+                  )}
+
+                  <PayDot paid={false} />
                 </div>
               </div>
             );

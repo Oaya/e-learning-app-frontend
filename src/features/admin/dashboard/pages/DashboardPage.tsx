@@ -12,17 +12,18 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useUsers } from "../../students/hooks/useUsers";
+
 import StatCard from "../components/StatCard";
 import { greeting } from "../../../../utils/helper";
 import { useLessons } from "../../lessons/hooks/useLessons";
 import TodayLessonsPanel from "../components/TodayLessonsPanel";
 import AllStudentPanel from "../components/AllStudentPanel";
 import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
+import { useUsersWithStatuses } from "../../students/hooks/useUsersWithStatues";
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
-  const { users: students } = useUsers({});
+  const { users: students } = useUsersWithStatuses();
   const { lessons } = useLessons();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -31,6 +32,7 @@ export default function AdminDashboardPage() {
     (st) => dayjs(st.created_at).month() === dayjs().month(),
   );
 
+  console.log(students);
   return (
     <div className="space-y-6">
       {/* Header */}

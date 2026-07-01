@@ -28,6 +28,7 @@ export function useLessons(options?: {
     mutationFn: (data: UpsertLesson) => createLesson(data),
     onSuccess: (createdLesson) => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
       options?.onCreateSuccess?.(createdLesson);
     },
     onError: (err) => {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { InviteUser, User } from "../type/user";
+import type { InviteUser, User, UserWithStatues } from "../type/user";
 
 import type { UserQueryInput } from "../features/admin/students/hooks/useUsers";
 
@@ -43,6 +43,25 @@ export async function getUsers({
     });
 
     console.log("Get users response:", response);
+    return response.data;
+  } catch (e: any) {
+    throw new Error(e.response?.data?.error);
+  }
+}
+
+export async function getUsersWithStatues(): Promise<UserWithStatues[]> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url: string = `${import.meta.env.VITE_API_URL}/api/users/with_statues`;
+
+    console.log(url);
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log("Get users with Statues response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);
