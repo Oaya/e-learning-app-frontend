@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
 import { useHomework } from "../hooks/useHomework";
 import { capitalize, initials } from "../../../../utils/helper";
-import { HW_STATUS_BADGE, SCORE_COLOR } from "../../../../utils/constants";
+import { HW_STATUS_BADGE, SCORE_BUDGE } from "../../../../utils/constants";
 import AttachmentsList from "../../../student/homework/components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";
 import { useAlert } from "../../../../contexts/AlertContext";
@@ -26,9 +26,9 @@ export default function HomeworkReviewPage() {
 
   useEffect(() => {
     if (submission) {
-      setScore(submission.score ?? null);
-      setFeedback(submission.feedback ?? "");
-      setNotes(submission.notes ?? "");
+      setScore(submission.feedback.score ?? null);
+      setFeedback(submission.feedback.feedback_text ?? "");
+      setNotes(submission.feedback.notes ?? "");
     }
   }, [submission]);
 
@@ -38,7 +38,6 @@ export default function HomeworkReviewPage() {
 
   const status = submission ? submission.status : "pending";
 
-  console.log(submission);
   async function handleGenerateAiFeedback() {
     setAiLoading(true);
     // TODO: replace with real Anthropic API call
@@ -176,7 +175,7 @@ export default function HomeworkReviewPage() {
             <div className="panel-box">
               <p className="panel-header">Score</p>
               <div className="flex gap-2">
-                {Object.entries(SCORE_COLOR).map(([key, value]) => (
+                {Object.entries(SCORE_BUDGE).map(([key, value]) => (
                   <button
                     key={key}
                     onClick={() => setScore(key as ScoreType)}

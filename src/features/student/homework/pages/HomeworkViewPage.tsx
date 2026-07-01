@@ -1,44 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   HiOutlineArrowLeft,
-  HiOutlineStar,
   HiOutlineChatBubbleLeftEllipsis,
   HiOutlinePencilSquare,
 } from "react-icons/hi2";
-import {
-  HiOutlineHandThumbUp,
-  HiOutlineWrenchScrewdriver,
-} from "react-icons/hi2";
+
 import { useHomework } from "../../../admin/homework/hooks/useHomework";
 
-import { HW_STATUS_BADGE } from "../../../../utils/constants";
+import { HW_STATUS_BADGE, SCORE_BUDGE } from "../../../../utils/constants";
 import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
 import AttachmentsList from "../components/AttachmentsList";
-
-const MOCK_FEEDBACK = {
-  score: "good" as const,
-  text: "Great work overall! Your sentence structure is solid and vocabulary choice is natural. Pay attention to て-form chaining in more complex sentences — for example in your third sentence you could connect two actions more fluidly.",
-  reviewed_at: "2026-06-25",
-};
-// ─────────────────────────────────────────────────────────────────────────────
-
-const SCORE_CONFIG = {
-  excellent: {
-    icon: <HiOutlineStar size={14} />,
-    label: "Excellent",
-    chip: "bg-emerald-50 text-emerald-700",
-  },
-  good: {
-    icon: <HiOutlineHandThumbUp size={14} />,
-    label: "Good",
-    chip: "bg-blue-50 text-blue-700",
-  },
-  needs_work: {
-    icon: <HiOutlineWrenchScrewdriver size={14} />,
-    label: "Needs work",
-    chip: "bg-orange-50 text-orange-700",
-  },
-};
+import type { ScoreType } from "../../../../type/homework_submission";
+import { capitalize } from "../../../../utils/helper";
 
 export default function HomeworkViewPage() {
   const { id } = useParams<{ id: string }>();
@@ -56,9 +29,9 @@ export default function HomeworkViewPage() {
 
   const submission = homework.submission;
 
-  const feedback = isReviewed ? MOCK_FEEDBACK : null;
-
-  const scoreConfig = feedback ? SCORE_CONFIG[feedback.score] : null;
+  const feedback = isReviewed ? submission?.feedback : null;
+  const scoreBadge =
+    SCORE_BUDGE[homework.submission?.feedback?.score as ScoreType];
 
   return (
     <div className="flex flex-col">
@@ -125,7 +98,7 @@ export default function HomeworkViewPage() {
           </div>
 
           {/* RIGHT — feedback + what's next */}
-          <div className="flex w-72 shrink-0 flex-col gap-4">
+          <div className="flex w-100 shrink-0 flex-col gap-4">
             {/* Teacher feedback */}
             <div className="panel-box">
               <div className="mb-3 flex items-center gap-2">
@@ -133,19 +106,19 @@ export default function HomeworkViewPage() {
                 <p className="panel-header">Teacher feedback</p>
               </div>
 
-              {feedback && scoreConfig ? (
+              {submission && feedback ? (
                 <div className="space-y-3">
                   <span
-                    className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ${scoreConfig.chip}`}
+                    className={`mt-2 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium capitalize ${scoreBadge.css}`}
                   >
-                    {scoreConfig.icon}
-                    {scoreConfig.label}
+                    <scoreBadge.icon size={14} />
+                    {capitalize(homework!.submission!.feedback.score)}
                   </span>
                   <p className="text-sm leading-relaxed text-gray-600">
-                    {feedback.text}
+                    {feedback.feedback_text}
                   </p>
                   <p className="text-xs text-gray-400">
-                    Reviewed {feedback.reviewed_at}
+                    Reviewed {submission?.reviewed_at}
                   </p>
                 </div>
               ) : (

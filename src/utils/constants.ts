@@ -147,7 +147,7 @@ export const HW_UPLOAD_BUTTON: Record<
   },
 };
 
-export const SCORE_COLOR: Record<
+export const SCORE_BUDGE: Record<
   ScoreType,
   {
     css: string;

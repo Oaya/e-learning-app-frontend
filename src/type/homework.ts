@@ -2,6 +2,7 @@ import type {
   Attachment,
   FeedbackData,
   HomeworkSubmissionStatus,
+  ScoreType,
 } from "./homework_submission";
 
 export type Homework = {
@@ -27,6 +28,11 @@ export type Homework = {
     submitted_at?: string;
     reviewed_at?: string;
     attachments?: Attachment[];
+    feedback?: {
+      score: ScoreType;
+      feedback_text: string;
+      notes?: string;
+    };
   };
 };
 

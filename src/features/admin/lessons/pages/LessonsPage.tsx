@@ -120,19 +120,21 @@ export default function LessonsPage() {
       </div>
 
       {/* Filters */}
-      <TabFilters
-        tabs={LESSON_TABS}
-        activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab as LessonFilterTab)}
-      />
+      <div className="flex">
+        <TabFilters
+          tabs={LESSON_TABS}
+          activeTab={activeTab}
+          onTabChange={(tab) => setActiveTab(tab as LessonFilterTab)}
+        />
 
-      <input
-        type="text"
-        placeholder="Search student or topic…"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="focus:border-theme-green-20 ml-auto w-80 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:outline-none"
-      />
+        <input
+          type="text"
+          placeholder="Search student or topic…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="form-input ml-auto w-80 px-3 py-1.5"
+        />
+      </div>
 
       {/* Lesson list */}
       {filtered?.length === 0 ? (

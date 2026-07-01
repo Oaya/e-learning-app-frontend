@@ -80,7 +80,7 @@ export default function HomeworkCard({ hw }: Props) {
         </span>
         <div className="flex gap-1">
           {/* View — goes to review page for submitted/reviewed, otherwise just icon */}
-          {(status === "submitted" || status === "reviewed") && (
+          {(displayStatus === "submitted" || displayStatus === "reviewed") && (
             <ActionBtn
               title="Review"
               onClick={() => navigate(`/admin/homework/${hw.id}/review`)}
@@ -89,9 +89,7 @@ export default function HomeworkCard({ hw }: Props) {
             </ActionBtn>
           )}
 
-          {(status === "pending" ||
-            status === "draft" ||
-            status === "overdue") && (
+          {(displayStatus === "pending" || displayStatus === "overdue") && (
             <>
               <ActionBtn title="Edit" onClick={() => setEditHWId(hw.id)}>
                 <HiOutlinePencil size={16} />
@@ -104,15 +102,6 @@ export default function HomeworkCard({ hw }: Props) {
               </ActionBtn>
             </>
           )}
-
-          {/* {status === "submitted" && (
-            <ActionBtn
-              title="Mark as reviewed"
-              // onClick={() => onMarkReviewed?.(hw)}
-            >
-              <HiOutlineCheck size={16} />
-            </ActionBtn>
-          )} */}
         </div>
       </div>
 

@@ -160,7 +160,7 @@ export default function HomeworkPage() {
           placeholder="Search student or task…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="focus:border-theme-green-20 ml-auto w-80 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 placeholder-gray-300 focus:outline-none"
+          className="form-input ml-auto w-80 px-3 py-1.5"
         />
       </div>
 
