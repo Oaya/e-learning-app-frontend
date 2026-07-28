@@ -3,32 +3,20 @@ import { FiFilter } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 
-import { useAlert } from "../../../../contexts/AlertContext";
 import { useUsers } from "../hooks/useUsers";
 import InviteUserModal from "../components/InviteUserModal";
-import { useAuth } from "../../../../contexts/AuthContext";
-import ConfirmModal from "../../../../ui/ConfirmModal";
-import { inviteUser } from "../../../../api/users";
 import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";
-import { useUserSelections } from "../hooks/useUserSelections";
+
 import { useUserTableControl } from "../hooks/userUserTableControl";
-import { useUsersWithStatuses } from "../hooks/useUsersWithStatues";
 import { HiOutlineMail } from "react-icons/hi";
 import StatCard from "../../../../ui/StatCard";
 
 export default function StudentsPage() {
-  const alert = useAlert();
-  const { user } = useAuth();
-
   const [isInviteOpen, setInviteOpen] = useState(false);
-  const [actionOpen, setActionOpen] = useState(false);
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [userOffset, setUserOffset] = useState(0);
-
-  const isAdmin = user?.role === "admin";
 
   const {
     sorts,
@@ -43,8 +31,6 @@ export default function StudentsPage() {
   } = useUserTableControl();
 
   const {
-    deleteUsersMutation,
-    isDeleting,
     users = [],
     isLoading,
     isError,
@@ -71,22 +57,6 @@ export default function StudentsPage() {
   function handlePageClick(event: { selected: number }) {
     const newOffset = event.selected * itemsPerPage;
     setUserOffset(newOffset);
-  }
-
-  const { selected, clearSelection, selectedEmails } = useUserSelections(
-    displayUsers,
-    user?.id,
-  );
-
-  function closeAction() {
-    setActionOpen(false);
-  }
-
-  function deleteStudents() {
-    deleteUsersMutation([...selected]);
-    closeAction();
-    clearSelection();
-    setDeleteModalOpen(false);
   }
 
   if (isLoading) {
@@ -206,17 +176,6 @@ export default function StudentsPage() {
         <InviteUserModal
           isOpen={isInviteOpen}
           onClose={() => setInviteOpen(false)}
-        />
-      )}
-
-      {isDeleteModalOpen && (
-        <ConfirmModal
-          isOpen={isDeleteModalOpen}
-          title="Delete Users"
-          message={`Are you sure you want to delete ${selectedEmails.join(", ")}? This action cannot be undone.`}
-          isSubmitting={isDeleting}
-          onConfirm={deleteStudents}
-          onCancel={() => setDeleteModalOpen(false)}
         />
       )}
     </div>

@@ -8,7 +8,7 @@ import AttachmentsList from "../../../student/homework/components/AttachmentsLis
 import type { ScoreType } from "../../../../type/homework_submission";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomeworkSubmission } from "../hooks/useHomeworkSubmission";
-import Badge from "../../../shared/profile/components/badge";
+import Badge from "../../../../ui/badge";
 
 export default function HomeworkReviewPage() {
   const alert = useAlert();
