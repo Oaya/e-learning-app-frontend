@@ -8,7 +8,7 @@ import { useAlert } from "../../../../contexts/AlertContext";
 import { fdString } from "../../../../utils/formData";
 import { capitalize } from "../../../../utils/helper";
 import { levels } from "../../../../utils/constants";
-import type { StudentOption } from "../../../../type/user";
+import type { StudentOption, User } from "../../../../type/user";
 import { useHomeworks } from "../hooks/useHomeworks";
 import type { Homework } from "../../../../type/homework";
 
@@ -17,6 +17,7 @@ type ModalProps = {
   onClose: () => void;
   type: "Assign" | "Edit";
   hw?: Homework;
+  student?: User;
 };
 
 export default function UpsertHomeworkModal({
@@ -24,25 +25,29 @@ export default function UpsertHomeworkModal({
   onClose,
   type,
   hw,
+  student,
 }: ModalProps) {
   const alert = useAlert();
   const { users: students } = useUsers({});
+  const { createHomework, isCreating, updateHomework, isUpdating } =
+    useHomeworks();
+
+  const hData = hw ? hw.student : student ? student : null;
+  const defaultLanguage = hw ? hw.language : null;
+
   const [selectedStudent, setSelectedStudent] = useState<StudentOption | null>(
-    hw
+    hData
       ? {
-          value: hw.student.id,
-          label: `${hw.student.first_name} ${hw.student.last_name}`,
-          avatar: hw.student.avatar,
-          languages: hw.student.learning_languages,
+          value: hData.id,
+          label: `${hData.first_name} ${hData.last_name}`,
+          avatar: hData.avatar,
+          languages: hData.learning_languages,
         }
       : null,
   );
   const [aiMode, setAiMode] = useState(false);
   // const [aiTopic, setAiTopic] = useState("");
   // const [generating, setGenerating] = useState(false);
-
-  const { createHomework, isCreating, updateHomework, isUpdating } =
-    useHomeworks();
 
   if (!isOpen) return null;
 
@@ -159,6 +164,7 @@ export default function UpsertHomeworkModal({
             <CustomSelect
               name="student"
               withAvatar
+              isDisabled={!!hData}
               value={selectedStudent}
               onChange={(opt: StudentOption | null) => setSelectedStudent(opt)}
               options={(students ?? []).map((i) => ({
@@ -203,8 +209,11 @@ export default function UpsertHomeworkModal({
                 name="language"
                 className="w-full"
                 defaultValue={
-                  hw?.language
-                    ? { value: hw.language, label: capitalize(hw.language) }
+                  defaultLanguage
+                    ? {
+                        value: defaultLanguage,
+                        label: capitalize(defaultLanguage),
+                      }
                     : undefined
                 }
                 options={selectedStudent?.languages?.map((lang) => ({

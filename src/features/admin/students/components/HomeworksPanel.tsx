@@ -9,7 +9,7 @@ type Props = { homeworks: Homework[] | undefined };
 export default function HomeworksPanel({ homeworks }: Props) {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <p className="panel-header mb-4">Homework</p>
+      <p className="panel-header mb-4">Homeworks</p>
       {homeworks?.length === 0 ? (
         <p className="py-6 text-center text-sm text-gray-400">
           No homework assigned.

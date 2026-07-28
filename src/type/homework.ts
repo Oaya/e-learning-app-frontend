@@ -13,6 +13,7 @@ export type Homework = {
   language?: string;
   level?: string;
   ai_generated: boolean;
+  status: string;
   student: {
     id: string;
     first_name: string;

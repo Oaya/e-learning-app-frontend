@@ -42,8 +42,6 @@ export default function UpsertLessonModal({
   const { users: students } = useUsers({});
   const { createLesson, isCreating, updateLesson, isUpdating } = useLessons();
 
-  console.log(lesson);
-
   const selectableStudent = students?.filter((s) => s.status === "active");
 
   const tz = timezone ?? dayjs.tz.guess();

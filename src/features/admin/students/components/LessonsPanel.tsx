@@ -9,10 +9,10 @@ type Props = {
   lessons: Lesson[] | undefined;
 };
 
-export default function RecentLessonsPanel({ lessons }: Props) {
+export default function LessonsPanel({ lessons }: Props) {
   return (
     <div className="min-w-0 flex-1 rounded-xl border border-gray-200 bg-white p-5">
-      <p className="panel-header mb-4">Recent lessons</p>
+      <p className="panel-header mb-4">Lessons</p>
       {lessons?.length === 0 ? (
         <p className="py-8 text-center text-sm text-gray-400">
           No lessons yet.

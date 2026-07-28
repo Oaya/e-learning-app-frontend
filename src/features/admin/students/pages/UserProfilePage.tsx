@@ -20,7 +20,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import UpsertHomeworkModal from "../../homework/components/UpsertHomeworkModal";
 import { useAllLessons } from "../../lessons/hooks/useAllLessons";
-import RecentLessonsPanel from "../components/RecentLessonsPanel";
+import LessonsPanel from "../components/LessonsPanel";
 import HomeworksPanel from "../components/HomeworksPanel";
 import { useHomeworks } from "../../homework/hooks/useHomeworks";
 
@@ -48,6 +48,10 @@ export default function UserProfile() {
   if (!userId) return <p>User ID is missing.</p>;
   if (isLoading) return <p>Loading…</p>;
   if (!user) return <p>User not found.</p>;
+
+  //Stat Values//
+  const hwDone = homeworks?.filter((h) => h.status === "done");
+  const hwOverDue = homeworks?.filter((h) => h.status === "overdue");
 
   return (
     <div className="space-y-6 p-10">
@@ -127,18 +131,27 @@ export default function UserProfile() {
           icon={HiUsers}
           iconColor="text-theme-yellow-20"
           label="Total lessons"
-          value={10}
-          sub="3 this month"
-          subColor
+          value={lessons?.length ?? 0}
+          sub="Lessons total"
         />
         <StatCard
           icon={HiCalendar}
           iconColor="text-theme-yellow-20"
-          label="Homework rate"
-          value={80}
-          sub="On track"
+          label="Homework done"
+          value={hwDone?.length ?? 0}
+          sub={
+            hwOverDue && hwOverDue.length > 0 ? (
+              <>
+                Homework Done
+                <br />
+                {hwOverDue.length} overdue
+              </>
+            ) : (
+              "Homework Done"
+            )
+          }
         />
-        <StatCard
+        {/* <StatCard
           icon={HiDocumentText}
           iconColor="text-theme-yellow-20"
           label="Goal completed"
@@ -151,13 +164,13 @@ export default function UserProfile() {
           label="Balance"
           value="$60"
           sub="1 lesson owed"
-        />
+        /> */}
       </section>
 
       {/* Two panels */}
       <div className="flex items-start gap-5">
         {/* Left — lessons */}
-        <RecentLessonsPanel lessons={lessons} />
+        <LessonsPanel lessons={lessons} />
         {/* Right */}
         <div className="flex w-72 shrink-0 flex-col gap-4">
           <HomeworksPanel homeworks={homeworks} />
@@ -192,6 +205,7 @@ export default function UserProfile() {
         isOpen={isCreateHWOpen}
         onClose={() => setIsCreateHWOpen(false)}
         type="Assign"
+        student={user}
       />
     </div>
   );

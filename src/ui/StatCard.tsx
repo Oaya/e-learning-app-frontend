@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { IconType } from "react-icons";
 
 type StatCardProps = {
@@ -5,7 +6,7 @@ type StatCardProps = {
   iconColor?: string;
   label: string;
   value: string | number;
-  sub?: string;
+  sub?: ReactNode;
   subColor?: boolean;
 };
 
