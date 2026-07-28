@@ -7,7 +7,7 @@ import {
 
 import { useHomework } from "../../../admin/homework/hooks/useHomework";
 
-import { HW_STATUS_BADGE, SCORE_BUDGE } from "../../../../utils/constants";
+import { SCORE_BUDGE } from "../../../../utils/constants";
 import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
 import AttachmentsList from "../components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";

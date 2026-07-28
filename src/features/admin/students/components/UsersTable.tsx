@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { capitalize } from "../../../../utils/helper";
 import type { User, UserSort } from "../../../../type/user";
 import SortButton from "../../../../ui/SortButton";
+import defaultAvatar from "../../../../assets/user.png";
 
 export default function UsersTable({
   users,
@@ -58,7 +59,7 @@ export default function UsersTable({
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td className="p-4 text-gray-500" colSpan={5}>
+                <td className="p-4 text-gray-500" colSpan={3}>
                   No users found.
                 </td>
               </tr>
@@ -68,8 +69,13 @@ export default function UsersTable({
                   <td className="p-3">
                     <Link
                       to={`/users/${u.id}`}
-                      className="text-blue-600 hover:underline"
+                      className="flex items-center gap-2 text-blue-600 hover:underline"
                     >
+                      <img
+                        src={u.avatar || defaultAvatar}
+                        alt=""
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
                       {u?.first_name} {u.last_name}
                     </Link>
                   </td>

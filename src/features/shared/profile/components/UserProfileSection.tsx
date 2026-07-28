@@ -74,7 +74,7 @@ export default function UserProfileSection({ user }: Props) {
       last_name: lastName,
       email,
       timezone: timezone,
-      avatar: avatarFile, // File or null/undefined depending on your API contract
+      avatar: avatarFile ?? undefined, // omit when no new file chosen so the existing avatar isn't cleared
     });
 
     if (res.success) {
@@ -132,13 +132,29 @@ export default function UserProfileSection({ user }: Props) {
                 {user.first_name} {user.last_name}
               </h1>
               <p>{user.email}</p>
-              <p
-                className={`bg-theme-green-30 text-theme-green-20 mt-2 w-fit rounded-full px-4 py-1`}
-              >
-                {user.subscription?.plan
-                  ? capitalize(user.subscription?.plan) + " Plan"
-                  : null}
-              </p>
+              {user.role === "admin" ? (
+                <p
+                  className={`bg-theme-green-30 text-theme-green-20 mt-2 w-fit rounded-full px-4 py-1`}
+                >
+                  {user.subscription?.plan
+                    ? capitalize(user.subscription?.plan) + " Plan"
+                    : null}
+                </p>
+              ) : (
+                user.learning_languages &&
+                user.learning_languages.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {user.learning_languages.map((language) => (
+                      <span
+                        key={language}
+                        className="bg-theme-green-30 text-theme-green-20 w-fit rounded-full px-2 py-1 text-sm"
+                      >
+                        {language}
+                      </span>
+                    ))}
+                  </div>
+                )
+              )}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">

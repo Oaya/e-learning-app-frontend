@@ -7,12 +7,8 @@ interface Props {
 }
 
 export default function RequireAuth({ role }: Props) {
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (!user) {
     return <Navigate to="/" state={{ from: location }} replace />;

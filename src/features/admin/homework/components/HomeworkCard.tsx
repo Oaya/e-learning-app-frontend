@@ -53,9 +53,17 @@ export default function HomeworkCard({ hw }: Props) {
           )}
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
-            {initials(hw.student.first_name, hw.student.last_name)}
-          </span>
+          {hw.student.avatar ? (
+            <img
+              src={hw.student.avatar}
+              alt="avatar"
+              className="h-7 w-7 rounded-full object-cover"
+            />
+          ) : (
+            <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
+              {initials(hw.student.first_name, hw.student.last_name)}
+            </span>
+          )}
           <span className="text-xs text-gray-500">
             {hw.student.first_name} {hw.student.last_name}
           </span>
