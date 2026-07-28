@@ -79,9 +79,9 @@ export default function HomeworkSubmitPage() {
     return <p className="p-10 text-sm text-gray-400">Loading…</p>;
 
   return (
-    <div className="flex flex-col">
+    <div className="space-y-6 p-10">
       {/* Top bar */}
-      <div className="top-bar">
+      <section className="flex flex-wrap items-center justify-between gap-3">
         <button
           onClick={() => navigate("/student/homework")}
           className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
@@ -89,12 +89,13 @@ export default function HomeworkSubmitPage() {
           <HiOutlineArrowLeft size={16} />
           Back to homework
         </button>
+
         <div className="flex flex-col items-end gap-1">
           <div className="flex gap-2">
             <button
               onClick={handleSaveDraft}
               disabled={isSavingDraft || isSubmitting}
-              className="btn-primary-white"
+              className="btn-white"
             >
               {isSavingDraft ? "Saving…" : "Save draft"}
             </button>
@@ -111,13 +112,14 @@ export default function HomeworkSubmitPage() {
             You can edit your submission until your teacher reviews it.
           </p>
         </div>
-      </div>
-      <div className="space-y-5 p-10">
+      </section>
+
+      <div className="space-y-6">
         <HomeworkHeaderPanel hw={homework} />
 
         <div className="flex items-stretch gap-5">
           {/* Written answer */}
-          <div className="panel-box flex shrink-0 grow-0 basis-[65%] flex-col">
+          <div className="panel-box flex shrink-0 grow-0 basis-[60%] flex-col">
             <p className="panel-header">Written answer</p>
             <textarea
               placeholder="Write your answer here…"

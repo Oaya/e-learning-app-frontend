@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { HiOutlineCalendar, HiOutlineLanguage } from "react-icons/hi2";
 import type { Homework } from "../../../../type/homework";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
@@ -9,10 +10,22 @@ type Props = {
 };
 
 export default function HomeworkHeaderPanel({ hw }: Props) {
-  const status = hw.submission ? hw.submission.status : "pending";
+  const overDue =
+    hw.status === "overdue" ||
+    (!!hw.submission?.submitted_at &&
+      dayjs(hw.submission.submitted_at).isAfter(hw.due_date, "day"));
+
   return (
     <div className="rounded-xl border border-gray-200 bg-white px-6 py-4">
-      <h1 className="mb-2 text-base font-semibold text-gray-800">{hw.title}</h1>
+      <div className="flex gap-4 text-base">
+        <h1 className="mb-2 font-semibold text-gray-800">{hw.title}</h1>
+        {overDue && (
+          <p className="text-red-500">
+            This Homework is Overdue. You may not get feedback.
+          </p>
+        )}
+      </div>
+
       <div className="flex flex-wrap items-center gap-3">
         <span className="flex items-center gap-1 text-xs text-gray-400">
           <HiOutlineCalendar className="h-3.5 w-3.5" />
@@ -32,8 +45,8 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
         )}
 
         <Badge
-          value={capitalize(status)}
-          status={status}
+          value={capitalize(hw.status)}
+          status={hw.status}
           constant={HW_STATUS_BADGE}
         />
       </div>

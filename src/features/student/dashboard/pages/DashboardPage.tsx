@@ -41,14 +41,12 @@ export default function StudentDashboardPage() {
     : "No upcoming lessons";
 
   // Homework stats
-  const completedHW = (homeworks ?? []).filter(
+  const totalHW = homeworks?.length ?? 0;
+  const pendingHW = homeworks?.filter((h) => h.status === "pending").length;
+  const completedHW = homeworks?.filter(
     (h) =>
       h.submission?.status === "submitted" ||
       h.submission?.status === "reviewed",
-  ).length;
-  const totalHW = (homeworks ?? []).length;
-  const pendingHW = (homeworks ?? []).filter(
-    (h) => h.submission?.status === "pending" || !h.submission,
   ).length;
 
   // Completed lessons
@@ -62,9 +60,9 @@ export default function StudentDashboardPage() {
   );
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-6 pb-10">
       {/* Top bar */}
-      <div className="flex items-center justify-between bg-gray-200 px-10 py-6">
+      <section className="flex items-center justify-between bg-gray-200 px-10 py-6">
         <div>
           <h1 className="text-xl font-semibold text-gray-800">
             {greeting()},{"  "}
@@ -72,37 +70,38 @@ export default function StudentDashboardPage() {
           </h1>
           <p className="mt-1 text-sm text-gray-500">{nextLabel}</p>
         </div>
+      </section>
+
+      {/* Stat cards */}
+      <section className="grid grid-cols-2 gap-4 px-10 pt-4 lg:grid-cols-3">
+        <StatCard
+          label="Lessons completed"
+          iconColor="text-theme-green-20"
+          value={completedLessons}
+          sub="Keep it up!"
+          subColor
+        />
+        <StatCard
+          label="Homework done"
+          value={`${completedHW} / ${totalHW}`}
+          sub={`${pendingHW} pending`}
+        />
+        <StatCard label="Goal progress" value={`${avgGoal}%`} sub="Overall" />
+      </section>
+
+      {/* Two panels */}
+      <div className="grid grid-cols-1 gap-10 px-10 lg:grid-cols-2">
+        {/* Upcoming lessons */}
+
+        <UpcomingLessonsPanel lessons={upcoming} />
+
+        {/* Homework */}
+        <HomeworkPanel hws={homeworks} />
       </div>
 
-      <div className="space-y-6 p-10">
-        {/* Stat cards */}
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-          <StatCard
-            label="Lessons completed"
-            iconColor="text-theme-green-20"
-            value={completedLessons}
-            sub="Keep it up!"
-            subColor
-          />
-          <StatCard
-            label="Homework done"
-            value={`${completedHW} / ${totalHW}`}
-            sub={`${pendingHW} pending`}
-          />
-          <StatCard label="Goal progress" value={`${avgGoal}%`} sub="Overall" />
-        </div>
+      {/* Goals panel */}
 
-        {/* Two panels */}
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {/* Upcoming lessons */}
-
-          <UpcomingLessonsPanel lessons={upcoming} />
-
-          {/* Homework */}
-          <HomeworkPanel hws={homeworks} />
-        </div>
-
-        {/* Goals panel */}
+      <div className="px-10">
         <GoalPanel goals={MOCK_GOALS} />
       </div>
     </div>

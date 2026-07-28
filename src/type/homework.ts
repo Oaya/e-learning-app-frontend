@@ -11,7 +11,7 @@ export type Homework = {
   instructions?: string;
   due_date: string; // ISO date string
   language?: string;
-  level?: string;
+  level: string;
   ai_generated: boolean;
   status: string;
   student: {

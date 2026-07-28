@@ -18,7 +18,7 @@ dayjs.extend(relativeTime);
 
 export default function StudentLessonsPage() {
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
-  const { lessons, isLoading } = useAllLessons();
+  const { lessons } = useAllLessons();
   const now = dayjs();
 
   const filtered = useMemo(() => {
@@ -51,77 +51,75 @@ export default function StudentLessonsPage() {
     : "None scheduled";
 
   return (
-    <div>
+    <div className="space-y-6 p-10">
       {/* Top bar */}
-      <div className="flex items-center justify-between bg-gray-200 px-10 py-6">
-        <h1 className="text-xl font-semibold text-gray-800">Lessons</h1>
-      </div>
-
-      <div className="space-y-6 p-10">
-        {/* Stat cards */}
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-          <StatCard
-            label="Total lessons"
-            iconColor="text-theme-green-20"
-            value={lessons?.length ?? 0}
-          />
-          <StatCard
-            label="Upcoming"
-            iconColor="text-theme-green-20"
-            value={upcoming?.length ?? 0}
-            sub={nextLabel}
-            subColor
-          />
-          <StatCard
-            label="Total hours"
-            iconColor="text-theme-green-20"
-            value={`${totalHours}h`}
-            sub="Completed"
-          />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold text-gray-800">Lessons</h1>
         </div>
-
-        {/* Filter tabs */}
-        <TabFilters
-          tabs={LESSON_TABS}
-          activeTab={activeTab}
-          onTabChange={(tab) => setActiveTab(tab as LessonFilterTab)}
-        />
-
-        {isLoading && <p className="text-sm text-gray-400">Loading lessons…</p>}
-
-        {/* Lesson list */}
-        {filtered?.length === 0 ? (
-          <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400">
-            No lessons match your filter.
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {/* Upcoming */}
-            {upcoming && upcoming.length > 0 && (
-              <section>
-                <LessonList type="upcoming" />
-                <div className="space-y-2">
-                  {upcoming.map((s) => (
-                    <StudentLessonCard key={s.id} lesson={s} />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Past */}
-            {past && past.length > 0 && (
-              <section>
-                <LessonList type="past" />
-                <div className="space-y-2">
-                  {past.map((s) => (
-                    <StudentLessonCard key={s.id} lesson={s} />
-                  ))}
-                </div>
-              </section>
-            )}
-          </div>
-        )}
       </div>
+
+      {/* Stat cards */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        <StatCard
+          label="Total lessons"
+          iconColor="text-theme-green-20"
+          value={lessons?.length ?? 0}
+        />
+        <StatCard
+          label="Upcoming"
+          iconColor="text-theme-green-20"
+          value={upcoming?.length ?? 0}
+          sub={nextLabel}
+          subColor
+        />
+        <StatCard
+          label="Total hours"
+          iconColor="text-theme-green-20"
+          value={`${totalHours}h`}
+          sub="Completed"
+        />
+      </div>
+
+      {/* Filter tabs */}
+      <TabFilters
+        tabs={LESSON_TABS}
+        activeTab={activeTab}
+        onTabChange={(tab) => setActiveTab(tab as LessonFilterTab)}
+      />
+
+      {/* Lesson list */}
+      {filtered?.length === 0 ? (
+        <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400">
+          No lessons match your filter.
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {/* Upcoming */}
+          {upcoming && upcoming.length > 0 && (
+            <section>
+              <LessonList type="upcoming" />
+              <div className="space-y-2">
+                {upcoming.map((s) => (
+                  <StudentLessonCard key={s.id} lesson={s} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Past */}
+          {past && past.length > 0 && (
+            <section>
+              <LessonList type="past" />
+              <div className="space-y-2">
+                {past.map((s) => (
+                  <StudentLessonCard key={s.id} lesson={s} />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
     </div>
   );
 }

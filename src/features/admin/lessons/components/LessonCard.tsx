@@ -74,7 +74,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       </div>
 
       {/* Divider */}
-      <div className="h-10 w-px shrink-0 bg-gray-200" />
+      <div className="h-14 w-px shrink-0 bg-gray-200" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">

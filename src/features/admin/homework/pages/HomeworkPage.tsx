@@ -13,6 +13,7 @@ import StatCard from "../../../../ui/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
 import TabFilters from "../components/TabFilters";
 import type { HomeworkSubmissionStatus } from "../../../../type/homework_submission";
+import type { Homework } from "../../../../type/homework";
 
 export type HomeworkFilterTab =
   | "all"
@@ -36,14 +37,9 @@ export const HOMEWORK_GROUP_ORDER: Exclude<HomeworkFilterTab, "all">[] = [
   "reviewed",
 ];
 
-export function matchesTab(
-  h: { submission?: { status: HomeworkSubmissionStatus } | null },
-  tab: HomeworkFilterTab,
-) {
+export function matchesTab(h: Homework, tab: HomeworkFilterTab) {
   if (tab === "all") return true;
-  if (tab === "pending")
-    return h.submission == null || h.submission?.status === "draft";
-  return h.submission?.status === tab;
+  return h.status === tab;
 }
 
 export function inGroup(

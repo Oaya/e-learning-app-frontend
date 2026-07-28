@@ -2,7 +2,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import type { Homework } from "../../../../type/homework";
-import { getHomeworkDateLabel } from "../../../../utils/helper";
+import { capitalize, getHomeworkDateLabel } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 
 type HWPanelProps = {
@@ -14,7 +14,7 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
         <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-          Homework
+          Homeworks
         </p>
         <Link
           to="/student/homework"
@@ -28,9 +28,9 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
         <p className="text-sm text-gray-400">No homework yet.</p>
       ) : (
         <div className="divide-y divide-gray-100">
-          {hws?.slice(0, 4).map((hw) => {
+          {hws?.slice(0, 8).map((hw) => {
             const dateLabel = getHomeworkDateLabel(hw);
-            const status = hw.submission ? hw.submission.status : "pending";
+
             return (
               <div key={hw.id} className="flex items-center gap-3 py-3">
                 <div className="min-w-0 flex-1">
@@ -38,8 +38,8 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
                   <p className="text-xs text-gray-400">{dateLabel}</p>
                 </div>
                 <Badge
-                  value={status}
-                  status={status}
+                  value={capitalize(hw.status)}
+                  status={hw.status}
                   constant={HW_STATUS_BADGE}
                 />
               </div>

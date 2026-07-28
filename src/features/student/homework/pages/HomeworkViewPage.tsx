@@ -34,9 +34,9 @@ export default function HomeworkViewPage() {
     SCORE_BUDGE[homework.submission?.feedback?.score as ScoreType];
 
   return (
-    <div className="flex flex-col">
+    <div className="space-y-6 p-10">
       {/* Top bar */}
-      <div className="top-bar">
+      <section className="flex flex-wrap items-center justify-between gap-3">
         <button
           onClick={() => navigate("/student/homework")}
           className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
@@ -45,24 +45,19 @@ export default function HomeworkViewPage() {
           Back to homework
         </button>
         <div className="flex items-center gap-3">
-          <span
-            className={`rounded-full px-3 py-1 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[status] ?? ""}`}
-          >
-            {status}
-          </span>
           {!isReviewed && (
             <button
               onClick={() => navigate(`/student/homework/${hwId}/submit`)}
-              className="btn-primary-white flex items-center gap-1.5"
+              className="btn-white flex items-center gap-1.5"
             >
               <HiOutlinePencilSquare size={15} />
               Edit submission
             </button>
           )}
         </div>
-      </div>
+      </section>
 
-      <div className="space-y-5 p-10">
+      <div className="space-y-6">
         {/* Header card */}
         <HomeworkHeaderPanel hw={homework} />
 

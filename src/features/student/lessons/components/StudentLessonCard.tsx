@@ -28,13 +28,14 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
         </div>
       </div>
       {/* Divider */}
-      <div className="h-20 w-px shrink-0 bg-gray-200" />
+      <div className="h-14 w-px shrink-0 bg-gray-200" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
         <p className="mb-1.5 text-sm font-medium text-gray-800">
           {lesson.topic}
         </p>
+
         <div className="flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
             <HiOutlineClock size={16} />
