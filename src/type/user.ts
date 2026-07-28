@@ -31,6 +31,7 @@ export type User = {
   subscription?: {
     status: string;
     plan: string;
+    price: number;
     current_period_end?: Date | null;
     cancel_at_period_end?: boolean | null;
     has_stripe_subscription: boolean;
@@ -41,11 +42,14 @@ export type UserWithStatues = {
   id: string;
   first_name: string;
   last_name: string;
+  email: string;
   avatar?: string;
   timezone?: string;
   created_at: string;
   hw_status: string;
+  status: string;
   payment_status?: string;
+  role: Role;
 };
 
 export type InviteUser = {

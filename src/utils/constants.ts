@@ -124,6 +124,13 @@ export const ADMIN_HW_STATUS_BADGE: Record<string, string> = {
   reviewed: "bg-theme-yellow-10 text-theme-yellow-20",
 };
 
+export const ADMIN_PLAN_STATUS_BADGE: Record<string, string> = {
+  active: "bg-theme-green-30 text-theme-green-20",
+  pending: "bg-gray-100 text-gray-500",
+  past_due: "bg-theme-pink-10 text-theme-pink-20",
+  canceled: "bg-theme-yellow-10 text-theme-yellow-20",
+};
+
 export const HW_UPLOAD_BUTTON: Record<
   AttachmentType,
   {

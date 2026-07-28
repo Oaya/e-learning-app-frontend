@@ -1,6 +1,8 @@
 import { HiOutlineCalendar, HiOutlineLanguage } from "react-icons/hi2";
 import type { Homework } from "../../../../type/homework";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
+import Badge from "../../../shared/profile/components/badge";
+import { capitalize } from "../../../../utils/helper";
 
 type Props = {
   hw: Homework;
@@ -28,11 +30,12 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
             Submitted {hw.submission.submitted_at}
           </span>
         )}
-        <span
-          className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[status] ?? ""}`}
-        >
-          {status}
-        </span>
+
+        <Badge
+          value={capitalize(status)}
+          status={status}
+          constant={HW_STATUS_BADGE}
+        />
       </div>
       {hw.instructions && (
         <div className="mt-3 rounded-lg bg-gray-50 px-4 py-3 text-sm leading-relaxed text-gray-500">

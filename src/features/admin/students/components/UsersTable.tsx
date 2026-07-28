@@ -3,7 +3,7 @@ import { IoIosCheckbox } from "react-icons/io";
 
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { capitalize } from "../../../../utils/helper";
-import type { User, UserSort } from "../../../../type/user";
+import type { UserSort, UserWithStatues } from "../../../../type/user";
 import SortButton from "../../../../ui/SortButton";
 
 export default function UsersTable({
@@ -15,7 +15,7 @@ export default function UsersTable({
   onToggleOne,
   onToggleAll,
 }: {
-  users: User[];
+  users: UserWithStatues[];
   sorts: UserSort[];
   selected: Set<string>;
   allSelected: boolean;
@@ -117,7 +117,9 @@ export default function UsersTable({
                   </td>
 
                   <td className="p-3">{u.email}</td>
-                  <td className="p-3">{capitalize(u.status) ?? ""}</td>
+                  <td className="p-3">
+                    {u.status ? capitalize(u.status) : ""}
+                  </td>
                 </tr>
               ))
             )}

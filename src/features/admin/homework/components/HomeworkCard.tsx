@@ -19,6 +19,7 @@ import ActionBtn from "../../lessons/components/ActionButton";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useHomeworks } from "../hooks/useHomeworks";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
+import Badge from "../../../shared/profile/components/badge";
 
 type Props = {
   hw: Homework;
@@ -73,11 +74,12 @@ export default function HomeworkCard({ hw }: Props) {
 
       {/* Badge + actions */}
       <div className="flex shrink-0 flex-col items-end gap-2">
-        <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${HW_STATUS_BADGE[displayStatus]}`}
-        >
-          {capitalize(displayStatus)}
-        </span>
+        <Badge
+          value={capitalize(displayStatus)}
+          status={displayStatus}
+          constant={HW_STATUS_BADGE}
+        />
+
         <div className="flex gap-1">
           {/* View — goes to review page for submitted/reviewed, otherwise just icon */}
           {(displayStatus === "submitted" || displayStatus === "reviewed") && (

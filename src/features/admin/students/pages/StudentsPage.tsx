@@ -13,6 +13,7 @@ import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";
 import { useUserSelections } from "../hooks/useUserSelections";
 import { useUserTableControl } from "../hooks/userUserTableControl";
+import { useUsersWithStatuses } from "../hooks/useUsersWithStatues";
 
 export default function StudentsPage() {
   const alert = useAlert();
@@ -39,14 +40,12 @@ export default function StudentsPage() {
     updateSelectedFilters,
   } = useUserTableControl();
 
-  const {
-    users = [],
-    isLoading,
-    isError,
-    error,
-    deleteUsersMutation,
-    isDeleting,
-  } = useUsers({ filters: selectedFilters, search: searchInput, sorts });
+  const { deleteUsersMutation, isDeleting } = useUsers({
+    filters: selectedFilters,
+    search: searchInput,
+    sorts,
+  });
+  const { users = [], isLoading, isError, error } = useUsersWithStatuses();
 
   const itemsPerPage = 10;
   const endOffset = userOffset + itemsPerPage;

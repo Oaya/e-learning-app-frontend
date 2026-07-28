@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
-import { fdString } from "../../../../utils/formData";
 import { capitalize } from "../../../../utils/helper";
+import CustomSelect from "../../../../ui/CustomSelect";
 
 type UpdateSubscriptionProps = {
   isOpen: boolean;
@@ -12,6 +13,16 @@ type UpdateSubscriptionProps = {
   plan: string;
   mode?: "Update" | "Reactivate";
 };
+
+type PlanOption = {
+  value: string;
+  label: string;
+};
+
+const PLAN_OPTIONS: PlanOption[] = [
+  { value: "free", label: "Free" },
+  { value: "pro", label: "Pro" },
+];
 
 export default function UpdateSubscriptionModal({
   isOpen,
@@ -22,6 +33,7 @@ export default function UpdateSubscriptionModal({
   const alert = useAlert();
   const { changeTenantPlan, isLoading } = useAuth();
   const navigation = useNavigate();
+  const [selectedPlan, setSelectedPlan] = useState<PlanOption | null>(null);
 
   if (!isOpen) {
     return null;
@@ -31,10 +43,12 @@ export default function UpdateSubscriptionModal({
     e.preventDefault();
 
     try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
+      const new_plan = selectedPlan?.value;
 
-      const new_plan = fdString(formData, "new_plan");
+      if (!new_plan) {
+        alert.error("Please select a plan.");
+        return;
+      }
 
       if (mode === "Update" && plan === new_plan) {
         alert.error(
@@ -91,11 +105,14 @@ export default function UpdateSubscriptionModal({
 
             <div className="mb-2">
               <label className="sm-label block"> New Plan</label>
-              <select name="new_plan" className="form-select" required>
-                <option value="basic">Basic</option>
-                <option value="standard">Standard</option>
-                <option value="premium">Premium</option>
-              </select>
+              <CustomSelect
+                name="new_plan"
+                className="form-select"
+                required
+                value={selectedPlan}
+                onChange={(opt: PlanOption | null) => setSelectedPlan(opt)}
+                options={PLAN_OPTIONS}
+              />
             </div>
           </div>
 

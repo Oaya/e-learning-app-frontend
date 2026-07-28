@@ -20,6 +20,7 @@ import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useLessons } from "../hooks/useLessons";
 import { useState } from "react";
 import UpsertLessonModal from "./UpsertLessonModal";
+import Badge from "../../../shared/profile/components/badge";
 
 type Props = {
   lesson: Lesson;
@@ -109,11 +110,11 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-1">
-        <span
-          className={`rounded-full px-2 py-0.5 text-sm font-medium ${LESSON_STATUS_BADGE[lesson.status]}`}
-        >
-          {capitalize(lesson.status)}
-        </span>
+        <Badge
+          value={lesson.status}
+          status={lesson.status}
+          constant={LESSON_STATUS_BADGE}
+        />
         {/* <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
             lesson.payment_status === "paid"

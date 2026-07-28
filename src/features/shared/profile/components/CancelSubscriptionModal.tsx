@@ -56,11 +56,11 @@ export default function CancelSubscriptionModal({
           </button>
         </div>
 
+        <p>Are you sure you want to cancel your subscription?</p>
         <p>
-          Are you sure you want to cancel your subscription? This action cannot
-          be undone. You will lose access to premium features at the end of your
-          current billing cycle. If you change your mind, you can always
-          resubscribe later.
+          This action cannot be undone. You will lose access to premium features
+          at the end of your current billing cycle. If you change your mind, you
+          can always resubscribe later.
         </p>
         <form onSubmit={handleCancelSubscription} className="my-6">
           <div className="mt-6 flex justify-end gap-3">

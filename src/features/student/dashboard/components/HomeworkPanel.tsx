@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import type { Homework } from "../../../../type/homework";
 import { getHomeworkDateLabel } from "../../../../utils/helper";
+import Badge from "../../../shared/profile/components/badge";
 
 type HWPanelProps = {
   hws?: Homework[];
@@ -36,11 +37,11 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
                   <p className="truncate text-sm text-gray-800">{hw.title}</p>
                   <p className="text-xs text-gray-400">{dateLabel}</p>
                 </div>
-                <span
-                  className={`rounded-full px-2.5 py-0.5 text-[11px] font-medium capitalize ${HW_STATUS_BADGE[status]}`}
-                >
-                  {status}
-                </span>
+                <Badge
+                  value={status}
+                  status={status}
+                  constant={HW_STATUS_BADGE}
+                />
               </div>
             );
           })}

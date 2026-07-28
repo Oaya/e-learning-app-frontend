@@ -8,6 +8,7 @@ import AttachmentsList from "../../../student/homework/components/AttachmentsLis
 import type { ScoreType } from "../../../../type/homework_submission";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomeworkSubmission } from "../hooks/useHomeworkSubmission";
+import Badge from "../../../shared/profile/components/badge";
 
 export default function HomeworkReviewPage() {
   const alert = useAlert();
@@ -103,11 +104,12 @@ export default function HomeworkReviewPage() {
             <h1 className="mb-2 text-lg font-semibold text-gray-800">
               {homework.title}
             </h1>
-            <span
-              className={`rounded-full bg-emerald-50 px-2 py-0.5 text-xs ${HW_STATUS_BADGE[status]} h-full`}
-            >
-              {capitalize(status)}
-            </span>
+
+            <Badge
+              value={capitalize(status)}
+              status={status}
+              constant={HW_STATUS_BADGE}
+            />
           </div>
 
           <div className="flex flex-wrap items-center gap-3">

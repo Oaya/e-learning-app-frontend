@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { UserWithStatues } from "../../../../type/user";
 import { initials } from "../../../../utils/helper";
 import { HW_DASHBOARD_BADGE } from "../../../../utils/constants";
+import Badge from "../../../shared/profile/components/badge";
 
 function PayDot({ paid }: { paid: boolean }) {
   return paid ? (
@@ -66,11 +67,11 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-0.5">
                   {student.hw_status && (
-                    <span
-                      className={`rounded-full ${HW_DASHBOARD_BADGE[student.hw_status]} px-2 py-0.5 text-xs`}
-                    >
-                      HW {student.hw_status}
-                    </span>
+                    <Badge
+                      value={`HW ${student.hw_status}`}
+                      status={student.hw_status}
+                      constant={HW_DASHBOARD_BADGE}
+                    />
                   )}
 
                   <PayDot paid={false} />
