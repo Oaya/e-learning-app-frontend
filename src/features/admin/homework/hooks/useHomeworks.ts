@@ -7,6 +7,7 @@ import {
   getHomeworks,
   updateHomework,
 } from "../../../../api/homeworks";
+import { unwrapResponse } from "../../../../api/helper";
 
 export function useHomeworks(
   studentId?: string,
@@ -20,12 +21,14 @@ export function useHomeworks(
 
   const homeworksQuery = useQuery<Homework[], Error>({
     queryKey: ["homeworks", studentId ?? null],
-    queryFn: () => getHomeworks(studentId),
+    queryFn: async () =>
+      unwrapResponse<Homework[]>(await getHomeworks(studentId)),
     staleTime: 60_000,
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: UpsertHomework) => createHomework(data),
+    mutationFn: async (data: UpsertHomework) =>
+      unwrapResponse<Homework>(await createHomework(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["homeworks"] });
       alert.success("Homework created successfully.");
@@ -38,7 +41,8 @@ export function useHomeworks(
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (homeworkId: string) => deleteHomework(homeworkId),
+    mutationFn: async (homeworkId: string) =>
+      unwrapResponse<void>(await deleteHomework(homeworkId)),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["homeworks"],
@@ -54,8 +58,8 @@ export function useHomeworks(
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpsertHomework }) =>
-      updateHomework(id, data),
+    mutationFn: async ({ id, data }: { id: string; data: UpsertHomework }) =>
+      unwrapResponse<Homework>(await updateHomework(id, data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["homeworks"] });
       alert.success("Homework updated successfully.");

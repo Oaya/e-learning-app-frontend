@@ -2,13 +2,10 @@ import axios from "axios";
 import { directUploadToActiveStorage } from "./files";
 import type {
   FeedbackData,
-  HomeworkSubmission,
   UpsertHomeworkSubmission,
 } from "../type/homework_submission";
 
-export async function getHomeworkSubmission(
-  id: string,
-): Promise<HomeworkSubmission> {
+export async function getHomeworkSubmission(id: string): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/homework_submission/${id}`;
@@ -19,18 +16,18 @@ export async function getHomeworkSubmission(
       },
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }
 
 export async function upsertHomeworkSubmission(
   data: UpsertHomeworkSubmission,
-): Promise<HomeworkSubmission> {
+): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
-    if (!token) throw new Error("Not authenticated");
+    if (!token) return { success: false, error: "Not authenticated" };
 
     let uploadedAttachments;
     const keep_attachment_ids: string[] = [];
@@ -54,7 +51,6 @@ export async function upsertHomeworkSubmission(
       uploadedAttachments = results.filter((a) => a !== undefined);
     }
 
-    console.log(uploadedAttachments, keep_attachment_ids);
     const url = `${import.meta.env.VITE_API_URL}/api/homework_submissions`;
     const response = await axios.post(
       url,
@@ -67,19 +63,16 @@ export async function upsertHomeworkSubmission(
       },
       { headers: { Authorization: `Bearer ${token}` } },
     );
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    console.log(e);
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }
 
-export async function createFeedback(
-  data: FeedbackData,
-): Promise<HomeworkSubmission> {
+export async function createFeedback(data: FeedbackData): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
-    if (!token) throw new Error("Not authenticated");
+    if (!token) return { success: false, error: "Not authenticated" };
 
     const { submission_id, ...rest } = data;
 
@@ -91,9 +84,8 @@ export async function createFeedback(
       },
       { headers: { Authorization: `Bearer ${token}` } },
     );
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    console.log(e);
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }

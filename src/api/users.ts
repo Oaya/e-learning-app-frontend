@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { InviteUser, User, UserWithStatues } from "../type/user";
+import type { InviteUser, UpdateStudentData } from "../type/user";
 
 import type { UserQueryInput } from "../features/admin/students/hooks/useUsers";
 
@@ -7,7 +7,7 @@ export async function getUsers({
   filters,
   search,
   sorts,
-}: UserQueryInput): Promise<User[]> {
+}: UserQueryInput): Promise<ApiResponse> {
   try {
     const params = new URLSearchParams();
 
@@ -41,13 +41,13 @@ export async function getUsers({
       },
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }
 
-export async function getUsersWithStatues(): Promise<UserWithStatues[]> {
+export async function getUsersWithStatues(): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/with_statues`;
@@ -58,13 +58,13 @@ export async function getUsersWithStatues(): Promise<UserWithStatues[]> {
       },
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }
 
-export async function getUser(id: string): Promise<User> {
+export async function getUser(id: string): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/${id}`;
@@ -74,10 +74,9 @@ export async function getUser(id: string): Promise<User> {
       },
     });
 
-    console.log("Get user response:", response);
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }
 
@@ -95,14 +94,31 @@ export async function inviteUser(
       },
     });
 
-    console.log("Invite user response:", response);
     return { success: true, data: response.data };
   } catch (e: any) {
     return { success: false, error: e.response?.data?.error };
   }
 }
 
-export async function deleteUser(userId: string): Promise<void> {
+export async function updateStudent(
+  id: string,
+  data: UpdateStudentData,
+): Promise<ApiResponse> {
+  try {
+    const token = localStorage.getItem("jwt");
+    const url = `${import.meta.env.VITE_API_URL}/api/users/${id}`;
+    const res = await axios.patch(url, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log("res", res);
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function deleteUser(userId: string): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/${userId}`;
@@ -112,9 +128,8 @@ export async function deleteUser(userId: string): Promise<void> {
       },
     });
 
-    console.log("Delete user response:", response);
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }

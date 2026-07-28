@@ -1,5 +1,12 @@
 import axios from "axios";
 
+export function unwrapResponse<T>(res: ApiResponse): T {
+  if (!res.success) {
+    throw new Error(res.error || "Request failed");
+  }
+  return res.data as T;
+}
+
 export function getErrorMessage(err: unknown): string {
   if (axios.isAxiosError(err)) {
     const data = err.response?.data as any;

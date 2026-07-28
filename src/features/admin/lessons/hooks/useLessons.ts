@@ -8,6 +8,7 @@ import {
   getTodayLessons,
   updateLesson as updateLessonApi,
 } from "../../../../api/lessons";
+import { unwrapResponse } from "../../../../api/helper";
 
 export function useLessons(options?: {
   onDeleteSuccess?: () => void;
@@ -18,12 +19,13 @@ export function useLessons(options?: {
 
   const lessonsQuery = useQuery<Lesson[], Error>({
     queryKey: ["lessons", "today"],
-    queryFn: () => getTodayLessons(),
+    queryFn: async () => unwrapResponse<Lesson[]>(await getTodayLessons()),
     staleTime: 60_000,
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: UpsertLesson) => createLesson(data),
+    mutationFn: async (data: UpsertLesson) =>
+      unwrapResponse<Lesson>(await createLesson(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
@@ -37,7 +39,8 @@ export function useLessons(options?: {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (lessonId: string) => deleteLesson(lessonId),
+    mutationFn: async (lessonId: string) =>
+      unwrapResponse<void>(await deleteLesson(lessonId)),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["lessons", "today"],
@@ -52,7 +55,8 @@ export function useLessons(options?: {
   });
 
   const cancelMutation = useMutation({
-    mutationFn: (lessonId: string) => cancelLesson(lessonId),
+    mutationFn: async (lessonId: string) =>
+      unwrapResponse<void>(await cancelLesson(lessonId)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       options?.onCancelSuccess?.();
@@ -65,8 +69,8 @@ export function useLessons(options?: {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpsertLesson }) =>
-      updateLessonApi(id, data),
+    mutationFn: async ({ id, data }: { id: string; data: UpsertLesson }) =>
+      unwrapResponse<Lesson>(await updateLessonApi(id, data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });

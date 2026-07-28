@@ -1,23 +1,42 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { User } from "../../../../type/user";
-import { deleteUser, getUser } from "../../../../api/users";
+import type { UpdateStudentData, User } from "../../../../type/user";
+import { deleteUser, getUser, updateStudent } from "../../../../api/users";
+import { unwrapResponse } from "../../../../api/helper";
 import { useAlert } from "../../../../contexts/AlertContext";
 
-export function useUser(id: string, options?: { onDeleteSuccess?: () => void }) {
+export function useUser(
+  id: string,
+  options?: { onDeleteSuccess?: () => void },
+) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
   const userQuery = useQuery<User, Error>({
     queryKey: ["user", id],
-    queryFn: () => getUser(id),
+    queryFn: async () => unwrapResponse<User>(await getUser(id)),
     enabled: !!id,
     staleTime: 60_000,
   });
 
+  const updateMutation = useMutation({
+    mutationFn: async (data: UpdateStudentData) =>
+      unwrapResponse<User>(await updateStudent(id, data)),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["user", id] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      alert.success("Student updated");
+    },
+    onError: (error) => {
+      alert.error(
+        error instanceof Error ? error.message : "Failed to update student",
+      );
+    },
+  });
+
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      return deleteUser(id);
+      return unwrapResponse<void>(await deleteUser(id));
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["user", id] });
@@ -34,10 +53,11 @@ export function useUser(id: string, options?: { onDeleteSuccess?: () => void }) 
     },
   });
 
-  console.log("User fetched:", userQuery.data);
   return {
     ...userQuery,
     user: userQuery.data,
+    updateStudentMutation: updateMutation.mutateAsync,
+    isUpdating: updateMutation.isPending,
     deleteUsersMutation: deleteMutation.mutateAsync,
     isDeleting: deleteMutation.isPending,
   };

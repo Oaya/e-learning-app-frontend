@@ -1,7 +1,7 @@
 import axios from "axios";
-import type { UpsertLesson, Lesson } from "../type/lesson";
+import type { UpsertLesson } from "../type/lesson";
 
-export async function createLesson(data: UpsertLesson): Promise<Lesson> {
+export async function createLesson(data: UpsertLesson): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/lessons`;
@@ -12,13 +12,13 @@ export async function createLesson(data: UpsertLesson): Promise<Lesson> {
       },
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (err: any) {
-    throw new Error(err.response?.data?.error);
+    return { success: false, error: err.response?.data?.error };
   }
 }
 
-export async function deleteLesson(id: string): Promise<void> {
+export async function deleteLesson(id: string): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/lessons/${id}`;
@@ -29,13 +29,13 @@ export async function deleteLesson(id: string): Promise<void> {
       },
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (err: any) {
-    throw new Error(err.response?.data?.error);
+    return { success: false, error: err.response?.data?.error };
   }
 }
 
-export async function cancelLesson(id: string): Promise<void> {
+export async function cancelLesson(id: string): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/lessons/${id}/cancel`;
@@ -50,29 +50,29 @@ export async function cancelLesson(id: string): Promise<void> {
       },
     );
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (err: any) {
-    throw new Error(err.response?.data?.error);
+    return { success: false, error: err.response?.data?.error };
   }
 }
 
 export async function updateLesson(
   id: string,
   data: UpsertLesson,
-): Promise<Lesson> {
+): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url = `${import.meta.env.VITE_API_URL}/api/lessons/${id}`;
     const response = await axios.patch(url, data, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+    return { success: true, data: response.data };
   } catch (err: any) {
-    throw new Error(err.response?.data?.error);
+    return { success: false, error: err.response?.data?.error };
   }
 }
 
-export async function getTodayLessons(): Promise<Lesson[]> {
+export async function getTodayLessons(): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/lessons/today`;
@@ -83,13 +83,13 @@ export async function getTodayLessons(): Promise<Lesson[]> {
       },
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }
 
-export async function getLessons(studentId?: string): Promise<Lesson[]> {
+export async function getLessons(studentId?: string): Promise<ApiResponse> {
   try {
     const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/lessons${
@@ -102,8 +102,8 @@ export async function getLessons(studentId?: string): Promise<Lesson[]> {
       },
     });
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }

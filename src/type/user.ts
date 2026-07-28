@@ -74,6 +74,13 @@ export type UpdateUser = {
   avatar?: File | null;
 };
 
+export type UpdateStudentData = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  learning_languages: string[];
+};
+
 export type UpdatePassword = {
   current_password: string;
   new_password: string;

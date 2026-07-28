@@ -10,6 +10,7 @@ import {
   createFeedback,
   upsertHomeworkSubmission,
 } from "../../../../api/homework_submission";
+import { unwrapResponse } from "../../../../api/helper";
 import { useNavigate } from "react-router-dom";
 
 export function useHomeworkSubmission(
@@ -24,8 +25,10 @@ export function useHomeworkSubmission(
   const alert = useAlert();
 
   const saveDraftMutation = useMutation({
-    mutationFn: (data: UpsertHomeworkSubmission) =>
-      upsertHomeworkSubmission(data),
+    mutationFn: async (data: UpsertHomeworkSubmission) =>
+      unwrapResponse<HomeworkSubmission>(
+        await upsertHomeworkSubmission(data),
+      ),
     onSuccess: (submission) => {
       queryClient.invalidateQueries({ queryKey: ["homework", id] });
       options?.onSaveDraftSuccess?.(submission);
@@ -37,8 +40,10 @@ export function useHomeworkSubmission(
   });
 
   const submitMutation = useMutation({
-    mutationFn: (data: UpsertHomeworkSubmission) =>
-      upsertHomeworkSubmission(data),
+    mutationFn: async (data: UpsertHomeworkSubmission) =>
+      unwrapResponse<HomeworkSubmission>(
+        await upsertHomeworkSubmission(data),
+      ),
     onSuccess: (submission) => {
       queryClient.invalidateQueries({ queryKey: ["homework", id] });
       options?.onSubmitSuccess?.(submission);
@@ -51,7 +56,8 @@ export function useHomeworkSubmission(
   });
 
   const feedbackMutation = useMutation({
-    mutationFn: (data: FeedbackData) => createFeedback(data),
+    mutationFn: async (data: FeedbackData) =>
+      unwrapResponse<HomeworkSubmission>(await createFeedback(data)),
     onSuccess: (submission) => {
       queryClient.invalidateQueries({ queryKey: ["homework", id] });
       alert.success("Successfully submit Homework feedback.");

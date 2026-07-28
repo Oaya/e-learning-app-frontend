@@ -2,6 +2,7 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import type { User, UserSort } from "../../../../type/user";
 import { getUsers } from "../../../../api/users";
+import { unwrapResponse } from "../../../../api/helper";
 
 export type UserQueryInput = {
   filters?: Record<string, string[]>;
@@ -12,7 +13,8 @@ export type UserQueryInput = {
 export function useUsers({ filters, search, sorts }: UserQueryInput) {
   const userQuery = useQuery<User[], Error>({
     queryKey: ["users", { filters, search, sorts }],
-    queryFn: () => getUsers({ filters, search, sorts }),
+    queryFn: async () =>
+      unwrapResponse<User[]>(await getUsers({ filters, search, sorts })),
     staleTime: 60_000,
     placeholderData: keepPreviousData, // keep the previous data while fetching
   });

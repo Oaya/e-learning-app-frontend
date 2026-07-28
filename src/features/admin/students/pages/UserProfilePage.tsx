@@ -3,12 +3,7 @@ import { MdOutlineKeyboardBackspace, MdMessage } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
-import {
-  HiCalendar,
-  HiCreditCard,
-  HiDocumentText,
-  HiUsers,
-} from "react-icons/hi";
+import { HiCalendar, HiUsers } from "react-icons/hi";
 
 import defaultAvatar from "../../../../assets/user.png";
 import { useUser } from "../hooks/useUser";
@@ -19,6 +14,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import UpsertHomeworkModal from "../../homework/components/UpsertHomeworkModal";
+import EditStudentModal from "../components/EditStudentModal";
 import { useAllLessons } from "../../lessons/hooks/useAllLessons";
 import LessonsPanel from "../components/LessonsPanel";
 import HomeworksPanel from "../components/HomeworksPanel";
@@ -37,8 +33,9 @@ export default function UserProfile() {
   const [isCreateLessonOpen, setIsCreateLessonOpen] = useState(false);
   const [isCreateHWOpen, setIsCreateHWOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const { isDeleting, deleteUsersMutation } = useUser(userId, {
+  const { isDeleting, deleteUsersMutation, isUpdating } = useUser(userId, {
     onDeleteSuccess: () => {
       setIsDeleteOpen(false);
       navigate("/admin/students");
@@ -87,7 +84,7 @@ export default function UserProfile() {
         </div>
       </div>
 
-      <section className="my-10 flex items-center justify-between gap-10 rounded-xl border border-gray-300 bg-white px-8 py-6">
+      <section className="my-10 flex items-stretch justify-between gap-10 rounded-xl border border-gray-300 bg-white px-8 py-6">
         <div className="flex items-center gap-6 gap-y-10">
           <div className="group relative h-28 w-28">
             <img
@@ -97,31 +94,38 @@ export default function UserProfile() {
             />
           </div>
 
-          <div className="flex flex-col justify-center">
-            <h1 className="text-2xl font-semibold">
+          <div className="item-end flex flex-col justify-between">
+            <h1 className="mb-2 text-2xl font-semibold">
               {user.first_name} {user.last_name}
             </h1>
             <p>{user.email}</p>
-            <p className="text-gray-500">
-              Joined: {user.created_at.split("T")[0]}
-            </p>
+            {user.learning_languages && user.learning_languages.length > 0 && (
+              <p className="text-gray-500">
+                Learning languages: {user.learning_languages.join(", ")}
+              </p>
+            )}
           </div>
         </div>
 
-        <div className="flex gap-4">
-          <button
-            onClick={() => {}}
-            className="btn-primary flex items-center gap-1.5"
-          >
-            <FaRegEdit size={16} /> Edit
-          </button>
-          <button
-            className="btn-primary-pink flex items-center gap-1.5"
-            onClick={() => setIsDeleteOpen(true)}
-          >
-            <RiDeleteBinLine size={16} />
-            Delete
-          </button>
+        <div className="flex flex-col items-end justify-between gap-2">
+          <p className="text-gray-500">
+            Joined: {user.created_at.split("T")[0]}
+          </p>
+          <div className="flex gap-4">
+            <button
+              onClick={() => setIsEditOpen(true)}
+              className="btn-primary flex items-center gap-1.5"
+            >
+              <FaRegEdit size={16} /> Edit
+            </button>
+            <button
+              className="btn-primary-pink flex items-center gap-1.5"
+              onClick={() => setIsDeleteOpen(true)}
+            >
+              <RiDeleteBinLine size={16} />
+              Delete
+            </button>
+          </div>
         </div>
       </section>
 
@@ -206,6 +210,13 @@ export default function UserProfile() {
         onClose={() => setIsCreateHWOpen(false)}
         type="Assign"
         student={user}
+      />
+
+      <EditStudentModal
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        user={user}
+        isSaving={isUpdating}
       />
     </div>
   );
