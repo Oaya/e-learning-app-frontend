@@ -29,7 +29,7 @@ const MyProfilePage = lazy(
   () => import("../features/shared/profile/pages/MyProfilePage"),
 );
 const UserProfile = lazy(
-  () => import("../features/shared/profile/pages/UserProfilePage"),
+  () => import("../features/admin/students/pages/UserProfilePage"),
 );
 
 export default function AdminRoutes() {

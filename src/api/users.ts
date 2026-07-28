@@ -102,18 +102,17 @@ export async function inviteUser(
   }
 }
 
-export async function deleteUsers(userIds: string[]): Promise<void> {
+export async function deleteUser(userId: string): Promise<void> {
   try {
     const token = localStorage.getItem("jwt");
-    const url: string = `${import.meta.env.VITE_API_URL}/api/users/bulk_delete`;
+    const url: string = `${import.meta.env.VITE_API_URL}/api/users/${userId}`;
     const response = await axios.delete(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: { user_ids: userIds },
     });
 
-    console.log("Delete users response:", response);
+    console.log("Delete user response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

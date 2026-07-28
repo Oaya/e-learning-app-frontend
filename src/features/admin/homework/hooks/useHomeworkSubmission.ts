@@ -10,6 +10,7 @@ import {
   createFeedback,
   upsertHomeworkSubmission,
 } from "../../../../api/homework_submission";
+import { useNavigate } from "react-router-dom";
 
 export function useHomeworkSubmission(
   id: string,
@@ -18,6 +19,7 @@ export function useHomeworkSubmission(
     onSubmitSuccess?: (submission: HomeworkSubmission) => void;
   },
 ) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const alert = useAlert();
 
@@ -52,6 +54,8 @@ export function useHomeworkSubmission(
     mutationFn: (data: FeedbackData) => createFeedback(data),
     onSuccess: (submission) => {
       queryClient.invalidateQueries({ queryKey: ["homework", id] });
+      alert.success("Successfully submit Homework feedback.");
+      navigate("/admin/homework");
       options?.onSubmitSuccess?.(submission);
     },
     onError: (err) => {

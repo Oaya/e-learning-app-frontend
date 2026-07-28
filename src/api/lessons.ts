@@ -89,10 +89,12 @@ export async function getTodayLessons(): Promise<Lesson[]> {
   }
 }
 
-export async function getLessons(): Promise<Lesson[]> {
+export async function getLessons(studentId?: string): Promise<Lesson[]> {
   try {
     const token = localStorage.getItem("jwt");
-    const url: string = `${import.meta.env.VITE_API_URL}/api/lessons`;
+    const url: string = `${import.meta.env.VITE_API_URL}/api/lessons${
+      studentId ? `?student_id=${studentId}` : ""
+    }`;
 
     const response = await axios.get(url, {
       headers: {

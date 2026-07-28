@@ -10,8 +10,6 @@ import {
 } from "../../../../api/lessons";
 
 export function useLessons(options?: {
-  onCreateSuccess?: (createdLesson: Lesson) => void;
-  onUpdateSuccess?: () => void;
   onDeleteSuccess?: () => void;
   onCancelSuccess?: () => void;
 }) {
@@ -26,10 +24,10 @@ export function useLessons(options?: {
 
   const createMutation = useMutation({
     mutationFn: (data: UpsertLesson) => createLesson(data),
-    onSuccess: (createdLesson) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
-      options?.onCreateSuccess?.(createdLesson);
+      alert.success("Lesson created successfully.");
     },
     onError: (err) => {
       alert.error(
@@ -71,7 +69,8 @@ export function useLessons(options?: {
       updateLessonApi(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
-      options?.onUpdateSuccess?.();
+      queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
+      alert.success("Lesson updated successfully.");
     },
     onError: (error) => {
       alert.error(

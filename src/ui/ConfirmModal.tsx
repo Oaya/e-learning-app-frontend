@@ -7,7 +7,7 @@ type ConfirmModalProps = {
   onCancel?: () => void;
 };
 
-export default function DeleteConfirmModal({
+export default function ConfirmModal({
   isOpen,
   isSubmitting,
   title,

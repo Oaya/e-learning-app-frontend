@@ -22,11 +22,10 @@ export default function HomeworkReviewPage() {
 
   const { homework, isLoading } = useHomework(hwId);
   const { submitFeedback, isSubmittingFeedback } = useHomeworkSubmission(hwId);
-
   const submission = homework?.submission;
 
   useEffect(() => {
-    if (submission) {
+    if (submission?.feedback) {
       setScore(submission.feedback.score ?? null);
       setFeedback(submission.feedback.feedback_text ?? "");
       setNotes(submission.feedback.notes ?? "");
@@ -70,15 +69,14 @@ export default function HomeworkReviewPage() {
         notes,
       });
     } catch {
-      alert.error("Failed to save draft. Try again later.");
+      //handle error
     }
-    navigate("/admin/homework");
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="space-y-6 p-10">
       {/* Top bar */}
-      <div className="top-bar">
+      <section className="flex flex-wrap items-center justify-between gap-3">
         <button
           onClick={() => navigate("/admin/homework")}
           className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600"
@@ -95,10 +93,10 @@ export default function HomeworkReviewPage() {
             {isSubmittingFeedback ? "Saving…" : "Mark as reviewed"}
           </button>
         </div>
-      </div>
+      </section>
 
       {/* Header card */}
-      <div className="space-y-5 p-10">
+      <div className="space-y-6">
         <div className="rounded-xl border border-gray-200 bg-white px-6 py-4">
           <div className="flex justify-between">
             <h1 className="mb-2 text-lg font-semibold text-gray-800">
@@ -109,6 +107,7 @@ export default function HomeworkReviewPage() {
               value={capitalize(status)}
               status={status}
               constant={HW_STATUS_BADGE}
+              className="h-fit"
             />
           </div>
 
@@ -229,7 +228,7 @@ export default function HomeworkReviewPage() {
             <div className="panel-box">
               <p className="panel-header">Feedback for student</p>
               <textarea
-                rows={5}
+                rows={3}
                 placeholder="Write feedback visible to the student…"
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
@@ -246,7 +245,7 @@ export default function HomeworkReviewPage() {
                 Only you can see this
               </p>
               <textarea
-                rows={3}
+                rows={2}
                 placeholder="Notes for yourself…"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}

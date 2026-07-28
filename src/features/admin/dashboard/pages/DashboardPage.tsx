@@ -32,11 +32,10 @@ export default function AdminDashboardPage() {
     (st) => dayjs(st.created_at).month() === dayjs().month(),
   );
 
-  console.log(students);
   return (
     <div className="space-y-6 pb-10">
       {/* Header */}
-      <div className="flex items-center justify-between bg-gray-200 px-10 py-6">
+      <section className="flex items-center justify-between bg-gray-200 px-10 py-6">
         <div>
           <h1 className="text-xl font-semibold text-gray-800">
             {greeting()},{" "}
@@ -46,10 +45,10 @@ export default function AdminDashboardPage() {
         <button onClick={() => setModalOpen(true)} className="btn-primary">
           + New lesson
         </button>
-      </div>
+      </section>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 gap-4 p-10 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-4 px-10 pt-4 lg:grid-cols-4">
         <StatCard
           icon={HiUsers}
           iconColor="text-theme-yellow-20"
@@ -78,10 +77,10 @@ export default function AdminDashboardPage() {
           value="$240"
           sub="Across 3 students"
         />
-      </div>
+      </section>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-4 px-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 px-10 lg:grid-cols-2">
         {/* Today lessons */}
         {lessons && user && <TodayLessonsPanel lessons={lessons} user={user} />}
 

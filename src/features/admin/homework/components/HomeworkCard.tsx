@@ -29,7 +29,7 @@ export default function HomeworkCard({ hw }: Props) {
   const navigate = useNavigate();
   const [deletingHWId, setDeletingHWId] = useState<string | null>(null);
   const [editHWId, setEditHWId] = useState<string | null>(null);
-  const { isDeleting, deleteHomework } = useHomeworks({
+  const { isDeleting, deleteHomework } = useHomeworks(undefined, {
     onDeleteSuccess: () => setDeletingHWId(null),
   });
 
@@ -110,7 +110,7 @@ export default function HomeworkCard({ hw }: Props) {
       {/* Delete confirm */}
       <ConfirmModal
         isOpen={deletingHWId !== null}
-        title="Delete Home"
+        title="Delete Homework"
         isSubmitting={isDeleting}
         message="Are you sure you want to delete this? This action cannot be undone."
         onCancel={() => setDeletingHWId(null)}

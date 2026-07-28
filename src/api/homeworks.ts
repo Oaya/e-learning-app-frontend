@@ -1,10 +1,12 @@
 import axios from "axios";
 import type { UpsertHomework, Homework } from "../type/homework";
 
-export async function getHomeworks(): Promise<Homework[]> {
+export async function getHomeworks(studentId?: string): Promise<Homework[]> {
   try {
     const token = localStorage.getItem("jwt");
-    const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks`;
+    const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks${
+      studentId ? `?student_id=${studentId}` : ""
+    }`;
 
     const response = await axios.get(url, {
       headers: {

@@ -8,26 +8,27 @@ import {
   updateHomework,
 } from "../../../../api/homeworks";
 
-export function useHomeworks(options?: {
-  onCreateSuccess?: (createdHomework: Homework) => void;
-  onUpdateSuccess?: () => void;
-  onDeleteSuccess?: () => void;
-  onCancelSuccess?: () => void;
-}) {
+export function useHomeworks(
+  studentId?: string,
+  options?: {
+    onDeleteSuccess?: () => void;
+    onCancelSuccess?: () => void;
+  },
+) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
   const homeworksQuery = useQuery<Homework[], Error>({
-    queryKey: ["homeworks"],
-    queryFn: () => getHomeworks(),
+    queryKey: ["homeworks", studentId ?? null],
+    queryFn: () => getHomeworks(studentId),
     staleTime: 60_000,
   });
 
   const createMutation = useMutation({
     mutationFn: (data: UpsertHomework) => createHomework(data),
-    onSuccess: (createdHomework) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["homeworks"] });
-      options?.onCreateSuccess?.(createdHomework);
+      alert.success("Homework created successfully.");
     },
     onError: (err) => {
       alert.error(
@@ -42,6 +43,7 @@ export function useHomeworks(options?: {
       queryClient.invalidateQueries({
         queryKey: ["homeworks"],
       });
+      alert.success("Homework deleted successfully.");
       options?.onDeleteSuccess?.();
     },
     onError: (error) => {
@@ -56,7 +58,7 @@ export function useHomeworks(options?: {
       updateHomework(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["homeworks"] });
-      options?.onUpdateSuccess?.();
+      alert.success("Homework updated successfully.");
     },
     onError: (error) => {
       alert.error(

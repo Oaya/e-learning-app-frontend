@@ -42,16 +42,7 @@ export default function UpsertHomeworkModal({
   // const [generating, setGenerating] = useState(false);
 
   const { createHomework, isCreating, updateHomework, isUpdating } =
-    useHomeworks({
-      onCreateSuccess: () => {
-        alert.success("Homework created successfully.");
-        onClose();
-      },
-      onUpdateSuccess: () => {
-        alert.success("Homework updated successfully.");
-        onClose();
-      },
-    });
+    useHomeworks();
 
   if (!isOpen) return null;
 
@@ -98,8 +89,9 @@ export default function UpsertHomeworkModal({
       } else {
         await createHomework(data);
       }
-    } catch (error) {
-      alert.error("Failed to save lesson. Try again later.");
+      onClose();
+    } catch {
+      // handled by the mutation's onError
     }
   }
 

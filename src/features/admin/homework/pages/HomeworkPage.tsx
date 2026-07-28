@@ -88,7 +88,7 @@ export default function HomeworkPage() {
   return (
     <div className="space-y-6 p-10">
       {/* Top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <section className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-gray-800">Homework</h1>
           <p className="mt-0.5 text-sm text-gray-400">
@@ -100,21 +100,21 @@ export default function HomeworkPage() {
             onClick={() => {
               setModalOpen(true);
             }}
-            className="flex items-center gap-1.5 rounded-lg border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-700 hover:bg-purple-100"
+            className="btn-white flex items-center gap-1.5"
           >
             <HiOutlineSparkles size={16} /> Generate with AI
           </button>
           <button onClick={() => setModalOpen(true)} className="btn-secondary">
-            + Assign homework
+            + Assign Homework
           </button>
         </div>
-      </div>
+      </section>
 
       {/* AI banner */}
       <AiBanner onOpen={() => setModalOpen(true)} />
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineDocumentText}
           iconColor="text-theme-green-20"
@@ -145,7 +145,7 @@ export default function HomeworkPage() {
           sub="past due date"
           // subWarn={overdue > 0}
         />
-      </div>
+      </section>
 
       {/* Filters */}
       <div className="flex">

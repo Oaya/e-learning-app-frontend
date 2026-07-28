@@ -40,16 +40,9 @@ export default function UpsertLessonModal({
 }: ModalProps) {
   const alert = useAlert();
   const { users: students } = useUsers({});
-  const { createLesson, isCreating, updateLesson, isUpdating } = useLessons({
-    onCreateSuccess: () => {
-      alert.success("Lesson created successfully.");
-      onClose();
-    },
-    onUpdateSuccess: () => {
-      alert.success("Lesson updated successfully.");
-      onClose();
-    },
-  });
+  const { createLesson, isCreating, updateLesson, isUpdating } = useLessons();
+
+  console.log(lesson);
 
   const selectableStudent = students?.filter((s) => s.status === "active");
 
@@ -125,8 +118,9 @@ export default function UpsertLessonModal({
       } else {
         await createLesson(data);
       }
+      onClose();
     } catch {
-      alert.error("Failed to save lesson. Try again later.");
+      // handled by the mutation's onError
     }
   }
 
