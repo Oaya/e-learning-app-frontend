@@ -111,7 +111,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-1">
         <Badge
-          value={lesson.status}
+          value={capitalize(lesson.status)}
           status={lesson.status}
           constant={LESSON_STATUS_BADGE}
         />

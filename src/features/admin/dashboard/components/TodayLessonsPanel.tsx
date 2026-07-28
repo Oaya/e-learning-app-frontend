@@ -56,7 +56,7 @@ export default function TodayLessonsPanel({
             </div>
 
             <Badge
-              value={s.status}
+              value={capitalize(s.status)}
               status={s.status}
               constant={LESSON_STATUS_BADGE}
             />
