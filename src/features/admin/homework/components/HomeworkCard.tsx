@@ -19,7 +19,7 @@ import ActionBtn from "../../lessons/components/ActionButton";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useHomeworks } from "../hooks/useHomeworks";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
-import Badge from "../../../shared/profile/components/badge";
+import Badge from "../../../../ui/badge";
 
 type Props = {
   hw: Homework;

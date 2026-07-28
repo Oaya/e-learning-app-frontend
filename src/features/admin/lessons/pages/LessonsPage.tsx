@@ -4,7 +4,7 @@ import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 
 import { useAuth } from "../../../../contexts/AuthContext";
-import StatCard from "../../dashboard/components/StatCard";
+import StatCard from "../../../../ui/StatCard";
 import LessonList from "../components/LessonCardHeader";
 import type { LessonStatus } from "../../../../type/lesson";
 import UpsertLessonModal from "../components/UpsertLessonModal";

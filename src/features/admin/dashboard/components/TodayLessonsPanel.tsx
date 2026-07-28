@@ -7,7 +7,7 @@ import timezone from "dayjs/plugin/timezone";
 import type { User } from "../../../../type/user";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import { capitalize } from "../../../../utils/helper";
-import Badge from "../../../shared/profile/components/badge";
+import Badge from "../../../../ui/badge";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 

@@ -20,7 +20,7 @@ import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useLessons } from "../hooks/useLessons";
 import { useState } from "react";
 import UpsertLessonModal from "./UpsertLessonModal";
-import Badge from "../../../shared/profile/components/badge";
+import Badge from "../../../../ui/badge";
 
 type Props = {
   lesson: Lesson;

@@ -1,10 +1,7 @@
 import { useMemo, useState } from "react";
-import type { UserWithStatues } from "../../../../type/user";
+import type { User } from "../../../../type/user";
 
-export function useUserSelections(
-  users: UserWithStatues[],
-  currentUserId?: string,
-) {
+export function useUserSelections(users: User[], currentUserId?: string) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const selectableUserIds = useMemo(() => {

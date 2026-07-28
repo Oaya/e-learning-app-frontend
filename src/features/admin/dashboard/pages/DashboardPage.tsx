@@ -13,7 +13,7 @@ dayjs.extend(timezone);
 
 import { useAuth } from "../../../../contexts/AuthContext";
 
-import StatCard from "../components/StatCard";
+import StatCard from "../../../../ui/StatCard";
 import { greeting } from "../../../../utils/helper";
 import { useLessons } from "../../lessons/hooks/useLessons";
 import TodayLessonsPanel from "../components/TodayLessonsPanel";
@@ -34,7 +34,7 @@ export default function AdminDashboardPage() {
 
   console.log(students);
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-10">
       {/* Header */}
       <div className="flex items-center justify-between bg-gray-200 px-10 py-6">
         <div>
@@ -81,7 +81,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-4 p-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 px-10 lg:grid-cols-2">
         {/* Today lessons */}
         {lessons && user && <TodayLessonsPanel lessons={lessons} user={user} />}
 

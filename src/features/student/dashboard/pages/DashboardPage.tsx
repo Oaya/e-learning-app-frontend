@@ -6,7 +6,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import { useHomeworks } from "../../../admin/homework/hooks/useHomeworks";
 import { greeting } from "../../../../utils/helper";
 
-import StatCard from "../../../admin/dashboard/components/StatCard";
+import StatCard from "../../../../ui/StatCard";
 import UpcomingLessonsPanel from "../components/UpcomingLessonsPanel";
 import HomeworkPanel from "../components/HomeworkPanel";
 import GoalPanel from "../components/GoalPanel";

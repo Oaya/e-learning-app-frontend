@@ -14,6 +14,8 @@ import UsersTable from "../components/UsersTable";
 import { useUserSelections } from "../hooks/useUserSelections";
 import { useUserTableControl } from "../hooks/userUserTableControl";
 import { useUsersWithStatuses } from "../hooks/useUsersWithStatues";
+import { HiOutlineMail } from "react-icons/hi";
+import StatCard from "../../../../ui/StatCard";
 
 export default function StudentsPage() {
   const alert = useAlert();
@@ -40,12 +42,18 @@ export default function StudentsPage() {
     updateSelectedFilters,
   } = useUserTableControl();
 
-  const { deleteUsersMutation, isDeleting } = useUsers({
+  const {
+    deleteUsersMutation,
+    isDeleting,
+    users = [],
+    isLoading,
+    isError,
+    error,
+  } = useUsers({
     filters: selectedFilters,
     search: searchInput,
     sorts,
   });
-  const { users = [], isLoading, isError, error } = useUsersWithStatuses();
 
   const itemsPerPage = 10;
   const endOffset = userOffset + itemsPerPage;
@@ -65,46 +73,13 @@ export default function StudentsPage() {
     setUserOffset(newOffset);
   }
 
-  const {
-    selected,
-    clearSelection,
-    selectedUsers,
-    selectedEmails,
-    allSelected,
-    toggleOne,
-    toggleAll,
-  } = useUserSelections(displayUsers, user?.id);
+  const { selected, clearSelection, selectedEmails } = useUserSelections(
+    displayUsers,
+    user?.id,
+  );
 
   function closeAction() {
     setActionOpen(false);
-  }
-
-  async function handleBulkSendInvite() {
-    try {
-      if (selectedUsers.length > 0) {
-        const res = await inviteUser(
-          selectedUsers.map((u) => ({
-            email: u.email,
-            role: u.role,
-            first_name: u.first_name,
-            last_name: u.last_name,
-          })),
-        );
-
-        if (res.success) {
-          alert.success(res.data.message);
-        } else {
-          alert.error(
-            res.error || "Failed to send invitation. Try again later.",
-          );
-        }
-      }
-    } catch {
-      alert.error("Failed to send invitation. Try again later.");
-    } finally {
-      closeAction();
-      clearSelection();
-    }
   }
 
   function deleteStudents() {
@@ -127,27 +102,33 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className="space-y-4 p-6">
-      {isInviteOpen && (
-        <InviteUserModal
-          isOpen={isInviteOpen}
-          onClose={() => setInviteOpen(false)}
-        />
-      )}
+    <div className="space-y-6 p-10">
+      {/* Top bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold text-gray-800">Your Students</h1>
+          <p className="mt-0.5 text-sm text-gray-400">{users.length} results</p>
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setInviteOpen(true)}
+            className="btn-secondary flex items-center gap-1.5"
+          >
+            <HiOutlineMail size={16} /> Invite Student
+          </button>
+        </div>
+      </div>
 
-      {isDeleteModalOpen && (
-        <ConfirmModal
-          isOpen={isDeleteModalOpen}
-          title="Delete Users"
-          message={`Are you sure you want to delete ${selectedEmails.join(", ")}? This action cannot be undone.`}
-          isSubmitting={isDeleting}
-          onConfirm={deleteStudents}
-          onCancel={() => setDeleteModalOpen(false)}
+      {/* Stats */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        <StatCard label="Total student" value={users.length ?? 0} />
+        {/* <StatCard
+          label="Submitted"
+          value={submitted}
+          sub="awaiting review"
+          // subColor
         />
-      )}
-
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Your Students</h1>
+        <StatCard label="Pending" value={pending} sub="not submitted yet" /> */}
       </div>
 
       <div className="flex">
@@ -197,70 +178,10 @@ export default function StudentsPage() {
         ))}
       </div>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <span className="mr-4 text-sm font-semibold text-gray-500">
-            {users.length} results
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4">
-          {isAdmin && (
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => setActionOpen((v) => !v)}
-                  disabled={selected.size === 0}
-                >
-                  Actions
-                </button>
-
-                {actionOpen && (
-                  <>
-                    <div className="fixed inset-0 z-10" onClick={closeAction} />
-
-                    <div className="absolute right-0 z-20 mt-2 w-36 rounded border bg-white shadow">
-                      <button
-                        type="button"
-                        className="w-full rounded-t border-b px-4 py-2 text-left text-sm hover:bg-gray-100"
-                        onClick={handleBulkSendInvite}
-                      >
-                        Send Invitation
-                      </button>
-
-                      <button
-                        type="button"
-                        className="w-full rounded px-4 py-2 text-left text-sm hover:bg-gray-100"
-                        onClick={() => setDeleteModalOpen(true)}
-                      >
-                        Delete selected
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <button
-                className="btn-primary"
-                onClick={() => setInviteOpen(true)}
-              >
-                Invite Student
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
       <UsersTable
         users={displayUsers}
         sorts={sorts}
-        selected={selected}
-        allSelected={allSelected}
         onToggleSort={toggleSort}
-        onToggleOne={toggleOne}
-        onToggleAll={toggleAll}
       />
 
       {pageCount > 1 && (
@@ -278,6 +199,24 @@ export default function StudentsPage() {
           previousClassName="rounded border px-3 py-1"
           nextClassName="rounded border px-3 py-1"
           disabledClassName="opacity-50 cursor-not-allowed"
+        />
+      )}
+
+      {isInviteOpen && (
+        <InviteUserModal
+          isOpen={isInviteOpen}
+          onClose={() => setInviteOpen(false)}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <ConfirmModal
+          isOpen={isDeleteModalOpen}
+          title="Delete Users"
+          message={`Are you sure you want to delete ${selectedEmails.join(", ")}? This action cannot be undone.`}
+          isSubmitting={isDeleting}
+          onConfirm={deleteStudents}
+          onCancel={() => setDeleteModalOpen(false)}
         />
       )}
     </div>

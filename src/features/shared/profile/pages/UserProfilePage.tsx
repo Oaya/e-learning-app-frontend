@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import defaultAvatar from "../../../../assets/user.png";
 import { useUser } from "../../../admin/students/hooks/useUser";
-import StatCard from "../../../admin/dashboard/components/StatCard";
+import StatCard from "../../../../ui/StatCard";
 import {
   HiCalendar,
   HiCreditCard,

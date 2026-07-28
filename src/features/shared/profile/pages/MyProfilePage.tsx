@@ -4,16 +4,16 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
+import { useAuth } from "../../../../contexts/AuthContext";
+import { ADMIN_PLAN_STATUS_BADGE } from "../../../../utils/constants";
+import { capitalize } from "../../../../utils/helper";
+import Badge from "../../../../ui/badge";
+import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
+import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
+import UserProfileSection from "../components/UserProfileSection";
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
-import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
-import { useAuth } from "../../../../contexts/AuthContext";
-import { capitalize } from "../../../../utils/helper";
-import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
-import Badge from "../components/badge";
-import { ADMIN_PLAN_STATUS_BADGE } from "../../../../utils/constants";
-import UserProfileSection from "../components/UserProfileSection";
 
 export default function MyProfilePage() {
   const { user } = useAuth();

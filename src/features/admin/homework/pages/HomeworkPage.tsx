@@ -9,7 +9,7 @@ import {
 import HomeworkCard from "../components/HomeworkCard";
 import UpsertHomeworkModal from "../components/UpsertHomeworkModal";
 import AiBanner from "../components/AiBanner";
-import StatCard from "../../dashboard/components/StatCard";
+import StatCard from "../../../../ui/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
 import TabFilters from "../components/TabFilters";
 import type { HomeworkSubmissionStatus } from "../../../../type/homework_submission";

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import type { UserWithStatues } from "../../../../type/user";
 import { initials } from "../../../../utils/helper";
 import { HW_DASHBOARD_BADGE } from "../../../../utils/constants";
-import Badge from "../../../shared/profile/components/badge";
+import Badge from "../../../../ui/badge";
 
 function PayDot({ paid }: { paid: boolean }) {
   return paid ? (

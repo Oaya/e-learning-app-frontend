@@ -7,7 +7,7 @@ import TabFilters from "../../../admin/homework/components/TabFilters";
 
 import LessonList from "../../../admin/lessons/components/LessonCardHeader";
 import StudentLessonCard from "../components/StudentLessonCard";
-import StatCard from "../../../admin/dashboard/components/StatCard";
+import StatCard from "../../../../ui/StatCard";
 import { useAllLessons } from "../../../admin/lessons/hooks/useAllLessons";
 import {
   LESSON_TABS,
