@@ -1,19 +1,15 @@
 import axios from "axios";
+import { authHeader } from "./auth";
 
 export async function startCheckout(plan: string) {
   try {
-    const token = localStorage.getItem("jwt");
     const res = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/subscription/payment_checkout`,
       { plan },
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: authHeader(),
       },
     );
-
-    console.log("Start checkout response:", res);
 
     return res;
   } catch (e: any) {
@@ -23,12 +19,9 @@ export async function startCheckout(plan: string) {
 
 export async function cancelSubscription(): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
-    if (!token) return { success: false, error: "No token" };
-
     const url = `${import.meta.env.VITE_API_URL}/api/subscription/cancel`;
     const res = await axios.post(url, null, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeader(),
     });
 
     return { success: true, data: res.data };
@@ -39,14 +32,12 @@ export async function cancelSubscription(): Promise<ApiResponse> {
 
 export async function changePlan(plan: string): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
-    if (!token) return { success: false, error: "No token" };
     const url = `${import.meta.env.VITE_API_URL}/api/subscription/change_plan`;
     const res = await axios.post(
       url,
       { plan },
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: authHeader(),
       },
     );
 

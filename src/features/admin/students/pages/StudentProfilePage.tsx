@@ -9,29 +9,23 @@ import defaultAvatar from "../../../../assets/user.png";
 import { useUser } from "../hooks/useUser";
 import StatCard from "../../../../ui/StatCard";
 
-import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
-import { useAuth } from "../../../../contexts/AuthContext";
-
 import ConfirmModal from "../../../../ui/ConfirmModal";
-import UpsertHomeworkModal from "../../homework/components/UpsertHomeworkModal";
 import EditStudentModal from "../components/EditStudentModal";
 import { useAllLessons } from "../../lessons/hooks/useAllLessons";
 import LessonsPanel from "../components/LessonsPanel";
 import HomeworksPanel from "../components/HomeworksPanel";
+import GoalsPanel from "../components/GoalsPanel";
 import { useHomeworks } from "../../homework/hooks/useHomeworks";
 
-export default function UserProfile() {
+export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const userId = id || "";
   const { user, isLoading } = useUser(userId);
-  const { user: authUser } = useAuth();
   const { lessons } = useAllLessons(userId);
   const { homeworks } = useHomeworks(userId);
 
-  const [isCreateLessonOpen, setIsCreateLessonOpen] = useState(false);
-  const [isCreateHWOpen, setIsCreateHWOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -68,18 +62,6 @@ export default function UserProfile() {
             className="btn-white flex items-center gap-1.5"
           >
             <MdMessage size={16} /> Message
-          </button>
-          <button
-            onClick={() => setIsCreateLessonOpen(true)}
-            className="btn-white flex items-center gap-1.5"
-          >
-            <HiCalendar size={16} /> New Lesson
-          </button>
-          <button
-            onClick={() => setIsCreateHWOpen(true)}
-            className="btn-secondary"
-          >
-            + Assign Homework
           </button>
         </div>
       </div>
@@ -171,13 +153,12 @@ export default function UserProfile() {
         /> */}
       </section>
 
-      {/* Two panels */}
-      <div className="flex items-start gap-5">
-        {/* Left — lessons */}
-        <LessonsPanel lessons={lessons} />
-        {/* Right */}
-        <div className="flex w-72 shrink-0 flex-col gap-4">
-          <HomeworksPanel homeworks={homeworks} />
+      {/* Two panels — 50/50 */}
+      <div className="grid grid-cols-2 items-start gap-5">
+        {/* Left — lessons + payment */}
+        <div className="flex flex-col gap-4">
+          <LessonsPanel lessons={lessons} user={user} />
+
           <div className="rounded-xl border border-gray-200 bg-white p-5">
             <p className="panel-header mb-3">Payment</p>
             <p className="text-sm text-gray-400">
@@ -185,16 +166,13 @@ export default function UserProfile() {
             </p>
           </div>
         </div>
-      </div>
 
-      <UpsertLessonModal
-        isOpen={isCreateLessonOpen}
-        onClose={() => setIsCreateLessonOpen(false)}
-        type="Create"
-        student={user}
-        lessons={lessons}
-        timezone={authUser?.timezone}
-      />
+        {/* Right — homeworks + goals */}
+        <div className="flex flex-col gap-4">
+          <HomeworksPanel homeworks={homeworks} user={user} />
+          <GoalsPanel userId={userId} />
+        </div>
+      </div>
 
       <ConfirmModal
         isOpen={isDeleteOpen}
@@ -203,13 +181,6 @@ export default function UserProfile() {
         isSubmitting={isDeleting}
         onCancel={() => setIsDeleteOpen(false)}
         onConfirm={() => deleteUsersMutation(userId)}
-      />
-
-      <UpsertHomeworkModal
-        isOpen={isCreateHWOpen}
-        onClose={() => setIsCreateHWOpen(false)}
-        type="Assign"
-        student={user}
       />
 
       <EditStudentModal

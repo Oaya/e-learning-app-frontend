@@ -80,12 +80,20 @@ export default function AdminDashboardPage() {
       </section>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-10 px-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 px-10 lg:grid-cols-5">
         {/* Today lessons */}
-        {lessons && user && <TodayLessonsPanel lessons={lessons} user={user} />}
+        {lessons && user && (
+          <div className="lg:col-span-3">
+            <TodayLessonsPanel lessons={lessons} user={user} />
+          </div>
+        )}
 
         {/* All students */}
-        {students && <AllStudentPanel students={students} />}
+        {students && (
+          <div className="lg:col-span-2">
+            <AllStudentPanel students={students} />
+          </div>
+        )}
       </div>
 
       <UpsertLessonModal

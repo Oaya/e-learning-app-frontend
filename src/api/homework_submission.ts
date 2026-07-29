@@ -4,16 +4,14 @@ import type {
   FeedbackData,
   UpsertHomeworkSubmission,
 } from "../type/homework_submission";
+import { authHeader } from "./auth";
 
 export async function getHomeworkSubmission(id: string): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/homework_submission/${id}`;
 
     const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -26,9 +24,6 @@ export async function upsertHomeworkSubmission(
   data: UpsertHomeworkSubmission,
 ): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
-    if (!token) return { success: false, error: "Not authenticated" };
-
     let uploadedAttachments;
     const keep_attachment_ids: string[] = [];
 
@@ -61,7 +56,7 @@ export async function upsertHomeworkSubmission(
         attachments: uploadedAttachments,
         keep_attachment_ids,
       },
-      { headers: { Authorization: `Bearer ${token}` } },
+      { headers: authHeader() },
     );
     return { success: true, data: response.data };
   } catch (e: any) {
@@ -71,9 +66,6 @@ export async function upsertHomeworkSubmission(
 
 export async function createFeedback(data: FeedbackData): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
-    if (!token) return { success: false, error: "Not authenticated" };
-
     const { submission_id, ...rest } = data;
 
     const url = `${import.meta.env.VITE_API_URL}/api/homework_submissions/${submission_id}/feedback`;
@@ -82,7 +74,7 @@ export async function createFeedback(data: FeedbackData): Promise<ApiResponse> {
       {
         ...rest,
       },
-      { headers: { Authorization: `Bearer ${token}` } },
+      { headers: authHeader() },
     );
     return { success: true, data: response.data };
   } catch (e: any) {

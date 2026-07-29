@@ -2,6 +2,7 @@ import axios from "axios";
 import type { InviteUser, UpdateStudentData } from "../type/user";
 
 import type { UserQueryInput } from "../features/admin/students/hooks/useUsers";
+import { authHeader } from "./auth";
 
 export async function getUsers({
   filters,
@@ -32,13 +33,10 @@ export async function getUsers({
       if (value.length) params.append("sort", value.join(","));
     }
 
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users?${params.toString()}`;
 
     const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -49,13 +47,10 @@ export async function getUsers({
 
 export async function getUsersWithStatues(): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/with_statues`;
 
     const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -66,12 +61,9 @@ export async function getUsersWithStatues(): Promise<ApiResponse> {
 
 export async function getUser(id: string): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/${id}`;
     const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -84,14 +76,11 @@ export async function inviteUser(
   data: InviteUser | InviteUser[],
 ): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/auth/invitation`;
 
     const payload = { users: Array.isArray(data) ? data : [data] };
     const response = await axios.post(url, payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -105,13 +94,11 @@ export async function updateStudent(
   data: UpdateStudentData,
 ): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url = `${import.meta.env.VITE_API_URL}/api/users/${id}`;
     const res = await axios.patch(url, data, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeader(),
     });
 
-    console.log("res", res);
     return { success: true, data: res.data };
   } catch (e: any) {
     return { success: false, error: e.response?.data?.error };
@@ -120,12 +107,9 @@ export async function updateStudent(
 
 export async function deleteUser(userId: string): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/${userId}`;
     const response = await axios.delete(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };

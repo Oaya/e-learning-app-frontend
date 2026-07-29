@@ -6,7 +6,6 @@ export async function getPlans(): Promise<Plan[]> {
     const url: string = `${import.meta.env.VITE_API_URL}/api/plans`;
     const response = await axios.get(url);
 
-    console.log("Get plans response:", response);
     return response.data;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

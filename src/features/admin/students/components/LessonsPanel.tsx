@@ -4,15 +4,32 @@ import { capitalize } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import type { Lesson } from "../../../../type/lesson";
+import { useState } from "react";
+import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
+import { useAuth } from "../../../../contexts/AuthContext";
+import type { User } from "../../../../type/user";
 
 type Props = {
   lessons: Lesson[] | undefined;
+  user: User | undefined;
 };
 
-export default function LessonsPanel({ lessons }: Props) {
+export default function LessonsPanel({ lessons, user }: Props) {
+  const { user: authUser } = useAuth();
+  const [isCreateLessonOpen, setIsCreateLessonOpen] = useState(false);
+
   return (
     <div className="min-w-0 flex-1 rounded-xl border border-gray-200 bg-white p-5">
-      <p className="panel-header mb-4">Lessons</p>
+      <div className="mb-4 flex items-center justify-between">
+        <p className="panel-header mb-4">Lessons</p>
+        <button
+          onClick={() => setIsCreateLessonOpen(true)}
+          className="btn-white px-2 py-1"
+        >
+          + New
+        </button>
+      </div>
+
       {lessons?.length === 0 ? (
         <p className="py-8 text-center text-sm text-gray-400">
           No lessons yet.
@@ -42,6 +59,15 @@ export default function LessonsPanel({ lessons }: Props) {
           ))}
         </div>
       )}
+
+      <UpsertLessonModal
+        isOpen={isCreateLessonOpen}
+        onClose={() => setIsCreateLessonOpen(false)}
+        type="Create"
+        student={user}
+        lessons={lessons}
+        timezone={authUser?.timezone}
+      />
     </div>
   );
 }

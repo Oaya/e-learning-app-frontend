@@ -1,8 +1,8 @@
-export default function StudentGoalsPage() {
+export default function GoalsPage() {
   return (
-    <div className="p-10">
-      <h1 className="text-xl font-semibold text-gray-800">Goals</h1>
-      <p className="mt-2 text-sm text-gray-400">Coming soon.</p>
+    <div className="space-y-5 p-10">
+      <h1 className="text-lg font-semibold text-gray-800">My goals</h1>
+      <p className="text-sm text-gray-400">Coming soon.</p>
     </div>
   );
 }

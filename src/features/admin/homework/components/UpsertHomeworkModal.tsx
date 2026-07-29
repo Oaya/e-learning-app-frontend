@@ -254,7 +254,7 @@ export default function UpsertHomeworkModal({
 
           {/* Actions */}
 
-          <div className="mt-6 flex justify-end gap-3">
+          <div className="mt-6 flex justify-end">
             <button
               type="button"
               onClick={onClose}

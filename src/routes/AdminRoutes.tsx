@@ -18,7 +18,6 @@ const HomeworkPage = lazy(
 const HomeworkReviewPage = lazy(
   () => import("../features/admin/homework/pages/HomeworkReviewPage"),
 );
-const GoalsPage = lazy(() => import("../features/admin/goals/pages/GoalsPage"));
 const RecordingsPage = lazy(
   () => import("../features/admin/recordings/pages/RecordingsPage"),
 );
@@ -29,7 +28,7 @@ const MyProfilePage = lazy(
   () => import("../features/shared/profile/pages/MyProfilePage"),
 );
 const UserProfile = lazy(
-  () => import("../features/admin/students/pages/UserProfilePage"),
+  () => import("../features/admin/students/pages/StudentProfilePage"),
 );
 
 export default function AdminRoutes() {
@@ -44,7 +43,7 @@ export default function AdminRoutes() {
           path="/admin/homework/:id/review"
           element={<HomeworkReviewPage />}
         />
-        <Route path="/admin/goals" element={<GoalsPage />} />
+
         <Route path="/admin/recording" element={<RecordingsPage />} />
         <Route path="/admin/payment" element={<PaymentsPage />} />
         <Route path="profile" element={<MyProfilePage />} />

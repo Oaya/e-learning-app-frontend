@@ -14,6 +14,7 @@ import {
   HiOutlineWrenchScrewdriver,
 } from "react-icons/hi2";
 import type { AttachmentType, ScoreType } from "../type/homework_submission";
+import type { GoalStatusType } from "../type/goal";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
@@ -80,6 +81,12 @@ export const features = [
     desc: "Generate tailored exercises from topic, level, and past lessons.",
   },
 ];
+
+export const GoalStatus: Record<GoalStatusType, string> = {
+  not_started: "Not started",
+  in_progress: "In progress",
+  achieved: "Achieved",
+};
 
 export const LESSON_BORDER_COLOR: Record<string, string> = {
   scheduled: "border-l-theme-green-20",
@@ -179,4 +186,10 @@ export const SCORE_BUDGE: Record<
     css: "bg-theme-green-30 text-theme-green-20 border-theme-green-20",
     icon: HiOutlineStar,
   },
+};
+
+export const GOAL_STATUS_BUTTON: Record<GoalStatusType, string> = {
+  not_started: "bg-gray-100 text-gray-500",
+  in_progress: "bg-theme-yellow-10 text-theme-yellow-20",
+  achieved: "bg-theme-green-30 text-theme-green-20",
 };

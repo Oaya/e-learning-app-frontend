@@ -8,6 +8,13 @@ import type {
 } from "../type/user";
 import { directUploadToActiveStorage } from "./files";
 
+export const authHeader = () => {
+  const token = localStorage.getItem("jwt");
+
+  if (!token) return { success: false, error: "No token" };
+  return { Authorization: `Bearer ${token}` };
+};
+
 export async function signup(data: SignupUser): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/auth`;
@@ -52,16 +59,8 @@ export async function login(data: LoginUser): Promise<ApiResponse> {
 
 export async function getAuthUser(): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      return { success: false, error: "No token" };
-    }
-
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: res.data };
@@ -85,9 +84,6 @@ export async function acceptInvite(
 
 export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
-    if (!token) return { success: false, error: "No token" };
-
     const updatePayload: Record<string, any> = {
       email: data.email,
       first_name: data.first_name,
@@ -110,7 +106,7 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
 
     const url = `${import.meta.env.VITE_API_URL}/api/auth/me`;
     const res = await axios.patch(url, updatePayload, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeader(),
     });
 
     return { success: true, data: res.data };
@@ -123,12 +119,9 @@ export async function updateUserPassword(
   data: UpdatePassword,
 ): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
-    if (!token) return { success: false, error: "No token" };
-
     const url = `${import.meta.env.VITE_API_URL}/api/auth/me/password`;
     const res = await axios.patch(url, data, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeader(),
     });
 
     return { success: true, data: res.data };

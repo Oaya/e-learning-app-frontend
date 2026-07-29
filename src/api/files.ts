@@ -1,5 +1,6 @@
 import axios from "axios";
 import SparkMD5 from "spark-md5";
+import { authHeader } from "./auth";
 
 async function md5Base64(file: File): Promise<string> {
   const buffer = await file.arrayBuffer();
@@ -11,7 +12,6 @@ export async function directUploadToActiveStorage(
   file: File,
   kind: string,
 ): Promise<string> {
-  const token = localStorage.getItem("jwt");
   const url = `${import.meta.env.VITE_API_URL}/api/rails/active_storage/direct_uploads`;
 
   // Step 1: Get the direct upload URL and headers from the backend
@@ -25,9 +25,7 @@ export async function directUploadToActiveStorage(
       kind,
     },
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     },
   );
 

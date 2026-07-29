@@ -1,5 +1,5 @@
 import { HiHome, HiUsers } from "react-icons/hi";
-import { LuNewspaper, LuGoal, LuCalendar1, LuVideo } from "react-icons/lu";
+import { LuNewspaper, LuCalendar1, LuVideo } from "react-icons/lu";
 import { MdPayment } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 
@@ -40,9 +40,6 @@ export default function AdminSidebarLayout() {
         <h2 className="px-10">TEACHING</h2>
         <StyledNavLink to="/admin/homework" icon={LuNewspaper}>
           Homework
-        </StyledNavLink>
-        <StyledNavLink to="/admin/goals" icon={LuGoal}>
-          Goal
         </StyledNavLink>
         <StyledNavLink to="/admin/recording" icon={LuVideo}>
           Recordings

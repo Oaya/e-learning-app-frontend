@@ -1,17 +1,15 @@
 import axios from "axios";
 import type { UpsertHomework } from "../type/homework";
+import { authHeader } from "./auth";
 
 export async function getHomeworks(studentId?: string): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks${
       studentId ? `?student_id=${studentId}` : ""
     }`;
 
     const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -22,13 +20,10 @@ export async function getHomeworks(studentId?: string): Promise<ApiResponse> {
 
 export async function getHomework(id: string): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks/${id}`;
 
     const response = await axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -41,13 +36,10 @@ export async function createHomework(
   data: UpsertHomework,
 ): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks`;
 
     const response = await axios.post(url, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };
@@ -61,10 +53,9 @@ export async function updateHomework(
   data: UpsertHomework,
 ): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url = `${import.meta.env.VITE_API_URL}/api/homeworks/${id}`;
     const response = await axios.patch(url, data, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: authHeader(),
     });
     return { success: true, data: response.data };
   } catch (e: any) {
@@ -74,13 +65,10 @@ export async function updateHomework(
 
 export async function deleteHomework(id: string): Promise<ApiResponse> {
   try {
-    const token = localStorage.getItem("jwt");
     const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks/${id}`;
 
     const response = await axios.delete(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: authHeader(),
     });
 
     return { success: true, data: response.data };

@@ -3,20 +3,34 @@ import dayjs from "dayjs";
 import { capitalize } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
+import { useState } from "react";
+import UpsertHomeworkModal from "../../homework/components/UpsertHomeworkModal";
+import type { User } from "../../../../type/user";
 
-type Props = { homeworks: Homework[] | undefined };
+type Props = { homeworks: Homework[] | undefined; user: User | undefined };
 
-export default function HomeworksPanel({ homeworks }: Props) {
+export default function HomeworksPanel({ homeworks, user }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <p className="panel-header mb-4">Homeworks</p>
+    <div className="min-w-0 flex-1 rounded-xl border border-gray-200 bg-white p-5">
+      <div className="mb-4 flex items-center justify-between">
+        <p className="panel-header mb-4">Homeworks</p>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="btn-white px-2 py-1"
+        >
+          + New
+        </button>
+      </div>
+
       {homeworks?.length === 0 ? (
-        <p className="py-6 text-center text-sm text-gray-400">
+        <p className="py-8 text-center text-sm text-gray-400">
           No homework assigned.
         </p>
       ) : (
         <div className="divide-y divide-gray-100">
-          {homeworks?.slice(0, 4).map((hw) => {
+          {homeworks?.slice(0, 6).map((hw) => {
             const status = hw.submission?.status ?? "pending";
             const displayStatus = status === "draft" ? "pending" : status;
             return (
@@ -42,6 +56,13 @@ export default function HomeworksPanel({ homeworks }: Props) {
           })}
         </div>
       )}
+
+      <UpsertHomeworkModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        type="Assign"
+        student={user}
+      />
     </div>
   );
 }
