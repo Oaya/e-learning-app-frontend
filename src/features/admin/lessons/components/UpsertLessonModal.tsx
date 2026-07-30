@@ -13,11 +13,7 @@ import { useLessons } from "../hooks/useLessons";
 import { useUsers } from "../../students/hooks/useUsers";
 import { HiOutlineX } from "react-icons/hi";
 import type { StudentOption, User } from "../../../../type/user";
-import {
-  LESSON_STATUS_BADGE,
-  lessonDuration,
-  LessonStatus,
-} from "../../../../utils/constants";
+import { lessonDuration, LessonStatus } from "../../../../utils/constants";
 import { capitalize } from "../../../../utils/helper";
 
 dayjs.extend(utc);
