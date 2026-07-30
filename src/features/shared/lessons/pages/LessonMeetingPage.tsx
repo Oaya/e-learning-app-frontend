@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   LiveKitRoom,
@@ -8,13 +8,20 @@ import {
   useTranscriptions,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
-import { Track, VideoPresets, type RoomOptions } from "livekit-client";
+import {
+  Track,
+  VideoPresets,
+  type RoomOptions,
+  type DisconnectReason,
+} from "livekit-client";
 import {
   BackgroundProcessor,
   supportsBackgroundProcessors,
 } from "@livekit/track-processors";
 import { joinLesson } from "../../../../api/lessons";
 import "../../../../styles/lesson-meeting.css";
+import { useAuth } from "../../../../contexts/AuthContext";
+import MeetingCloseModal from "../components/MeetingCloseModal";
 
 type RoomData = {
   token: string;
@@ -158,6 +165,28 @@ export default function LessonMeetingPage() {
   const navigate = useNavigate();
   const [roomData, setRoomData] = useState<RoomData | null>(null);
   const [error, setError] = useState("");
+  const { user } = useAuth();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [meetingDuration, setMeetingDuration] = useState(0);
+  const joinedAtRef = useRef<number | null>(null);
+
+  function closeMeeting(reason?: DisconnectReason) {
+    console.log("LiveKit disconnected, reason:", reason);
+
+    const joinedAt = joinedAtRef.current;
+    const seconds = joinedAt ? Math.round((Date.now() - joinedAt) / 1000) : 0;
+    setMeetingDuration(seconds);
+
+    if (user?.role === "admin") {
+      setModalOpen(true);
+    }
+    navigate(-1);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+    navigate(-1);
+  }
 
   useEffect(() => {
     const fetchRoomData = async () => {
@@ -196,19 +225,31 @@ export default function LessonMeetingPage() {
   }
 
   return (
-    <LiveKitRoom
-      data-lk-theme="default"
-      className="lesson-meeting-room"
-      token={roomData.token}
-      serverUrl={roomData.url}
-      connect={true}
-      video={true}
-      audio={true}
-      options={roomOptions}
-      onDisconnected={() => navigate(-1)}
-    >
-      <VideoConference SettingsComponent={MeetingSettings} />
-      <LiveCaptions />
-    </LiveKitRoom>
+    <div>
+      <LiveKitRoom
+        data-lk-theme="default"
+        className="lesson-meeting-room"
+        token={roomData.token}
+        serverUrl={roomData.url}
+        connect={true}
+        video={true}
+        audio={true}
+        options={roomOptions}
+        onConnected={() => {
+          joinedAtRef.current = Date.now();
+        }}
+        onDisconnected={(reason) => closeMeeting(reason)}
+      >
+        <VideoConference SettingsComponent={MeetingSettings} />
+        <LiveCaptions />
+      </LiveKitRoom>
+
+      <MeetingCloseModal
+        isOpen={modalOpen}
+        onClose={() => closeModal()}
+        lessonId={id!}
+        durationInSeconds={meetingDuration}
+      />
+    </div>
   );
 }

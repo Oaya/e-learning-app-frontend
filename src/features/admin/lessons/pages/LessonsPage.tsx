@@ -6,13 +6,13 @@ import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { useAuth } from "../../../../contexts/AuthContext";
 import StatCard from "../../../../ui/StatCard";
 import LessonList from "../components/LessonCardHeader";
-import type { LessonStatus } from "../../../../type/lesson";
+import type { LessonStatusType } from "../../../../type/lesson";
 import UpsertLessonModal from "../components/UpsertLessonModal";
 import TabFilters from "../../homework/components/TabFilters";
 import LessonCard from "../components/LessonCard";
 import { useAllLessons } from "../hooks/useAllLessons";
 
-export type LessonFilterTab = "all" | LessonStatus;
+export type LessonFilterTab = "all" | LessonStatusType;
 
 export const LESSON_TABS: LessonFilterTab[] = [
   "all",

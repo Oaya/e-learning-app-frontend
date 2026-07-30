@@ -7,7 +7,17 @@ export type UpsertLesson = {
   note?: string;
 };
 
-export type LessonStatus = "done" | "scheduled" | "canceled" | "completed";
+export type UpsertLessonMeeting = {
+  meeting_duration_in_seconds?: number;
+  status: LessonStatusType;
+  meeting_feedback?: string;
+};
+
+export type LessonStatusType =
+  | "scheduled"
+  | "canceled"
+  | "completed"
+  | "no_show";
 
 export type Lesson = {
   id: string;
@@ -16,7 +26,7 @@ export type Lesson = {
   topic: string;
   note: string | null;
   language: string;
-  status: LessonStatus;
+  status: LessonStatusType;
   student: {
     id: string;
     first_name: string;

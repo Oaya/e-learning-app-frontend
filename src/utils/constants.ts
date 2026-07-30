@@ -15,6 +15,7 @@ import {
 } from "react-icons/hi2";
 import type { AttachmentType, ScoreType } from "../type/homework_submission";
 import type { GoalStatusType } from "../type/goal";
+import type { LessonStatusType } from "../type/lesson";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
@@ -88,14 +89,21 @@ export const GoalStatus: Record<GoalStatusType, string> = {
   achieved: "Achieved",
 };
 
-export const LESSON_BORDER_COLOR: Record<string, string> = {
+export const LessonStatus: Record<LessonStatusType, string> = {
+  scheduled: "Scheduled",
+  completed: "Completed",
+  canceled: "Canceled",
+  no_show: "No show",
+};
+
+export const LESSON_BORDER_COLOR: Record<LessonStatusType, string> = {
   scheduled: "border-l-theme-green-20",
   completed: "border-l-gray-300",
   canceled: "border-l-theme-pink-20",
   no_show: "border-l-theme-yellow-20",
 };
 
-export const LESSON_STATUS_BADGE: Record<string, string> = {
+export const LESSON_STATUS_BADGE: Record<LessonStatusType, string> = {
   scheduled: "bg-theme-green-30 text-theme-green-20",
   completed: "bg-gray-100  text-gray-500",
   canceled: "bg-theme-pink-10 text-theme-pink-20",

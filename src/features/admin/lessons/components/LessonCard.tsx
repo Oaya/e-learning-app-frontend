@@ -66,7 +66,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
   const { day, mon } = formatDay(lesson.scheduled_at);
   const isPast = lesson.status === "completed" || lesson.status === "canceled";
   const canJoinLesson = dayjs().isSameOrAfter(
-    dayjs(lesson.scheduled_at).subtract(30, "minute"),
+    dayjs(lesson.scheduled_at).subtract(60, "minute"),
   );
 
   return (
