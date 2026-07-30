@@ -46,6 +46,7 @@ export default function TimezoneSelector({ value, onChange }: Props) {
   return (
     <div>
       <CustomSelect
+        required
         options={tzOptions}
         value={selectedOption}
         onChange={handleChange}

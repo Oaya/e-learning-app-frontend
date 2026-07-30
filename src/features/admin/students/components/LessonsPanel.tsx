@@ -54,6 +54,7 @@ export default function LessonsPanel({ lessons, user }: Props) {
                 value={capitalize(lesson.status)}
                 status={lesson.status}
                 constant={LESSON_STATUS_BADGE}
+                className="px-2 py-0.5 text-[12px]"
               />
             </div>
           ))}

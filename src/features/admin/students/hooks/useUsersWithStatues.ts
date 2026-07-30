@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import type { UserWithStatues } from "../../../../type/user";
-import { getUsersWithStatues } from "../../../../api/users";
+import type { StudentWithStatues } from "../../../../type/user";
+import { getStudentsWithStatues } from "../../../../api/users";
 import { unwrapResponse } from "../../../../api/helper";
 
 export function useUsersWithStatuses() {
-  const userQuery = useQuery<UserWithStatues[], Error>({
+  const userQuery = useQuery<StudentWithStatues[], Error>({
     queryKey: ["userWithStatues"],
     queryFn: async () =>
-      unwrapResponse<UserWithStatues[]>(await getUsersWithStatues()),
+      unwrapResponse<StudentWithStatues[]>(await getStudentsWithStatues()),
     staleTime: 60_000,
   });
 

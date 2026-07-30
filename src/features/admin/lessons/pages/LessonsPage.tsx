@@ -19,7 +19,7 @@ export const LESSON_TABS: LessonFilterTab[] = [
   "scheduled",
   "completed",
   "canceled",
-  //  "unpaid",
+  "no_show",
 ];
 
 export default function LessonsPage() {
@@ -45,21 +45,22 @@ export default function LessonsPage() {
     });
   }, [lessons, activeTab, search]);
 
-  const upcoming = lessons?.filter(
-    (s) => s.status === "scheduled" && dayjs(s.scheduled_at).isAfter(now),
-  );
-
-  const past = filtered?.filter((s) => s.status !== "scheduled");
+  const upcoming = filtered?.filter((s) => dayjs(s.scheduled_at).isAfter(now));
+  const past = filtered?.filter((s) => dayjs(s.scheduled_at).isBefore(now));
 
   // Stats
   const thisMonth = lessons?.filter((s) =>
     dayjs(s.scheduled_at).isSame(dayjs(), "month"),
   );
 
-  const upcomingCountForThisWeek = lessons?.filter(
-    (s) =>
-      s.status === "scheduled" && dayjs(s.scheduled_at).isSame(dayjs(), "week"),
-  ).length;
+  const upcomingCountForThisWeek = lessons?.filter((s) => {
+    const scheduledAt = dayjs(s.scheduled_at);
+    return (
+      s.status === "scheduled" &&
+      scheduledAt.isAfter(now) &&
+      scheduledAt.isBefore(now.add(7, "day"))
+    );
+  }).length;
 
   let hoursThisMonth: number = 0;
   if (thisMonth) {

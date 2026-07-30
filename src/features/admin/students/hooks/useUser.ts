@@ -1,7 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { UpdateStudentData, User } from "../../../../type/user";
-import { deleteUser, getUser, updateStudent } from "../../../../api/users";
+import {
+  deleteStudent,
+  getStudentById,
+  updateStudent,
+} from "../../../../api/users";
 import { unwrapResponse } from "../../../../api/helper";
 import { useAlert } from "../../../../contexts/AlertContext";
 
@@ -14,7 +18,7 @@ export function useUser(
 
   const userQuery = useQuery<User, Error>({
     queryKey: ["user", id],
-    queryFn: async () => unwrapResponse<User>(await getUser(id)),
+    queryFn: async () => unwrapResponse<User>(await getStudentById(id)),
     enabled: !!id,
     staleTime: 60_000,
   });
@@ -36,7 +40,7 @@ export function useUser(
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      return unwrapResponse<void>(await deleteUser(id));
+      return unwrapResponse<void>(await deleteStudent(id));
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["user", id] });
@@ -56,9 +60,9 @@ export function useUser(
   return {
     ...userQuery,
     user: userQuery.data,
-    updateStudentMutation: updateMutation.mutateAsync,
+    updateStudent: updateMutation.mutateAsync,
     isUpdating: updateMutation.isPending,
-    deleteUsersMutation: deleteMutation.mutateAsync,
+    deleteStudent: deleteMutation.mutateAsync,
     isDeleting: deleteMutation.isPending,
   };
 }

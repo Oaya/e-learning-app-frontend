@@ -30,24 +30,6 @@ export async function deleteLesson(id: string): Promise<ApiResponse> {
   }
 }
 
-export async function cancelLesson(id: string): Promise<ApiResponse> {
-  try {
-    const url: string = `${import.meta.env.VITE_API_URL}/api/lessons/${id}/cancel`;
-
-    const response = await axios.patch(
-      url,
-      {},
-      {
-        headers: authHeader(),
-      },
-    );
-
-    return { success: true, data: response.data };
-  } catch (err: any) {
-    return { success: false, error: err.response?.data?.error };
-  }
-}
-
 export async function updateLesson(
   id: string,
   data: UpsertLesson,

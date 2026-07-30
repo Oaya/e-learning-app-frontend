@@ -1,6 +1,6 @@
 import { HiArrowRight, HiUsers } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import type { UserWithStatues } from "../../../../type/user";
+import type { StudentWithStatues } from "../../../../type/user";
 import { initials } from "../../../../utils/helper";
 import { HW_DASHBOARD_BADGE } from "../../../../utils/constants";
 import Badge from "../../../../ui/badge";
@@ -20,7 +20,7 @@ function PayDot({ paid }: { paid: boolean }) {
 }
 
 type AllStudentPanelProps = {
-  students: UserWithStatues[];
+  students: StudentWithStatues[];
 };
 
 export default function AllStudentPanel({ students }: AllStudentPanelProps) {
@@ -71,6 +71,7 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
                       value={`HW ${student.hw_status}`}
                       status={student.hw_status}
                       constant={HW_DASHBOARD_BADGE}
+                      className="px-2 py-0.5 text-[12px]"
                     />
                   )}
 

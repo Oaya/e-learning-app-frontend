@@ -8,12 +8,16 @@ import dayjsTimezone from "dayjs/plugin/timezone";
 import { fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
-import type { Lesson } from "../../../../type/lesson";
+import type { Lesson, LessonStatusType } from "../../../../type/lesson";
 import { useLessons } from "../hooks/useLessons";
 import { useUsers } from "../../students/hooks/useUsers";
 import { HiOutlineX } from "react-icons/hi";
 import type { StudentOption, User } from "../../../../type/user";
-import { lessonDuration } from "../../../../utils/constants";
+import {
+  LESSON_STATUS_BADGE,
+  lessonDuration,
+  LessonStatus,
+} from "../../../../utils/constants";
 import { capitalize } from "../../../../utils/helper";
 
 dayjs.extend(utc);
@@ -109,7 +113,10 @@ export default function UpsertLessonModal({
         language: fdString(formData, "language"),
         scheduled_at: date,
         note: fdString(formData, "note"),
+        status: fdString(formData, "status") as LessonStatusType,
       };
+
+      console.log(data);
 
       if (type === "Edit" && lesson) {
         await updateLesson({ id: lesson.id, data });
@@ -184,19 +191,41 @@ export default function UpsertLessonModal({
           </div>
 
           {/* Date + time */}
-          <div className="mb-4">
-            <label className="sm-label">Date</label>
-            <DatePicker
-              selected={date}
-              onChange={(d: Date | null) => setDate(d)}
-              showTimeSelect
-              dateFormat="Pp"
-              minDate={new Date()}
-              filterTime={filterTime}
-              placeholderText="Select date & time"
-              wrapperClassName="w-full"
-              className="form-input w-full"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="mb-4">
+              <label className="sm-label">Date</label>
+              <DatePicker
+                selected={date}
+                onChange={(d: Date | null) => setDate(d)}
+                showTimeSelect
+                dateFormat="Pp"
+                minDate={new Date()}
+                filterTime={filterTime}
+                placeholderText="Select date & time"
+                wrapperClassName="w-full"
+                className="form-input w-full"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="sm-label">Lesson Status</label>
+
+              <CustomSelect
+                name="status"
+                defaultValue={
+                  lesson?.status
+                    ? {
+                        value: lesson.status,
+                        label: capitalize(lesson.status),
+                      }
+                    : undefined
+                }
+                options={Object.entries(LessonStatus).map(([key, value]) => ({
+                  value: key,
+                  label: value,
+                }))}
+              />
+            </div>
           </div>
 
           {/* Duration */}

@@ -4,7 +4,7 @@ import type { InviteUser, UpdateStudentData } from "../type/user";
 import type { UserQueryInput } from "../features/admin/students/hooks/useUsers";
 import { authHeader } from "./auth";
 
-export async function getUsers({
+export async function getStudents({
   filters,
   search,
   sorts,
@@ -45,7 +45,7 @@ export async function getUsers({
   }
 }
 
-export async function getUsersWithStatues(): Promise<ApiResponse> {
+export async function getStudentsWithStatues(): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/with_statues`;
 
@@ -59,7 +59,7 @@ export async function getUsersWithStatues(): Promise<ApiResponse> {
   }
 }
 
-export async function getUser(id: string): Promise<ApiResponse> {
+export async function getStudentById(id: string): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/${id}`;
     const response = await axios.get(url, {
@@ -105,7 +105,7 @@ export async function updateStudent(
   }
 }
 
-export async function deleteUser(userId: string): Promise<ApiResponse> {
+export async function deleteStudent(userId: string): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/users/${userId}`;
     const response = await axios.delete(url, {

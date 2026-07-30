@@ -3,6 +3,9 @@ import type { Level } from "../utils/constants";
 export const roles = ["admin", "student"] as const;
 export type Role = (typeof roles)[number];
 
+export const statusValue = ["inactive", "active", "invited"] as const;
+export type Status = (typeof statusValue)[number];
+
 export type SignupUser = {
   email: string;
   password: string;
@@ -15,41 +18,6 @@ export type SignupUser = {
 export type LoginUser = {
   email: string;
   password: string;
-};
-
-export type User = {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  role: Role;
-  status: string;
-  avatar?: string;
-  timezone?: string;
-  created_at: string;
-  learning_languages?: string[];
-  subscription?: {
-    status: string;
-    plan: string;
-    price: number;
-    current_period_end?: Date | null;
-    cancel_at_period_end?: boolean | null;
-    has_stripe_subscription: boolean;
-  };
-};
-
-export type UserWithStatues = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  avatar?: string;
-  timezone?: string;
-  created_at: string;
-  hw_status: string;
-  status: string;
-  payment_status?: string;
-  role: Role;
 };
 
 export type InviteUser = {
@@ -66,11 +34,46 @@ export type AcceptInviteUser = {
   password_confirmation: string;
 };
 
+export type User = {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: Role;
+  status: Status;
+  avatar?: string;
+  timezone?: string;
+  created_at: string;
+  learning_languages?: string[];
+  subscription?: {
+    status: string;
+    plan: string;
+    price: number;
+    current_period_end?: Date | null;
+    cancel_at_period_end?: boolean | null;
+    has_stripe_subscription: boolean;
+  };
+};
+
+export type StudentWithStatues = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  avatar?: string;
+  timezone?: string;
+  created_at: string;
+  hw_status: string;
+  status: Status;
+  payment_status?: string;
+  role: "student";
+};
+
 export type UpdateUser = {
   email: string;
   first_name: string;
   last_name: string;
-  timezone: string | null;
+  timezone: string;
   avatar?: File | null;
 };
 
@@ -79,6 +82,8 @@ export type UpdateStudentData = {
   last_name: string;
   email: string;
   learning_languages: string[];
+  timezone: string;
+  status: Status;
 };
 
 export type UpdatePassword = {

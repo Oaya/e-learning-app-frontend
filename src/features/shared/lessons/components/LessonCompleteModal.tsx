@@ -1,12 +1,9 @@
-import { useMemo, useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import dayjsTimezone from "dayjs/plugin/timezone";
 
 import { fdString } from "../../../../utils/formData";
-import { useAlert } from "../../../../contexts/AlertContext";
 
 import type { LessonStatusType } from "../../../../type/lesson";
 
@@ -26,16 +23,13 @@ type ModalProps = {
   durationInSeconds: number;
 };
 
-export default function MeetingCloseModal({
+export default function LessonCompleteModal({
   isOpen,
   onClose,
   lessonId,
   durationInSeconds,
 }: ModalProps) {
-  const alert = useAlert();
   const { lesson, endingLesson, isEnding } = useLesson(lessonId);
-
-  console.log("lesson", lesson);
 
   if (!isOpen) return null;
 

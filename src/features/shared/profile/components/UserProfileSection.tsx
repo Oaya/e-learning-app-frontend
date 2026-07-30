@@ -20,7 +20,7 @@ export default function UserProfileSection({ user }: Props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [timezone, setTimezone] = useState<string | null>(null);
+  const [timezone, setTimezone] = useState<string>("");
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
@@ -36,7 +36,7 @@ export default function UserProfileSection({ user }: Props) {
       setLastName(user?.last_name ?? "");
       setEmail(user?.email ?? "");
       setAvatarPreviewUrl(user?.avatar ?? null);
-      setTimezone(user?.timezone ?? null);
+      setTimezone(user?.timezone ?? "");
       // Clear pending file selection when user changes
       setAvatarFile(null);
     }
@@ -192,7 +192,7 @@ export default function UserProfileSection({ user }: Props) {
             </div>
 
             <div>
-              <div className="sm-label">Time zone</div>
+              <label className="sm-label">Time zone</label>
               <TimezoneSelector value={timezone} onChange={setTimezone} />
             </div>
           </div>

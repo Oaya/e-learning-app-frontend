@@ -1,11 +1,10 @@
 import {
   HiOutlineVideoCamera,
-  HiOutlineX,
   HiOutlineTrash,
   HiOutlinePencil,
 } from "react-icons/hi";
 import ActionBtn from "./ActionButton";
-import type { Lesson } from "../../../../type/lesson";
+import type { Lesson, LessonStatusType } from "../../../../type/lesson";
 import {
   capitalize,
   formatDay,
@@ -23,10 +22,13 @@ import UpsertLessonModal from "./UpsertLessonModal";
 import Badge from "../../../../ui/badge";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useNavigate } from "react-router-dom";
 import { LuVideo } from "react-icons/lu";
+import LessonCompleteModal from "../../../shared/lessons/components/LessonCompleteModal";
 
 dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 type Props = {
   lesson: Lesson;
@@ -35,39 +37,34 @@ type Props = {
 };
 
 export default function LessonCard({ lesson, allLessons, timezone }: Props) {
-  const [targetLessonId, setTargetLessonId] = useState<string | null>(null);
-  const [actionType, setActionType] = useState<"Delete" | "Cancel" | null>(
-    null,
-  );
-
   const [editLessonId, setEditLessonId] = useState<string | null>(null);
+  const [completeLessonId, setCompleteLessonId] = useState<string | null>(null);
+  const [deleteLessonId, setDeleteLessonId] = useState<string | null>(null);
 
-  const { isDeleting, isCanceling, deleteLesson, cancelLesson } = useLessons({
-    onDeleteSuccess: () => setTargetLessonId(null),
-    onCancelSuccess: () => setTargetLessonId(null),
+  const { isDeleting, deleteLesson } = useLessons({
+    onDeleteSuccess: () => setDeleteLessonId(null),
   });
 
   const navigate = useNavigate();
 
-  function handleModalActionChange(id: string, type: "Delete" | "Cancel") {
-    setTargetLessonId(id);
-    setActionType(type);
-  }
-
-  function handelCancelOrDelete() {
-    if (!targetLessonId) return;
-
-    if (actionType === "Delete") {
-      deleteLesson(targetLessonId);
+  function handleModalActionChange(id: string, status: LessonStatusType) {
+    if (status === "completed") {
+      setCompleteLessonId(id);
     } else {
-      cancelLesson(targetLessonId);
+      setEditLessonId(id);
     }
   }
+
   const { day, mon } = formatDay(lesson.scheduled_at);
-  const isPast = lesson.status === "completed" || lesson.status === "canceled";
-  const canJoinLesson = dayjs().isSameOrAfter(
-    dayjs(lesson.scheduled_at).subtract(60, "minute"),
-  );
+
+  const now = dayjs();
+
+  const canJoinLesson =
+    lesson.status === "scheduled" &&
+    now.isSameOrAfter(dayjs(lesson.scheduled_at).subtract(15, "minute")) &&
+    now.isSameOrBefore(
+      dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
+    );
 
   return (
     <div
@@ -89,9 +86,18 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-gray-800">
-          {lesson.topic}
-        </p>
+        <div className="flex gap-4">
+          <p className="truncate text-sm font-medium text-gray-800">
+            {lesson.topic}
+          </p>
+          {!canJoinLesson && lesson.status === "scheduled" && (
+            <p className="truncate text-sm font-medium text-red-400">
+              This lesson is in the past but is still marked as scheduled.
+              Update its status.
+            </p>
+          )}
+        </div>
+
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
             <HiOutlineVideoCamera size={14} />
@@ -150,50 +156,30 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
       {/* Actions */}
       <div className="flex shrink-0 items-center gap-1">
-        {!isPast && (
-          <>
-            <ActionBtn title="Edit" onClick={() => setEditLessonId(lesson.id)}>
-              <HiOutlinePencil size={16} />
-            </ActionBtn>
-            <ActionBtn
-              title="Cancel lesson"
-              onClick={() => handleModalActionChange(lesson.id, "Cancel")}
-            >
-              <HiOutlineX size={16} />
-            </ActionBtn>
-          </>
-        )}
-        {isPast && (
-          <>
-            {/* {lesson.has_recording && (
-              <ActionBtn title="View recording">
-                <HiOutlineVideoCamera size={16} />
-              </ActionBtn>
-            )} */}
-            {lesson.status === "canceled" && (
-              <ActionBtn
-                title="Delete"
-                onClick={() => handleModalActionChange(lesson.id, "Delete")}
-              >
-                <HiOutlineTrash size={16} />
-              </ActionBtn>
-            )}
-          </>
-        )}
+        <>
+          <ActionBtn
+            title="Edit"
+            onClick={() => handleModalActionChange(lesson.id, lesson.status)}
+          >
+            <HiOutlinePencil size={16} />
+          </ActionBtn>
+          <ActionBtn
+            title="Delete"
+            onClick={() => setDeleteLessonId(lesson.id)}
+          >
+            <HiOutlineTrash size={16} />
+          </ActionBtn>
+        </>
       </div>
 
       {/* Delete & Cancel confirm */}
       <ConfirmModal
-        isOpen={targetLessonId !== null}
-        title={`${actionType} lesson`}
-        isSubmitting={isDeleting || isCanceling}
-        message={
-          actionType === "Delete"
-            ? "Are you sure you want to delete this? This action cannot be undone."
-            : "Are you sure you want to cancel this lesson? "
-        }
-        onCancel={() => setTargetLessonId(null)}
-        onConfirm={() => handelCancelOrDelete()}
+        isOpen={deleteLessonId !== null}
+        title="Delete Lessons"
+        isSubmitting={isDeleting}
+        message="Are you sure you want to delete this? This action cannot be undone."
+        onCancel={() => setDeleteLessonId(null)}
+        onConfirm={() => deleteLesson(lesson.id)}
       />
 
       {/* Edit Lesson */}
@@ -204,6 +190,13 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         lesson={lesson}
         lessons={allLessons}
         timezone={timezone}
+      />
+
+      <LessonCompleteModal
+        isOpen={!!completeLessonId}
+        onClose={() => setCompleteLessonId(null)}
+        lessonId={lesson.id}
+        durationInSeconds={lesson.meeting_duration_in_seconds ?? 0}
       />
     </div>
   );

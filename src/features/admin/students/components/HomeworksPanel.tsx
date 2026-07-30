@@ -50,6 +50,7 @@ export default function HomeworksPanel({ homeworks, user }: Props) {
                   value={capitalize(displayStatus)}
                   status={displayStatus}
                   constant={HW_STATUS_BADGE}
+                  className="px-2 py-0.5 text-[12px]"
                 />
               </div>
             );

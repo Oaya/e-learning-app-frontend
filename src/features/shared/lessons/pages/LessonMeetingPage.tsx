@@ -21,7 +21,7 @@ import {
 import { joinLesson } from "../../../../api/lessons";
 import "../../../../styles/lesson-meeting.css";
 import { useAuth } from "../../../../contexts/AuthContext";
-import MeetingCloseModal from "../components/MeetingCloseModal";
+import LessonCompleteModal from "../components/LessonCompleteModal";
 
 type RoomData = {
   token: string;
@@ -179,8 +179,9 @@ export default function LessonMeetingPage() {
 
     if (user?.role === "admin") {
       setModalOpen(true);
+    } else {
+      navigate(-1);
     }
-    navigate(-1);
   }
 
   function closeModal() {
@@ -244,7 +245,7 @@ export default function LessonMeetingPage() {
         <LiveCaptions />
       </LiveKitRoom>
 
-      <MeetingCloseModal
+      <LessonCompleteModal
         isOpen={modalOpen}
         onClose={() => closeModal()}
         lessonId={id!}

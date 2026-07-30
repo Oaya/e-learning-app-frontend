@@ -19,7 +19,7 @@ export default function TabFilters({
           onClick={() => onTabChange(tab)}
           className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${
             activeTab === tab
-              ? "border-theme-yellow-20 bg-theme-yellow-20 text-white"
+              ? "border-theme-purple-40 bg-theme-purple-40 text-white"
               : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
           }`}
         >

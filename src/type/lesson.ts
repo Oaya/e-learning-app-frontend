@@ -1,3 +1,9 @@
+export type LessonStatusType =
+  | "scheduled"
+  | "canceled"
+  | "completed"
+  | "no_show";
+
 export type UpsertLesson = {
   student_id: string;
   language: string;
@@ -5,6 +11,7 @@ export type UpsertLesson = {
   duration_in_minutes: number;
   scheduled_at: Date;
   note?: string;
+  status: LessonStatusType;
 };
 
 export type UpsertLessonMeeting = {
@@ -12,12 +19,6 @@ export type UpsertLessonMeeting = {
   status: LessonStatusType;
   meeting_feedback?: string;
 };
-
-export type LessonStatusType =
-  | "scheduled"
-  | "canceled"
-  | "completed"
-  | "no_show";
 
 export type Lesson = {
   id: string;
@@ -27,6 +28,8 @@ export type Lesson = {
   note: string | null;
   language: string;
   status: LessonStatusType;
+  meeting_duration_in_seconds?: number;
+  meeting_feedback?: string;
   student: {
     id: string;
     first_name: string;

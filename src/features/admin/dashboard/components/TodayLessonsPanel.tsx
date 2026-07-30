@@ -59,6 +59,7 @@ export default function TodayLessonsPanel({
               value={capitalize(s.status)}
               status={s.status}
               constant={LESSON_STATUS_BADGE}
+              className="px-2 py-0.5 text-[12px]"
             />
           </div>
         ))}

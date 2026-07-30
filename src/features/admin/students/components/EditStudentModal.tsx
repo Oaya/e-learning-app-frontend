@@ -2,10 +2,12 @@ import { useState } from "react";
 import { HiOutlineX } from "react-icons/hi";
 import ISO6391 from "iso-639-1";
 
-import type { User } from "../../../../type/user";
+import { statusValue, type Status, type User } from "../../../../type/user";
 import { capitalize, initials } from "../../../../utils/helper";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useUser } from "../hooks/useUser";
+import TimezoneSelector from "../../../shared/profile/components/TimezoneSelector";
+import { useAlert } from "../../../../contexts/AlertContext";
 
 type Props = {
   isOpen: boolean;
@@ -25,8 +27,11 @@ export default function EditStudentModal({
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(
     user.learning_languages ?? [],
   );
+  const [timezone, setTimezone] = useState<string | undefined>(user.timezone);
+  const [status, setStatus] = useState<Status | undefined>(user.status);
+  const alert = useAlert();
 
-  const { updateStudentMutation } = useUser(user.id, {});
+  const { updateStudent } = useUser(user.id, {});
 
   if (!isOpen) return null;
 
@@ -37,11 +42,18 @@ export default function EditStudentModal({
       const form = e.currentTarget;
       const fd = new FormData(form);
 
-      await updateStudentMutation({
+      if (!status) {
+        alert.error("Missing status");
+        return;
+      }
+
+      await updateStudent({
         first_name: fd.get("first_name") as string,
         last_name: fd.get("last_name") as string,
         email: fd.get("email") as string,
         learning_languages: selectedLanguages,
+        timezone: timezone ?? "",
+        status: status,
       });
 
       onClose();
@@ -56,7 +68,7 @@ export default function EditStudentModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
           <h2 className="text-base font-semibold text-gray-800">
-            Edit student
+            Edit Student
           </h2>
           <button
             type="button"
@@ -114,7 +126,7 @@ export default function EditStudentModal({
           </div>
 
           {/* Email & Languages*/}
-          <div className="mb-6 grid grid-cols-2 gap-3">
+          <div className="mb-4 grid grid-cols-2 gap-3">
             <div>
               <label className="sm-label">Email</label>
               <input
@@ -129,6 +141,7 @@ export default function EditStudentModal({
               <label className="sm-label">Learning languages</label>
               <CustomSelect
                 isMulti
+                className="form-select"
                 name="learning_languages"
                 value={selectedLanguages.map((lang) => ({
                   value: lang,
@@ -142,6 +155,31 @@ export default function EditStudentModal({
                   setSelectedLanguages(
                     selected ? selected.map((s: any) => s.value) : [],
                   )
+                }
+              />
+            </div>
+          </div>
+
+          <div className="mb-4 grid grid-cols-2 gap-3">
+            <div>
+              <label className="sm-label">Time zone</label>
+              <TimezoneSelector value={timezone} onChange={setTimezone} />
+            </div>
+            <div>
+              <label className="sm-label">Status</label>
+              <CustomSelect
+                name="status"
+                className="form-select"
+                required
+                value={
+                  status ? { value: status, label: capitalize(status) } : null
+                }
+                options={statusValue.map((s) => ({
+                  value: s,
+                  label: capitalize(s),
+                }))}
+                onChange={(selected: any) =>
+                  setStatus(selected ? selected.value : undefined)
                 }
               />
             </div>

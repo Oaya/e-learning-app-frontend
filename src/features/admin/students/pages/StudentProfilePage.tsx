@@ -16,6 +16,9 @@ import LessonsPanel from "../components/LessonsPanel";
 import HomeworksPanel from "../components/HomeworksPanel";
 import GoalsPanel from "../components/GoalsPanel";
 import { useHomeworks } from "../../homework/hooks/useHomeworks";
+import Badge from "../../../../ui/badge";
+import { USER_STATUS_BADGE } from "../../../../utils/constants";
+import { capitalize } from "../../../../utils/helper";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -29,7 +32,11 @@ export default function StudentProfile() {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const { isDeleting, deleteUsersMutation, isUpdating } = useUser(userId, {
+  const {
+    isDeleting,
+    deleteStudent: deleteUsersMutation,
+    isUpdating,
+  } = useUser(userId, {
     onDeleteSuccess: () => {
       setIsDeleteOpen(false);
       navigate("/admin/students");
@@ -90,13 +97,22 @@ export default function StudentProfile() {
         </div>
 
         <div className="flex flex-col items-end justify-between gap-2">
-          <p className="text-gray-500">
-            Joined: {user.created_at.split("T")[0]}
-          </p>
+          <div className="flex flex-col items-end gap-1">
+            <Badge
+              value={capitalize(user.status)}
+              status={user.status}
+              constant={USER_STATUS_BADGE}
+            />
+
+            <p className="text-gray-500">
+              Joined: {user.created_at.split("T")[0]}
+            </p>
+          </div>
+
           <div className="flex gap-4">
             <button
               onClick={() => setIsEditOpen(true)}
-              className="btn-primary flex items-center gap-1.5"
+              className="btn-primary flex items-center gap-1.5 px-4 py-2"
             >
               <FaRegEdit size={16} /> Edit
             </button>

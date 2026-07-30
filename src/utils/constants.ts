@@ -16,6 +16,7 @@ import {
 import type { AttachmentType, ScoreType } from "../type/homework_submission";
 import type { GoalStatusType } from "../type/goal";
 import type { LessonStatusType } from "../type/lesson";
+import type { Status } from "../type/user";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];
@@ -94,6 +95,12 @@ export const LessonStatus: Record<LessonStatusType, string> = {
   completed: "Completed",
   canceled: "Canceled",
   no_show: "No show",
+};
+
+export const USER_STATUS_BADGE: Record<Status, string> = {
+  active: "bg-theme-green-30 text-theme-green-20",
+  inactive: "bg-theme-pink-10 text-theme-pink-20",
+  invited: "bg-theme-yellow-10  text-theme-yellow-20",
 };
 
 export const LESSON_BORDER_COLOR: Record<LessonStatusType, string> = {
