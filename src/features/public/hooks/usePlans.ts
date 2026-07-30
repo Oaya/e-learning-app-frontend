@@ -9,7 +9,6 @@ export function usePlans() {
     staleTime: 60_000,
   });
 
-  console.log("Plans fetched:", userQuery.data);
   return {
     ...userQuery,
     plans: userQuery.data,

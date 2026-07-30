@@ -1,6 +1,6 @@
-# E-Learning App — Frontend
+# Fluently — Frontend
 
-A React + TypeScript frontend for an e-learning platform with course management, student enrollment, lesson progress tracking, and Stripe payments.
+A React + TypeScript frontend for a SaaS platform built for language teachers to manage students, schedule and record lessons, assign and generate AI-powered homework, track student goals, and log payments — all in one place.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ A React + TypeScript frontend for an e-learning platform with course management,
 
    ```bash
    git clone <repository-url>
-   cd e-learning-app/frontend
+   cd fluently/frontend
    ```
 
 2. **Install dependencies**
@@ -32,9 +32,9 @@ A React + TypeScript frontend for an e-learning platform with course management,
    VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
    ```
 
-   | Variable | Description |
-   |---|---|
-   | `VITE_API_URL` | Base URL of the Rails backend API |
+   | Variable                      | Description                                   |
+   | ----------------------------- | --------------------------------------------- |
+   | `VITE_API_URL`                | Base URL of the Rails backend API             |
    | `VITE_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key for payment processing |
 
 4. **Start the development server**
@@ -47,12 +47,12 @@ A React + TypeScript frontend for an e-learning platform with course management,
 
 ## Available Scripts
 
-| Script | Description |
-|---|---|
-| `npm run dev` | Start the development server with HMR |
-| `npm run build` | Type-check and build for production |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint` | Run ESLint |
+| Script            | Description                           |
+| ----------------- | ------------------------------------- |
+| `npm run dev`     | Start the development server with HMR |
+| `npm run build`   | Type-check and build for production   |
+| `npm run preview` | Preview the production build locally  |
+| `npm run lint`    | Run ESLint                            |
 
 ## Project Structure
 

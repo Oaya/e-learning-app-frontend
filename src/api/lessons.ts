@@ -92,3 +92,17 @@ export async function getLessons(studentId?: string): Promise<ApiResponse> {
     return { success: false, error: e.response?.data?.error };
   }
 }
+
+export async function joinLesson(lessonId: string): Promise<ApiResponse> {
+  try {
+    const url: string = `${import.meta.env.VITE_API_URL}/api/lessons/${lessonId}/token`;
+
+    const response = await axios.get(url, {
+      headers: authHeader(),
+    });
+
+    return { success: true, data: response.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}

@@ -7,11 +7,17 @@ import {
   LESSON_STATUS_BADGE,
 } from "../../../../utils/constants";
 import { formatDay } from "../../../../utils/helper";
-import { LuLanguages } from "react-icons/lu";
+import { LuLanguages, LuVideo } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
   const { day, mon } = formatDay(lesson.scheduled_at);
   const dt = dayjs(lesson.scheduled_at);
+  const navigate = useNavigate();
+
+  const canJoinLesson = dayjs().isSameOrAfter(
+    dayjs(lesson.scheduled_at).subtract(15, "minute"),
+  );
 
   return (
     <div
@@ -68,6 +74,16 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
         >
           {lesson.status}
         </span>
+
+        {canJoinLesson && (
+          <button
+            onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
+            className="btn-primary-pink mt-2 flex items-center gap-1 px-2"
+          >
+            <LuVideo size={16} />
+            Join Lesson
+          </button>
+        )}
         {lesson.status === "completed" && (
           <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">
             <HiOutlineVideoCamera size={16} />

@@ -21,6 +21,12 @@ import { useLessons } from "../hooks/useLessons";
 import { useState } from "react";
 import UpsertLessonModal from "./UpsertLessonModal";
 import Badge from "../../../../ui/badge";
+import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import { useNavigate } from "react-router-dom";
+import { LuVideo } from "react-icons/lu";
+
+dayjs.extend(isSameOrAfter);
 
 type Props = {
   lesson: Lesson;
@@ -41,6 +47,8 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
     onCancelSuccess: () => setTargetLessonId(null),
   });
 
+  const navigate = useNavigate();
+
   function handleModalActionChange(id: string, type: "Delete" | "Cancel") {
     setTargetLessonId(id);
     setActionType(type);
@@ -57,6 +65,9 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
   }
   const { day, mon } = formatDay(lesson.scheduled_at);
   const isPast = lesson.status === "completed" || lesson.status === "canceled";
+  const canJoinLesson = dayjs().isSameOrAfter(
+    dayjs(lesson.scheduled_at).subtract(30, "minute"),
+  );
 
   return (
     <div
@@ -114,7 +125,18 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           value={capitalize(lesson.status)}
           status={lesson.status}
           constant={LESSON_STATUS_BADGE}
+          className="px-2 py-0.5"
         />
+        {canJoinLesson && (
+          <button
+            onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
+            className="btn-primary-pink mt-2 flex items-center gap-1 px-2"
+          >
+            <LuVideo size={16} />
+            Join Lesson
+          </button>
+        )}
+
         {/* <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
             lesson.payment_status === "paid"
