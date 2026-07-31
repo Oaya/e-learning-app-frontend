@@ -12,6 +12,8 @@ import { HiOutlineX } from "react-icons/hi";
 import { LESSON_STATUS_BADGE, LessonStatus } from "../../../../utils/constants";
 
 import { useLesson } from "../../../admin/lessons/hooks/useLesson";
+import { useState } from "react";
+import { addLessonRecording } from "../../../../api/lesson_recordings";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -21,6 +23,7 @@ type ModalProps = {
   onClose: () => void;
   lessonId: string;
   durationInSeconds: number;
+  recordingBlob?: Blob | null;
 };
 
 export default function LessonCompleteModal({
@@ -28,31 +31,45 @@ export default function LessonCompleteModal({
   onClose,
   lessonId,
   durationInSeconds,
+  recordingBlob,
 }: ModalProps) {
   const { lesson, endingLesson, isEnding } = useLesson(lessonId);
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // Read the form data synchronously — e.currentTarget is nulled out by the
+    // DOM once the event finishes propagating, so it can't be read after an await.
+    const formData = new FormData(e.currentTarget);
+    setLoading(true);
 
     try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
+      // Upload recording
+      if (recordingBlob) {
+        const video = new File([recordingBlob], "lesson.webm", {
+          type: "video/webm",
+        });
+
+        await addLessonRecording(lessonId, {
+          video,
+          durationInSeconds,
+          fileSize: recordingBlob.size,
+        });
+      }
 
       const data = {
         meeting_duration_in_seconds: durationInSeconds,
         status: fdString(formData, "status") as LessonStatusType,
         meeting_feedback: fdString(formData, "meeting_feedback"),
       };
-
-      console.log(data);
-
       await endingLesson({ id: lessonId, data });
-
       onClose();
     } catch {
       // handled by the mutation's onError
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -153,9 +170,9 @@ export default function LessonCompleteModal({
             <button
               type="submit"
               className="btn-primary-pink"
-              disabled={isEnding}
+              disabled={loading || isEnding}
             >
-              {isEnding ? "Saving..." : "Save & Finish"}
+              {loading || isEnding ? "Saving..." : "Save & Finish"}
             </button>
           </div>
         </form>

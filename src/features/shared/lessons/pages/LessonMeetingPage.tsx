@@ -22,6 +22,7 @@ import { joinLesson } from "../../../../api/lessons";
 import "../../../../styles/lesson-meeting.css";
 import { useAuth } from "../../../../contexts/AuthContext";
 import LessonCompleteModal from "../components/LessonCompleteModal";
+import RecordingManager from "../components/RecordingManager";
 
 type RoomData = {
   token: string;
@@ -169,9 +170,16 @@ export default function LessonMeetingPage() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [meetingDuration, setMeetingDuration] = useState(0);
   const joinedAtRef = useRef<number | null>(null);
+  const stopRecordingRef = useRef<(() => Promise<Blob | null>) | null>(null);
+  const [recordingBlob, setRecordingBlob] = useState<Blob | null>(null);
 
-  function closeMeeting(reason?: DisconnectReason) {
+  async function closeMeeting(reason?: DisconnectReason) {
     console.log("LiveKit disconnected, reason:", reason);
+
+    const blob = stopRecordingRef.current
+      ? await stopRecordingRef.current()
+      : null;
+    setRecordingBlob(blob);
 
     const joinedAt = joinedAtRef.current;
     const seconds = joinedAt ? Math.round((Date.now() - joinedAt) / 1000) : 0;
@@ -232,9 +240,9 @@ export default function LessonMeetingPage() {
         className="lesson-meeting-room"
         token={roomData.token}
         serverUrl={roomData.url}
-        connect={true}
-        video={true}
-        audio={true}
+        connect
+        video
+        audio
         options={roomOptions}
         onConnected={() => {
           joinedAtRef.current = Date.now();
@@ -243,6 +251,7 @@ export default function LessonMeetingPage() {
       >
         <VideoConference SettingsComponent={MeetingSettings} />
         <LiveCaptions />
+        <RecordingManager stopRef={stopRecordingRef} />
       </LiveKitRoom>
 
       <LessonCompleteModal
@@ -250,6 +259,7 @@ export default function LessonMeetingPage() {
         onClose={() => closeModal()}
         lessonId={id!}
         durationInSeconds={meetingDuration}
+        recordingBlob={recordingBlob}
       />
     </div>
   );

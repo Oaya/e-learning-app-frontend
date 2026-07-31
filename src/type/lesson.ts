@@ -30,6 +30,7 @@ export type Lesson = {
   status: LessonStatusType;
   meeting_duration_in_seconds?: number;
   meeting_feedback?: string;
+  recording_url?: string;
   student: {
     id: string;
     first_name: string;

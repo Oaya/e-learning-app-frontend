@@ -26,6 +26,7 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useNavigate } from "react-router-dom";
 import { LuVideo } from "react-icons/lu";
 import LessonCompleteModal from "../../../shared/lessons/components/LessonCompleteModal";
+import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -40,6 +41,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
   const [editLessonId, setEditLessonId] = useState<string | null>(null);
   const [completeLessonId, setCompleteLessonId] = useState<string | null>(null);
   const [deleteLessonId, setDeleteLessonId] = useState<string | null>(null);
+  const [watchingRecording, setWatchingRecording] = useState(false);
 
   const { isDeleting, deleteLesson } = useLessons({
     onDeleteSuccess: () => setDeleteLessonId(null),
@@ -61,8 +63,14 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
   const canJoinLesson =
     lesson.status === "scheduled" &&
-    now.isSameOrAfter(dayjs(lesson.scheduled_at).subtract(15, "minute")) &&
+    now.isSameOrAfter(dayjs(lesson.scheduled_at).subtract(30, "minute")) &&
     now.isSameOrBefore(
+      dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
+    );
+
+  const requireStatusChange =
+    lesson.status === "scheduled" &&
+    now.isAfter(
       dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
     );
 
@@ -90,7 +98,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           <p className="truncate text-sm font-medium text-gray-800">
             {lesson.topic}
           </p>
-          {!canJoinLesson && lesson.status === "scheduled" && (
+          {requireStatusChange && (
             <p className="truncate text-sm font-medium text-red-400">
               This lesson is in the past but is still marked as scheduled.
               Update its status.
@@ -117,11 +125,11 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             )}
             {lesson.student.first_name} {lesson.student.last_name}
           </span>
-          {/* {lesson.has_recording && (
+          {lesson.recording_url && (
             <span className="flex items-center gap-1 text-xs text-emerald-600">
               <HiOutlineVideoCamera size={14} /> Recording
             </span>
-          )} */}
+          )}
         </div>
       </div>
 
@@ -136,10 +144,20 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         {canJoinLesson && (
           <button
             onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
-            className="btn-primary-pink mt-2 flex items-center gap-1 px-2"
+            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
             <LuVideo size={16} />
             Join Lesson
+          </button>
+        )}
+
+        {lesson.recording_url && (
+          <button
+            onClick={() => setWatchingRecording(true)}
+            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
+          >
+            <LuVideo size={16} />
+            Watch
           </button>
         )}
 
@@ -192,12 +210,22 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         timezone={timezone}
       />
 
-      <LessonCompleteModal
-        isOpen={!!completeLessonId}
-        onClose={() => setCompleteLessonId(null)}
-        lessonId={lesson.id}
-        durationInSeconds={lesson.meeting_duration_in_seconds ?? 0}
-      />
+      {completeLessonId && (
+        <LessonCompleteModal
+          isOpen
+          onClose={() => setCompleteLessonId(null)}
+          lessonId={lesson.id}
+          durationInSeconds={lesson.meeting_duration_in_seconds ?? 0}
+        />
+      )}
+
+      {watchingRecording && lesson.recording_url && (
+        <WatchRecordingModal
+          isOpen
+          onClose={() => setWatchingRecording(false)}
+          recordingUrl={lesson.recording_url}
+        />
+      )}
     </div>
   );
 }

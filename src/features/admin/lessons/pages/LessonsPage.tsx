@@ -49,8 +49,10 @@ export default function LessonsPage() {
   const past = filtered?.filter((s) => dayjs(s.scheduled_at).isBefore(now));
 
   // Stats
-  const thisMonth = lessons?.filter((s) =>
-    dayjs(s.scheduled_at).isSame(dayjs(), "month"),
+  const thisMonth = lessons?.filter(
+    (s) =>
+      (s.status === "completed" || s.status === "scheduled") &&
+      dayjs(s.scheduled_at).isSame(dayjs(), "month"),
   );
 
   const upcomingCountForThisWeek = lessons?.filter((s) => {
@@ -100,7 +102,7 @@ export default function LessonsPage() {
         <StatCard
           icon={HiOutlineClock}
           iconColor="text-theme-green-20"
-          label="Hours taught"
+          label="Hours teaching"
           value={`${hoursThisMonth.toFixed(1)}h`}
           sub="this month"
         />
