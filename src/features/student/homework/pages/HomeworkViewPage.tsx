@@ -11,12 +11,11 @@ import { SCORE_BUDGE } from "../../../../utils/constants";
 import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
 import AttachmentsList from "../components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";
-import { capitalize } from "../../../../utils/helper";
 
 export default function HomeworkViewPage() {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const hwId = id ?? "";
-  const navigate = useNavigate();
 
   const { homework, isLoading } = useHomework(hwId);
 
@@ -24,10 +23,8 @@ export default function HomeworkViewPage() {
     return <p className="p-10 text-sm text-gray-400">Loading…</p>;
   }
 
-  const status = homework.submission?.status ?? "pending";
-  const isReviewed = status === "reviewed";
-
   const submission = homework.submission;
+  const isReviewed = homework.status === "reviewed";
 
   const feedback = isReviewed ? submission?.feedback : null;
   const scoreBadge =
@@ -96,18 +93,18 @@ export default function HomeworkViewPage() {
           <div className="flex w-100 shrink-0 flex-col gap-4">
             {/* Teacher feedback */}
             <div className="panel-box">
-              <div className="mb-3 flex items-center gap-2">
+              <div className="flex gap-2">
                 <HiOutlineChatBubbleLeftEllipsis className="h-4 w-4 text-gray-400" />
                 <p className="panel-header">Teacher feedback</p>
               </div>
 
               {submission && feedback ? (
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <span
-                    className={`mt-2 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-medium capitalize ${scoreBadge.css}`}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm font-medium capitalize ${scoreBadge.css}`}
                   >
                     <scoreBadge.icon size={14} />
-                    {capitalize(homework!.submission!.feedback.score)}
+                    {homework!.submission!.feedback.score}
                   </span>
                   <p className="text-sm leading-relaxed text-gray-600">
                     {feedback.feedback_text}

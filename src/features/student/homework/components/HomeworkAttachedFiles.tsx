@@ -27,7 +27,7 @@ export default function HomeworkAttachedFiles({
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-medium text-gray-800">
-                {a.type === "link" ? (
+                {a.type === "Link" ? (
                   <a
                     href={a.url}
                     target="_blank"

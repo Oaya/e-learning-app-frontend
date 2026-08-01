@@ -29,13 +29,11 @@ export default function StudentHomeworkPage() {
   //Stats - draft counts as pending
   const total = homeworks?.length ?? 0;
   const pending =
-    homeworks?.filter(
-      (h) => h.submission == null || h.submission?.status === "draft",
-    ).length ?? 0;
+    homeworks?.filter((h) => h.status === "draft" || h.status === "pending")
+      .length ?? 0;
   const submitted =
-    homeworks?.filter((h) => h.submission?.status === "submitted").length ?? 0;
-  const overdue =
-    homeworks?.filter((h) => h.submission?.status === "overdue").length ?? 0;
+    homeworks?.filter((h) => h.status === "submitted").length ?? 0;
+  const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
 
   return (
     <div className="space-y-6 p-10">
@@ -50,27 +48,23 @@ export default function StudentHomeworkPage() {
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineDocumentText}
-          iconColor="text-theme-green-20"
           label="Total assigned"
           value={total}
         />
         <StatCard
           icon={HiOutlineClock}
-          iconColor="text-theme-green-20"
           label="Pending"
           value={pending}
           sub="not finished yet"
         />
         <StatCard
           icon={HiOutlineCheck}
-          iconColor="text-theme-green-20"
           label="Submitted"
           value={submitted}
           sub="waiting for review"
         />
         <StatCard
           icon={HiOutlineExclamationCircle}
-          iconColor="text-theme-pink-20"
           label="Overdue"
           value={overdue}
           sub="past due date"

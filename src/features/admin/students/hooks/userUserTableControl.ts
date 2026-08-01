@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import type { UserSort } from "../../../../type/user";
 import { createFilters } from "../../../../models/filters";
-import { capitalize } from "../../../../utils/helper";
 
 export function useUserTableControl() {
   const [sorts, setSorts] = useState<UserSort[]>([]);
@@ -75,7 +74,7 @@ export function useUserTableControl() {
       values.map((value) => ({
         key,
         value,
-        label: `${capitalize(key)}: ${capitalize(value)}`,
+        label: `${key}: ${value}`,
       })),
     );
   }, [selectedFilters]);

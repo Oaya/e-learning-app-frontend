@@ -7,7 +7,6 @@ import { fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useState } from "react";
-import { capitalize } from "../../../../utils/helper";
 
 type InviteUserModalProps = {
   isOpen: boolean;
@@ -114,10 +113,10 @@ export default function InviteUserModal({
               isMulti
               name="learning_languages"
               required
-              className="w-full"
+              className="w-full capitalize"
               options={codes.map((code) => ({
                 value: ISO6391.getName(code),
-                label: capitalize(ISO6391.getName(code)),
+                label: ISO6391.getName(code),
               }))}
               onChange={(selected: any) =>
                 setSelectedLanguages(

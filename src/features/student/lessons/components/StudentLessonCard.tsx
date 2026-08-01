@@ -1,27 +1,29 @@
-import dayjs from "dayjs";
 import { HiOutlineClock, HiOutlineVideoCamera } from "react-icons/hi";
-
 import type { Lesson } from "../../../../type/lesson";
 import {
   LESSON_BORDER_COLOR,
   LESSON_STATUS_BADGE,
 } from "../../../../utils/constants";
-import { formatDay } from "../../../../utils/helper";
+import {
+  canJoinLesson,
+  capitalize,
+  formatDay,
+  formatTime,
+} from "../../../../utils/helper";
 import { LuLanguages, LuVideo } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import Badge from "../../../../ui/badge";
+import { useState } from "react";
+import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
 
 export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
   const { day, mon } = formatDay(lesson.scheduled_at);
-  const dt = dayjs(lesson.scheduled_at);
   const navigate = useNavigate();
-
-  const canJoinLesson = dayjs().isSameOrAfter(
-    dayjs(lesson.scheduled_at).subtract(15, "minute"),
-  );
+  const [watchingRecording, setWatchingRecording] = useState(false);
 
   return (
     <div
-      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${LESSON_BORDER_COLOR[lesson.status]}`}
+      className={`card ${LESSON_BORDER_COLOR[lesson.status]}`}
       style={{ opacity: lesson.status === "canceled" ? 0.7 : 1 }}
     >
       {/* Date block */}
@@ -33,6 +35,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
           {mon}
         </div>
       </div>
+
       {/* Divider */}
       <div className="h-14 w-px shrink-0 bg-gray-200" />
 
@@ -42,55 +45,61 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
           {lesson.topic}
         </p>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
             <HiOutlineClock size={16} />
-            {dt.format("h:mm A")} · {lesson.duration_in_minutes} min
+            {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
-          {lesson.status === "completed" ? (
+          <span className="flex items-center gap-1 text-xs text-gray-400">
+            <LuLanguages size={16} />
+            {lesson.language}
+          </span>
+
+          {lesson.recording_url && (
             <span className="text-theme-green-20 flex items-center gap-1 text-xs">
               <HiOutlineVideoCamera size={16} />
-              Recording available
-            </span>
-          ) : (
-            <span className="flex items-center gap-1 text-xs text-gray-400">
-              <LuLanguages size={16} />
-              {lesson.language}
+              Recording
             </span>
           )}
         </div>
-
-        {lesson.note && (
-          <div className="mt-3 rounded-lg bg-gray-50 px-3 py-2 text-xs leading-relaxed text-gray-500">
-            {lesson.note}
-          </div>
-        )}
       </div>
 
-      {/* Right */}
-      <div className="flex shrink-0 flex-col items-end gap-2">
-        <span
-          className={`rounded-full px-2.5 py-0.5 text-sm font-medium capitalize ${LESSON_STATUS_BADGE[lesson.status]}`}
-        >
-          {lesson.status}
-        </span>
-
-        {canJoinLesson && (
+      {/* Badges */}
+      <div className="flex shrink-0 flex-col items-end gap-1">
+        <Badge
+          value={capitalize(lesson.status)}
+          status={lesson.status}
+          constant={LESSON_STATUS_BADGE}
+          className="px-2 py-0.5"
+        />
+        {canJoinLesson(lesson) && (
           <button
             onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
-            className="btn-primary-pink mt-2 flex items-center gap-1 px-2"
+            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
             <LuVideo size={16} />
             Join Lesson
           </button>
         )}
-        {lesson.status === "completed" && (
-          <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">
-            <HiOutlineVideoCamera size={16} />
+
+        {lesson.recording_url && (
+          <button
+            onClick={() => setWatchingRecording(true)}
+            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
+          >
+            <LuVideo size={16} />
             Watch
           </button>
         )}
       </div>
+
+      {watchingRecording && lesson.recording_url && (
+        <WatchRecordingModal
+          isOpen
+          onClose={() => setWatchingRecording(false)}
+          recordingUrl={lesson.recording_url}
+        />
+      )}
     </div>
   );
 }

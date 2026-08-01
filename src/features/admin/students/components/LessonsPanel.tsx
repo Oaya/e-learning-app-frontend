@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
+import { useState } from "react";
 
-import { capitalize } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import type { Lesson } from "../../../../type/lesson";
-import { useState } from "react";
 import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
 import { useAuth } from "../../../../contexts/AuthContext";
 import type { User } from "../../../../type/user";
@@ -51,7 +50,6 @@ export default function LessonsPanel({ lessons, user }: Props) {
                 </p>
               </div>
               <Badge
-                value={capitalize(lesson.status)}
                 status={lesson.status}
                 constant={LESSON_STATUS_BADGE}
                 className="px-2 py-0.5 text-[12px]"

@@ -32,7 +32,7 @@ export default function StudentDashboardPage() {
       (s) => s.status === "scheduled" && dayjs(s.scheduled_at).isAfter(today),
     )
     .sort((a, b) => dayjs(a.scheduled_at).diff(dayjs(b.scheduled_at)))
-    .slice(0, 3);
+    .slice(0, 5);
 
   // Next lesson label
   const nextLesson = upcoming[0];

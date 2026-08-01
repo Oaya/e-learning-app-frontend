@@ -6,7 +6,6 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import type { User } from "../../../../type/user";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
-import { capitalize } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -56,7 +55,6 @@ export default function TodayLessonsPanel({
             </div>
 
             <Badge
-              value={capitalize(s.status)}
               status={s.status}
               constant={LESSON_STATUS_BADGE}
               className="px-2 py-0.5 text-[12px]"

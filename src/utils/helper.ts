@@ -1,5 +1,11 @@
 import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import type { Homework } from "../type/homework";
+import type { Lesson } from "../type/lesson";
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 export function getVideoDuration(file: File): Promise<number> {
   const video = document.createElement("video");
@@ -55,11 +61,23 @@ export function formatDay(iso: string) {
 
 export function getHomeworkDateLabel(hw: Homework) {
   const value =
-    hw.submission?.status === "reviewed" && hw.submission.reviewed_at
+    hw.status === "reviewed" && hw.submission?.reviewed_at
       ? `Reviewed ${hw.submission.reviewed_at}`
-      : hw.submission?.status === "submitted" && hw.submission.submitted_at
+      : hw.status === "submitted" && hw.submission?.submitted_at
         ? `Submitted ${hw.submission.submitted_at}`
         : `Due ${hw.due_date}`;
 
   return value;
+}
+
+export function canJoinLesson(lesson: Lesson) {
+  const now = dayjs();
+
+  return (
+    lesson.status === "scheduled" &&
+    now.isSameOrAfter(dayjs(lesson.scheduled_at).subtract(30, "minute")) &&
+    now.isSameOrBefore(
+      dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
+    )
+  );
 }

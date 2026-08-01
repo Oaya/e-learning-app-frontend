@@ -51,7 +51,6 @@ export default function AdminDashboardPage() {
       <section className="grid grid-cols-2 gap-4 px-10 pt-4 lg:grid-cols-4">
         <StatCard
           icon={HiUsers}
-          iconColor="text-theme-yellow-20"
           label="Students"
           value={students ? students?.length : 0}
           sub={`+${studentSub?.length ?? 0} this month`}
@@ -59,20 +58,17 @@ export default function AdminDashboardPage() {
         />
         <StatCard
           icon={HiCalendar}
-          iconColor="text-theme-yellow-20"
           label="Lessons today"
           value={lessons?.length ?? 0}
         />
         <StatCard
           icon={HiDocumentText}
-          iconColor="text-theme-yellow-20"
           label="Homework pending"
           value={5}
           sub="2 overdue"
         />
         <StatCard
           icon={HiCreditCard}
-          iconColor="text-theme-yellow-20"
           label="Unpaid lessons"
           value="$240"
           sub="Across 3 students"

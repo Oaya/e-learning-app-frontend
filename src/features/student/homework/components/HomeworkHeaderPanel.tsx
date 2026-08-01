@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { HiOutlineCalendar, HiOutlineLanguage } from "react-icons/hi2";
 import type { Homework } from "../../../../type/homework";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
-import { capitalize } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 
 type Props = {
@@ -44,11 +43,7 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
           </span>
         )}
 
-        <Badge
-          value={capitalize(hw.status)}
-          status={hw.status}
-          constant={HW_STATUS_BADGE}
-        />
+        <Badge status={hw.status} constant={HW_STATUS_BADGE} />
       </div>
       {hw.instructions && (
         <div className="mt-3 rounded-lg bg-gray-50 px-4 py-3 text-sm leading-relaxed text-gray-500">

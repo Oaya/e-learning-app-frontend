@@ -3,7 +3,7 @@ import { HiOutlineX } from "react-icons/hi";
 import ISO6391 from "iso-639-1";
 
 import { statusValue, type Status, type User } from "../../../../type/user";
-import { capitalize, initials } from "../../../../utils/helper";
+import { initials } from "../../../../utils/helper";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useUser } from "../hooks/useUser";
 import TimezoneSelector from "../../../shared/profile/components/TimezoneSelector";
@@ -141,15 +141,15 @@ export default function EditStudentModal({
               <label className="sm-label">Learning languages</label>
               <CustomSelect
                 isMulti
-                className="form-select"
+                className="form-select capitalize"
                 name="learning_languages"
                 value={selectedLanguages.map((lang) => ({
                   value: lang,
-                  label: capitalize(lang),
+                  label: lang,
                 }))}
                 options={codes.map((code) => ({
                   value: ISO6391.getName(code),
-                  label: capitalize(ISO6391.getName(code)),
+                  label: ISO6391.getName(code),
                 }))}
                 onChange={(selected: any) =>
                   setSelectedLanguages(
@@ -169,14 +169,12 @@ export default function EditStudentModal({
               <label className="sm-label">Status</label>
               <CustomSelect
                 name="status"
-                className="form-select"
+                className="form-select capitalize"
                 required
-                value={
-                  status ? { value: status, label: capitalize(status) } : null
-                }
+                value={status ? { value: status, label: status } : null}
                 options={statusValue.map((s) => ({
                   value: s,
-                  label: capitalize(s),
+                  label: s,
                 }))}
                 onChange={(selected: any) =>
                   setStatus(selected ? selected.value : undefined)

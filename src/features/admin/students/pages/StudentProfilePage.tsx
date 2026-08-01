@@ -18,7 +18,6 @@ import GoalsPanel from "../components/GoalsPanel";
 import { useHomeworks } from "../../homework/hooks/useHomeworks";
 import Badge from "../../../../ui/badge";
 import { USER_STATUS_BADGE } from "../../../../utils/constants";
-import { capitalize } from "../../../../utils/helper";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -98,11 +97,7 @@ export default function StudentProfile() {
 
         <div className="flex flex-col items-end justify-between gap-2">
           <div className="flex flex-col items-end gap-1">
-            <Badge
-              value={capitalize(user.status)}
-              status={user.status}
-              constant={USER_STATUS_BADGE}
-            />
+            <Badge status={user.status} constant={USER_STATUS_BADGE} />
 
             <p className="text-gray-500">
               Joined: {user.created_at.split("T")[0]}
@@ -131,14 +126,12 @@ export default function StudentProfile() {
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiUsers}
-          iconColor="text-theme-yellow-20"
           label="Total lessons"
           value={lessons?.length ?? 0}
           sub="Lessons total"
         />
         <StatCard
           icon={HiCalendar}
-          iconColor="text-theme-yellow-20"
           label="Homework done"
           value={hwDone?.length ?? 0}
           sub={

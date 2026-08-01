@@ -1,6 +1,5 @@
 import type { Homework } from "../../../../type/homework";
 import dayjs from "dayjs";
-import { capitalize } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import { useState } from "react";
@@ -47,7 +46,6 @@ export default function HomeworksPanel({ homeworks, user }: Props) {
                   </p>
                 </div>
                 <Badge
-                  value={capitalize(displayStatus)}
                   status={displayStatus}
                   constant={HW_STATUS_BADGE}
                   className="px-2 py-0.5 text-[12px]"

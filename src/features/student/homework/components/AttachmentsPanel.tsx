@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import UploadButton from "./UploadButton";
 import HomeworkAttachedFiles from "./HomeworkAttachedFiles";
-import { capitalize } from "../../../../utils/helper";
+
 import type {
   Attachment,
   AttachmentType,
   HomeworkAttachmentInput,
 } from "../../../../type/homework_submission";
+import { capitalize } from "../../../../utils/helper";
 
 type Props = {
   attachments: Attachment[];

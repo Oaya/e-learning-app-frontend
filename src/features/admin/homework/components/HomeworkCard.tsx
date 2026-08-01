@@ -3,17 +3,14 @@ import {
   HiOutlineEye,
   HiOutlineTrash,
   HiOutlineBell,
-  HiOutlineSparkles,
+  HiOutlineCalendar,
+  HiOutlineLanguage,
 } from "react-icons/hi2";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import type { Homework } from "../../../../type/homework";
-import {
-  capitalize,
-  getHomeworkDateLabel,
-  initials,
-} from "../../../../utils/helper";
+import { getHomeworkDateLabel, initials } from "../../../../utils/helper";
 import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
 import ActionBtn from "../../lessons/components/ActionButton";
 import ConfirmModal from "../../../../ui/ConfirmModal";
@@ -33,60 +30,53 @@ export default function HomeworkCard({ hw }: Props) {
     onDeleteSuccess: () => setDeletingHWId(null),
   });
 
-  const status = hw.submission ? hw.submission.status : "pending";
-  const displayStatus = status === "draft" ? "pending" : status;
-
   const dateLabel = getHomeworkDateLabel(hw);
+  const displayStatus = hw.status === "draft" ? "pending" : hw.status;
 
   return (
-    <div
-      className={`flex items-start gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${HW_BORDER_COLOR[displayStatus]}`}
-    >
+    <div className={`card ${HW_BORDER_COLOR[displayStatus]}`}>
       {/* Main */}
-      <div className="min-w-0 flex-1">
-        <div className="mb-1.5 flex flex-wrap items-center gap-2">
+      <div className="h-14 min-w-0 flex-1">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
           <p className="text-sm font-medium text-gray-800">{hw.title}</p>
-          {hw.ai_generated && (
+          {/* {hw.ai_generated && (
             <span className="flex items-center gap-1 rounded-full bg-purple-50 px-2 py-0.5 text-[11px] font-medium text-purple-700">
               <HiOutlineSparkles className="h-3 w-3" /> AI generated
             </span>
-          )}
+          )} */}
         </div>
+
         <div className="flex flex-wrap items-center gap-3">
-          {hw.student.avatar ? (
-            <img
-              src={hw.student.avatar}
-              alt="avatar"
-              className="h-7 w-7 rounded-full object-cover"
-            />
-          ) : (
-            <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
-              {initials(hw.student.first_name, hw.student.last_name)}
+          <span className="flex items-center gap-1 text-xs text-gray-400">
+            <HiOutlineCalendar size={14} />
+            {dateLabel}
+          </span>
+          {hw.language && (
+            <span className="flex items-center gap-1 text-xs text-gray-400 capitalize">
+              <HiOutlineLanguage size={14} />
+              {hw.language} · {hw.level}
             </span>
           )}
-          <span className="text-xs text-gray-500">
+          <span className="flex items-center gap-1.5 text-xs text-gray-400">
+            {hw.student.avatar ? (
+              <img
+                src={hw.student.avatar}
+                alt="avatar"
+                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+              />
+            ) : (
+              <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
+                {initials(hw.student.first_name, hw.student.last_name)}
+              </span>
+            )}
             {hw.student.first_name} {hw.student.last_name}
           </span>
-          <span className="text-xs text-gray-400">·</span>
-          <span className="text-xs text-gray-400">{dateLabel}</span>
-          {hw.language && (
-            <>
-              <span className="text-xs text-gray-400">·</span>
-              <span className="text-xs text-gray-400">
-                {hw.language} / {hw.level}
-              </span>
-            </>
-          )}
         </div>
       </div>
 
       {/* Badge + actions */}
       <div className="flex shrink-0 flex-col items-end gap-2">
-        <Badge
-          value={capitalize(displayStatus)}
-          status={displayStatus}
-          constant={HW_STATUS_BADGE}
-        />
+        <Badge status={displayStatus} constant={HW_STATUS_BADGE} />
 
         <div className="flex gap-1">
           {/* View — goes to review page for submitted/reviewed, otherwise just icon */}
@@ -99,7 +89,9 @@ export default function HomeworkCard({ hw }: Props) {
             </ActionBtn>
           )}
 
-          {(displayStatus === "pending" || displayStatus === "overdue") && (
+          {(displayStatus === "pending" ||
+            displayStatus === "overdue" ||
+            displayStatus === "draft") && (
             <>
               <ActionBtn title="Edit" onClick={() => setEditHWId(hw.id)}>
                 <HiOutlinePencil size={16} />

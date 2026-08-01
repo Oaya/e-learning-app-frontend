@@ -12,7 +12,6 @@ import AiBanner from "../components/AiBanner";
 import StatCard from "../../../../ui/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
 import TabFilters from "../components/TabFilters";
-import type { HomeworkSubmissionStatus } from "../../../../type/homework_submission";
 import type { Homework } from "../../../../type/homework";
 
 export type HomeworkFilterTab =
@@ -39,16 +38,14 @@ export const HOMEWORK_GROUP_ORDER: Exclude<HomeworkFilterTab, "all">[] = [
 
 export function matchesTab(h: Homework, tab: HomeworkFilterTab) {
   if (tab === "all") return true;
+  if (tab === "pending") return h.status === "draft" || h.status === "pending";
   return h.status === tab;
 }
 
-export function inGroup(
-  h: { submission?: { status: HomeworkSubmissionStatus } | null },
-  group: Exclude<HomeworkFilterTab, "all">,
-) {
+export function inGroup(h: Homework, group: Exclude<HomeworkFilterTab, "all">) {
   if (group === "pending")
-    return h.submission == null || h.submission?.status === "draft";
-  return h.submission?.status === group;
+    return h.status === "draft" || h.status === "pending";
+  return h.status === group;
 }
 
 export default function HomeworkPage() {
@@ -73,13 +70,11 @@ export default function HomeworkPage() {
   // Stats — draft counts as pending
   const total = homeworks?.length ?? 0;
   const pending =
-    homeworks?.filter(
-      (h) => h.submission == null || h.submission?.status === "draft",
-    ).length ?? 0;
+    homeworks?.filter((h) => h.status === "draft" || h.status === "pending")
+      .length ?? 0;
   const submitted =
-    homeworks?.filter((h) => h.submission?.status === "submitted").length ?? 0;
-  const overdue =
-    homeworks?.filter((h) => h.submission?.status === "overdue").length ?? 0;
+    homeworks?.filter((h) => h.status === "submitted").length ?? 0;
+  const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
 
   return (
     <div className="space-y-6 p-10">
@@ -113,14 +108,12 @@ export default function HomeworkPage() {
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineDocumentText}
-          iconColor="text-theme-green-20"
           label="Total assigned"
           value={total}
           sub="all time"
         />
         <StatCard
           icon={HiOutlineCheck}
-          iconColor="text-theme-green-20"
           label="Submitted"
           value={submitted}
           sub="awaiting review"
@@ -128,14 +121,12 @@ export default function HomeworkPage() {
         />
         <StatCard
           icon={HiOutlineClock}
-          iconColor="text-theme-green-20"
           label="Pending"
           value={pending}
           sub="not submitted yet"
         />
         <StatCard
           icon={HiOutlineExclamationCircle}
-          iconColor="text-theme-green-20"
           label="Overdue"
           value={overdue}
           sub="past due date"

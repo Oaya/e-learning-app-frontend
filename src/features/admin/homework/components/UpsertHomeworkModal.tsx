@@ -6,7 +6,6 @@ import { useUsers } from "../../students/hooks/useUsers";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { fdString } from "../../../../utils/formData";
-import { capitalize } from "../../../../utils/helper";
 import { levels } from "../../../../utils/constants";
 import type { StudentOption, User } from "../../../../type/user";
 import { useHomeworks } from "../hooks/useHomeworks";
@@ -207,18 +206,18 @@ export default function UpsertHomeworkModal({
               <label className="sm-label">Language</label>
               <CustomSelect
                 name="language"
-                className="w-full"
+                className="w-full capitalize"
                 defaultValue={
                   defaultLanguage
                     ? {
                         value: defaultLanguage,
-                        label: capitalize(defaultLanguage),
+                        label: defaultLanguage,
                       }
                     : undefined
                 }
                 options={selectedStudent?.languages?.map((lang) => ({
                   value: lang,
-                  label: capitalize(lang),
+                  label: lang,
                 }))}
               />
             </div>
@@ -226,15 +225,13 @@ export default function UpsertHomeworkModal({
               <label className="sm-label">Level</label>
               <CustomSelect
                 name="level"
-                className="w-full"
+                className="w-full capitalize"
                 defaultValue={
-                  hw?.level
-                    ? { value: hw.level, label: capitalize(hw.level) }
-                    : undefined
+                  hw?.level ? { value: hw.level, label: hw.level } : undefined
                 }
                 options={levels.map((level) => ({
                   value: level,
-                  label: capitalize(level),
+                  label: level,
                 }))}
               />
             </div>

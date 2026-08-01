@@ -1,7 +1,11 @@
 import dayjs from "dayjs";
 import { HiArrowRight } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { Lesson } from "../../../../type/lesson";
+import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
+import Badge from "../../../../ui/badge";
+import { canJoinLesson } from "../../../../utils/helper";
+import { LuVideo } from "react-icons/lu";
 
 type UpcomingLessonPanelProps = {
   lessons?: Lesson[];
@@ -10,6 +14,8 @@ type UpcomingLessonPanelProps = {
 export default function UpcomingLessonsPanel({
   lessons,
 }: UpcomingLessonPanelProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
@@ -28,10 +34,10 @@ export default function UpcomingLessonsPanel({
         <p className="text-sm text-gray-400">No upcoming lessons.</p>
       ) : (
         <div className="space-y-0 divide-y divide-gray-100">
-          {lessons?.map((s) => {
-            const dt = dayjs(s.scheduled_at);
+          {lessons?.map((l) => {
+            const dt = dayjs(l.scheduled_at);
             return (
-              <div key={s.id} className="flex items-center gap-4 py-3">
+              <div key={l.id} className="flex items-center gap-4 py-3">
                 <div className="min-w-10 text-center">
                   <p className="text-lg leading-none font-semibold text-gray-800">
                     {dt.format("D")}
@@ -42,13 +48,28 @@ export default function UpcomingLessonsPanel({
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-800">
-                    {dt.format("h:mm A")} · {s.duration_in_minutes} min
+                    {dt.format("h:mm A")} · {l.duration_in_minutes} min
                   </p>
-                  <p className="text-xs text-gray-400">{s.topic}</p>
+                  <p className="text-xs text-gray-400">{l.topic}</p>
                 </div>
-                <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700">
-                  Scheduled
-                </span>
+
+                <div className="flex shrink-0 flex-col items-end gap-1">
+                  <Badge
+                    value="Scheduled"
+                    status={l.status}
+                    constant={LESSON_STATUS_BADGE}
+                    className="px-2.5 py-0.5 text-[11px]"
+                  />
+                  {canJoinLesson(l) && (
+                    <button
+                      onClick={() => navigate(`/lessons/${l.id}/meeting`)}
+                      className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5 text-xs"
+                    >
+                      <LuVideo size={16} />
+                      Join Lesson
+                    </button>
+                  )}
+                </div>
               </div>
             );
           })}

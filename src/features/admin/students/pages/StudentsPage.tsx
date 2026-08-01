@@ -136,7 +136,7 @@ export default function StudentsPage() {
         {chips.map((chip) => (
           <span
             key={chip.label}
-            className="bg-theme-purple-40 text-theme-purple-20 mr-4 inline-block rounded-full px-2 py-1 text-sm shadow"
+            className="bg-theme-purple-40 text-theme-purple-20 mr-4 inline-block rounded-full px-2 py-1 text-sm capitalize shadow"
           >
             {chip.label}
             <IoIosClose

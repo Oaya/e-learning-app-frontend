@@ -14,7 +14,6 @@ import { useUsers } from "../../students/hooks/useUsers";
 import { HiOutlineX } from "react-icons/hi";
 import type { StudentOption, User } from "../../../../type/user";
 import { lessonDuration, LessonStatus } from "../../../../utils/constants";
-import { capitalize } from "../../../../utils/helper";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -170,17 +169,18 @@ export default function UpsertLessonModal({
               <label className="sm-label">Language</label>
               <CustomSelect
                 name="language"
+                className="form-select capitalize"
                 defaultValue={
                   defaultLanguage
                     ? {
                         value: defaultLanguage,
-                        label: capitalize(defaultLanguage),
+                        label: defaultLanguage,
                       }
                     : undefined
                 }
                 options={selectedStudent?.languages?.map((lang) => ({
                   value: lang,
-                  label: capitalize(lang),
+                  label: lang,
                 }))}
               />
             </div>
@@ -208,11 +208,12 @@ export default function UpsertLessonModal({
 
               <CustomSelect
                 name="status"
+                className="capitalize"
                 defaultValue={
                   lesson?.status
                     ? {
                         value: lesson.status,
-                        label: capitalize(lesson.status),
+                        label: lesson.status,
                       }
                     : undefined
                 }

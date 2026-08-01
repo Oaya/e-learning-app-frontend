@@ -94,21 +94,18 @@ export default function LessonsPage() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineCalendar}
-          iconColor="text-theme-green-20"
           label="This month"
           value={thisMonth?.length ?? 0}
           sub="lessons"
         />
         <StatCard
           icon={HiOutlineClock}
-          iconColor="text-theme-green-20"
           label="Hours teaching"
           value={`${hoursThisMonth.toFixed(1)}h`}
           sub="this month"
         />
         <StatCard
           icon={HiOutlineCalendarDays}
-          iconColor="text-theme-green-20"
           label="Upcoming"
           value={upcomingCountForThisWeek ?? 0}
           sub="next 7 days"
@@ -161,7 +158,7 @@ export default function LessonsPage() {
             <section>
               <LessonList type="past" />
               <div className="space-y-2">
-                {past.map((s) => (
+                {past.slice(0, 8).map((s) => (
                   <LessonCard key={s.id} lesson={s} />
                 ))}
               </div>

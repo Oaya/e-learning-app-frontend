@@ -2,7 +2,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import type { Homework } from "../../../../type/homework";
-import { capitalize, getHomeworkDateLabel } from "../../../../utils/helper";
+import { getHomeworkDateLabel } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 
 type HWPanelProps = {
@@ -38,9 +38,9 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
                   <p className="text-xs text-gray-400">{dateLabel}</p>
                 </div>
                 <Badge
-                  value={capitalize(hw.status)}
                   status={hw.status}
                   constant={HW_STATUS_BADGE}
+                  className="px-2.5 py-0.5 text-[11px]"
                 />
               </div>
             );

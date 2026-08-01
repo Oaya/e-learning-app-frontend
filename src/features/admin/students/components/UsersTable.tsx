@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-import { capitalize } from "../../../../utils/helper";
 import type { User, UserSort } from "../../../../type/user";
 import SortButton from "../../../../ui/SortButton";
 import defaultAvatar from "../../../../assets/user.png";
@@ -81,9 +80,7 @@ export default function UsersTable({
                   </td>
 
                   <td className="p-3">{u.email}</td>
-                  <td className="p-3">
-                    {u.status ? capitalize(u.status) : ""}
-                  </td>
+                  <td className="p-3 capitalize">{u.status ? u.status : ""}</td>
                 </tr>
               ))
             )}

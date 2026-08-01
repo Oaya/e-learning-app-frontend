@@ -2,7 +2,6 @@ import { useAlert } from "../../../contexts/AlertContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import type { SignupUser } from "../../../type/user";
 import CustomSelect from "../../../ui/CustomSelect";
-import { capitalize } from "../../../utils/helper";
 import { fdString } from "../../../utils/formData";
 
 const PLANS = ["free", "pro"];
@@ -79,10 +78,11 @@ export default function SignupPage() {
         <div className="mb-2">
           <label className="block text-lg">Plan</label>
           <CustomSelect
+            className="capitalize"
             name="plan"
             options={(PLANS ?? []).map((p) => ({
               value: p,
-              label: capitalize(p),
+              label: p,
             }))}
           ></CustomSelect>
         </div>

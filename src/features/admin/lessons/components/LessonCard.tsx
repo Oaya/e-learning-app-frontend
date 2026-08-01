@@ -2,11 +2,12 @@ import {
   HiOutlineVideoCamera,
   HiOutlineTrash,
   HiOutlinePencil,
+  HiOutlineClock,
 } from "react-icons/hi";
 import ActionBtn from "./ActionButton";
 import type { Lesson, LessonStatusType } from "../../../../type/lesson";
 import {
-  capitalize,
+  canJoinLesson,
   formatDay,
   formatTime,
   initials,
@@ -38,16 +39,16 @@ type Props = {
 };
 
 export default function LessonCard({ lesson, allLessons, timezone }: Props) {
+  const { day, mon } = formatDay(lesson.scheduled_at);
+  const now = dayjs();
+  const navigate = useNavigate();
   const [editLessonId, setEditLessonId] = useState<string | null>(null);
   const [completeLessonId, setCompleteLessonId] = useState<string | null>(null);
   const [deleteLessonId, setDeleteLessonId] = useState<string | null>(null);
   const [watchingRecording, setWatchingRecording] = useState(false);
-
   const { isDeleting, deleteLesson } = useLessons({
     onDeleteSuccess: () => setDeleteLessonId(null),
   });
-
-  const navigate = useNavigate();
 
   function handleModalActionChange(id: string, status: LessonStatusType) {
     if (status === "completed") {
@@ -57,17 +58,6 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
     }
   }
 
-  const { day, mon } = formatDay(lesson.scheduled_at);
-
-  const now = dayjs();
-
-  const canJoinLesson =
-    lesson.status === "scheduled" &&
-    now.isSameOrAfter(dayjs(lesson.scheduled_at).subtract(30, "minute")) &&
-    now.isSameOrBefore(
-      dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
-    );
-
   const requireStatusChange =
     lesson.status === "scheduled" &&
     now.isAfter(
@@ -76,7 +66,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
   return (
     <div
-      className={`flex items-center gap-4 rounded-xl border border-l-4 border-gray-200 bg-white p-4 ${LESSON_BORDER_COLOR[lesson.status]}`}
+      className={`card ${LESSON_BORDER_COLOR[lesson.status]}`}
       style={{ opacity: lesson.status === "canceled" ? 0.7 : 1 }}
     >
       {/* Date block */}
@@ -108,7 +98,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
-            <HiOutlineVideoCamera size={14} />
+            <HiOutlineClock size={16} />
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1.5 text-xs text-gray-400">
@@ -126,7 +116,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             {lesson.student.first_name} {lesson.student.last_name}
           </span>
           {lesson.recording_url && (
-            <span className="flex items-center gap-1 text-xs text-emerald-600">
+            <span className="text-theme-green-20 flex items-center gap-1 text-xs">
               <HiOutlineVideoCamera size={14} /> Recording
             </span>
           )}
@@ -136,12 +126,11 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-1">
         <Badge
-          value={capitalize(lesson.status)}
           status={lesson.status}
           constant={LESSON_STATUS_BADGE}
           className="px-2 py-0.5"
         />
-        {canJoinLesson && (
+        {canJoinLesson(lesson) && (
           <button
             onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"

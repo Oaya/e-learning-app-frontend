@@ -6,7 +6,6 @@ import timezone from "dayjs/plugin/timezone";
 
 import { useAuth } from "../../../../contexts/AuthContext";
 import { ADMIN_PLAN_STATUS_BADGE } from "../../../../utils/constants";
-import { capitalize } from "../../../../utils/helper";
 import Badge from "../../../../ui/badge";
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
@@ -51,7 +50,6 @@ export default function MyProfilePage() {
             <h2 className="text-xl font-semibold">Billing</h2>
             {user.subscription && (
               <Badge
-                value={capitalize(user.subscription?.status)}
                 status={user.subscription.status}
                 constant={ADMIN_PLAN_STATUS_BADGE}
                 className="px-4 py-1 text-[20px]"
@@ -67,10 +65,8 @@ export default function MyProfilePage() {
           <div>
             <div className="flex justify-between border-b border-gray-200 py-4">
               <p className="text-lg font-semibold">Plan</p>
-              <p>
-                {user.subscription?.plan
-                  ? capitalize(user.subscription?.plan)
-                  : "-"}
+              <p className="capitalize">
+                {user.subscription?.plan ? user.subscription?.plan : "-"}
               </p>
             </div>
 

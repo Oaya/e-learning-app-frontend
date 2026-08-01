@@ -7,7 +7,6 @@ import TimezoneSelector from "./TimezoneSelector";
 import type { User } from "../../../../type/user";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useAlert } from "../../../../contexts/AlertContext";
-import { capitalize } from "../../../../utils/helper";
 import UpdatePasswordModal from "../../../admin/students/components/UpdatePasswordModal";
 
 type Props = {
@@ -134,10 +133,10 @@ export default function UserProfileSection({ user }: Props) {
               <p>{user.email}</p>
               {user.role === "admin" ? (
                 <p
-                  className={`bg-theme-green-30 text-theme-green-20 mt-2 w-fit rounded-full px-4 py-1`}
+                  className={`bg-theme-green-30 text-theme-green-20 mt-2 w-fit rounded-full px-4 py-1 capitalize`}
                 >
                   {user.subscription?.plan
-                    ? capitalize(user.subscription?.plan) + " Plan"
+                    ? user.subscription?.plan + " Plan"
                     : null}
                 </p>
               ) : (

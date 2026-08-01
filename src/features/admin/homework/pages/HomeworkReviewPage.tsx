@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
 import { useHomework } from "../hooks/useHomework";
-import { capitalize, initials } from "../../../../utils/helper";
+import { initials } from "../../../../utils/helper";
 import { HW_STATUS_BADGE, SCORE_BUDGE } from "../../../../utils/constants";
 import AttachmentsList from "../../../student/homework/components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";
@@ -12,9 +12,10 @@ import Badge from "../../../../ui/badge";
 
 export default function HomeworkReviewPage() {
   const alert = useAlert();
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const hwId = id ?? "";
-  const navigate = useNavigate();
+
   const [score, setScore] = useState<ScoreType | null>(null);
   const [feedback, setFeedback] = useState("");
   const [notes, setNotes] = useState("");
@@ -104,7 +105,6 @@ export default function HomeworkReviewPage() {
             </h1>
 
             <Badge
-              value={capitalize(status)}
               status={status}
               constant={HW_STATUS_BADGE}
               className="h-fit"
@@ -186,9 +186,9 @@ export default function HomeworkReviewPage() {
                         : "border-gray-200 text-gray-500 hover:border-gray-300"
                     }`}
                   >
-                    <div className="flex justify-center gap-2">
+                    <div className="flex justify-center gap-2 capitalize">
                       <value.icon size={18} />
-                      <span>{capitalize(key)}</span>
+                      <span>{key}</span>
                     </div>
                   </button>
                 ))}

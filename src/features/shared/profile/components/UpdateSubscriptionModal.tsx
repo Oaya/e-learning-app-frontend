@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
 import CustomSelect from "../../../../ui/CustomSelect";
-import { capitalize } from "../../../../utils/helper";
 
 type UpdateSubscriptionProps = {
   isOpen: boolean;
@@ -100,7 +99,7 @@ export default function UpdateSubscriptionModal({
           <div className="grid grid-cols-2 gap-6">
             <div className="mb-2">
               <div className="sm-label">Current Plan</div>
-              <div className="read-only-input">{capitalize(plan ?? "-")}</div>
+              <div className="read-only-input capitalize">{plan ?? "-"}</div>
             </div>
 
             <div className="mb-2">

@@ -104,51 +104,45 @@ export const USER_STATUS_BADGE: Record<Status, string> = {
 };
 
 export const LESSON_BORDER_COLOR: Record<LessonStatusType, string> = {
-  scheduled: "border-l-theme-green-20",
-  completed: "border-l-gray-300",
+  scheduled: "border-l-blue-500",
+  completed: "border-l-theme-green-20",
   canceled: "border-l-theme-pink-20",
   no_show: "border-l-theme-yellow-20",
 };
 
 export const LESSON_STATUS_BADGE: Record<LessonStatusType, string> = {
-  scheduled: "bg-theme-green-30 text-theme-green-20",
-  completed: "bg-gray-100  text-gray-500",
+  scheduled: "bg-blue-200 text-blue-500",
+  completed: "bg-theme-green-30 text-theme-green-20",
   canceled: "bg-theme-pink-10 text-theme-pink-20",
   no_show: "bg-theme-yellow-10  text-theme-yellow-20",
 };
 
 export const HW_BORDER_COLOR: Record<string, string> = {
   submitted: "border-l-theme-green-20",
-  pending: "border-l-gray-300",
-  draft: "border-l-theme-yellow-20",
+  pending: "border-l-blue-500",
+  draft: "border-l-blue-500",
   overdue: "border-l-theme-pink-20",
   reviewed: "border-l-theme-yellow-20",
 };
 
 export const HW_STATUS_BADGE: Record<string, string> = {
   submitted: "bg-theme-green-30 text-theme-green-20",
-  pending: "bg-gray-100 text-gray-500",
-  draft: "bg-theme-yellow-10 text-theme-yellow-20",
+  pending: "bg-blue-200 text-blue-500",
+  draft: "bg-blue-200 text-blue-500",
   overdue: "bg-theme-pink-10 text-theme-pink-20",
   reviewed: "bg-theme-yellow-10 text-theme-yellow-20",
 };
 
-export const HW_DASHBOARD_BADGE: Record<string, string> = {
-  done: "bg-theme-green-30 text-theme-green-20",
-  due: "bg-theme-yellow-10 text-theme-yellow-20",
-  overdue: "bg-theme-pink-10 text-theme-pink-20",
-};
-
 export const ADMIN_HW_STATUS_BADGE: Record<string, string> = {
   submitted: "bg-theme-green-30 text-theme-green-20",
-  pending: "bg-gray-100 text-gray-500",
+  pending: "bg-blue-200 text-blue-500",
   overdue: "bg-theme-pink-10 text-theme-pink-20",
   reviewed: "bg-theme-yellow-10 text-theme-yellow-20",
 };
 
 export const ADMIN_PLAN_STATUS_BADGE: Record<string, string> = {
   active: "bg-theme-green-30 text-theme-green-20",
-  pending: "bg-gray-100 text-gray-500",
+  pending: "bg-blue-200 text-blue-500",
   past_due: "bg-theme-pink-10 text-theme-pink-20",
   canceled: "bg-theme-yellow-10 text-theme-yellow-20",
 };

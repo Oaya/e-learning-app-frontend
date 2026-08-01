@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react";
-
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import TabFilters from "../../../admin/homework/components/TabFilters";
-
 import LessonList from "../../../admin/lessons/components/LessonCardHeader";
 import StudentLessonCard from "../components/StudentLessonCard";
 import StatCard from "../../../../ui/StatCard";
@@ -13,6 +11,8 @@ import {
   LESSON_TABS,
   type LessonFilterTab,
 } from "../../../admin/lessons/pages/LessonsPage";
+import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
+import { HiOutlineCalendarDays } from "react-icons/hi2";
 
 dayjs.extend(relativeTime);
 
@@ -27,23 +27,16 @@ export default function StudentLessonsPage() {
     });
   }, [lessons, activeTab]);
 
-  const upcoming = lessons?.filter(
-    (s) => s.status === "scheduled" && dayjs(s.scheduled_at).isAfter(now),
-  );
-  const pastCompleted = lessons?.filter((s) => s.status === "completed");
+  const upcoming = filtered?.filter((s) => dayjs(s.scheduled_at).isAfter(now));
+  const past = filtered?.filter((s) => dayjs(s.scheduled_at).isBefore(now));
 
+  //Stats values//
   let totalHours: number = 0;
-
-  if (pastCompleted) {
-    for (const l of pastCompleted) {
-      totalHours += l.duration_in_minutes / 60;
+  if (past) {
+    for (const l of past) {
+      if (l.status === "completed") totalHours += l.duration_in_minutes / 60;
     }
   }
-
-  const past = filtered?.filter(
-    (s) => s.status !== "scheduled" || dayjs(s.scheduled_at).isBefore(now),
-  );
-
   // Next upcoming label
   const nextLesson = upcoming?.length ? upcoming[0] : null;
   const nextLabel = nextLesson
@@ -63,19 +56,19 @@ export default function StudentLessonsPage() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         <StatCard
           label="Total lessons"
-          iconColor="text-theme-green-20"
+          icon={HiOutlineCalendar}
           value={lessons?.length ?? 0}
         />
         <StatCard
+          icon={HiOutlineCalendarDays}
           label="Upcoming"
-          iconColor="text-theme-green-20"
           value={upcoming?.length ?? 0}
           sub={nextLabel}
           subColor
         />
         <StatCard
+          icon={HiOutlineClock}
           label="Total hours"
-          iconColor="text-theme-green-20"
           value={`${totalHours}h`}
           sub="Completed"
         />
@@ -95,24 +88,22 @@ export default function StudentLessonsPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Upcoming */}
           {upcoming && upcoming.length > 0 && (
             <section>
               <LessonList type="upcoming" />
               <div className="space-y-2">
-                {upcoming.map((s) => (
-                  <StudentLessonCard key={s.id} lesson={s} />
+                {upcoming.map((l) => (
+                  <StudentLessonCard key={l.id} lesson={l} />
                 ))}
               </div>
             </section>
           )}
 
-          {/* Past */}
           {past && past.length > 0 && (
             <section>
               <LessonList type="past" />
               <div className="space-y-2">
-                {past.map((s) => (
+                {past.slice(0, 8).map((s) => (
                   <StudentLessonCard key={s.id} lesson={s} />
                 ))}
               </div>
