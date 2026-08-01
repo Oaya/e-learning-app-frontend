@@ -13,14 +13,22 @@ const LessonMeetingPage = lazy(
 function App() {
   return (
     <BrowserRouter>
-      <Toaster position="top-right" richColors duration={2000} offset={{ top: 64 }} />
+      <Toaster
+        position="top-right"
+        richColors
+        duration={2000}
+        offset={{ top: 60 }}
+      />
       <Suspense>
         <Routes>
           {PublicRoutes()}
           {AdminRoutes()}
           {StudentRoutes()}
           <Route element={<RequireAuth />}>
-            <Route path="/lessons/:id/meeting" element={<LessonMeetingPage />} />
+            <Route
+              path="/lessons/:id/meeting"
+              element={<LessonMeetingPage />}
+            />
           </Route>
         </Routes>
       </Suspense>

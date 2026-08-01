@@ -25,7 +25,7 @@ export default function EmailConfirmPage() {
 
     setTimeout(() => {
       navigate(navTo, { replace: true });
-    }, 1000);
+    }, 1500);
   }, [status, navigate, alert]);
 
   return (

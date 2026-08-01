@@ -1,14 +1,18 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../../contexts/AlertContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import type { SignupUser } from "../../../type/user";
-import CustomSelect from "../../../ui/CustomSelect";
 import { fdString } from "../../../utils/formData";
-
-const PLANS = ["free", "pro"];
+import AuthCard from "../components/AuthCard";
+import { usePlans } from "../hooks/usePlans";
 
 export default function SignupPage() {
   const { signupUser, isLoading } = useAuth();
   const alert = useAlert();
+  const navigate = useNavigate();
+  const { plans } = usePlans();
+  const [selectedPlan, setSelectedPlan] = useState("free");
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,10 +25,9 @@ export default function SignupPage() {
         last_name: fdString(formData, "last_name"),
         password: fdString(formData, "password"),
         password_confirm: fdString(formData, "password_confirm"),
-        plan: fdString(formData, "plan"),
+        plan: selectedPlan,
       };
 
-      //Check the password and password_confirm is same or not
       if (data.password !== data.password_confirm) {
         alert.error("Password and Confirm Password should match");
         return;
@@ -37,64 +40,123 @@ export default function SignupPage() {
       } else {
         alert.error(res.error || "Signup failed");
       }
-      return;
     } catch (err) {
       alert.error(err as string);
     }
   };
 
   return (
-    <div className="m-10 mx-auto w-150 text-2xl">
-      <h2 className="mb-2 text-center">Sign up</h2>
-      <form onSubmit={handleSignup}>
-        <div className="mb-2">
-          <label className="block text-lg">Email</label>
-          <input name="email" className="form-input" />
-        </div>
-        <div className="grid grid-cols-2 gap-6">
-          <div className="mb-2">
-            <label className="block text-lg">First Name</label>
-            <input name="first_name" className="form-input" />
+    <AuthCard className="py-10">
+      <h1 className="mb-1 text-center text-lg font-semibold text-gray-800">
+        Create your account
+      </h1>
+      <p className="mb-7 text-center text-sm text-gray-400">
+        Start managing your students today
+      </p>
+
+      <form onSubmit={handleSignup} className="space-y-2">
+        {/* Name row */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="sm-label">First name</label>
+            <input name="first_name" placeholder="Aya" className="form-input" />
           </div>
-          <div className="mb-2">
-            <label className="block text-lg">Last Name</label>
-            <input name="last_name" className="form-input" />
+          <div>
+            <label className="sm-label">Last name</label>
+            <input
+              name="last_name"
+              placeholder="Smith"
+              className="form-input"
+            />
           </div>
         </div>
 
-        <div className="mb-2">
-          <label className="block text-lg">Password</label>
-          <input name="password" type="password" className="form-input" />
-        </div>
-        <div className="mb-2">
-          <label className="block text-lg">Confirm Password</label>
+        {/* Email */}
+        <div>
+          <label className="sm-label">Email</label>
           <input
-            name="password_confirm"
-            type="password"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
             className="form-input"
           />
         </div>
 
-        <div className="mb-2">
-          <label className="block text-lg">Plan</label>
-          <CustomSelect
-            className="capitalize"
-            name="plan"
-            options={(PLANS ?? []).map((p) => ({
-              value: p,
-              label: p,
-            }))}
-          ></CustomSelect>
+        {/* Password row */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="sm-label">Password</label>
+            <input
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              className="form-input"
+            />
+          </div>
+          <div>
+            <label className="sm-label">Confirm password</label>
+            <input
+              name="password_confirm"
+              type="password"
+              placeholder="••••••••"
+              className="form-input"
+            />
+          </div>
+        </div>
+
+        {/* Plan */}
+        <div>
+          <label className="sm-label mb-2 block">Choose a plan</label>
+          <div className="grid grid-cols-2 gap-2">
+            {plans?.map((plan) => (
+              <button
+                key={plan.id}
+                type="button"
+                onClick={() => setSelectedPlan(plan.name)}
+                className={`relative rounded-xl border p-2 text-left capitalize transition-colors ${
+                  selectedPlan === plan.name
+                    ? "border-theme-purple-50 bg-purple-50"
+                    : "border-gray-200 hover:border-gray-300"
+                }`}
+              >
+                <p className="text-sm font-semibold text-gray-800">
+                  {plan.name}
+                </p>
+                <p className="text-xs text-gray-400">$ {plan.price} / month</p>
+                {plan.name === "pro" && selectedPlan !== plan.name && (
+                  <span className="bg-theme-purple-10 text-theme-purple-50 absolute top-2 right-2 rounded px-1.5 py-0.5 text-[9px] font-semibold">
+                    Popular
+                  </span>
+                )}
+                {selectedPlan === plan.name && (
+                  <div className="bg-theme-purple-50 absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded-full">
+                    <span className="text-[9px] text-white">✓</span>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="btn-primary w-full text-lg"
+          className="btn-primary mt-2 w-full py-2.5"
         >
-          Sign Up
+          {isLoading ? "Creating account..." : "Create account"}
         </button>
       </form>
-    </div>
+
+      <p className="mt-4 text-center text-xs text-gray-400">
+        Already have an account?{" "}
+        <button
+          type="button"
+          onClick={() => navigate("/login")}
+          className="text-theme-purple-50 cursor-pointer"
+        >
+          Sign in
+        </button>
+      </p>
+    </AuthCard>
   );
 }

@@ -34,12 +34,10 @@ export default function HomePage() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link to="/signup">
-            <button className="btn-primary px-7 py-3.5 text-sm">
-              Start for free
-            </button>
+            <button className="btn-primary px-7 py-3.5">Start for free</button>
           </Link>
           <a href="#how">
-            <button className="btn-primary-white px-7 py-3.5 text-sm">
+            <button className="btn-primary-white px-7 py-3.5">
               See how it works
             </button>
           </a>
@@ -49,10 +47,8 @@ export default function HomePage() {
       {/* Features */}
       <section id="features" className="bg-gray-50 px-12 py-20">
         <div className="mx-auto max-w-250">
-          <p className="text-theme-purple-50 mb-2.5 text-center text-xs font-semibold tracking-widest uppercase">
-            Features
-          </p>
-          <h2 className="mb-12 text-center text-4xl font-bold tracking-tight">
+          <p className="home-section-header text-center">Features</p>
+          <h2 className="home-section-title text-center">
             Everything you need to land the job
           </h2>
           <div className="grid grid-cols-3 gap-10">
@@ -74,10 +70,8 @@ export default function HomePage() {
 
       {/* How it works */}
       <section id="how" className="mx-auto max-w-250 px-12 py-20 text-center">
-        <p className="text-theme-purple-50 mb-2.5 text-xs font-semibold tracking-widest uppercase">
-          How it works
-        </p>
-        <h2 className="mb-12 text-4xl font-bold tracking-tight">
+        <p className="home-section-header">How it works</p>
+        <h2 className="home-section-title">
           Your whole teaching workflow, in order
         </h2>
         <div className="p-10">
@@ -107,15 +101,10 @@ export default function HomePage() {
       </section>
 
       {/* Pricing */}
-
       <section id="pricing" className="bg-gray-50 px-12 py-20">
         <div className="mx-auto max-w-275 text-center">
-          <p className="text-theme-purple-50 mb-2.5 text-xs font-semibold tracking-widest uppercase">
-            Pricing
-          </p>
-          <h2 className="mb-12 text-4xl font-bold tracking-tight">
-            Simple, honest pricing
-          </h2>
+          <p className="home-section-header">Pricing</p>
+          <h2 className="home-section-title">Simple, honest pricing</h2>
           {(!isLoading || !isError) && plans ? (
             <div className="flex justify-center gap-10 pt-8">
               {plans.map((plan) => {

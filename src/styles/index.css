@@ -122,6 +122,13 @@ input[type="number"] {
   display: none;
 }
 
+.home-section-header {
+  @apply text-theme-purple-50 mb-2.5 text-xs font-semibold tracking-widest uppercase;
+}
+.home-section-title {
+  @apply mb-12 text-4xl font-bold tracking-tight;
+}
+
 .badge-video {
   @apply bg-theme-green-10;
 }

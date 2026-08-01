@@ -6,7 +6,7 @@ export default function Header() {
       <div className="mx-auto flex flex-wrap items-center justify-between px-20 py-4">
         <div className="flex items-center space-x-8">
           <NavLink to="/" className="text-xl font-semibold">
-            fluently
+            Fluently
           </NavLink>
 
           <Link to="/#features" className="font-medium">

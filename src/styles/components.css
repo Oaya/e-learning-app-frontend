@@ -8,30 +8,27 @@
   }
 
   .btn-primary {
-    @apply bg-theme-purple-50 hover:bg-theme-purple-50/80 inline-flex cursor-pointer appearance-none items-center justify-center rounded px-5 py-3 text-sm leading-none text-white disabled:opacity-50;
+    @apply bg-theme-purple-50 hover:bg-theme-purple-50/80 inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
 
-  .btn-secondary {
-    @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 cursor-pointer rounded px-4 py-2 text-sm text-white disabled:opacity-50;
-  }
   .btn-primary-white {
-    @apply mr-4 inline-flex cursor-pointer items-center justify-center rounded border border-gray-300 px-4 py-2 text-sm hover:opacity-50 disabled:opacity-50;
-  }
-
-  .btn-white {
-    @apply border-theme-purple-50 text-theme-purple-50 cursor-pointer rounded border bg-purple-50 px-4 py-2 text-sm font-medium hover:bg-purple-100;
-  }
-
-  .btn-edit-icon {
-    @apply cursor-pointer rounded-lg p-1 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50;
+    @apply inline-flex cursor-pointer items-center justify-center rounded border border-gray-300 px-4 py-2 text-sm hover:opacity-50 disabled:opacity-50;
   }
 
   .btn-primary-pink {
-    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex cursor-pointer appearance-none items-center justify-center rounded px-4 py-2 text-sm leading-none text-white disabled:opacity-50;
+    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm text-white disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm text-white disabled:opacity-50;
+  }
+
+  .btn-white {
+    @apply border-theme-purple-50 text-theme-purple-50 inline-flex cursor-pointer items-center justify-center rounded border bg-purple-50 px-4 py-2 text-sm font-medium hover:bg-purple-100;
   }
 
   .sm-label {
-    @apply block text-sm font-medium;
+    @apply mb-1.5 block text-sm font-medium text-gray-600;
   }
 
   .read-only-input {

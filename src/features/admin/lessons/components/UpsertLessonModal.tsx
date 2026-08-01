@@ -276,7 +276,7 @@ export default function UpsertLessonModal({
             <button
               type="button"
               onClick={onClose}
-              className="btn-primary-white mr-2"
+              className="btn-primary-white mr-4"
             >
               Cancel
             </button>

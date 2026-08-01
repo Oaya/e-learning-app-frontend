@@ -161,7 +161,7 @@ export default function UpsertGoalModal({
             <button
               type="button"
               onClick={onClose}
-              className="btn-primary-white"
+              className="btn-primary-white mr-4"
             >
               Cancel
             </button>
