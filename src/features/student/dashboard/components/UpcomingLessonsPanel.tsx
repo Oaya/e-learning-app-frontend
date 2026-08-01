@@ -55,7 +55,6 @@ export default function UpcomingLessonsPanel({
 
                 <div className="flex shrink-0 flex-col items-end gap-1">
                   <Badge
-                    value="Scheduled"
                     status={l.status}
                     constant={LESSON_STATUS_BADGE}
                     className="px-2.5 py-0.5 text-[11px]"

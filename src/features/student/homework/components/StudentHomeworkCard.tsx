@@ -1,11 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { Homework } from "../../../../type/homework";
-import {
-  HW_BORDER_COLOR,
-  HW_STATUS_BADGE,
-  SCORE_BUDGE,
-} from "../../../../utils/constants";
-import type { ScoreType } from "../../../../type/homework_submission";
+import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
 import { HiOutlineCalendar, HiOutlineEye } from "react-icons/hi";
 import { HiOutlineLanguage } from "react-icons/hi2";
 import { getHomeworkDateLabel } from "../../../../utils/helper";

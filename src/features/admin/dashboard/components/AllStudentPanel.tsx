@@ -65,10 +65,9 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
                     {student.first_name} {student.last_name}
                   </p>
                 </div>
-                <div className="flex shrink-0 flex-col items-end gap-0.5">
+                <div className="flex shrink-0 flex-col items-end gap-0.5 capitalize">
                   {student.hw_status && (
                     <Badge
-                      value={`HW ${student.hw_status}`}
                       status={student.hw_status}
                       constant={ADMIN_HW_STATUS_BADGE}
                       className="px-2 py-0.5 text-[12px]"

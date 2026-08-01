@@ -65,9 +65,8 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
       </div>
 
       {/* Badges */}
-      <div className="flex shrink-0 flex-col items-end gap-1">
+      <div className="flex shrink-0 flex-col items-end gap-1 capitalize">
         <Badge
-          value={capitalize(lesson.status)}
           status={lesson.status}
           constant={LESSON_STATUS_BADGE}
           className="px-2 py-0.5"

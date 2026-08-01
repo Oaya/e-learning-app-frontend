@@ -76,7 +76,6 @@ export default function StudentDashboardPage() {
       <section className="grid grid-cols-2 gap-4 px-10 pt-4 lg:grid-cols-3">
         <StatCard
           label="Lessons completed"
-          iconColor="text-theme-green-20"
           value={completedLessons}
           sub="Keep it up!"
           subColor
