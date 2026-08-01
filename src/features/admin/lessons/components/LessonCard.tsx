@@ -11,6 +11,7 @@ import {
   formatDay,
   formatTime,
   initials,
+  requireStatusChange,
 } from "../../../../utils/helper";
 import {
   LESSON_BORDER_COLOR,
@@ -26,7 +27,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useNavigate } from "react-router-dom";
 import { LuVideo } from "react-icons/lu";
-import LessonCompleteModal from "./LessonCompleteModal";
+import LessonCompleteModal from "./CompleteLessonModal";
 import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
 
 dayjs.extend(isSameOrAfter);
@@ -40,7 +41,6 @@ type Props = {
 
 export default function LessonCard({ lesson, allLessons, timezone }: Props) {
   const { day, mon } = formatDay(lesson.scheduled_at);
-  const now = dayjs();
   const navigate = useNavigate();
   const [editLessonId, setEditLessonId] = useState<string | null>(null);
   const [completeLessonId, setCompleteLessonId] = useState<string | null>(null);
@@ -57,12 +57,6 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       setEditLessonId(id);
     }
   }
-
-  const requireStatusChange =
-    lesson.status === "scheduled" &&
-    now.isAfter(
-      dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
-    );
 
   return (
     <div
@@ -89,7 +83,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           <p className="truncate text-sm font-medium text-gray-800">
             {lesson.topic}
           </p>
-          {requireStatusChange && (
+          {requireStatusChange(lesson) && (
             <p className="truncate text-sm font-medium text-red-400">
               This lesson is in the past but is still marked as scheduled.
               Update its status.

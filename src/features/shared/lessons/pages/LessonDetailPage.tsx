@@ -4,7 +4,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { HiOutlineVideoCamera } from "react-icons/hi";
 import { useLesson } from "../../../admin/lessons/hooks/useLesson";
 import { useLessons } from "../../../admin/lessons/hooks/useLessons";
-import LessonCompleteModal from "../../../admin/lessons/components/LessonCompleteModal";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import Badge from "../../../../ui/badge";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
@@ -13,6 +12,8 @@ import LessonDetailsHeader from "../../../admin/lessons/components/LessonDetails
 import { useAuth } from "../../../../contexts/AuthContext";
 import StudentLessonDetailsHeader from "../../../student/lessons/components/StudentLessonDetailsHeader";
 import UpsertLessonNoteModal from "../../../student/lessons/components/UpsertLessonNote";
+import CompleteLessonModal from "../../../admin/lessons/components/CompleteLessonModal";
+import UpsertLessonModal from "../../../admin/lessons/components/UpsertLessonModal";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -182,12 +183,20 @@ export default function LessonDetailPage() {
         onConfirm={() => deleteLesson(lesson.id)}
       />
 
-      {editOpen && (
-        <LessonCompleteModal
+      {editOpen && lesson.status === "completed" ? (
+        <CompleteLessonModal
           isOpen
           onClose={() => setEditOpen(false)}
           lessonId={lesson.id}
           durationInSeconds={lesson.meeting_duration_in_seconds!}
+        />
+      ) : (
+        <UpsertLessonModal
+          isOpen={editOpen}
+          onClose={() => setEditOpen(false)}
+          type="Edit"
+          lesson={lesson}
+          timezone={authUser?.timezone}
         />
       )}
 

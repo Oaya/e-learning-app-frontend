@@ -26,7 +26,7 @@ type ModalProps = {
   recordingBlob?: Blob | null;
 };
 
-export default function LessonCompleteModal({
+export default function CompleteLessonModal({
   isOpen,
   onClose,
   lessonId,

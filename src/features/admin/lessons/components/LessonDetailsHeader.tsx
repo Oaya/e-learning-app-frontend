@@ -8,7 +8,11 @@ import dayjs from "dayjs";
 import { LuLanguages, LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
-import { initials, formatTime } from "../../../../utils/helper";
+import {
+  initials,
+  formatTime,
+  requireStatusChange,
+} from "../../../../utils/helper";
 import type { Lesson } from "../../../../type/lesson";
 import Badge from "../../../../ui/badge";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
@@ -57,6 +61,13 @@ export default function LessonDetailsHeader({
 
             <LuExternalLink size={11} className="text-gray-400" />
           </Link>
+
+          {requireStatusChange(lesson) && (
+            <p className="truncate text-sm font-medium text-red-400">
+              This lesson is in the past but is still marked as scheduled.
+              Update its status.
+            </p>
+          )}
         </div>
 
         {/* Meta */}

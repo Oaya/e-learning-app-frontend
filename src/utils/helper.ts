@@ -7,27 +7,6 @@ import type { Lesson } from "../type/lesson";
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
-export function getVideoDuration(file: File): Promise<number> {
-  const video = document.createElement("video");
-
-  console.log("File received for duration calculation:", file);
-  video.preload = "metadata";
-
-  console.log("Starting to load video metadata for duration calculation.");
-  console.log("Video element created:", video);
-
-  return new Promise((resolve, reject) => {
-    video.onloadedmetadata = function () {
-      URL.revokeObjectURL(video.src);
-      resolve(video.duration);
-    };
-    video.onerror = function () {
-      reject("Error loading video metadata");
-    };
-    video.src = URL.createObjectURL(file);
-  });
-}
-
 export function capitalize(str: string): string {
   return str
     .split(/[\s_-]+/)
@@ -77,6 +56,17 @@ export function canJoinLesson(lesson: Lesson) {
     lesson.status === "scheduled" &&
     now.isSameOrAfter(dayjs(lesson.scheduled_at).subtract(30, "minute")) &&
     now.isSameOrBefore(
+      dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
+    )
+  );
+}
+
+export function requireStatusChange(lesson: Lesson) {
+  const now = dayjs();
+
+  return (
+    lesson.status === "scheduled" &&
+    now.isAfter(
       dayjs(lesson.scheduled_at).add(lesson.duration_in_minutes, "minute"),
     )
   );

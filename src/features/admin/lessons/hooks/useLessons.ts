@@ -56,9 +56,10 @@ export function useLessons(options?: {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: UpsertLesson }) =>
       unwrapResponse<Lesson>(await updateLessonApi(id, data)),
-    onSuccess: () => {
+    onSuccess: (_data, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
       queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
+      queryClient.invalidateQueries({ queryKey: ["lesson", id] });
       alert.success("Lesson updated successfully.");
     },
     onError: (error) => {
