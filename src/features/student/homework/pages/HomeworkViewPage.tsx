@@ -36,7 +36,7 @@ export default function HomeworkViewPage() {
       <section className="flex flex-wrap items-center justify-between gap-3">
         <button
           onClick={() => navigate("/student/homework")}
-          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
         >
           <HiOutlineArrowLeft size={16} />
           Back to homework

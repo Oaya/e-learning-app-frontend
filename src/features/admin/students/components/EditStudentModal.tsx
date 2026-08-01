@@ -89,9 +89,9 @@ export default function EditStudentModal({
                 className="h-14 w-14 rounded-full object-cover"
               />
             ) : (
-              <div className="bg-theme-purple-30 text-theme-purple-50 flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-base font-semibold">
+              <span className="bg-theme-pink-10 text-theme-pink-20 flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-base font-semibold">
                 {initials(user.first_name, user.last_name)}
-              </div>
+              </span>
             )}
             <div>
               <p className="text-sm font-medium text-gray-700">

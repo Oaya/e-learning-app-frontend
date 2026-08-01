@@ -25,9 +25,7 @@ export default function AttachmentsList({ atts, title }: Props) {
   }
   return (
     <div>
-      <p className="mb-3 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-        {title}
-      </p>
+      <p className="panel-box">{title}</p>
       <div className="mt-4 space-y-2">
         {atts.map((a) => {
           const { icon: Icon, bg, color } = HW_UPLOAD_BUTTON[a.type];

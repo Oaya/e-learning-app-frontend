@@ -80,7 +80,7 @@ export default function HomeworkReviewPage() {
       <section className="flex flex-wrap items-center justify-between gap-3">
         <button
           onClick={() => navigate("/admin/homework")}
-          className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600"
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
         >
           <HiOutlineArrowLeft size={16} />
           Back to homework
@@ -112,17 +112,23 @@ export default function HomeworkReviewPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-1.5">
-              <div className="bg-theme-purple-30 text-theme-purple-50 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
-                {initials(
-                  homework.student.first_name,
-                  homework.student.last_name,
-                )}
-              </div>
-              <span className="text-xs text-gray-500">
-                {homework.student.first_name} {homework.student.last_name}
-              </span>
-            </div>
+            <span className="flex items-center gap-1.5 text-xs text-gray-400">
+              {homework.student.avatar ? (
+                <img
+                  src={homework.student.avatar}
+                  alt="avatar"
+                  className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+                />
+              ) : (
+                <span className="bg-theme-pink-10 text-theme-pink-20 flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-semibold">
+                  {initials(
+                    homework.student.first_name,
+                    homework.student.last_name,
+                  )}
+                </span>
+              )}
+              {homework.student.first_name} {homework.student.last_name}
+            </span>
             <span className="text-xs text-gray-400">·</span>
             <span className="text-xs text-gray-400">
               {homework.language} · {homework.level}

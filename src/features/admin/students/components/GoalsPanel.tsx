@@ -12,7 +12,7 @@ export default function GoalsPanel({ userId }: Props) {
 
   return (
     <>
-      <div className="rounded-xl border border-gray-200 bg-white p-5">
+      <div className="panel-box">
         <div className="mb-4 flex items-center justify-between">
           <p className="panel-header mb-4">Goals</p>
           <button

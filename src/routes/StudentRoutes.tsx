@@ -22,9 +22,6 @@ const StudentHomeworkPage = lazy(
 const StudentGoalsPage = lazy(
   () => import("../features/student/goals/pages/GoalsPage"),
 );
-const StudentRecordingsPage = lazy(
-  () => import("../features/student/recordings/pages/RecordingsPage"),
-);
 const MyProfilePage = lazy(
   () => import("../features/shared/profile/pages/MyProfilePage"),
 );
@@ -45,7 +42,6 @@ export default function StudentRoutes() {
           element={<HomeworkViewPage />}
         />
         <Route path="/student/goals" element={<StudentGoalsPage />} />
-        <Route path="/student/recordings" element={<StudentRecordingsPage />} />
         <Route path="/student/profile" element={<MyProfilePage />} />
       </Route>
     </Route>

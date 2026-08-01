@@ -16,18 +16,12 @@ export default function SidebarLayout() {
         <StyledNavLink to="/student/lessons" icon={LuCalendar1}>
           Lessons
         </StyledNavLink>
-      </section>
 
-      <section className="text-sm font-semibold text-gray-600">
-        <h2 className="px-10">LEARNING</h2>
         <StyledNavLink to="/student/homework" icon={LuNewspaper}>
           Homework
         </StyledNavLink>
         <StyledNavLink to="/student/goals" icon={LuGoal}>
           Goals
-        </StyledNavLink>
-        <StyledNavLink to="/student/recordings" icon={LuVideo}>
-          Recordings
         </StyledNavLink>
       </section>
 

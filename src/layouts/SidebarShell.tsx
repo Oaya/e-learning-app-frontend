@@ -61,9 +61,9 @@ export default function SidebarShell({ children, banner }: Props) {
                       className="h-10 w-10 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/30 text-sm font-semibold text-white">
+                    <span className="bg-theme-pink-10 text-theme-pink-20 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold">
                       {initials(user.first_name, user.last_name)}
-                    </div>
+                    </span>
                   )}
                   <div className="min-w-0 text-left">
                     <div className="truncate text-base font-medium text-white">

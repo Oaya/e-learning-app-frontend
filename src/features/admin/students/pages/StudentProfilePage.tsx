@@ -53,15 +53,14 @@ export default function StudentProfile() {
   return (
     <div className="space-y-6 p-10">
       {/* Top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <Link
-            to="/admin/students"
-            className="flex items-center gap-1.5 text-gray-500"
-          >
-            <MdOutlineKeyboardBackspace size={16} /> Back to Students
-          </Link>
-        </div>
+      <section className="flex flex-wrap items-center justify-between gap-3">
+        <button
+          onClick={() => navigate("/admin/students")}
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
+        >
+          <MdOutlineKeyboardBackspace size={16} /> Back to Students
+        </button>
+
         <div className="flex gap-2">
           <button
             onClick={() => {}}
@@ -70,7 +69,7 @@ export default function StudentProfile() {
             <MdMessage size={16} /> Message
           </button>
         </div>
-      </div>
+      </section>
 
       <section className="my-10 flex items-stretch justify-between gap-10 rounded-xl border border-gray-300 bg-white px-8 py-6">
         <div className="flex items-center gap-6 gap-y-10">
@@ -168,7 +167,7 @@ export default function StudentProfile() {
         <div className="flex flex-col gap-4">
           <LessonsPanel lessons={lessons} user={user} />
 
-          <div className="rounded-xl border border-gray-200 bg-white p-5">
+          <div className="panel-box">
             <p className="panel-header mb-3">Payment</p>
             <p className="text-sm text-gray-400">
               Payment tracking coming soon.

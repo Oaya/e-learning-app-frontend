@@ -34,15 +34,8 @@ export default function AdminSidebarLayout() {
         <StyledNavLink to="/admin/lessons" icon={LuCalendar1}>
           Lessons
         </StyledNavLink>
-      </section>
-
-      <section className="text-sm font-semibold text-gray-600">
-        <h2 className="px-10">TEACHING</h2>
         <StyledNavLink to="/admin/homework" icon={LuNewspaper}>
           Homework
-        </StyledNavLink>
-        <StyledNavLink to="/admin/recording" icon={LuVideo}>
-          Recordings
         </StyledNavLink>
       </section>
 

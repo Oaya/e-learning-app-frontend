@@ -18,7 +18,7 @@ export default function LessonsPanel({ lessons, user }: Props) {
   const [isCreateLessonOpen, setIsCreateLessonOpen] = useState(false);
 
   return (
-    <div className="min-w-0 flex-1 rounded-xl border border-gray-200 bg-white p-5">
+    <div className="panel-box min-w-0 flex-1">
       <div className="mb-4 flex items-center justify-between">
         <p className="panel-header mb-4">Lessons</p>
         <button
