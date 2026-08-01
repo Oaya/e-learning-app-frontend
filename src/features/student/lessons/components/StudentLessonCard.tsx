@@ -4,12 +4,7 @@ import {
   LESSON_BORDER_COLOR,
   LESSON_STATUS_BADGE,
 } from "../../../../utils/constants";
-import {
-  canJoinLesson,
-  capitalize,
-  formatDay,
-  formatTime,
-} from "../../../../utils/helper";
+import { canJoinLesson, formatDay, formatTime } from "../../../../utils/helper";
 import { LuLanguages, LuVideo } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import Badge from "../../../../ui/badge";
