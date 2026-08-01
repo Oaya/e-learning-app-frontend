@@ -26,7 +26,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useNavigate } from "react-router-dom";
 import { LuVideo } from "react-icons/lu";
-import LessonCompleteModal from "../../../shared/lessons/components/LessonCompleteModal";
+import LessonCompleteModal from "./LessonCompleteModal";
 import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
 
 dayjs.extend(isSameOrAfter);
@@ -67,7 +67,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
   return (
     <div
       className={`card cursor-pointer ${LESSON_BORDER_COLOR[lesson.status]}`}
-      style={{ opacity: lesson.status === "canceled" ? 0.7 : 1 }}
+      style={{ opacity: lesson.status === "canceled" ? 0.5 : 1 }}
       onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
     >
       {/* Date block */}
@@ -133,7 +133,10 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         />
         {canJoinLesson(lesson) && (
           <button
-            onClick={(e) => { e.stopPropagation(); navigate(`/lessons/${lesson.id}/meeting`); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/lessons/${lesson.id}/meeting`);
+            }}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
             <LuVideo size={16} />
@@ -143,7 +146,10 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
         {lesson.recording_url && (
           <button
-            onClick={(e) => { e.stopPropagation(); setWatchingRecording(true); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setWatchingRecording(true);
+            }}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
             <LuVideo size={16} />
@@ -163,7 +169,10 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       </div>
 
       {/* Actions */}
-      <div className="flex shrink-0 items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="flex shrink-0 items-center gap-1"
+        onClick={(e) => e.stopPropagation()}
+      >
         <>
           <ActionBtn
             title="Edit"

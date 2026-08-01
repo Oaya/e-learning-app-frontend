@@ -117,3 +117,18 @@ export async function upsertLessonMeeting(
     return { success: false, error: err.response?.data?.error };
   }
 }
+
+export async function AddStudentNote(
+  id: string,
+  data: { student_note: string },
+): Promise<ApiResponse> {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}/api/lessons/${id}/student_note`;
+    const response = await axios.patch(url, data, {
+      headers: authHeader(),
+    });
+    return { success: true, data: response.data };
+  } catch (err: any) {
+    return { success: false, error: err.response?.data?.error };
+  }
+}

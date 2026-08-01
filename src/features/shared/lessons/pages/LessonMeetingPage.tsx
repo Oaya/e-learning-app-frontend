@@ -21,7 +21,7 @@ import {
 import { joinLesson } from "../../../../api/lessons";
 import "../../../../styles/lesson-meeting.css";
 import { useAuth } from "../../../../contexts/AuthContext";
-import LessonCompleteModal from "../components/LessonCompleteModal";
+import LessonCompleteModal from "../../../admin/lessons/components/LessonCompleteModal";
 import RecordingManager from "../components/RecordingManager";
 
 type RoomData = {

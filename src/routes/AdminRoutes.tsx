@@ -28,7 +28,7 @@ const UserProfile = lazy(
   () => import("../features/admin/students/pages/StudentProfilePage"),
 );
 const LessonDetailPage = lazy(
-  () => import("../features/admin/lessons/pages/LessonDetailPage"),
+  () => import("../features/shared/lessons/pages/LessonDetailPage"),
 );
 
 export default function AdminRoutes() {

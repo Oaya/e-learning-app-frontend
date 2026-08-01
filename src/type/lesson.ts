@@ -31,6 +31,7 @@ export type Lesson = {
   meeting_duration_in_seconds?: number;
   meeting_feedback?: string;
   recording_url?: string;
+  student_note?: string;
   student: {
     id: string;
     first_name: string;

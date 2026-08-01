@@ -18,8 +18,9 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
 
   return (
     <div
-      className={`card ${LESSON_BORDER_COLOR[lesson.status]}`}
-      style={{ opacity: lesson.status === "canceled" ? 0.7 : 1 }}
+      className={`card cursor-pointer ${LESSON_BORDER_COLOR[lesson.status]}`}
+      style={{ opacity: lesson.status === "canceled" ? 0.5 : 1 }}
+      onClick={() => navigate(`/student/lessons/${lesson.id}`)}
     >
       {/* Date block */}
       <div className="w-12 shrink-0 text-center">

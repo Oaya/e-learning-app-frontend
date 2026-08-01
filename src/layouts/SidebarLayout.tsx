@@ -1,5 +1,5 @@
 import { HiHome } from "react-icons/hi2";
-import { LuNewspaper, LuGoal, LuCalendar1, LuVideo } from "react-icons/lu";
+import { LuNewspaper, LuGoal, LuCalendar1 } from "react-icons/lu";
 import { IoMdSettings } from "react-icons/io";
 
 import StyledNavLink from "../ui/NavLink";

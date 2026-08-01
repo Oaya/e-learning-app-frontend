@@ -1,5 +1,5 @@
 import { HiHome, HiUsers } from "react-icons/hi";
-import { LuNewspaper, LuCalendar1, LuVideo } from "react-icons/lu";
+import { LuNewspaper, LuCalendar1 } from "react-icons/lu";
 import { MdPayment } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 
