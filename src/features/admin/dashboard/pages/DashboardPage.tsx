@@ -20,17 +20,24 @@ import TodayLessonsPanel from "../components/TodayLessonsPanel";
 import AllStudentPanel from "../components/AllStudentPanel";
 import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
 import { useUsersWithStatuses } from "../../students/hooks/useUsersWithStatues";
+import { useHomeworks } from "../../homework/hooks/useHomeworks";
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();
   const { users: students } = useUsersWithStatuses();
   const { lessons } = useLessons();
+  const { homeworks } = useHomeworks();
   const [modalOpen, setModalOpen] = useState(false);
 
   //Stat cards sub//
   const studentSub = students?.filter(
     (st) => dayjs(st.created_at).month() === dayjs().month(),
   );
+
+  const pending =
+    homeworks?.filter((h) => h.status === "draft" || h.status === "pending")
+      .length ?? 0;
+  const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
 
   return (
     <div className="space-y-6 pb-10">
@@ -48,7 +55,7 @@ export default function AdminDashboardPage() {
       </section>
 
       {/* Stat cards */}
-      <section className="grid grid-cols-2 gap-4 px-10 pt-4 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-6 px-10 pt-4 lg:grid-cols-4">
         <StatCard
           icon={HiUsers}
           label="Students"
@@ -64,8 +71,8 @@ export default function AdminDashboardPage() {
         <StatCard
           icon={HiDocumentText}
           label="Homework pending"
-          value={5}
-          sub="2 overdue"
+          value={pending}
+          sub={`${overdue} past overdue`}
         />
         <StatCard
           icon={HiCreditCard}

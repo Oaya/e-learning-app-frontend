@@ -3,11 +3,11 @@ import { HiOutlineX } from "react-icons/hi";
 import ISO6391 from "iso-639-1";
 
 import { statusValue, type Status, type User } from "../../../../type/user";
-import { initials } from "../../../../utils/helper";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useUser } from "../hooks/useUser";
 import TimezoneSelector from "../../../shared/profile/components/TimezoneSelector";
 import { useAlert } from "../../../../contexts/AlertContext";
+import defaultAvatar from "../../../../assets/user.png";
 
 type Props = {
   isOpen: boolean;
@@ -82,17 +82,12 @@ export default function EditStudentModal({
         <form onSubmit={handleSubmit} className="px-6 py-5">
           {/* Avatar preview */}
           <div className="mb-5 flex items-center gap-4">
-            {user.avatar ? (
-              <img
-                src={user.avatar}
-                alt={`${user.first_name} ${user.last_name}`}
-                className="h-14 w-14 rounded-full object-cover"
-              />
-            ) : (
-              <span className="bg-theme-pink-10 text-theme-pink-20 flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-base font-semibold">
-                {initials(user.first_name, user.last_name)}
-              </span>
-            )}
+            <img
+              src={user.avatar || defaultAvatar}
+              alt="avatar"
+              className="h-14 w-14 rounded-full object-cover"
+            />
+
             <div>
               <p className="text-sm font-medium text-gray-700">
                 {user.first_name} {user.last_name}

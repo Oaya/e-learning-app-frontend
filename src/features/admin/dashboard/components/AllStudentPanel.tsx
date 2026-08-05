@@ -1,9 +1,9 @@
 import { HiArrowRight, HiUsers } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import type { StudentWithStatues } from "../../../../type/user";
-import { initials } from "../../../../utils/helper";
 import { ADMIN_HW_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
+import defaultAvatar from "../../../../assets/user.png";
 
 function PayDot({ paid }: { paid: boolean }) {
   return paid ? (
@@ -49,17 +49,12 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
           {students?.map((student) => {
             return (
               <div key={student.id} className="flex items-center gap-3 py-2.5">
-                {student.avatar ? (
-                  <img
-                    src={student.avatar}
-                    alt={`${student.first_name} ${student.last_name}`}
-                    className="h-8 w-8 shrink-0 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="bg-theme-purple-30 text-theme-purple-50 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
-                    {initials(student.first_name, student.last_name)}
-                  </div>
-                )}
+                <img
+                  src={student.avatar || defaultAvatar}
+                  alt="avatar"
+                  className="h-8 w-8 shrink-0 rounded-full object-cover"
+                />
+
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-gray-800">
                     {student.first_name} {student.last_name}

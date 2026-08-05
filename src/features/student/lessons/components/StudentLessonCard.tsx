@@ -7,7 +7,7 @@ import {
 import { canJoinLesson, formatDay, formatTime } from "../../../../utils/helper";
 import { LuLanguages, LuVideo } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import { useState } from "react";
 import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
 

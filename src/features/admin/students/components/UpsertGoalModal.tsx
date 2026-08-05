@@ -2,20 +2,18 @@ import { useState } from "react";
 import { HiOutlineX } from "react-icons/hi";
 import type { Goal, GoalStatusType } from "../../../../type/goal";
 import { useGoals } from "../hooks/useGoals";
-import { GoalStatus, GOAL_STATUS_BUTTON } from "../../../../utils/constants";
+import { GOAL_STATUS_BADGE, GoalStatus } from "../../../../utils/constants";
 
 type Props = {
-  isOpen: boolean;
+  openType: "Create" | "Edit";
   onClose: () => void;
-  type: "Create" | "Edit";
   goal?: Goal;
   userId: string;
 };
 
 export default function UpsertGoalModal({
-  isOpen,
+  openType,
   onClose,
-  type,
   goal,
   userId,
 }: Props) {
@@ -25,7 +23,7 @@ export default function UpsertGoalModal({
   const [progress, setProgress] = useState(goal?.progress ?? 0);
   const { createGoal, updateGoal, isCreating, isUpdating } = useGoals(userId);
 
-  if (!isOpen) return null;
+  if (!openType) return null;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,7 +43,7 @@ export default function UpsertGoalModal({
             : undefined,
       };
 
-      if (type === "Edit" && goal) {
+      if (openType === "Edit" && goal) {
         await updateGoal({ id: goal.id, data });
       } else {
         await createGoal(data);
@@ -65,7 +63,9 @@ export default function UpsertGoalModal({
       <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-          <h2 className="text-base font-semibold text-gray-800">{type} Goal</h2>
+          <h2 className="text-base font-semibold text-gray-800">
+            {openType} Goal
+          </h2>
           <button
             type="button"
             onClick={onClose}
@@ -110,7 +110,7 @@ export default function UpsertGoalModal({
                     onClick={() => setStatus(key)}
                     className={`flex-1 rounded-lg border py-2 text-xs font-medium transition ${
                       status === key
-                        ? `border-transparent ${GOAL_STATUS_BUTTON[key]}`
+                        ? `border-transparent ${GOAL_STATUS_BADGE[key]}`
                         : "border-gray-200 text-gray-400 hover:border-gray-300"
                     }`}
                   >
@@ -172,7 +172,7 @@ export default function UpsertGoalModal({
             >
               {isSubmitting
                 ? "Saving…"
-                : type === "Edit"
+                : openType === "Edit"
                   ? "Save changes"
                   : "Add goal"}
             </button>

@@ -8,7 +8,7 @@ import { LuLanguages } from "react-icons/lu";
 
 import { formatTime } from "../../../../utils/helper";
 import type { Lesson } from "../../../../type/lesson";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 
 type Props = {

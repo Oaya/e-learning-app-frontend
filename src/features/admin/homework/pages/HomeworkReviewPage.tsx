@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
 import { useHomework } from "../hooks/useHomework";
-import { initials } from "../../../../utils/helper";
 import { HW_STATUS_BADGE, SCORE_BUDGE } from "../../../../utils/constants";
 import AttachmentsList from "../../../student/homework/components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomeworkSubmission } from "../hooks/useHomeworkSubmission";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
+import defaultAvatar from "../../../../assets/user.png";
 
 export default function HomeworkReviewPage() {
   const alert = useAlert();
@@ -36,8 +36,6 @@ export default function HomeworkReviewPage() {
   if (isLoading || !homework || !submission) {
     return <p className="p-10 text-sm text-gray-400">Loading…</p>;
   }
-
-  const status = submission ? submission.status : "pending";
 
   async function handleGenerateAiFeedback() {
     setAiLoading(true);
@@ -105,7 +103,7 @@ export default function HomeworkReviewPage() {
             </h1>
 
             <Badge
-              status={status}
+              status={homework.status}
               constant={HW_STATUS_BADGE}
               className="h-fit"
             />
@@ -113,22 +111,14 @@ export default function HomeworkReviewPage() {
 
           <div className="flex flex-wrap items-center gap-3">
             <span className="flex items-center gap-1.5 text-xs text-gray-400">
-              {homework.student.avatar ? (
-                <img
-                  src={homework.student.avatar}
-                  alt="avatar"
-                  className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
-                />
-              ) : (
-                <span className="bg-theme-pink-10 text-theme-pink-20 flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-semibold">
-                  {initials(
-                    homework.student.first_name,
-                    homework.student.last_name,
-                  )}
-                </span>
-              )}
-              {homework.student.first_name} {homework.student.last_name}
+              <img
+                src={homework.student.avatar || defaultAvatar}
+                alt="avatar"
+                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+              />
+              {homework.student.first_name} {homework.student.last_name}{" "}
             </span>
+
             <span className="text-xs text-gray-400">·</span>
             <span className="text-xs text-gray-400">
               {homework.language} · {homework.level}

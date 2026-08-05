@@ -10,7 +10,6 @@ import {
   canJoinLesson,
   formatDay,
   formatTime,
-  initials,
   requireStatusChange,
 } from "../../../../utils/helper";
 import {
@@ -21,7 +20,7 @@ import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useLessons } from "../hooks/useLessons";
 import { useState } from "react";
 import UpsertLessonModal from "./UpsertLessonModal";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
@@ -29,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { LuVideo } from "react-icons/lu";
 import LessonCompleteModal from "./CompleteLessonModal";
 import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
+import defaultAvatar from "../../../../assets/user.png";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -97,19 +97,14 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1.5 text-xs text-gray-400">
-            {lesson.student.avatar ? (
-              <img
-                src={lesson.student.avatar}
-                alt="avatar"
-                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
-              />
-            ) : (
-              <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
-                {initials(lesson.student.first_name, lesson.student.last_name)}
-              </span>
-            )}
-            {lesson.student.first_name} {lesson.student.last_name}
+            <img
+              src={lesson.student.avatar || defaultAvatar}
+              alt="avatar"
+              className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+            />
+            {lesson.student.first_name} {lesson.student.last_name}{" "}
           </span>
+
           {lesson.recording_url && (
             <span className="text-theme-green-20 flex items-center gap-1 text-xs">
               <HiOutlineVideoCamera size={14} /> Recording

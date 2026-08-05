@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { HiOutlineCalendar, HiOutlineLanguage } from "react-icons/hi2";
 import type { Homework } from "../../../../type/homework";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 
 type Props = {
   hw: Homework;

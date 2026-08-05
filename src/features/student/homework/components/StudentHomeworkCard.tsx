@@ -4,7 +4,7 @@ import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
 import { HiOutlineCalendar, HiOutlineEye } from "react-icons/hi";
 import { HiOutlineLanguage } from "react-icons/hi2";
 import { getHomeworkDateLabel } from "../../../../utils/helper";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 
 type Props = {
   hw: Homework;

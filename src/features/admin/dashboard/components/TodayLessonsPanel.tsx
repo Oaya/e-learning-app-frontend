@@ -6,7 +6,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import type { User } from "../../../../type/user";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 

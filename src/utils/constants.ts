@@ -197,8 +197,14 @@ export const SCORE_BUDGE: Record<
   },
 };
 
-export const GOAL_STATUS_BUTTON: Record<GoalStatusType, string> = {
-  not_started: "bg-gray-100 text-gray-500",
+export const GOAL_STATUS_BADGE: Record<GoalStatusType, string> = {
   in_progress: "bg-theme-yellow-10 text-theme-yellow-20",
   achieved: "bg-theme-green-30 text-theme-green-20",
+  not_started: "bg-blue-200 text-blue-500",
+};
+
+export const GOAL_BORDER_COLOR: Record<GoalStatusType, string> = {
+  in_progress: "border-l-theme-yellow-20",
+  achieved: "border-l-theme-green-20",
+  not_started: "border-l-blue-500",
 };

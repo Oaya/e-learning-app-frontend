@@ -16,8 +16,10 @@ import LessonsPanel from "../components/LessonsPanel";
 import HomeworksPanel from "../components/HomeworksPanel";
 import GoalsPanel from "../components/GoalsPanel";
 import { useHomeworks } from "../../homework/hooks/useHomeworks";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import { USER_STATUS_BADGE } from "../../../../utils/constants";
+import { HiDocumentText } from "react-icons/hi2";
+import { useGoals } from "../hooks/useGoals";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -27,6 +29,7 @@ export default function StudentProfile() {
   const { user, isLoading } = useUser(userId);
   const { lessons } = useAllLessons(userId);
   const { homeworks } = useHomeworks(userId);
+  const { goals } = useGoals(userId);
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -67,6 +70,12 @@ export default function StudentProfile() {
             className="btn-white flex items-center gap-1.5"
           >
             <MdMessage size={16} /> Message
+          </button>
+          <button
+            onClick={() => navigate(`/users/${userId}/goals`)}
+            className="btn-white flex items-center gap-1.5"
+          >
+            Goals
           </button>
         </div>
       </section>
@@ -145,13 +154,13 @@ export default function StudentProfile() {
             )
           }
         />
-        {/* <StatCard
+        <StatCard
           icon={HiDocumentText}
-          iconColor="text-theme-yellow-20"
           label="Goal completed"
           value={"2/3"}
           sub="2 in progress"
         />
+        {/*
         <StatCard
           icon={HiCreditCard}
           iconColor="text-theme-yellow-20"
@@ -162,9 +171,9 @@ export default function StudentProfile() {
       </section>
 
       {/* Two panels — 50/50 */}
-      <div className="grid grid-cols-2 items-start gap-5">
+      <div className="grid grid-cols-5 items-start gap-5">
         {/* Left — lessons + payment */}
-        <div className="flex flex-col gap-4">
+        <div className="col-span-2 flex flex-col gap-4">
           <LessonsPanel lessons={lessons} user={user} />
 
           <div className="panel-box">
@@ -176,9 +185,9 @@ export default function StudentProfile() {
         </div>
 
         {/* Right — homeworks + goals */}
-        <div className="flex flex-col gap-4">
+        <div className="col-span-3 flex flex-col gap-4">
           <HomeworksPanel homeworks={homeworks} user={user} />
-          <GoalsPanel userId={userId} />
+          <GoalsPanel goals={goals} userId={userId} />
         </div>
       </div>
 

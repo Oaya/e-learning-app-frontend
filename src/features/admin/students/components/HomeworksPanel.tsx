@@ -1,6 +1,6 @@
 import type { Homework } from "../../../../type/homework";
 import dayjs from "dayjs";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import { useState } from "react";
 import UpsertHomeworkModal from "../../homework/components/UpsertHomeworkModal";

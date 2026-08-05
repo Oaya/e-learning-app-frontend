@@ -10,13 +10,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import type { Homework } from "../../../../type/homework";
-import { getHomeworkDateLabel, initials } from "../../../../utils/helper";
+import { getHomeworkDateLabel } from "../../../../utils/helper";
 import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
 import ActionBtn from "../../lessons/components/ActionButton";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useHomeworks } from "../hooks/useHomeworks";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
+import defaultAvatar from "../../../../assets/user.png";
 
 type Props = {
   hw: Homework;
@@ -58,18 +59,12 @@ export default function HomeworkCard({ hw }: Props) {
             </span>
           )}
           <span className="flex items-center gap-1.5 text-xs text-gray-400">
-            {hw.student.avatar ? (
-              <img
-                src={hw.student.avatar}
-                alt="avatar"
-                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
-              />
-            ) : (
-              <span className="bg-theme-pink-10 text-theme-pink-20 flex h-7 w-7 items-center justify-center rounded-full text-[10px] font-semibold">
-                {initials(hw.student.first_name, hw.student.last_name)}
-              </span>
-            )}
-            {hw.student.first_name} {hw.student.last_name}
+            <img
+              src={hw.student.avatar || defaultAvatar}
+              alt="avatar"
+              className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+            />{" "}
+            {hw.student.first_name} {hw.student.last_name}{" "}
           </span>
         </div>
       </div>

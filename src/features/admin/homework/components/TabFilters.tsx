@@ -1,3 +1,5 @@
+import { capitalize } from "../../../../utils/helper";
+
 type TabFiltersProps = {
   tabs: string[];
   activeTab: string;
@@ -15,13 +17,13 @@ export default function TabFilters({
         <button
           key={tab}
           onClick={() => onTabChange(tab)}
-          className={`cursor-pointer rounded-full border px-4 py-1.5 text-xs font-medium capitalize transition ${
+          className={`cursor-pointer rounded-full border px-4 py-1.5 text-xs font-medium transition ${
             activeTab === tab
               ? "border-theme-purple-40 bg-theme-purple-40 text-white"
               : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"
           }`}
         >
-          {tab}
+          {capitalize(tab)}
         </button>
       ))}
     </div>

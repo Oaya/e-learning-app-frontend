@@ -9,8 +9,10 @@ import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";
 
 import { useUserTableControl } from "../hooks/userUserTableControl";
-import { HiOutlineMail } from "react-icons/hi";
+import { HiOutlineMail, HiUsers } from "react-icons/hi";
+import { HiOutlineCheckCircle, HiOutlineCurrencyDollar } from "react-icons/hi2";
 import StatCard from "../../../../ui/StatCard";
+import { useAllLessons } from "../../lessons/hooks/useAllLessons";
 
 export default function StudentsPage() {
   const [isInviteOpen, setInviteOpen] = useState(false);
@@ -40,6 +42,16 @@ export default function StudentsPage() {
     search: searchInput,
     sorts,
   });
+
+  const { lessons = [] } = useAllLessons();
+
+  const active = users.filter((u) => u.status === "active").length;
+
+  const unpaid = new Set(
+    lessons
+      .filter((l) => l.status === "completed" && l.payment_status === "unpaid")
+      .map((l) => l.student.id),
+  ).size;
 
   const itemsPerPage = 10;
   const endOffset = userOffset + itemsPerPage;
@@ -77,7 +89,6 @@ export default function StudentsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-semibold text-gray-800">Your Students</h1>
-          <p className="mt-0.5 text-sm text-gray-400">{users.length} results</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -90,15 +101,24 @@ export default function StudentsPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        <StatCard label="Total student" value={users.length ?? 0} />
-        {/* <StatCard
-          label="Submitted"
-          value={submitted}
-          sub="awaiting review"
-          // subColor
+      <div className="grid grid-cols-2 gap-8 lg:grid-cols-3">
+        <StatCard
+          icon={HiUsers}
+          label="Total student"
+          value={users.length ?? 0}
         />
-        <StatCard label="Pending" value={pending} sub="not submitted yet" /> */}
+        <StatCard
+          icon={HiOutlineCheckCircle}
+          label="Active"
+          value={active}
+          sub="Currently Active"
+        />
+        <StatCard
+          icon={HiOutlineCurrencyDollar}
+          label="Unpaid"
+          value={unpaid}
+          sub="Owes for lessons"
+        />
       </div>
 
       <div className="flex">
@@ -112,10 +132,10 @@ export default function StudentsPage() {
 
         <div className="relative ml-6">
           <button
-            className="bg-theme-purple-40 text-theme-purple-20 flex h-11.5 cursor-pointer items-center justify-center rounded px-4 shadow-xl"
+            className="bg-theme-purple-40 text-theme-purple-50 flex h-11.5 cursor-pointer items-center justify-center rounded px-4 shadow-xl"
             onClick={() => setOpenFilter((v) => !v)}
           >
-            <FiFilter size={18} className="text-theme-purple-20 mr-2 flex" />
+            <FiFilter size={18} className="text-theme-purple-50 mr-2 flex" />
             Filters
           </button>
 

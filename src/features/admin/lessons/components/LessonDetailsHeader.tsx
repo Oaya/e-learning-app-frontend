@@ -8,14 +8,11 @@ import dayjs from "dayjs";
 import { LuLanguages, LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
-import {
-  initials,
-  formatTime,
-  requireStatusChange,
-} from "../../../../utils/helper";
+import { formatTime, requireStatusChange } from "../../../../utils/helper";
 import type { Lesson } from "../../../../type/lesson";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
+import defaultAvatar from "../../../../assets/user.png";
 
 type Props = {
   lesson: Lesson;
@@ -42,23 +39,13 @@ export default function LessonDetailsHeader({
             className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white py-1 pr-3 pl-1 text-xs font-medium text-gray-700 hover:border-gray-300"
           >
             <span className="flex items-center gap-1.5 text-xs text-gray-400">
-              {lesson.student.avatar ? (
-                <img
-                  src={lesson.student.avatar}
-                  alt="avatar"
-                  className="h-5 w-5 rounded-full object-cover group-hover:opacity-80"
-                />
-              ) : (
-                <span className="bg-theme-pink-10 text-theme-pink-20 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold">
-                  {initials(
-                    lesson.student.first_name,
-                    lesson.student.last_name,
-                  )}
-                </span>
-              )}
-              {lesson.student.first_name} {lesson.student.last_name}
+              <img
+                src={lesson.student.avatar || defaultAvatar}
+                alt="avatar"
+                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+              />{" "}
+              {lesson.student.first_name} {lesson.student.last_name}{" "}
             </span>
-
             <LuExternalLink size={11} className="text-gray-400" />
           </Link>
 

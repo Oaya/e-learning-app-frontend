@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import type { Lesson } from "../../../../type/lesson";
 import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";

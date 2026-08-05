@@ -6,7 +6,7 @@ import timezone from "dayjs/plugin/timezone";
 
 import { useAuth } from "../../../../contexts/AuthContext";
 import { ADMIN_PLAN_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
 import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
 import UserProfileSection from "../components/UserProfileSection";

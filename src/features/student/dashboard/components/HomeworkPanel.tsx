@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import type { Homework } from "../../../../type/homework";
 import { getHomeworkDateLabel } from "../../../../utils/helper";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 
 type HWPanelProps = {
   hws?: Homework[];

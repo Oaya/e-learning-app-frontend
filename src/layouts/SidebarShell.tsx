@@ -4,7 +4,7 @@ import { HiArrowRightOnRectangle } from "react-icons/hi2";
 
 import { useAuth } from "../contexts/AuthContext";
 import { useAlert } from "../contexts/AlertContext";
-import { initials } from "../utils/helper";
+import defaultAvatar from "../assets/user.png";
 
 interface Props {
   children: ReactNode;
@@ -52,17 +52,12 @@ export default function SidebarShell({ children, banner }: Props) {
                   className="flex w-full items-center gap-3 rounded-md p-1 transition hover:bg-white/10"
                   onClick={() => setDropdownOpen((prev) => !prev)}
                 >
-                  {user.avatar ? (
-                    <img
-                      src={user.avatar}
-                      alt={`${user.first_name} ${user.last_name}`}
-                      className="h-10 w-10 rounded-full object-cover"
-                    />
-                  ) : (
-                    <span className="bg-theme-pink-10 text-theme-pink-20 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold">
-                      {initials(user.first_name, user.last_name)}
-                    </span>
-                  )}
+                  <img
+                    src={user.avatar || defaultAvatar}
+                    alt="Avatar"
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+
                   <div className="min-w-0 text-left">
                     <div className="truncate text-base font-medium text-white">
                       {user.first_name} {user.last_name}

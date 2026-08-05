@@ -3,7 +3,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import type { Lesson } from "../../../../type/lesson";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/badge";
+import Badge from "../../../../ui/Badge";
 import { canJoinLesson } from "../../../../utils/helper";
 import { LuVideo } from "react-icons/lu";
 
