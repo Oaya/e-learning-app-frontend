@@ -52,14 +52,14 @@ export default function MyProfilePage() {
               <Badge
                 status={user.subscription.status}
                 constant={ADMIN_PLAN_STATUS_BADGE}
-                className="px-4 py-1 text-[20px]"
+                className="px-4 py-1 text-[16px]"
               />
             )}
           </div>
 
           {user.subscription?.cancel_at_period_end && (
             <p className="text-xl font-bold text-red-500">
-              Your account will be canceled at the Access ends Date
+              Your Subscription will be canceled at the Access Ends Date
             </p>
           )}
           <div>
@@ -78,9 +78,9 @@ export default function MyProfilePage() {
               </p>
               <p>
                 {user.subscription?.current_period_end
-                  ? new Date(
-                      user.subscription?.current_period_end,
-                    ).toLocaleDateString()
+                  ? dayjs(user.subscription?.current_period_end).format(
+                      "YYYY-MM-DD",
+                    )
                   : "-"}
               </p>
             </div>

@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { TbAlertTriangle, TbCreditCard, TbRefresh } from "react-icons/tb";
 
 export default function SubscriptionBanner({
   hasStripeSubscription,
@@ -7,37 +8,45 @@ export default function SubscriptionBanner({
   hasStripeSubscription: boolean;
   status: string;
 }) {
-  let message = "";
-  let messageType: "payment" | "reactivate";
-
-  if (!hasStripeSubscription && status === "active") {
-    messageType = "payment";
-    message =
-      "Your subscription is inactive. Please complete your subscription payment.";
-  } else {
-    messageType = "reactivate";
-    message =
-      "You need to reactivate your subscription. Please update your payment information.";
-  }
+  const navigate = useNavigate();
+  const isPending = !hasStripeSubscription && status !== "active";
 
   return (
-    <div className="bg-theme-green-10 mx-auto mt-4 w-5xl justify-center rounded-lg">
-      <div className="mx-auto max-w-7xl px-3 py-3 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-between lg:flex-row lg:justify-center">
-          <div className="flex flex-1 items-center lg:mr-3 lg:flex-none">
-            <p className="ml-3 text-center font-medium text-white">{message}</p>
-          </div>
-
-          <div className="mt-2 w-full shrink-0 lg:mt-0 lg:w-auto">
-            <NavLink
-              to={messageType === "payment" ? "/payment" : "/profile"}
-              className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-teal-600 shadow-sm hover:bg-teal-50"
-            >
-              {messageType === "payment" ? "Pay Now" : "Reactivate"}
-            </NavLink>
-          </div>
+    <div className="flex items-center justify-between gap-4 border-b border-amber-200 bg-amber-50 px-8 py-3">
+      <div className="flex items-center gap-3">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-amber-200">
+          <TbAlertTriangle size={15} className="text-theme-yellow-20" />
+        </div>
+        <div>
+          <p className="text-sm font-medium text-amber-800">
+            {isPending
+              ? "Your subscription is pending payment"
+              : "Your subscription needs attention"}
+          </p>
+          <p className="text-theme-yellow-20 text-xs">
+            {isPending
+              ? "Complete checkout to activate your plan and unlock all features."
+              : "Reactivate your subscription to keep access to all features."}
+          </p>
         </div>
       </div>
+
+      <button
+        onClick={() => navigate(isPending ? "/payment" : "/profile")}
+        className="btn-secondary gap-1.5"
+      >
+        {isPending ? (
+          <>
+            <TbCreditCard size={16} />
+            Complete payment
+          </>
+        ) : (
+          <>
+            <TbRefresh size={16} />
+            Reactivate
+          </>
+        )}
+      </button>
     </div>
   );
 }

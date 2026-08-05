@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { BsStars } from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
-import CustomSelect from "../../../../ui/CustomSelect";
+import { usePlans } from "../../../public/hooks/usePlans";
+import { capitalize } from "../../../../utils/helper";
 
 type UpdateSubscriptionProps = {
   isOpen: boolean;
@@ -13,16 +15,6 @@ type UpdateSubscriptionProps = {
   mode?: "Update" | "Reactivate";
 };
 
-type PlanOption = {
-  value: string;
-  label: string;
-};
-
-const PLAN_OPTIONS: PlanOption[] = [
-  { value: "free", label: "Free" },
-  { value: "pro", label: "Pro" },
-];
-
 export default function UpdateSubscriptionModal({
   isOpen,
   onClose,
@@ -30,9 +22,10 @@ export default function UpdateSubscriptionModal({
   mode,
 }: UpdateSubscriptionProps) {
   const alert = useAlert();
-  const { changeTenantPlan, isLoading } = useAuth();
+  const { changeSubscriptionPlan, isLoading } = useAuth();
+  const { plans } = usePlans();
   const navigation = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState<PlanOption | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState(plan);
 
   if (!isOpen) {
     return null;
@@ -42,7 +35,7 @@ export default function UpdateSubscriptionModal({
     e.preventDefault();
 
     try {
-      const new_plan = selectedPlan?.value;
+      const new_plan = selectedPlan;
 
       if (!new_plan) {
         alert.error("Please select a plan.");
@@ -56,7 +49,7 @@ export default function UpdateSubscriptionModal({
         return;
       }
 
-      const res = await changeTenantPlan(new_plan);
+      const res = await changeSubscriptionPlan(new_plan);
 
       if (res.success) {
         if (res.data.redirect_to_checkout) {
@@ -76,10 +69,13 @@ export default function UpdateSubscriptionModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-2xl rounded-lg bg-white p-8">
-        <div className="mb-6 flex items-start justify-between">
-          <h2 className="text-2xl font-semibold">{mode} Plan</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+      <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+          <div>
+            <h2 className="text-2xl font-semibold">{mode} Plan</h2>
+          </div>
 
           <button
             type="button"
@@ -90,32 +86,57 @@ export default function UpdateSubscriptionModal({
           </button>
         </div>
 
-        <p>
-          {mode === "Reactivate"
-            ? "You are about to reactivate your plan."
-            : "Please select your new plan from the options below."}
-        </p>
-        <form onSubmit={handleChangePlan} className="my-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div className="mb-2">
-              <div className="sm-label">Current Plan</div>
-              <div className="read-only-input capitalize">{plan ?? "-"}</div>
-            </div>
+        <form onSubmit={handleChangePlan} className="space-y-4 px-6 py-5">
+          <div>
+            <p>
+              {mode === "Reactivate"
+                ? "You are about to reactivate your plan."
+                : "Please select your new plan from the options below."}
+            </p>
+            <p className="text-gray-500">Changes take effect immediately</p>
 
-            <div className="mb-2">
-              <label className="sm-label block"> New Plan</label>
-              <CustomSelect
-                name="new_plan"
-                className="form-select"
-                required
-                value={selectedPlan}
-                onChange={(opt: PlanOption | null) => setSelectedPlan(opt)}
-                options={PLAN_OPTIONS}
-              />
+            <div className="bg-theme-purple-30 text-theme-purple-50 my-3 inline-flex w-fit items-center justify-center gap-1 rounded-full px-2 py-0.5 text-sm">
+              <BsStars />
+              <p> Currently on {capitalize(plan)}</p>
             </div>
           </div>
 
-          <div className="mt-6 flex justify-end gap-3">
+          {/* Plan */}
+          <div>
+            <div className="grid grid-cols-2 gap-2">
+              {plans?.map((plan) => (
+                <button
+                  key={plan.id}
+                  type="button"
+                  onClick={() => setSelectedPlan(plan.name)}
+                  className={`relative rounded-xl border p-2 text-left capitalize transition-colors ${
+                    selectedPlan === plan.name
+                      ? "border-theme-purple-50 bg-purple-50"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                >
+                  <p className="text-lg font-semibold text-gray-800">
+                    {plan.name}
+                  </p>
+                  <p className="text-2xl font-semibold">
+                    $ {plan.price}
+                    <span className="text-xs text-gray-400"> / Month</span>
+                  </p>
+                  {plan.name === "pro" && selectedPlan !== plan.name && (
+                    <span className="bg-theme-purple-10 text-theme-purple-50 absolute top-2 right-2 rounded px-1.5 py-0.5 text-[9px] font-semibold">
+                      Popular
+                    </span>
+                  )}
+                  {selectedPlan === plan.name && (
+                    <div className="bg-theme-purple-50 absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded-full">
+                      <span className="text-[9px] text-white">✓</span>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mt-6 flex justify-end">
             <button
               type="submit"
               className="btn-primary-pink"

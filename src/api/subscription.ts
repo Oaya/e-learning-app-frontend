@@ -11,6 +11,8 @@ export async function startCheckout(plan: string) {
       },
     );
 
+    console.log(res);
+
     return res;
   } catch (e: any) {
     throw new Error(e.response?.data?.error);

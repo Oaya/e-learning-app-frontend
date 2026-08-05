@@ -122,7 +122,7 @@ export default function SignupPage() {
                 <p className="text-sm font-semibold text-gray-800">
                   {plan.name}
                 </p>
-                <p className="text-xs text-gray-400">$ {plan.price} / month</p>
+                <p className="text-xs text-gray-400">$ {plan.price} / Month</p>
                 {plan.name === "pro" && selectedPlan !== plan.name && (
                   <span className="bg-theme-purple-10 text-theme-purple-50 absolute top-2 right-2 rounded px-1.5 py-0.5 text-[9px] font-semibold">
                     Popular

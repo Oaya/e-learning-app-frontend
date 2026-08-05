@@ -13,8 +13,6 @@ interface Props {
 
 export default function SidebarShell({ children, banner }: Props) {
   const { logoutUser, user } = useAuth();
-
-  console.log("user", user);
   const alert = useAlert();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

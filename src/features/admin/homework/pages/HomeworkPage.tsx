@@ -95,7 +95,10 @@ export default function HomeworkPage() {
           >
             <HiOutlineSparkles size={16} /> Generate with AI
           </button>
-          <button onClick={() => setModalOpen(true)} className="btn-secondary">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="btn-primary-pink"
+          >
             + Assign Homework
           </button>
         </div>

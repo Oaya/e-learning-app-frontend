@@ -12,7 +12,7 @@ export default function CancelSubscriptionModal({
   onClose,
 }: CancelSubscriptionModalProps) {
   const alert = useAlert();
-  const { cancelTenantSubscription, isLoading } = useAuth();
+  const { cancelSubscriptionPlan, isLoading } = useAuth();
 
   if (!isOpen) {
     return null;
@@ -24,7 +24,7 @@ export default function CancelSubscriptionModal({
     e.preventDefault();
 
     try {
-      const res = await cancelTenantSubscription();
+      const res = await cancelSubscriptionPlan();
 
       console.log("Cancel subscription result:", res); // Debug log for cancel subscription result
 

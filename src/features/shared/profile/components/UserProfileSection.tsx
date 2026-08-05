@@ -8,6 +8,7 @@ import type { User } from "../../../../type/user";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useAlert } from "../../../../contexts/AlertContext";
 import UpdatePasswordModal from "../../../admin/students/components/UpdatePasswordModal";
+import { BsStars } from "react-icons/bs";
 
 type Props = {
   user: User;
@@ -132,13 +133,16 @@ export default function UserProfileSection({ user }: Props) {
               </h1>
               <p>{user.email}</p>
               {user.role === "admin" ? (
-                <p
-                  className={`bg-theme-green-30 text-theme-green-20 mt-2 w-fit rounded-full px-4 py-1 capitalize`}
+                <div
+                  className={`bg-theme-green-30 text-theme-green-20 mt-2 inline-flex w-fit items-center justify-center gap-1 rounded-full px-4 py-1 capitalize`}
                 >
-                  {user.subscription?.plan
-                    ? user.subscription?.plan + " Plan"
-                    : null}
-                </p>
+                  <BsStars />
+                  <p>
+                    {user.subscription?.plan
+                      ? user.subscription?.plan + " Plan"
+                      : null}
+                  </p>
+                </div>
               ) : (
                 user.learning_languages &&
                 user.learning_languages.length > 0 && (

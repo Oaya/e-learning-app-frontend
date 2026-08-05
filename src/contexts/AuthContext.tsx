@@ -34,8 +34,8 @@ type AuthContextType = {
   acceptInviteUser: (user: AcceptInviteUser) => Promise<ApiResponse>;
   updateUser: (user: UpdateUser) => Promise<ApiResponse>;
   updatePassword: (data: UpdatePassword) => Promise<ApiResponse>;
-  cancelTenantSubscription: () => Promise<ApiResponse>;
-  changeTenantPlan: (plan: string) => Promise<ApiResponse>;
+  cancelSubscriptionPlan: () => Promise<ApiResponse>;
+  changeSubscriptionPlan: (plan: string) => Promise<ApiResponse>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -58,10 +58,10 @@ const AuthContext = createContext<AuthContextType>({
   updatePassword: async () => {
     return Promise.resolve({} as ApiResponse);
   },
-  cancelTenantSubscription: async () => {
+  cancelSubscriptionPlan: async () => {
     return Promise.resolve({} as ApiResponse);
   },
-  changeTenantPlan: async () => {
+  changeSubscriptionPlan: async () => {
     return Promise.resolve({} as ApiResponse);
   },
 });
@@ -154,7 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, []);
 
-  const cancelTenantSubscription = useCallback(async () => {
+  const cancelSubscriptionPlan = useCallback(async () => {
     setIsLoading(true);
     const res = await cancelSubscription();
 
@@ -170,7 +170,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, []);
 
-  const changeTenantPlan = useCallback(async (plan: string) => {
+  const changeSubscriptionPlan = useCallback(async (plan: string) => {
     setIsLoading(true);
     const res = await changePlan(plan);
 
@@ -194,8 +194,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       acceptInviteUser,
       updateUser,
       updatePassword,
-      cancelTenantSubscription,
-      changeTenantPlan,
+      cancelSubscriptionPlan,
+      changeSubscriptionPlan,
       user,
       isLoading,
     }),
@@ -206,8 +206,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       acceptInviteUser,
       updateUser,
       updatePassword,
-      cancelTenantSubscription,
-      changeTenantPlan,
+      cancelSubscriptionPlan,
+      changeSubscriptionPlan,
       user,
       isLoading,
     ],

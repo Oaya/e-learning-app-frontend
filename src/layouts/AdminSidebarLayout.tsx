@@ -12,12 +12,12 @@ export default function AdminSidebarLayout() {
   const { user } = useAuth();
 
   const banner =
-    user?.status !== "active" ? (
+    user?.subscription?.status !== "active" ? (
       <SubscriptionBanner
         hasStripeSubscription={
           user?.subscription?.has_stripe_subscription ?? false
         }
-        status={user?.status ?? ""}
+        status={user?.subscription?.status ?? ""}
       />
     ) : undefined;
 

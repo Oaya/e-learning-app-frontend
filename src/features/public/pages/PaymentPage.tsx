@@ -21,16 +21,11 @@ export default function PaymentPage() {
   const plan = location.state?.plan || user?.subscription?.plan;
 
   useEffect(() => {
-    // Guard: do not continue the effect if user is missing
-    if (
-      !user ||
-      (user.subscription?.status === "active" &&
-        user.subscription.has_stripe_subscription)
-    ) {
+    if (!user || !user.subscription) {
       alert.error(
         "You do not have access to this page. Please contact your administrator.",
       );
-      navigate("/admin", { replace: true });
+      navigate("/admin/dashboard", { replace: true });
       return;
     }
 
@@ -45,14 +40,14 @@ export default function PaymentPage() {
 
         if (!secret) {
           alert.error("Failed to start checkout. Please try again.");
-          navigate("/admin", { replace: true });
+          navigate("/admin/dashboard", { replace: true });
           return;
         }
 
         if (!cancelled) setClientSecret(secret);
       } catch (err: any) {
         alert.error("Failed to start checkout. Please try again.");
-        navigate("/admin", { replace: true });
+        navigate("/admin/dashboard", { replace: true });
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -74,7 +69,10 @@ export default function PaymentPage() {
       <div className="m-10 text-center text-2xl">
         Missing checkout lesson. Please go back to the home.
         <div className="mt-4">
-          <button className="btn-primary" onClick={() => navigate("/admin")}>
+          <button
+            className="btn-primary"
+            onClick={() => navigate("/admin/dashboard")}
+          >
             Back to home
           </button>
         </div>
