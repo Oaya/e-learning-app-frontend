@@ -2,13 +2,10 @@ import { HiArrowRight, HiCalendar } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import type { Lesson } from "../../../../type/lesson";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import type { User } from "../../../../type/user";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import Badge from "../../../../ui/Badge";
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import { formatTime } from "../../../../utils/helper";
 
 type TodayLessonPanelProps = {
   user: User;
@@ -36,15 +33,9 @@ export default function TodayLessonsPanel({
         {lessons?.map((s) => (
           <div key={s.id} className="flex items-start gap-3 py-2.5">
             <span className="w-20 shrink-0 pt-0.5 text-xs text-gray-400">
-              {dayjs
-                .utc(s.scheduled_at)
-                .tz(user?.timezone ?? dayjs.tz.guess())
-                .format("h:mm A")}{" "}
-              -{" "}
-              {dayjs
-                .utc(s.scheduled_at)
+              {formatTime(s.scheduled_at)} -{" "}
+              {dayjs(s.scheduled_at)
                 .add(s.duration_in_minutes, "minute")
-                .tz(user?.timezone ?? dayjs.tz.guess())
                 .format("h:mm A")}
             </span>
             <div className="flex-1">

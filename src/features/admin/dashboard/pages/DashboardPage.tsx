@@ -74,12 +74,12 @@ export default function AdminDashboardPage() {
           value={pending}
           sub={`${overdue} past overdue`}
         />
-        <StatCard
+        {/* <StatCard
           icon={HiCreditCard}
           label="Unpaid lessons"
           value="$240"
           sub="Across 3 students"
-        />
+        /> */}
       </section>
 
       {/* Two panels */}

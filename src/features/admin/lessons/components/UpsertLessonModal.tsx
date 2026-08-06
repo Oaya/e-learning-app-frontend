@@ -107,11 +107,9 @@ export default function UpsertLessonModal({
         duration_in_minutes: selectedDuration,
         language: fdString(formData, "language"),
         scheduled_at: date,
-        note: fdString(formData, "note"),
+        teacher_note: fdString(formData, "teacher_note"),
         status: fdString(formData, "status") as LessonStatusType,
       };
-
-      console.log(data);
 
       if (type === "Edit" && lesson) {
         await updateLesson({ id: lesson.id, data });
@@ -146,7 +144,7 @@ export default function UpsertLessonModal({
         <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
           {/* Student */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="mb-4">
+            <div>
               <label className="sm-label">Student</label>
               <CustomSelect
                 name="student"
@@ -165,7 +163,7 @@ export default function UpsertLessonModal({
               />
             </div>
 
-            <div className="mb-4">
+            <div>
               <label className="sm-label">Language</label>
               <CustomSelect
                 name="language"
@@ -188,7 +186,7 @@ export default function UpsertLessonModal({
 
           {/* Date + time */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="mb-4">
+            <div>
               <label className="sm-label">Date</label>
               <DatePicker
                 selected={date}
@@ -203,7 +201,7 @@ export default function UpsertLessonModal({
               />
             </div>
 
-            <div className="mb-4">
+            <div>
               <label className="sm-label">Lesson Status</label>
 
               <CustomSelect
@@ -226,7 +224,7 @@ export default function UpsertLessonModal({
           </div>
 
           {/* Duration */}
-          <div className="mb-4">
+          <div>
             <label className="sm-label">Duration</label>
             <div className="flex gap-2">
               {lessonDuration.map((d) => (
@@ -247,7 +245,7 @@ export default function UpsertLessonModal({
           </div>
 
           {/* Topic */}
-          <div className="mb-4">
+          <div>
             <label className="sm-label">Topic</label>
             <input
               name="topic"
@@ -259,14 +257,14 @@ export default function UpsertLessonModal({
           </div>
 
           {/* Notes */}
-          <div className="mb-4">
+          <div>
             <label className="sm-label">
-              Note <span className="text-gray-300">(optional)</span>
+              Teacher Note <span className="text-gray-300">(optional)</span>
             </label>
             <textarea
-              name="note"
+              name="teacher_note"
               rows={3}
-              defaultValue={lesson?.note ?? ""}
+              defaultValue={lesson?.teacher_note ?? ""}
               placeholder="Preparation notes, goals for this lesson…"
               className="form-textarea"
             />

@@ -43,13 +43,13 @@ export default function GoalsPanel({ goals, userId }: Props) {
         ) : (
           <div className="divide-y divide-gray-100">
             {goals?.map((g) => {
-              const isCompleted = g.status === "achieved";
+              const isAchieved = g.status === "achieved";
               const isInProgress = g.status === "in_progress";
 
               return (
                 <div key={g.id} className="flex items-center gap-3 py-2.5">
                   <div className="mt-0.5 shrink-0">
-                    {isCompleted ? (
+                    {isAchieved ? (
                       <GoCheckCircleFill className="text-theme-green-20 h-5 w-5" />
                     ) : isInProgress ? (
                       <div className="border-theme-yellow-20 bg-theme-yellow-10 h-5 w-5 rounded-full border-4" />
@@ -82,7 +82,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
                       <div className="mt-1.5">
                         <div className="h-1 overflow-hidden rounded-full bg-gray-100">
                           <div
-                            className="bg-theme-green-20 h-full rounded-full transition-all"
+                            className="bg-theme-yellow-20 h-full rounded-full transition-all"
                             style={{ width: `${g.progress}%` }}
                           />
                         </div>
@@ -91,9 +91,9 @@ export default function GoalsPanel({ goals, userId }: Props) {
                         </p>
                       </div>
                     )}
-                    {isCompleted && g.completed_at && (
+                    {isAchieved && g.achieved_at && (
                       <p className="mt-0.5 text-[11px] text-gray-400">
-                        Done {g.completed_at}
+                        Done: {g.achieved_at}
                       </p>
                     )}
                   </div>

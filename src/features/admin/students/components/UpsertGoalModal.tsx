@@ -24,7 +24,6 @@ export default function UpsertGoalModal({
   const { createGoal, updateGoal, isCreating, isUpdating } = useGoals(userId);
 
   if (!openType) return null;
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
@@ -92,8 +91,9 @@ export default function UpsertGoalModal({
           <div>
             <label className="sm-label">Description</label>
             <textarea
+              name="description"
               rows={2}
-              value={goal?.description}
+              defaultValue={goal?.description}
               className="form-textarea"
             />
           </div>
@@ -139,7 +139,7 @@ export default function UpsertGoalModal({
                 step={5}
                 value={progress}
                 onChange={(e) => setProgress(Number(e.target.value))}
-                className="accent-theme-green-20 w-full"
+                className="accent-theme-yellow-20 w-full"
               />
             </div>
           )}
@@ -155,6 +155,19 @@ export default function UpsertGoalModal({
               className="form-input"
             />
           </div>
+
+          {status === "achieved" && (
+            <div>
+              <label className="sm-label">Achieved date</label>
+              <input
+                required
+                name="achieved_at"
+                type="date"
+                defaultValue={goal?.achieved_at}
+                className="form-input"
+              />
+            </div>
+          )}
 
           {/* Footer */}
           <div className="mt-6 flex justify-end">

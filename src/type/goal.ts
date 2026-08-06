@@ -7,7 +7,7 @@ export type Goal = {
   status: GoalStatusType;
   progress?: number;
   target_date?: string;
-  completed_at?: string;
+  achieved_at?: string;
   created_at: string;
 };
 
@@ -18,5 +18,5 @@ export type UpsertGoal = {
   status: GoalStatusType;
   progress?: number;
   target_date?: string;
-  completed_at?: string;
+  achieved_at?: string;
 };

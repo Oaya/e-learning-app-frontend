@@ -133,7 +133,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           </button>
         )}
 
-        {lesson.recording_url && (
+        {lesson.recording_url && lesson.status === "completed" && (
           <button
             onClick={(e) => {
               e.stopPropagation();

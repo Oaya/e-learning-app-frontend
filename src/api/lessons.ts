@@ -132,3 +132,20 @@ export async function AddStudentNote(
     return { success: false, error: err.response?.data?.error };
   }
 }
+
+export async function UpdateMeetingNote(
+  id: string,
+  data: { meeting_note: string },
+): Promise<ApiResponse> {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}/api/lessons/${id}/meeting_note`;
+    const response = await axios.patch(url, data, {
+      headers: authHeader(),
+    });
+
+    console.log("note saved", response.data);
+    return { success: true, data: response.data };
+  } catch (err: any) {
+    return { success: false, error: err.response?.data?.error };
+  }
+}

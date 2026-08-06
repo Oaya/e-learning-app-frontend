@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "./components.css";
+@import "./_variables.scss";
+@import "./_keyframe-animations.scss";
 
 @theme {
   --color-theme-purple-10: #b7b1f2;
@@ -30,6 +32,12 @@ input[type="number"] {
 }
 
 /* ---- Tiptap / ProseMirror styles (so lists, headings, code blocks show) ---- */
+.ProseMirror,
+.ProseMirror:focus,
+.ProseMirror:focus-visible {
+  outline: none;
+}
+
 .ProseMirror ul {
   list-style: disc;
   padding-left: 1.25rem;
@@ -81,6 +89,45 @@ input[type="number"] {
 
 .ProseMirror a:hover {
   color: #1d4ed8; /* Tailwind blue-700 */
+}
+
+.ProseMirror .tableWrapper {
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ProseMirror table td,
+.ProseMirror table th {
+  border: 1px solid #d1d5db; /* Tailwind gray-300 */
+  padding: 0.375rem 0.5rem;
+  vertical-align: top;
+  position: relative;
+}
+
+.ProseMirror table th {
+  background-color: #f9fafb; /* Tailwind gray-50 */
+  font-weight: 600;
+  text-align: left;
+}
+
+.ProseMirror table .selectedCell {
+  background-color: rgba(92, 75, 153, 0.1); /* theme-purple-50 tint */
+}
+
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #5c4b99; /* theme-purple-50 */
+  pointer-events: none;
 }
 
 /* Inline code in lesson articles */

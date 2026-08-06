@@ -74,7 +74,7 @@ export default function LessonDetailPage() {
 
       {/* Recording */}
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        {lesson.recording_url ? (
+        {lesson.status === "completed" && lesson.recording_url ? (
           <video
             src={lesson.recording_url}
             controls
@@ -130,9 +130,9 @@ export default function LessonDetailPage() {
               <p className="mb-1.5 text-xs font-medium tracking-wide text-gray-400 uppercase">
                 Lesson note
               </p>
-              {lesson.note ? (
+              {lesson.teacher_note ? (
                 <p className="rounded-lg bg-gray-50 p-3 text-sm leading-relaxed text-gray-700">
-                  {lesson.note}
+                  {lesson.teacher_note}
                 </p>
               ) : (
                 <p className="text-sm text-gray-300 italic">No note added.</p>

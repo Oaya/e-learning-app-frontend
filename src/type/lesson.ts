@@ -12,7 +12,7 @@ export type UpsertLesson = {
   topic: string;
   duration_in_minutes: number;
   scheduled_at: Date;
-  note?: string;
+  teacher_note?: string;
   status: LessonStatusType;
 };
 
@@ -27,7 +27,7 @@ export type Lesson = {
   scheduled_at: string;
   duration_in_minutes: number;
   topic: string;
-  note: string | null;
+  teacher_note: string | null;
   language: string;
   status: LessonStatusType;
   payment_status: PaymentStatusType;

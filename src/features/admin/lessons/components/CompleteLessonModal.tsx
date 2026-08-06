@@ -152,7 +152,7 @@ export default function CompleteLessonModal({
             <textarea
               name="meeting_feedback"
               rows={3}
-              // defaultValue={lesson?.note ?? ""}
+              defaultValue={lesson?.meeting_feedback ?? ""}
               placeholder="What did we cover? Any observation about student's progress..."
               className="form-textarea"
             />

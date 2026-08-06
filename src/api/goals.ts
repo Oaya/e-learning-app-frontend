@@ -33,6 +33,7 @@ export async function updateGoal(
   id: string,
   data: UpsertGoal,
 ): Promise<ApiResponse> {
+  console.log("sfd", data);
   try {
     const res = await axios.patch(
       `${import.meta.env.VITE_API_URL}/api/goals/${id}`,

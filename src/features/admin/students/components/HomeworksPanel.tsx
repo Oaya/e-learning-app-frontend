@@ -42,7 +42,7 @@ export default function HomeworksPanel({ homeworks, user }: Props) {
                     {hw.title}
                   </p>
                   <p className="mt-0.5 text-xs text-gray-400">
-                    Due {dayjs(hw.due_date).format("MMM D")}
+                    Due: {dayjs(hw.due_date).format("YYYY-MM-DD")}
                   </p>
                 </div>
                 <Badge

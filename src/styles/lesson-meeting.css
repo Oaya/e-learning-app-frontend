@@ -49,6 +49,36 @@
   padding: 1rem;
 }
 
+/* Notes panel takes 70% of the width, so shrink the control bar to fit
+   instead of letting it overflow onto the notes panel. LiveKit's own
+   verbose/minimal breakpoint is based on window width, not this container,
+   so it doesn't react to the notes panel opening. */
+.lesson-meeting-room[data-notes-open="true"] .lk-control-bar {
+  gap: 0.375rem;
+  padding: 0.75rem 1rem;
+}
+
+/* Scoped to direct children only, so this doesn't also hide the device
+   names inside the mic/camera dropdown menus nested further down. */
+.lesson-meeting-room[data-notes-open="true"] .lk-control-bar > .lk-button,
+.lesson-meeting-room[data-notes-open="true"]
+  .lk-control-bar
+  .lk-button-group
+  > .lk-button,
+.lesson-meeting-room[data-notes-open="true"]
+  .lk-control-bar
+  .lk-button-group-menu
+  > .lk-button,
+.lesson-meeting-room[data-notes-open="true"] .lk-control-bar > div > .lk-button,
+.lesson-meeting-room[data-notes-open="true"]
+  .lk-control-bar
+  .lk-disconnect-button,
+.lesson-meeting-room[data-notes-open="true"] .lk-control-bar .lk-chat-toggle {
+  padding: 0.625rem;
+  font-size: 0;
+  gap: 0;
+}
+
 .lesson-meeting-room .lk-control-bar .lk-button-group-menu {
   border-left: 1px solid var(--lk-border-color);
 }

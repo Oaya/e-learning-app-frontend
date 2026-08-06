@@ -28,9 +28,10 @@ export default function GoalCard({ goal, openEdit, userId }: Props) {
   return (
     <div className={`card ${GOAL_BORDER_COLOR[goal.status]}`}>
       {/* Main */}
-      <div className="h-14 min-w-0 flex-1">
-        <div className="mb-2 flex flex-wrap items-center gap-2">
-          <p className="text-sm font-medium text-gray-800">{goal.title}</p>
+      <div className="min-w-0 flex-1">
+        <div className="items-center gap-2 text-sm">
+          <p className="font-semibold text-gray-800">{goal.title}</p>
+          <p className="text-gray-500">{goal.description}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">

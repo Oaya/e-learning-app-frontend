@@ -20,6 +20,7 @@ import Badge from "../../../../ui/Badge";
 import { USER_STATUS_BADGE } from "../../../../utils/constants";
 import { HiDocumentText } from "react-icons/hi2";
 import { useGoals } from "../hooks/useGoals";
+import dayjs from "dayjs";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -52,6 +53,10 @@ export default function StudentProfile() {
   //Stat Values//
   const hwDone = homeworks?.filter((h) => h.status === "done");
   const hwOverDue = homeworks?.filter((h) => h.status === "overdue");
+  const goalTotal = goals?.length ?? 0;
+  const goalCompleted =
+    goals?.filter((g) => g.status === "achieved").length ?? 0;
+  const goalProgress = goals?.filter((g) => g.status === "in_progress").length;
 
   return (
     <div className="space-y-6 p-10">
@@ -70,12 +75,6 @@ export default function StudentProfile() {
             className="btn-white flex items-center gap-1.5"
           >
             <MdMessage size={16} /> Message
-          </button>
-          <button
-            onClick={() => navigate(`/users/${userId}/goals`)}
-            className="btn-white flex items-center gap-1.5"
-          >
-            Goals
           </button>
         </div>
       </section>
@@ -108,7 +107,7 @@ export default function StudentProfile() {
             <Badge status={user.status} constant={USER_STATUS_BADGE} />
 
             <p className="text-gray-500">
-              Joined: {user.created_at.split("T")[0]}
+              Joined: {dayjs(user.created_at).format("YYYY-MM-DD")}
             </p>
           </div>
 
@@ -131,7 +130,7 @@ export default function StudentProfile() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-6 lg:grid-cols-4">
         <StatCard
           icon={HiUsers}
           label="Total lessons"
@@ -157,8 +156,8 @@ export default function StudentProfile() {
         <StatCard
           icon={HiDocumentText}
           label="Goal completed"
-          value={"2/3"}
-          sub="2 in progress"
+          value={goalTotal === 0 ? 0 : `${goalCompleted}/${goalTotal}`}
+          sub={`${goalProgress} in progress`}
         />
         {/*
         <StatCard
@@ -171,9 +170,9 @@ export default function StudentProfile() {
       </section>
 
       {/* Two panels — 50/50 */}
-      <div className="grid grid-cols-5 items-start gap-5">
+      <div className="grid grid-cols-5 items-start gap-6">
         {/* Left — lessons + payment */}
-        <div className="col-span-2 flex flex-col gap-4">
+        <div className="col-span-2 flex flex-col gap-6">
           <LessonsPanel lessons={lessons} user={user} />
 
           <div className="panel-box">
@@ -185,7 +184,7 @@ export default function StudentProfile() {
         </div>
 
         {/* Right — homeworks + goals */}
-        <div className="col-span-3 flex flex-col gap-4">
+        <div className="col-span-3 flex flex-col gap-6">
           <HomeworksPanel homeworks={homeworks} user={user} />
           <GoalsPanel goals={goals} userId={userId} />
         </div>

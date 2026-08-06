@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   LiveKitRoom,
@@ -6,11 +7,13 @@ import {
   useLocalParticipant,
   useLayoutContext,
   useTranscriptions,
+  useRoomContext,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import {
   Track,
   VideoPresets,
+  type Room,
   type RoomOptions,
   type DisconnectReason,
 } from "livekit-client";
@@ -18,11 +21,14 @@ import {
   BackgroundProcessor,
   supportsBackgroundProcessors,
 } from "@livekit/track-processors";
+import { TbNotes } from "react-icons/tb";
+
 import { joinLesson } from "../../../../api/lessons";
 import "../../../../styles/lesson-meeting.css";
 import { useAuth } from "../../../../contexts/AuthContext";
 import LessonCompleteModal from "../../../admin/lessons/components/CompleteLessonModal";
 import RecordingManager from "../components/RecordingManager";
+import LessonNotesPanel from "../components/LessonNotePanel";
 
 type RoomData = {
   token: string;
@@ -161,6 +167,15 @@ function LiveCaptions() {
   );
 }
 
+//captures LiveKit Room object and lifts it up
+function RoomBridge({ onRoom }: { onRoom: (r: Room) => void }) {
+  const room = useRoomContext();
+  useEffect(() => {
+    onRoom(room);
+  }, [room, onRoom]);
+  return null;
+}
+
 export default function LessonMeetingPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -172,6 +187,35 @@ export default function LessonMeetingPage() {
   const joinedAtRef = useRef<number | null>(null);
   const stopRecordingRef = useRef<(() => Promise<Blob | null>) | null>(null);
   const [recordingBlob, setRecordingBlob] = useState<Blob | null>(null);
+  const [notesOpen, setNotesOpen] = useState(false);
+  const [lkRoom, setLkRoom] = useState<Room | null>(null);
+  const [notesPortalTarget, setNotesPortalTarget] =
+    useState<HTMLDivElement | null>(null);
+
+  // LiveKit's ControlBar prefab doesn't accept custom buttons, so we insert
+  // our own container into its DOM (between the chat and settings toggles)
+  // and portal the Notes button into it.
+  useEffect(() => {
+    let container: HTMLDivElement | null = null;
+
+    const interval = setInterval(() => {
+      const controlBar = document.querySelector<HTMLDivElement>(
+        ".lesson-meeting-room .lk-control-bar",
+      );
+      const settingsToggle = controlBar?.querySelector(".lk-settings-toggle");
+      if (controlBar && settingsToggle && !container) {
+        container = document.createElement("div");
+        controlBar.insertBefore(container, settingsToggle);
+        setNotesPortalTarget(container);
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+      container?.remove();
+    };
+  }, []);
 
   async function closeMeeting(reason?: DisconnectReason) {
     console.log("LiveKit disconnected, reason:", reason);
@@ -234,25 +278,62 @@ export default function LessonMeetingPage() {
   }
 
   return (
-    <div>
-      <LiveKitRoom
-        data-lk-theme="default"
-        className="lesson-meeting-room"
-        token={roomData.token}
-        serverUrl={roomData.url}
-        connect
-        video
-        audio
-        options={roomOptions}
-        onConnected={() => {
-          joinedAtRef.current = Date.now();
-        }}
-        onDisconnected={(reason) => closeMeeting(reason)}
+    <div className="flex h-screen overflow-hidden bg-[#17181c]">
+      {/*  Video side  */}
+      <div
+        className="relative min-w-0 transition-all duration-300"
+        style={{ width: notesOpen ? "65%" : "100%" }}
       >
-        <VideoConference SettingsComponent={MeetingSettings} />
-        <LiveCaptions />
-        <RecordingManager stopRef={stopRecordingRef} />
-      </LiveKitRoom>
+        <LiveKitRoom
+          data-lk-theme="default"
+          data-notes-open={notesOpen}
+          className="lesson-meeting-room"
+          token={roomData.token}
+          serverUrl={roomData.url}
+          connect
+          video
+          audio
+          options={roomOptions}
+          onConnected={() => {
+            joinedAtRef.current = Date.now();
+          }}
+          onDisconnected={(reason) => closeMeeting(reason)}
+        >
+          <VideoConference SettingsComponent={MeetingSettings} />
+          <LiveCaptions />
+          <RecordingManager stopRef={stopRecordingRef} />
+          <RoomBridge onRoom={setLkRoom} />
+
+          {/* Notes toggle button — portaled into the control bar, between chat and settings */}
+          {notesPortalTarget &&
+            createPortal(
+              <button
+                type="button"
+                onClick={() => setNotesOpen((p) => !p)}
+                className="lk-button"
+              >
+                <TbNotes size={16} />
+                Notes
+              </button>,
+              notesPortalTarget,
+            )}
+        </LiveKitRoom>
+      </div>
+
+      {/*  Notes side  */}
+      <div
+        className="overflow-hidden border-l border-white/10 bg-white transition-all duration-300"
+        style={{ width: notesOpen ? "70%" : "0px" }}
+      >
+        {lkRoom && (
+          <LessonNotesPanel
+            lessonId={id!}
+            room={lkRoom}
+            readonly={user?.role !== "admin"}
+            onClosed={setNotesOpen}
+          />
+        )}
+      </div>
 
       <LessonCompleteModal
         isOpen={modalOpen}

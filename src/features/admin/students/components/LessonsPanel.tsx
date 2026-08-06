@@ -42,7 +42,7 @@ export default function LessonsPanel({ lessons, user }: Props) {
             >
               <div>
                 <p className="text-sm font-medium text-gray-800">
-                  {dayjs(lesson.scheduled_at).format("MMM D, YYYY")}
+                  {dayjs(lesson.scheduled_at).format("YYYY-MM-DD")}
                 </p>
                 <p className="mt-0.5 text-xs text-gray-400">
                   {dayjs(lesson.scheduled_at).format("h:mm A")}
