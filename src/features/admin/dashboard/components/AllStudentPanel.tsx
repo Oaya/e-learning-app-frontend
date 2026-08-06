@@ -4,6 +4,7 @@ import type { StudentWithStatues } from "../../../../type/user";
 import { ADMIN_HW_STATUS_BADGE } from "../../../../utils/constants";
 import Badge from "../../../../ui/Badge";
 import defaultAvatar from "../../../../assets/user.png";
+import { capitalize } from "@/utils/helper";
 
 function PayDot({ paid }: { paid: boolean }) {
   return paid ? (
@@ -62,11 +63,11 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-0.5 capitalize">
                   {student.hw_status && (
-                    <Badge
-                      status={student.hw_status}
-                      constant={ADMIN_HW_STATUS_BADGE}
-                      className="px-2 py-0.5 text-[12px]"
-                    />
+                    <span
+                      className={`rounded-full ${ADMIN_HW_STATUS_BADGE[student.hw_status]} px-1 py-0.5 text-[11px]`}
+                    >
+                      {` HW ${capitalize(student.hw_status)}`}
+                    </span>
                   )}
 
                   <PayDot paid={false} />

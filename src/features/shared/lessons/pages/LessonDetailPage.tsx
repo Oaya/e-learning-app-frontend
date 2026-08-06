@@ -5,8 +5,6 @@ import { HiOutlineVideoCamera } from "react-icons/hi";
 import { useLesson } from "../../../admin/lessons/hooks/useLesson";
 import { useLessons } from "../../../admin/lessons/hooks/useLessons";
 import ConfirmModal from "../../../../ui/ConfirmModal";
-import Badge from "../../../../ui/Badge";
-import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import LessonDetailsHeader from "../../../admin/lessons/components/LessonDetailsHeader";
 import { useAuth } from "../../../../contexts/AuthContext";

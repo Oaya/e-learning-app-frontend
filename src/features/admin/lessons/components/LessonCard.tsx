@@ -75,11 +75,11 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       </div>
 
       {/* Divider */}
-      <div className="h-14 w-px shrink-0 bg-gray-200" />
+      <div className="mx-4 h-14 w-px shrink-0 bg-gray-200" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           <p className="truncate text-sm font-medium text-gray-800">
             {lesson.topic}
           </p>
@@ -104,47 +104,63 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             />
             {lesson.student.first_name} {lesson.student.last_name}{" "}
           </span>
-
-          {lesson.recording_url && (
-            <span className="text-theme-green-20 flex items-center gap-1 text-xs">
-              <HiOutlineVideoCamera size={14} /> Recording
-            </span>
-          )}
         </div>
       </div>
 
+      {canJoinLesson(lesson) && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/lessons/${lesson.id}/meeting`);
+          }}
+          className="btn-white mt-2 mr-4 flex items-center gap-1 px-2 py-1.5"
+        >
+          <LuVideo size={16} />
+          Join Lesson
+        </button>
+      )}
+
+      {lesson.recording_url && lesson.status === "completed" && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setWatchingRecording(true);
+          }}
+          className="btn-white mt-2 mr-4 flex items-center gap-1 px-2 py-1.5"
+        >
+          <LuVideo size={16} />
+          Watch
+        </button>
+      )}
+
       {/* Badges */}
-      <div className="flex shrink-0 flex-col items-end gap-1">
+      <div className="flex shrink-0 flex-col items-end gap-2">
         <Badge
           status={lesson.status}
           constant={LESSON_STATUS_BADGE}
           className="px-2 py-0.5"
         />
-        {canJoinLesson(lesson) && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/lessons/${lesson.id}/meeting`);
-            }}
-            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
-          >
-            <LuVideo size={16} />
-            Join Lesson
-          </button>
-        )}
 
-        {lesson.recording_url && lesson.status === "completed" && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setWatchingRecording(true);
-            }}
-            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
-          >
-            <LuVideo size={16} />
-            Watch
-          </button>
-        )}
+        {/* Actions */}
+        <div
+          className="flex shrink-0 items-center gap-1"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <>
+            <ActionBtn
+              title="Edit"
+              onClick={() => handleModalActionChange(lesson.id, lesson.status)}
+            >
+              <HiOutlinePencil size={16} />
+            </ActionBtn>
+            <ActionBtn
+              title="Delete"
+              onClick={() => setDeleteLessonId(lesson.id)}
+            >
+              <HiOutlineTrash size={16} />
+            </ActionBtn>
+          </>
+        </div>
 
         {/* <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
@@ -155,27 +171,6 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         >
           {lesson.payment_status === "paid" ? "Paid" : "Unpaid"}
         </span> */}
-      </div>
-
-      {/* Actions */}
-      <div
-        className="flex shrink-0 items-center gap-1"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <>
-          <ActionBtn
-            title="Edit"
-            onClick={() => handleModalActionChange(lesson.id, lesson.status)}
-          >
-            <HiOutlinePencil size={16} />
-          </ActionBtn>
-          <ActionBtn
-            title="Delete"
-            onClick={() => setDeleteLessonId(lesson.id)}
-          >
-            <HiOutlineTrash size={16} />
-          </ActionBtn>
-        </>
       </div>
 
       <div onClick={(e) => e.stopPropagation()}>
