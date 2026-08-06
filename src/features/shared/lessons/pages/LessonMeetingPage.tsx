@@ -29,6 +29,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import LessonCompleteModal from "../../../admin/lessons/components/CompleteLessonModal";
 import RecordingManager from "../components/RecordingManager";
 import LessonNotesPanel from "../components/LessonNotePanel";
+import LessonCloseModal from "../components/LessonCloseModal";
 
 type RoomData = {
   token: string;
@@ -183,6 +184,7 @@ export default function LessonMeetingPage() {
   const [error, setError] = useState("");
   const { user } = useAuth();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [lessonEndModalOpen, setLessonEndModalOpen] = useState<boolean>(false);
   const [meetingDuration, setMeetingDuration] = useState(0);
   const joinedAtRef = useRef<number | null>(null);
   const stopRecordingRef = useRef<(() => Promise<Blob | null>) | null>(null);
@@ -236,7 +238,16 @@ export default function LessonMeetingPage() {
     }
   }
 
-  function closeModal() {
+  function closeModal(state: string) {
+    if (state === "end") {
+      setModalOpen(false);
+      setLessonEndModalOpen(true);
+    } else {
+      navigate(-1);
+    }
+  }
+
+  function closeLessonEndModal() {
     setModalOpen(false);
     navigate(-1);
   }
@@ -282,7 +293,7 @@ export default function LessonMeetingPage() {
       {/*  Video side  */}
       <div
         className="relative min-w-0 transition-all duration-300"
-        style={{ width: notesOpen ? "65%" : "100%" }}
+        style={{ width: notesOpen ? "30%" : "100%" }}
       >
         <LiveKitRoom
           data-lk-theme="default"
@@ -335,13 +346,17 @@ export default function LessonMeetingPage() {
         )}
       </div>
 
-      <LessonCompleteModal
-        isOpen={modalOpen}
-        onClose={() => closeModal()}
-        lessonId={id!}
-        durationInSeconds={meetingDuration}
-        recordingBlob={recordingBlob}
-      />
+      <LessonCloseModal isOpen={modalOpen} closeModal={closeModal} />
+
+      {lessonEndModalOpen && (
+        <LessonCompleteModal
+          isOpen={lessonEndModalOpen}
+          onClose={() => closeLessonEndModal()}
+          lessonId={id!}
+          durationInSeconds={meetingDuration}
+          recordingBlob={recordingBlob}
+        />
+      )}
     </div>
   );
 }

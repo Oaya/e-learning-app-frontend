@@ -9,11 +9,15 @@ import type { LessonStatusType } from "../../../../type/lesson";
 
 import { HiOutlineX } from "react-icons/hi";
 
-import { LESSON_STATUS_BADGE, LessonStatus } from "../../../../utils/constants";
+import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 
 import { useLesson } from "../hooks/useLesson";
 import { useState } from "react";
 import { addLessonRecording } from "../../../../api/lesson_recordings";
+import { capitalize } from "@/utils/helper";
+import { TbLock, TbUsers } from "react-icons/tb";
+
+const END_STATUSES: LessonStatusType[] = ["completed", "no_show", "canceled"];
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -35,6 +39,9 @@ export default function CompleteLessonModal({
 }: ModalProps) {
   const { lesson, endingLesson, isEnding } = useLesson(lessonId);
   const [loading, setLoading] = useState(false);
+  const [shareNote, setShareNote] = useState(lesson?.note_shared ?? false);
+
+  const hasNotes = !!lesson?.meeting_note;
 
   if (!isOpen) return null;
 
@@ -63,7 +70,9 @@ export default function CompleteLessonModal({
         meeting_duration_in_seconds: durationInSeconds,
         status: fdString(formData, "status") as LessonStatusType,
         meeting_feedback: fdString(formData, "meeting_feedback"),
+        ...(hasNotes && { note_shared: shareNote }),
       };
+
       await endingLesson({ id: lessonId, data });
       onClose();
     } catch {
@@ -87,13 +96,14 @@ export default function CompleteLessonModal({
           </button>
         </div>
 
-        <div className="px-6 py-5">
+        <div className="px-6 pt-5">
           <p className="mb-4 text-lg text-gray-500">
             {lesson?.topic} ·{" "}
             <span>
               {lesson?.student.first_name} {lesson?.student.last_name}
             </span>
           </p>
+
           <div className="flex gap-8">
             <div>
               <p className="text-gray-500">Duration</p>
@@ -121,23 +131,21 @@ export default function CompleteLessonModal({
           <div className="mb-4">
             <label className="sm-label">Lesson Status</label>
             <div className="flex gap-2">
-              {(
-                Object.entries(LessonStatus) as [LessonStatusType, string][]
-              ).map(([key, label]) => (
-                <label key={key} className="flex-1 cursor-pointer">
+              {END_STATUSES.map((s) => (
+                <label key={s} className="flex-1 cursor-pointer">
                   <input
                     type="radio"
                     name="status"
-                    value={key}
+                    value={s}
                     defaultChecked={
-                      lesson ? lesson.status === key : key === "completed"
+                      lesson ? lesson.status === s : s === "completed"
                     }
                     className="peer sr-only"
                   />
                   <span
-                    className={`block rounded-lg border border-gray-200 py-2 text-center text-xs font-medium opacity-40 transition peer-checked:border-transparent peer-checked:opacity-100 hover:opacity-75 ${LESSON_STATUS_BADGE[key]}`}
+                    className={`block rounded-lg border border-gray-200 py-2 text-center text-xs font-medium opacity-40 transition peer-checked:border-transparent peer-checked:opacity-100 hover:opacity-75 ${LESSON_STATUS_BADGE[s]}`}
                   >
-                    {label}
+                    {capitalize(s)}
                   </span>
                 </label>
               ))}
@@ -158,14 +166,51 @@ export default function CompleteLessonModal({
             />
           </div>
 
+          {/* Share notes — only shown if teacher wrote notes */}
+          {hasNotes && (
+            <div>
+              <label className="sm-label">
+                Share lesson notes with student?
+              </label>
+              <div className="mt-1 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShareNote(true)}
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition ${
+                    shareNote
+                      ? "border-theme-purple-50 bg-theme-purple-50/10 text-theme-purple-50"
+                      : "border-gray-200 text-gray-400 hover:border-gray-300"
+                  }`}
+                >
+                  <TbUsers size={15} />
+                  Share with student
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShareNote(false)}
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition ${
+                    !shareNote
+                      ? "border-gray-500 bg-gray-50 text-gray-700"
+                      : "border-gray-200 text-gray-400 hover:border-gray-300"
+                  }`}
+                >
+                  <TbLock size={15} />
+                  Keep private
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="mb-4"></div>
+
           <div className="mt-6 flex justify-end gap-3">
-            <button
+            {/* <button
               type="button"
               onClick={onClose}
               className="btn-primary-white mr-4"
             >
               Cancel
-            </button>
+            </button> */}
 
             <button
               type="submit"

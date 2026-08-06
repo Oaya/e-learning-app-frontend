@@ -20,6 +20,7 @@ export type UpsertLessonMeeting = {
   meeting_duration_in_seconds?: number;
   status: LessonStatusType;
   meeting_feedback?: string;
+  note_shared?: boolean;
 };
 
 export type Lesson = {
@@ -33,6 +34,8 @@ export type Lesson = {
   payment_status: PaymentStatusType;
   meeting_duration_in_seconds?: number;
   meeting_feedback?: string;
+  meeting_note?: string | null;
+  note_shared?: boolean;
   recording_url?: string;
   student_note?: string;
   student: {

@@ -14,6 +14,7 @@ import StudentLessonDetailsHeader from "../../../student/lessons/components/Stud
 import UpsertLessonNoteModal from "../../../student/lessons/components/UpsertLessonNote";
 import CompleteLessonModal from "../../../admin/lessons/components/CompleteLessonModal";
 import UpsertLessonModal from "../../../admin/lessons/components/UpsertLessonModal";
+import LessonNotesViewer from "../components/LessonNoteViewer";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -45,9 +46,7 @@ export default function LessonDetailPage() {
     );
   }
 
-  const actualMinutes = lesson.meeting_duration_in_seconds
-    ? Math.round(lesson.meeting_duration_in_seconds / 60)
-    : null;
+  const hasRecording = lesson.status === "completed" && !!lesson.recording_url;
 
   return (
     <div className="space-y-6 p-10">
@@ -73,18 +72,17 @@ export default function LessonDetailPage() {
       )}
 
       {/* Recording */}
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        {lesson.status === "completed" && lesson.recording_url ? (
+      <div className="gap-5 overflow-hidden border-gray-200">
+        {hasRecording ? (
           <video
             src={lesson.recording_url}
             controls
-            className="w-full bg-black"
-            style={{ maxHeight: 620 }}
+            className="h-full w-full rounded-xl bg-black object-contain"
           />
         ) : (
-          <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
+          <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-16 text-center">
             <HiOutlineVideoCamera size={32} className="text-gray-300" />
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-300 italic">
               No recording for this lesson.
             </p>
           </div>
@@ -93,37 +91,21 @@ export default function LessonDetailPage() {
 
       {/* Details + Notes */}
       <div className="grid grid-cols-5 gap-4">
-        {/* Details */}
-        <div className="panel-box col-span-2">
-          <p className="panel-header mb-4">Details</p>
-          <div className="divide-y divide-gray-100 text-sm">
-            <div className="flex justify-between py-2.5">
-              <span className="text-gray-400">Scheduled duration</span>
-              <span className="font-medium text-gray-800">
-                {lesson.duration_in_minutes} min
-              </span>
-            </div>
-            {actualMinutes !== null && (
-              <div className="flex justify-between py-2.5">
-                <span className="text-gray-400">Actual duration</span>
-                <span className="font-medium text-gray-800">
-                  {actualMinutes} min
-                </span>
-              </div>
-            )}
-            <div className="flex items-center justify-between py-2.5">
-              <span className="text-gray-400">Status</span>
-              <Badge
-                status={lesson.status}
-                constant={LESSON_STATUS_BADGE}
-                className="px-2 py-0.5 text-[11px]"
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Notes */}
         <div className="panel-box col-span-3">
+          <p className="panel-header">Meeting Note</p>
+          {(authUser?.role === "admin" || lesson.note_shared) &&
+          lesson.meeting_note ? (
+            <LessonNotesViewer html={lesson.meeting_note} />
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-2 rounded-xl bg-white py-16 text-center">
+              <p className="text-sm text-gray-300 italic">
+                No meeting note for this lesson
+              </p>
+            </div>
+          )}
+        </div>
+        <div className="panel-box col-span-2">
           <p className="panel-header mb-4">Notes</p>
           <div className="space-y-4">
             <div>

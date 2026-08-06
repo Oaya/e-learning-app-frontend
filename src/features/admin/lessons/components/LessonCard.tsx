@@ -178,42 +178,44 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         </>
       </div>
 
-      {/* Delete & Cancel confirm */}
-      <ConfirmModal
-        isOpen={deleteLessonId !== null}
-        title="Delete Lessons"
-        isSubmitting={isDeleting}
-        message="Are you sure you want to delete this? This action cannot be undone."
-        onCancel={() => setDeleteLessonId(null)}
-        onConfirm={() => deleteLesson(lesson.id)}
-      />
-
-      {/* Edit Lesson */}
-      <UpsertLessonModal
-        isOpen={editLessonId !== null}
-        onClose={() => setEditLessonId(null)}
-        type="Edit"
-        lesson={lesson}
-        lessons={allLessons}
-        timezone={timezone}
-      />
-
-      {completeLessonId && (
-        <LessonCompleteModal
-          isOpen
-          onClose={() => setCompleteLessonId(null)}
-          lessonId={lesson.id}
-          durationInSeconds={lesson.meeting_duration_in_seconds ?? 0}
+      <div onClick={(e) => e.stopPropagation()}>
+        {/* Delete & Cancel confirm */}
+        <ConfirmModal
+          isOpen={deleteLessonId !== null}
+          title="Delete Lessons"
+          isSubmitting={isDeleting}
+          message="Are you sure you want to delete this? This action cannot be undone."
+          onCancel={() => setDeleteLessonId(null)}
+          onConfirm={() => deleteLesson(lesson.id)}
         />
-      )}
 
-      {watchingRecording && lesson.recording_url && (
-        <WatchRecordingModal
-          isOpen
-          onClose={() => setWatchingRecording(false)}
-          recordingUrl={lesson.recording_url}
+        {/* Edit Lesson */}
+        <UpsertLessonModal
+          isOpen={editLessonId !== null}
+          onClose={() => setEditLessonId(null)}
+          type="Edit"
+          lesson={lesson}
+          lessons={allLessons}
+          timezone={timezone}
         />
-      )}
+
+        {completeLessonId && (
+          <LessonCompleteModal
+            isOpen
+            onClose={() => setCompleteLessonId(null)}
+            lessonId={lesson.id}
+            durationInSeconds={lesson.meeting_duration_in_seconds ?? 0}
+          />
+        )}
+
+        {watchingRecording && lesson.recording_url && (
+          <WatchRecordingModal
+            isOpen
+            onClose={() => setWatchingRecording(false)}
+            recordingUrl={lesson.recording_url}
+          />
+        )}
+      </div>
     </div>
   );
 }
