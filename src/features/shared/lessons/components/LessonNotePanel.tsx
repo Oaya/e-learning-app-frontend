@@ -58,7 +58,6 @@ export default function LessonNotesPanel({
   onClosed,
 }: Props) {
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const encoder = new TextEncoder();
   const [contents, setContent] = useState(initialContent);
 
   const saveToBackend = useCallback(
@@ -81,7 +80,7 @@ export default function LessonNotesPanel({
     (html: string) => {
       if (!room?.localParticipant) return;
       const payload = JSON.stringify({ topic: TOPIC, html });
-      room.localParticipant.publishData(encoder.encode(payload), {
+      room.localParticipant.publishData(new TextEncoder().encode(payload), {
         reliable: true,
       });
     },
