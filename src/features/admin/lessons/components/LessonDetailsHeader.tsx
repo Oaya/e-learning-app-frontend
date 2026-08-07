@@ -66,7 +66,7 @@ export default function LessonDetailsHeader({
         <div className="flex flex-wrap items-center gap-4">
           <span className="flex items-center gap-1 text-sm">
             <HiOutlineCalendar size={15} />
-            {scheduledAt.format("ddd, D MMM YYYY")}
+            {scheduledAt.format("YYYY-MM-DD")}
           </span>
           <span className="flex items-center gap-1 text-sm">
             <HiOutlineClock size={15} />

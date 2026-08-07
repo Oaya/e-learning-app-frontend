@@ -10,12 +10,27 @@ import StatCard from "../../../../ui/StatCard";
 import TabFilters from "../../../admin/homework/components/TabFilters";
 import StudentHomeworkCard from "../components/StudentHomeworkCard";
 import {
-  HOMEWORK_GROUP_ORDER,
-  HOMEWORK_TABS,
   inGroup,
   matchesTab,
-  type HomeworkFilterTab,
 } from "../../../admin/homework/pages/HomeworkPage";
+
+export type HomeworkFilterTab =
+  | "all"
+  | "pending"
+  | "submitted"
+  | "overdue"
+  | "reviewed";
+
+export const STUDENT_HOMEWORK_TABS: HomeworkFilterTab[] = [
+  "all",
+  "overdue",
+  "pending",
+  "submitted",
+  "reviewed",
+];
+
+export const STUDENT_HOMEWORK_GROUP_ORDER: Exclude<HomeworkFilterTab, "all">[] =
+  ["overdue", "pending", "submitted", "reviewed"];
 
 export default function StudentHomeworkPage() {
   const [activeTab, setActiveTab] = useState<HomeworkFilterTab>("all");
@@ -73,7 +88,7 @@ export default function StudentHomeworkPage() {
 
       {/* Filters */}
       <TabFilters
-        tabs={HOMEWORK_TABS}
+        tabs={STUDENT_HOMEWORK_TABS}
         activeTab={activeTab}
         onTabChange={(tab) => setActiveTab(tab as HomeworkFilterTab)}
       />
@@ -87,7 +102,7 @@ export default function StudentHomeworkPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {HOMEWORK_GROUP_ORDER.map((status) => {
+          {STUDENT_HOMEWORK_GROUP_ORDER.map((status) => {
             const group = filtered?.filter((h) => inGroup(h, status));
             if (!group?.length) return null;
             return (

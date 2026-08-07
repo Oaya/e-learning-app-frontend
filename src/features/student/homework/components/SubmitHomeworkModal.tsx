@@ -58,7 +58,7 @@ export default function SubmitHomeworkModal({
         <div className="space-y-4 px-6 py-5">
           {/* Instructions reminder */}
           {hw.instructions && (
-            <div className="rounded-lg bg-gray-50 px-4 py-3 text-sm leading-relaxed text-gray-500">
+            <div className="rounded-lg text-sm leading-relaxed text-gray-500">
               <p className="mb-1 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
                 Assignment
               </p>

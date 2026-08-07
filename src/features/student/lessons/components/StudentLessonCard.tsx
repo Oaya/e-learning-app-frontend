@@ -34,9 +34,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
-        <p className="mb-2 truncate text-sm font-medium text-gray-800">
-          {lesson.topic}
-        </p>
+        <p className="mb-2 text-sm font-medium text-gray-800">{lesson.topic}</p>
 
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
@@ -52,11 +50,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
 
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-1 capitalize">
-        <Badge
-          status={lesson.status}
-          constant={LESSON_STATUS_BADGE}
-          className="px-2 py-0.5"
-        />
+        <Badge status={lesson.status} constant={LESSON_STATUS_BADGE} />
         {canJoinLesson(lesson) && (
           <button
             onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
@@ -67,7 +61,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
           </button>
         )}
 
-        {lesson.recording_url && (
+        {lesson.recording_url && lesson.status === "completed" && (
           <button
             onClick={() => navigate(`/student/lessons/${lesson.id}`)}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"

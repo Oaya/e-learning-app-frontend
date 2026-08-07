@@ -1,4 +1,4 @@
-import { HiArrowRight, HiCalendar } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import type { Lesson } from "../../../../type/lesson";
 import dayjs from "dayjs";

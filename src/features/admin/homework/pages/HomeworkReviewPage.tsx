@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
 import { useHomework } from "../hooks/useHomework";
-import { HW_STATUS_BADGE, SCORE_BUDGE } from "../../../../utils/constants";
+import { SCORE_BUDGE } from "../../../../utils/constants";
 import AttachmentsList from "../../../student/homework/components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomeworkSubmission } from "../hooks/useHomeworkSubmission";
-import Badge from "../../../../ui/Badge";
-import defaultAvatar from "../../../../assets/user.png";
+import HomeworkHeaderPanel from "@/features/shared/homeworks/components/HomeworkHeaderPanel";
 
 export default function HomeworkReviewPage() {
   const alert = useAlert();
@@ -94,63 +93,18 @@ export default function HomeworkReviewPage() {
         </div>
       </section>
 
-      {/* Header card */}
       <div className="space-y-6">
-        <div className="rounded-xl border border-gray-200 bg-white px-6 py-4">
-          <div className="flex justify-between">
-            <h1 className="mb-2 text-lg font-semibold text-gray-800">
-              {homework.title}
-            </h1>
+        {/* Header card */}
+        <HomeworkHeaderPanel hw={homework} />
 
-            <Badge
-              status={homework.status}
-              constant={HW_STATUS_BADGE}
-              className="h-fit"
-            />
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="flex items-center gap-1.5 text-xs text-gray-400">
-              <img
-                src={homework.student.avatar || defaultAvatar}
-                alt="avatar"
-                className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
-              />
-              {homework.student.first_name} {homework.student.last_name}{" "}
-            </span>
-
-            <span className="text-xs text-gray-400">·</span>
-            <span className="text-xs text-gray-400">
-              {homework.language} · {homework.level}
-            </span>
-
-            {homework.ai_generated && (
-              <span className="flex items-center gap-1 rounded-full bg-purple-50 px-2 py-0.5 text-[11px] font-medium text-purple-700">
-                <HiOutlineSparkles className="h-3 w-3" /> AI generated
-              </span>
-            )}
-
-            <span className="ml-auto text-xs text-gray-400">
-              Submitted at {homework.submission?.submitted_at}
-            </span>
-          </div>
-        </div>
         {/* Two column body */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
           {/* LEFT — submission */}
           <div className="space-y-4">
-            {/* Instructions */}
-            <div className="panel-box">
-              <p className="panel-header">Assignment instructions</p>
-              <p className="text-sm leading-relaxed text-gray-500">
-                {homework.instructions}
-              </p>
-            </div>
-
             {/* Submission */}
             <div className="panel-box">
               <p className="panel-header">Student's written answer</p>
-              <div className="rounded-lg bg-gray-50 p-4 text-sm leading-loose whitespace-pre-line text-gray-800">
+              <div className="rounded-lg text-sm leading-loose whitespace-pre-line text-gray-800">
                 {homework.submission?.answer_text}
               </div>
 

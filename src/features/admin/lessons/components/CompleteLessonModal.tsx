@@ -119,7 +119,7 @@ export default function CompleteLessonModal({
               <p className="text-gray-500">Date</p>
               <p className="font-semibold">
                 {lesson?.scheduled_at &&
-                  dayjs(lesson.scheduled_at).format("DD MMM YYYY")}
+                  dayjs(lesson.scheduled_at).format("YYYY-MM-DD")}
               </p>
             </div>
           </div>

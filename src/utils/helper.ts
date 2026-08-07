@@ -41,10 +41,10 @@ export function formatDay(iso: string) {
 export function getHomeworkDateLabel(hw: Homework) {
   const value =
     hw.status === "reviewed" && hw.submission?.reviewed_at
-      ? `Reviewed ${hw.submission.reviewed_at}`
+      ? `Reviewed: ${hw.submission.reviewed_at}`
       : hw.status === "submitted" && hw.submission?.submitted_at
-        ? `Submitted ${hw.submission.submitted_at}`
-        : `Due ${hw.due_date}`;
+        ? `Submitted: ${hw.submission.submitted_at}`
+        : `Due: ${hw.due_date}`;
 
   return value;
 }

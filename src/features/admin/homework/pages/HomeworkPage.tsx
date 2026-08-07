@@ -13,26 +13,20 @@ import StatCard from "../../../../ui/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
 import TabFilters from "../components/TabFilters";
 import type { Homework } from "../../../../type/homework";
-
-export type HomeworkFilterTab =
-  | "all"
-  | "pending"
-  | "submitted"
-  | "overdue"
-  | "reviewed";
+import type { HomeworkFilterTab } from "@/features/student/homework/pages/HomeworkPage";
 
 export const HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",
-  "pending",
   "submitted",
   "overdue",
+  "pending",
   "reviewed",
 ];
 
 export const HOMEWORK_GROUP_ORDER: Exclude<HomeworkFilterTab, "all">[] = [
+  "submitted",
   "overdue",
   "pending",
-  "submitted",
   "reviewed",
 ];
 

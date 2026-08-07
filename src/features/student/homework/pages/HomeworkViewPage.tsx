@@ -1,14 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  HiOutlineArrowLeft,
-  HiOutlineChatBubbleLeftEllipsis,
-  HiOutlinePencilSquare,
-} from "react-icons/hi2";
+import { HiOutlineArrowLeft, HiOutlinePencilSquare } from "react-icons/hi2";
 
 import { useHomework } from "../../../admin/homework/hooks/useHomework";
 
 import { SCORE_BUDGE } from "../../../../utils/constants";
-import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
+import HomeworkHeaderPanel from "../../../shared/homeworks/components/HomeworkHeaderPanel";
 import AttachmentsList from "../components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";
 
@@ -59,16 +55,16 @@ export default function HomeworkViewPage() {
         <HomeworkHeaderPanel hw={homework} />
 
         {/* Two-column layout */}
-        <div className="flex items-start gap-5">
+        <div className="grid grid-cols-2 gap-5">
           {/* LEFT — answer + attachments */}
           <div className="flex min-w-0 flex-1 flex-col gap-4">
             {/* Written answer */}
             <div className="panel-box">
-              <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <p className="panel-header">Your answer</p>
               </div>
               {submission?.answer_text ? (
-                <p className="min-h-40 rounded-lg bg-gray-50 px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap text-gray-700">
+                <p className="min-h-40 rounded-lg text-sm leading-relaxed whitespace-pre-wrap text-gray-700">
                   {submission.answer_text}
                 </p>
               ) : (
@@ -90,13 +86,10 @@ export default function HomeworkViewPage() {
           </div>
 
           {/* RIGHT — feedback + what's next */}
-          <div className="flex w-100 shrink-0 flex-col gap-4">
+          <div className="flex shrink-0 flex-col gap-4">
             {/* Teacher feedback */}
             <div className="panel-box">
-              <div className="flex gap-2">
-                <HiOutlineChatBubbleLeftEllipsis className="h-4 w-4 text-gray-400" />
-                <p className="panel-header">Teacher feedback</p>
-              </div>
+              <p className="panel-header">Teacher feedback</p>
 
               {submission && feedback ? (
                 <div className="space-y-2">
@@ -110,11 +103,11 @@ export default function HomeworkViewPage() {
                     {feedback.feedback_text}
                   </p>
                   <p className="text-xs text-gray-400">
-                    Reviewed {submission?.reviewed_at}
+                    Reviewed: {submission?.reviewed_at}
                   </p>
                 </div>
               ) : (
-                <div className="rounded-lg bg-gray-50 px-4 py-5 text-center">
+                <div className="rounded-lg px-4 py-5 text-center">
                   <p className="text-sm text-gray-400">
                     Your teacher hasn't reviewed this yet.
                   </p>

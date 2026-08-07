@@ -21,8 +21,13 @@ export default function StudentLessonDetailsHeader({
   setAddOpen,
 }: Props) {
   const scheduledAt = dayjs(lesson.scheduled_at);
+
+  const actualMinutes = lesson.meeting_duration_in_seconds
+    ? Math.round(lesson.meeting_duration_in_seconds / 60)
+    : null;
+
   return (
-    <div className="flex items-start justify-between gap-4">
+    <div className="flex items-start justify-between gap-4 text-gray-400">
       <div className="space-y-2">
         {/* Title + student chip */}
         <div className="flex flex-wrap items-center gap-3">
@@ -33,15 +38,15 @@ export default function StudentLessonDetailsHeader({
 
         {/* Meta */}
         <div className="flex flex-wrap items-center gap-4">
-          <span className="flex items-center gap-1 text-sm text-gray-400">
+          <span className="flex items-center gap-1 text-sm">
             <HiOutlineCalendar size={15} />
-            {scheduledAt.format("ddd, D MMM YYYY")}
+            {scheduledAt.format("YYYY-MM-DD")}
           </span>
-          <span className="flex items-center gap-1 text-sm text-gray-400">
+          <span className="flex items-center gap-1 text-sm">
             <HiOutlineClock size={15} />
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
-          <span className="flex items-center gap-1 text-sm text-gray-400">
+          <span className="flex items-center gap-1 text-sm">
             <LuLanguages size={15} />
             {lesson.language}
           </span>
@@ -50,6 +55,12 @@ export default function StudentLessonDetailsHeader({
             constant={LESSON_STATUS_BADGE}
             className="px-2 py-0.5"
           />
+          {actualMinutes !== null && (
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Actual duration: </span>
+              <span className="font-medium">{actualMinutes} min</span>
+            </div>
+          )}
         </div>
       </div>
 

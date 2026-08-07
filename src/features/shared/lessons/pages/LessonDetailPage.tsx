@@ -9,7 +9,7 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import LessonDetailsHeader from "../../../admin/lessons/components/LessonDetailsHeader";
 import { useAuth } from "../../../../contexts/AuthContext";
 import StudentLessonDetailsHeader from "../../../student/lessons/components/StudentLessonDetailsHeader";
-import UpsertLessonNoteModal from "../../../student/lessons/components/UpsertLessonNote";
+import UpsertLessonNoteModal from "../../../student/lessons/components/UpsertLessonNoteModal";
 import CompleteLessonModal from "../../../admin/lessons/components/CompleteLessonModal";
 import UpsertLessonModal from "../../../admin/lessons/components/UpsertLessonModal";
 import LessonNotesViewer from "../components/LessonNoteViewer";
@@ -111,7 +111,7 @@ export default function LessonDetailPage() {
                 Lesson note
               </p>
               {lesson.teacher_note ? (
-                <p className="rounded-lg bg-gray-50 p-3 text-sm leading-relaxed text-gray-700">
+                <p className="rounded-lg text-sm leading-relaxed text-gray-700">
                   {lesson.teacher_note}
                 </p>
               ) : (
@@ -124,7 +124,7 @@ export default function LessonDetailPage() {
                 Meeting feedback
               </p>
               {lesson.meeting_feedback ? (
-                <p className="rounded-lg bg-gray-50 p-3 text-sm leading-relaxed text-gray-700">
+                <p className="rounded-lg text-sm leading-relaxed text-gray-700">
                   {lesson.meeting_feedback}
                 </p>
               ) : (
@@ -143,7 +143,7 @@ export default function LessonDetailPage() {
             My note
           </p>
           {lesson.student_note ? (
-            <p className="rounded-lg bg-gray-50 p-3 text-sm leading-relaxed text-gray-700">
+            <p className="rounded-lg text-sm leading-relaxed text-gray-700">
               {lesson.student_note}
             </p>
           ) : (

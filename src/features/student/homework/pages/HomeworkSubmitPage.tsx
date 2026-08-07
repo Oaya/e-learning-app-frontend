@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineCheck } from "react-icons/hi2";
 import { useHomeworkSubmission } from "../../../admin/homework/hooks/useHomeworkSubmission";
-import HomeworkHeaderPanel from "../components/HomeworkHeaderPanel";
+import HomeworkHeaderPanel from "../../../shared/homeworks/components/HomeworkHeaderPanel";
 import AttachmentsPanel from "../components/AttachmentsPanel";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useHomework } from "../../../admin/homework/hooks/useHomework";

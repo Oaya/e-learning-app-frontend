@@ -91,9 +91,9 @@ export default function HomeworkCard({ hw }: Props) {
               <ActionBtn title="Edit" onClick={() => setEditHWId(hw.id)}>
                 <HiOutlinePencil size={16} />
               </ActionBtn>
-              <ActionBtn title="Remind student">
+              {/* <ActionBtn title="Remind student">
                 <HiOutlineBell size={16} />
-              </ActionBtn>
+              </ActionBtn> */}
               <ActionBtn title="Delete" onClick={() => setDeletingHWId(hw.id)}>
                 <HiOutlineTrash size={16} />
               </ActionBtn>
