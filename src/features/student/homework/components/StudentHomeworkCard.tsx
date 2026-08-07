@@ -9,7 +9,6 @@ import {
 import { HiOutlineLanguage } from "react-icons/hi2";
 import { getHomeworkDateLabel } from "../../../../utils/helper";
 import Badge from "../../../../ui/Badge";
-import dayjs from "dayjs";
 
 type Props = {
   hw: Homework;

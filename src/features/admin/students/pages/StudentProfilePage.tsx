@@ -51,7 +51,6 @@ export default function StudentProfile() {
 
   //Stat Values//
   const hwDone = homeworks?.filter((h) => h.status === "done");
-  const hwOverDue = homeworks?.filter((h) => h.status === "overdue");
   const goalTotal = goals?.length ?? 0;
   const goalCompleted =
     goals?.filter((g) => g.status === "achieved").length ?? 0;
@@ -140,17 +139,7 @@ export default function StudentProfile() {
           icon={HiCalendar}
           label="Homework done"
           value={hwDone?.length ?? 0}
-          sub={
-            hwOverDue && hwOverDue.length > 0 ? (
-              <>
-                Homework Done
-                <br />
-                {hwOverDue.length} overdue
-              </>
-            ) : (
-              "Homework Done"
-            )
-          }
+          sub="Homework Done"
         />
         <StatCard
           icon={HiDocumentText}

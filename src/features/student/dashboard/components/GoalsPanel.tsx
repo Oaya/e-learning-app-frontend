@@ -1,12 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { HiArrowRight, HiOutlinePencil } from "react-icons/hi2";
 
+import { useAuth } from "@/contexts/AuthContext";
 import UpsertGoalModal from "../../../admin/students/components/UpsertGoalModal";
 import ActionBtn from "../../../admin/lessons/components/ActionButton";
-import { HiOutlinePencil } from "react-icons/hi";
 import type { Goal } from "../../../../type/goal";
-import { Link } from "react-router-dom";
-import { HiArrowRight } from "react-icons/hi2";
-import { useAuth } from "@/contexts/AuthContext";
 
 type Props = {
   goals: Goal[] | undefined;
@@ -58,41 +57,45 @@ export default function GoalsPanel({ goals, userId }: Props) {
                     <div className="flex items-center justify-between">
                       <p className="text-sm">{g.title}</p>
 
-                      <div className="flex items-center gap-3">
-                        <p className="text-sm text-gray-400">
-                          Target date • {g.target_date}
-                        </p>
-
-                        {authUser?.role === "admin" && (
-                          <ActionBtn
-                            title="Edit"
-                            onClick={() => {
-                              setOpenType("Edit");
-                              setGoal(g);
-                            }}
-                          >
-                            <HiOutlinePencil size={16} />
-                          </ActionBtn>
-                        )}
-                      </div>
+                      {authUser?.role === "admin" && (
+                        <ActionBtn
+                          title="Edit"
+                          onClick={() => {
+                            setOpenType("Edit");
+                            setGoal(g);
+                          }}
+                        >
+                          <HiOutlinePencil size={16} />
+                        </ActionBtn>
+                      )}
                     </div>
 
                     <div className="mt-1.5">
                       <div className="h-1 overflow-hidden rounded-full bg-gray-100">
                         <div
-                          className="bg-theme-yellow-20 h-full rounded-full transition-all"
+                          className={`h-full rounded-full transition-all ${
+                            (g.progress ?? 0) >= 100
+                              ? "bg-theme-green-20"
+                              : "bg-theme-yellow-20"
+                          }`}
                           style={{ width: `${g.progress}%` }}
                         />
                       </div>
-                      <p className="mt-0.5 text-[11px] text-gray-400">
-                        {g.progress}% complete
-                      </p>
+                      <div className="flex justify-between">
+                        <p className="mt-0.5 text-[12px] text-gray-400">
+                          {g.progress}% complete
+                        </p>
+                        {isAchieved && g.achieved_at ? (
+                          <p className="text-theme-green-20 mt-0.5 text-[12px]">
+                            Achieved at: {g.achieved_at}
+                          </p>
+                        ) : (
+                          <p className="text-[12px] text-gray-400">
+                            Target date: {g.target_date}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    {isAchieved && g.achieved_at && (
-                      <p className="text-theme-green-20 mt-0.5 text-[11px]">
-                        Done: {g.achieved_at}
-                      </p>
-                    )}
                   </div>
                 </div>
               );
