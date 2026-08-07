@@ -30,7 +30,7 @@ export default function StudentLessonsPage() {
   const upcoming = filtered?.filter((s) => dayjs(s.scheduled_at).isAfter(now));
   const past = filtered?.filter((s) => dayjs(s.scheduled_at).isBefore(now));
 
-  //Stats values//
+  //Stats
   let totalHours: number = 0;
   if (past) {
     for (const l of past) {
@@ -52,7 +52,7 @@ export default function StudentLessonsPage() {
         </div>
       </div>
 
-      {/* Stat cards */}
+      {/* Stat */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         <StatCard
           label="Total lessons"

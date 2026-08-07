@@ -1,4 +1,4 @@
-import { HiOutlineClock, HiOutlineVideoCamera } from "react-icons/hi";
+import { HiOutlineClock } from "react-icons/hi";
 import type { Lesson } from "../../../../type/lesson";
 import {
   LESSON_BORDER_COLOR,
@@ -8,13 +8,10 @@ import { canJoinLesson, formatDay, formatTime } from "../../../../utils/helper";
 import { LuLanguages, LuVideo } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import Badge from "../../../../ui/Badge";
-import { useState } from "react";
-import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
 
 export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
   const { day, mon } = formatDay(lesson.scheduled_at);
   const navigate = useNavigate();
-  const [watchingRecording, setWatchingRecording] = useState(false);
 
   return (
     <div
@@ -33,11 +30,11 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
       </div>
 
       {/* Divider */}
-      <div className="h-14 w-px shrink-0 bg-gray-200" />
+      <div className="mx-4 h-14 w-px shrink-0 bg-gray-200" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
-        <p className="mb-1.5 text-sm font-medium text-gray-800">
+        <p className="mb-2 truncate text-sm font-medium text-gray-800">
           {lesson.topic}
         </p>
 
@@ -50,13 +47,6 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             <LuLanguages size={16} />
             {lesson.language}
           </span>
-
-          {lesson.recording_url && (
-            <span className="text-theme-green-20 flex items-center gap-1 text-xs">
-              <HiOutlineVideoCamera size={16} />
-              Recording
-            </span>
-          )}
         </div>
       </div>
 
@@ -79,7 +69,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
 
         {lesson.recording_url && (
           <button
-            onClick={() => setWatchingRecording(true)}
+            onClick={() => navigate(`/student/lessons/${lesson.id}`)}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
             <LuVideo size={16} />
@@ -87,14 +77,6 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
           </button>
         )}
       </div>
-
-      {watchingRecording && lesson.recording_url && (
-        <WatchRecordingModal
-          isOpen
-          onClose={() => setWatchingRecording(false)}
-          recordingUrl={lesson.recording_url}
-        />
-      )}
     </div>
   );
 }

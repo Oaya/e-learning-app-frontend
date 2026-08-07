@@ -26,7 +26,6 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useNavigate } from "react-router-dom";
 import { LuVideo } from "react-icons/lu";
 import LessonCompleteModal from "./CompleteLessonModal";
-import WatchRecordingModal from "../../../shared/lessons/components/WatchRecordingModal";
 import defaultAvatar from "../../../../assets/user.png";
 
 dayjs.extend(isSameOrAfter);
@@ -44,7 +43,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
   const [editLessonId, setEditLessonId] = useState<string | null>(null);
   const [completeLessonId, setCompleteLessonId] = useState<string | null>(null);
   const [deleteLessonId, setDeleteLessonId] = useState<string | null>(null);
-  const [watchingRecording, setWatchingRecording] = useState(false);
+
   const { isDeleting, deleteLesson } = useLessons({
     onDeleteSuccess: () => setDeleteLessonId(null),
   });
@@ -121,10 +120,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
 
       {lesson.recording_url && lesson.status === "completed" && (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setWatchingRecording(true);
-          }}
+          onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
           className="btn-white mt-2 mr-4 flex items-center gap-1 px-2 py-1.5"
         >
           <LuVideo size={16} />
@@ -199,14 +195,6 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             onClose={() => setCompleteLessonId(null)}
             lessonId={lesson.id}
             durationInSeconds={lesson.meeting_duration_in_seconds ?? 0}
-          />
-        )}
-
-        {watchingRecording && lesson.recording_url && (
-          <WatchRecordingModal
-            isOpen
-            onClose={() => setWatchingRecording(false)}
-            recordingUrl={lesson.recording_url}
           />
         )}
       </div>
