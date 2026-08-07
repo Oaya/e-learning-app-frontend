@@ -82,7 +82,7 @@ export default function AdminDashboardPage() {
         {/* Today lessons */}
         {lessons && user && (
           <div className="lg:col-span-3">
-            <TodayLessonsPanel lessons={lessons} user={user} />
+            <TodayLessonsPanel lessons={lessons} />
           </div>
         )}
 

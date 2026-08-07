@@ -2,29 +2,22 @@ import { HiArrowRight, HiCalendar } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import type { Lesson } from "../../../../type/lesson";
 import dayjs from "dayjs";
-import type { User } from "../../../../type/user";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 import Badge from "../../../../ui/Badge";
 import { canJoinLesson, formatTime } from "../../../../utils/helper";
 import { LuVideo } from "react-icons/lu";
 
 type TodayLessonPanelProps = {
-  user: User;
   lessons: Lesson[];
 };
 
-export default function TodayLessonsPanel({
-  user,
-  lessons,
-}: TodayLessonPanelProps) {
+export default function TodayLessonsPanel({ lessons }: TodayLessonPanelProps) {
   const navigate = useNavigate();
 
   return (
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-          <HiCalendar size={16} /> Today's lessons
-        </h2>
+        <h2 className="panel-header">Today's lessons</h2>
         <Link
           to="/admin/lessons"
           className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
@@ -32,6 +25,7 @@ export default function TodayLessonsPanel({
           View all <HiArrowRight className="h-3 w-3" />
         </Link>
       </div>
+
       <div className="divide-y divide-gray-100">
         {lessons?.map((l) => (
           <div key={l.id} className="flex items-center gap-3 py-2.5">

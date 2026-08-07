@@ -3,7 +3,9 @@ import { MdOutlineKeyboardBackspace, MdMessage } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
-import { HiCalendar, HiUsers } from "react-icons/hi";
+import { HiCalendar, HiUsers, HiDocumentText } from "react-icons/hi2";
+import { useGoals } from "../hooks/useGoals";
+import dayjs from "dayjs";
 
 import defaultAvatar from "../../../../assets/user.png";
 import { useUser } from "../hooks/useUser";
@@ -14,13 +16,10 @@ import EditStudentModal from "../components/EditStudentModal";
 import { useAllLessons } from "../../lessons/hooks/useAllLessons";
 import LessonsPanel from "../components/LessonsPanel";
 import HomeworksPanel from "../components/HomeworksPanel";
-import GoalsPanel from "../components/GoalsPanel";
+import GoalsPanel from "../../../student/dashboard/components/GoalsPanel";
 import { useHomeworks } from "../../homework/hooks/useHomeworks";
 import Badge from "../../../../ui/Badge";
 import { USER_STATUS_BADGE } from "../../../../utils/constants";
-import { HiDocumentText } from "react-icons/hi2";
-import { useGoals } from "../hooks/useGoals";
-import dayjs from "dayjs";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null

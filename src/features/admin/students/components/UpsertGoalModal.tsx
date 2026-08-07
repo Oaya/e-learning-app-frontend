@@ -29,12 +29,19 @@ export default function UpsertGoalModal({
     const fd = new FormData(e.currentTarget);
 
     try {
+      let progressVal = 0;
+
+      if (status === "in_progress") {
+        progressVal = progress;
+      } else if (status === "achieved") {
+        progressVal = 100;
+      }
       const data = {
         student_id: userId,
         title: fd.get("title") as string,
         description: fd.get("description") as string,
         status,
-        progress: status === "in_progress" ? progress : undefined,
+        progress: progressVal,
         target_date: (fd.get("target_date") as string) || undefined,
         achieved_at:
           status === "achieved"

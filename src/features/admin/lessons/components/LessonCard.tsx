@@ -1,5 +1,4 @@
 import {
-  HiOutlineVideoCamera,
   HiOutlineTrash,
   HiOutlinePencil,
   HiOutlineClock,

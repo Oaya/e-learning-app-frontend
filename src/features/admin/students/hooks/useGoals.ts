@@ -9,15 +9,14 @@ import { useAlert } from "../../../../contexts/AlertContext";
 import type { Goal, UpsertGoal } from "../../../../type/goal";
 import { unwrapResponse } from "../../../../api/helper";
 
-export function useGoals(userId: string) {
+export function useGoals(userId?: string) {
   const queryClient = useQueryClient();
   const alert = useAlert();
-  const key = ["goals", userId];
+  const key = ["goals", userId ?? null];
 
   const query = useQuery<Goal[], Error>({
     queryKey: key,
     queryFn: async () => unwrapResponse<Goal[]>(await getUserGoals(userId)),
-    enabled: !!userId,
     staleTime: 60_000,
   });
 

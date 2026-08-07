@@ -19,9 +19,7 @@ export default function UpcomingLessonsPanel({
   return (
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-          Upcoming lessons
-        </p>
+        <p className="panel-header">Upcoming lessons</p>
         <Link
           to="/student/lessons"
           className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
@@ -33,11 +31,11 @@ export default function UpcomingLessonsPanel({
       {lessons?.length === 0 ? (
         <p className="text-sm text-gray-400">No upcoming lessons.</p>
       ) : (
-        <div className="space-y-0 divide-y divide-gray-100">
+        <div className="divide-y divide-gray-100">
           {lessons?.map((l) => {
             const dt = dayjs(l.scheduled_at);
             return (
-              <div key={l.id} className="flex items-center gap-4 py-3">
+              <div key={l.id} className="flex items-center gap-3 py-2.5">
                 <div className="min-w-10 text-center">
                   <p className="text-lg leading-none font-semibold text-gray-800">
                     {dt.format("D")}
@@ -53,18 +51,21 @@ export default function UpcomingLessonsPanel({
                   <p className="text-xs text-gray-400">{l.topic}</p>
                 </div>
 
-                <div className="flex shrink-0 flex-col items-end gap-1">
+                <div className="flex flex-col items-end">
                   <Badge
                     status={l.status}
                     constant={LESSON_STATUS_BADGE}
-                    className="px-2.5 py-0.5 text-[11px]"
+                    className="items-center px-1 py-0.5 text-[11px]"
                   />
                   {canJoinLesson(l) && (
                     <button
-                      onClick={() => navigate(`/lessons/${l.id}/meeting`)}
-                      className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5 text-xs"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/lessons/${l.id}/meeting`);
+                      }}
+                      className="btn-white mt-2 flex items-center gap-1 px-1 py-0.5 text-[11px]"
                     >
-                      <LuVideo size={16} />
+                      <LuVideo size={14} />
                       Join Lesson
                     </button>
                   )}

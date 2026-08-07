@@ -1,8 +1,7 @@
-import { HiArrowRight, HiUsers } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import type { StudentWithStatues } from "../../../../type/user";
 import { ADMIN_HW_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/Badge";
 import defaultAvatar from "../../../../assets/user.png";
 import { capitalize } from "@/utils/helper";
 
@@ -28,9 +27,7 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
   return (
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-          <HiUsers size={16} /> All students
-        </h2>
+        <h2 className="panel-header">All students</h2>
         <Link
           to="/admin/students"
           className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"

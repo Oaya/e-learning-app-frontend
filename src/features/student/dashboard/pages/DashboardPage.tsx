@@ -9,33 +9,31 @@ import { greeting } from "../../../../utils/helper";
 import StatCard from "../../../../ui/StatCard";
 import UpcomingLessonsPanel from "../components/UpcomingLessonsPanel";
 import HomeworkPanel from "../components/HomeworkPanel";
-import GoalPanel from "../components/GoalPanel";
 import { useAllLessons } from "../../../admin/lessons/hooks/useAllLessons";
-
-// ── mock goals (replace with API when goals are built) ────────────────────────
-const MOCK_GOALS = [
-  { id: "1", label: "Pass JLPT N3", progress: 70 },
-  { id: "2", label: "Hold a 5-minute conversation", progress: 55 },
-  { id: "3", label: "Master Keigo (formal speech)", progress: 40 },
-];
+import { useGoals } from "@/features/admin/students/hooks/useGoals";
+import GoalsPanel from "@/features/student/dashboard/components/GoalsPanel";
 
 export default function StudentDashboardPage() {
   const { user } = useAuth();
   const { lessons } = useAllLessons();
   const { homeworks } = useHomeworks();
+  const { goals } = useGoals(user?.id);
 
-  const today = dayjs();
+  const now = dayjs();
 
-  // Upcoming lessons — scheduled and in the future
-  const upcoming = (lessons ?? [])
-    .filter(
-      (s) => s.status === "scheduled" && dayjs(s.scheduled_at).isAfter(today),
+  console.log("e", lessons);
+
+  // Upcoming or ongoing lessons — scheduled and not yet ended
+  const upcomingOrOngoing = (lessons ?? [])
+    ?.filter(
+      (s) =>
+        s.status === "scheduled" &&
+        dayjs(s.scheduled_at).add(s.duration_in_minutes, "minute").isAfter(now),
     )
-    .sort((a, b) => dayjs(a.scheduled_at).diff(dayjs(b.scheduled_at)))
-    .slice(0, 5);
+    .sort((a, b) => dayjs(a.scheduled_at).diff(dayjs(b.scheduled_at)));
 
   // Next lesson label
-  const nextLesson = upcoming[0];
+  const nextLesson = upcomingOrOngoing[0];
   const nextLabel = nextLesson
     ? `Your next lesson is ${dayjs(nextLesson.scheduled_at).fromNow()}`
     : "No upcoming lessons";
@@ -54,10 +52,16 @@ export default function StudentDashboardPage() {
     (s) => s.status === "completed",
   ).length;
 
-  // Overall goal progress
-  const avgGoal = Math.round(
-    MOCK_GOALS.reduce((sum, g) => sum + g.progress, 0) / MOCK_GOALS.length,
-  );
+  // // Overall goal progress
+  let avgGoal = 0;
+  if (goals && goals?.length > 0) {
+    for (const goal of goals) {
+      if (goal.progress) {
+        avgGoal += goal.progress;
+      }
+    }
+    avgGoal = Math.round(avgGoal / goals.length);
+  }
 
   return (
     <div className="space-y-6 pb-10">
@@ -91,17 +95,14 @@ export default function StudentDashboardPage() {
       {/* Two panels */}
       <div className="grid grid-cols-1 gap-10 px-10 lg:grid-cols-2">
         {/* Upcoming lessons */}
-
-        <UpcomingLessonsPanel lessons={upcoming} />
-
+        <UpcomingLessonsPanel lessons={upcomingOrOngoing} />
         {/* Homework */}
         <HomeworkPanel hws={homeworks} />
       </div>
 
       {/* Goals panel */}
-
       <div className="px-10">
-        <GoalPanel goals={MOCK_GOALS} />
+        <GoalsPanel goals={goals} userId={user!.id} />
       </div>
     </div>
   );
