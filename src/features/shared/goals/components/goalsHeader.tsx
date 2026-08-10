@@ -18,7 +18,7 @@ export default function GoalHeader({ goal, progressWidth }: Props) {
     <div className="panel-box">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-gray-800">{goal.title}</h1>
+          <h1 className="page-title">{goal.title}</h1>
           <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-400">
             {goal.created_at && (
               <span className="flex items-center gap-1">

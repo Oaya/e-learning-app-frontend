@@ -64,11 +64,11 @@ export default function UpsertGoalModal({
   const isSubmitting = isCreating || isUpdating;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+    <div className="modal-overlay p-4">
+      <div className="modal-box">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-          <h2 className="text-base font-semibold text-gray-800">
+        <div className="modal-header">
+          <h2 className="section-title">
             {openType} Goal
           </h2>
           <button
@@ -80,7 +80,7 @@ export default function UpsertGoalModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
+        <form onSubmit={handleSubmit} className="modal-body">
           {/* Title */}
           <div>
             <label className="sm-label">Goal</label>

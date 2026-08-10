@@ -42,7 +42,7 @@ export default function CancelSubscriptionModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div className="modal-overlay">
       <div className="w-full max-w-2xl rounded-lg bg-white p-8">
         <div className="mb-6 flex items-start justify-between">
           <h2 className="text-2xl font-semibold">Cancel Subscription</h2>
@@ -50,7 +50,7 @@ export default function CancelSubscriptionModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded p-1 text-gray-500 hover:bg-gray-100"
+            className="icon-btn"
           >
             <AiOutlineClose className="text-2xl" />
           </button>
@@ -63,7 +63,7 @@ export default function CancelSubscriptionModal({
           can always resubscribe later.
         </p>
         <form onSubmit={handleCancelSubscription} className="my-6">
-          <div className="mt-6 flex justify-end gap-3">
+          <div className="modal-footer">
             <button
               type="submit"
               className="btn-primary-pink"

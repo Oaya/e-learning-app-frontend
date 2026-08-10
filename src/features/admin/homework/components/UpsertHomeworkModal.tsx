@@ -102,11 +102,11 @@ export default function UpsertHomeworkModal({
   const isSubmitting = isCreating || isUpdating;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+    <div className="modal-overlay p-4">
+      <div className="modal-box">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-          <h2 className="text-base font-semibold text-gray-800">
+        <div className="modal-header">
+          <h2 className="section-title">
             {type} homework
           </h2>
           <div className="flex items-center gap-2">
@@ -131,7 +131,7 @@ export default function UpsertHomeworkModal({
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
+        <form onSubmit={handleSubmit} className="modal-body">
           {/* AI generate panel */}
           {/* {aiMode && (
             <div className="rounded-xl border border-purple-100 bg-purple-50 p-4">

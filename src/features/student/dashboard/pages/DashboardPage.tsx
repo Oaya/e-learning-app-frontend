@@ -68,7 +68,7 @@ export default function StudentDashboardPage() {
       {/* Top bar */}
       <section className="flex items-center justify-between bg-gray-200 px-10 py-6">
         <div>
-          <h1 className="text-xl font-semibold text-gray-800">
+          <h1 className="page-title">
             {greeting()},{"  "}
             <span className="text-theme-purple-40">{user?.first_name}</span>
           </h1>

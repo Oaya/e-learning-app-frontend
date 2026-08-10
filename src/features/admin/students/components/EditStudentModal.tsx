@@ -63,11 +63,11 @@ export default function EditStudentModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="modal-overlay p-4">
       <div className="w-full max-w-2xl rounded-xl bg-white shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-          <h2 className="text-base font-semibold text-gray-800">
+        <div className="modal-header">
+          <h2 className="section-title">
             Edit Student
           </h2>
           <button

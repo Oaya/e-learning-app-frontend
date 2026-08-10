@@ -125,11 +125,11 @@ export default function UpsertLessonModal({
   const isSubmitting = isCreating || isUpdating;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="modal-overlay p-4">
       <div className="w-full max-w-xl rounded-lg bg-white shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-          <h2 className="text-base font-semibold text-gray-800">
+        <div className="modal-header">
+          <h2 className="section-title">
             {type === "Create" ? "Create New" : "Edit"} Lesson
           </h2>
           <button
@@ -141,7 +141,7 @@ export default function UpsertLessonModal({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
+        <form onSubmit={handleSubmit} className="modal-body">
           {/* Student */}
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -270,7 +270,7 @@ export default function UpsertLessonModal({
             />
           </div>
 
-          <div className="mt-6 flex justify-end gap-3">
+          <div className="modal-footer">
             <button
               type="button"
               onClick={onClose}

@@ -31,7 +31,7 @@ export default function StudentLessonDetailsHeader({
       <div className="space-y-2">
         {/* Title + student chip */}
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-xl font-semibold text-gray-800">
+          <h1 className="page-title">
             {lesson.topic}
           </h1>
         </div>

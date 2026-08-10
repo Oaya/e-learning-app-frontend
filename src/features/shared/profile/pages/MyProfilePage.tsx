@@ -30,11 +30,11 @@ export default function MyProfilePage() {
   if (!user) return <p>Loading…</p>;
 
   return (
-    <div className="space-y-6 p-10">
+    <div className="page-container">
       {/* Top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="page-header-row">
         <div>
-          <h1 className="text-xl font-semibold text-gray-800">
+          <h1 className="page-title">
             Profile & Settings
           </h1>
           <p className="mt-0.5 text-sm text-gray-400">

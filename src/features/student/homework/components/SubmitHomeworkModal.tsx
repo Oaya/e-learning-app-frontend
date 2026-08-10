@@ -37,12 +37,12 @@ export default function SubmitHomeworkModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+    <div className="modal-overlay px-4">
+      <div className="modal-box">
         {/* Header */}
         <div className="flex items-start justify-between border-b border-gray-100 px-6 py-4">
           <div>
-            <h2 className="text-base font-semibold text-gray-800">
+            <h2 className="section-title">
               Submit homework
             </h2>
             <p className="mt-0.5 text-sm text-gray-400">{hw.title}</p>
@@ -55,7 +55,7 @@ export default function SubmitHomeworkModal({
           </button>
         </div>
 
-        <div className="space-y-4 px-6 py-5">
+        <div className="modal-body">
           {/* Instructions reminder */}
           {hw.instructions && (
             <div className="rounded-lg text-sm leading-relaxed text-gray-500">

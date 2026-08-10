@@ -45,11 +45,11 @@ export default function StudentHomeworkPage() {
   const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
 
   return (
-    <div className="space-y-6 p-10">
+    <div className="page-container">
       {/* Top bar */}
-      <section className="flex flex-wrap items-center justify-between gap-3">
+      <section className="page-header-row">
         <div>
-          <h1 className="text-xl font-semibold text-gray-800">Homework</h1>
+          <h1 className="page-title">Homework</h1>
         </div>
       </section>
 
@@ -91,7 +91,7 @@ export default function StudentHomeworkPage() {
 
       {/* Grouped list */}
       {filtered?.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400">
+        <div className="empty-state">
           No homework matches your filter.
         </div>
       ) : (

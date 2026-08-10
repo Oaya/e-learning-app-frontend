@@ -77,15 +77,15 @@ export default function LessonsList({
   }
 
   return (
-    <div className="space-y-6 p-10">
+    <div className="page-container">
       {/* Top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="page-header-row">
         {topBar ? (
           topBar(() => setModalOpen(true))
         ) : (
           <>
             <div>
-              <h1 className="text-xl font-semibold text-gray-800">Lessons</h1>
+              <h1 className="page-title">Lessons</h1>
               <p className="mt-0.5 text-sm text-gray-400">
                 Manage and track all your lessons
               </p>

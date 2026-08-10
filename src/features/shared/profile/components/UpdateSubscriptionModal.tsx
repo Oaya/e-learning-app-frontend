@@ -69,10 +69,10 @@ export default function UpdateSubscriptionModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+    <div className="modal-overlay p-4">
+      <div className="modal-box">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+        <div className="modal-header">
           <div>
             <h2 className="text-2xl font-semibold">{mode} Plan</h2>
           </div>
@@ -80,13 +80,13 @@ export default function UpdateSubscriptionModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded p-1 text-gray-500 hover:bg-gray-100"
+            className="icon-btn"
           >
             <AiOutlineClose className="text-2xl" />
           </button>
         </div>
 
-        <form onSubmit={handleChangePlan} className="space-y-4 px-6 py-5">
+        <form onSubmit={handleChangePlan} className="modal-body">
           <div>
             <p>
               {mode === "Reactivate"

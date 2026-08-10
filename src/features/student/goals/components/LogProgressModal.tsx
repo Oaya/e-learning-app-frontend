@@ -77,11 +77,11 @@ export default function LogProgressModal({
   const isSubmitting = isAddingActivity || isUpdatingActivity;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="modal-overlay p-4">
       <div className="w-full max-w-xl rounded-xl bg-white shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
-          <h2 className="text-base font-semibold text-gray-800">
+          <h2 className="section-title">
             {openType} Log progress
           </h2>
           <button

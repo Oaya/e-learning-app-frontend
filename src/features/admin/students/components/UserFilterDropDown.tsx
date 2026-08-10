@@ -30,7 +30,7 @@ export default function UserFilterDropDown({
         <h2 className="text-lg font-semibold">Filters</h2>
         <button
           type="button"
-          className="rounded p-1 text-gray-500 hover:bg-gray-100"
+          className="icon-btn"
           onClick={onClose}
         >
           <AiOutlineClose className="text-2xl" />

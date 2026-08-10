@@ -74,9 +74,9 @@ export default function GoalsPage() {
   if (isLoading) return <p className="p-10 text-sm text-gray-400">Loading…</p>;
 
   return (
-    <div className="space-y-6 p-10">
+    <div className="page-container">
       {/* Top bar */}
-      <section className="flex flex-wrap items-center justify-between gap-3">
+      <section className="page-header-row">
         {isAdmin ? (
           <button
             onClick={() => navigate(`/users/${userId}`)}
@@ -86,7 +86,7 @@ export default function GoalsPage() {
             Back to {student?.first_name} {student?.last_name}
           </button>
         ) : (
-          <h1 className="text-xl font-semibold text-gray-800">My Goals</h1>
+          <h1 className="page-title">My Goals</h1>
         )}
 
         {isAdmin && (
@@ -134,7 +134,7 @@ export default function GoalsPage() {
 
       {/* Goal list */}
       {filtered?.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400">
+        <div className="empty-state">
           No goals matches your filter.
         </div>
       ) : (

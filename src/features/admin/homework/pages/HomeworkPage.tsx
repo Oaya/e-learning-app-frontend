@@ -7,7 +7,7 @@ export default function HomeworkPage() {
       topBar={(openModal) => (
         <>
           <div>
-            <h1 className="text-xl font-semibold text-gray-800">Homework</h1>
+            <h1 className="page-title">Homework</h1>
             <p className="mt-0.5 text-sm text-gray-400">
               Assign, track and review student homework
             </p>

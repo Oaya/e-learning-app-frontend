@@ -83,11 +83,11 @@ export default function CompleteLessonModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div className="modal-overlay p-4">
       <div className="w-full max-w-xl rounded-lg bg-white shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-          <h2 className="text-base font-semibold text-gray-800">End Lesson</h2>
+        <div className="modal-header">
+          <h2 className="section-title">End Lesson</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"
@@ -126,7 +126,7 @@ export default function CompleteLessonModal({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
+        <form onSubmit={handleSubmit} className="modal-body">
           {/* status */}
           <div className="mb-4">
             <label className="sm-label">Lesson Status</label>
@@ -203,7 +203,7 @@ export default function CompleteLessonModal({
 
           <div className="mb-4"></div>
 
-          <div className="mt-6 flex justify-end gap-3">
+          <div className="modal-footer">
             {/* <button
               type="button"
               onClick={onClose}

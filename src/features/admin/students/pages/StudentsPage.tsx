@@ -84,11 +84,11 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className="space-y-6 p-10">
+    <div className="page-container">
       {/* Top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="page-header-row">
         <div>
-          <h1 className="text-xl font-semibold text-gray-800">Your Students</h1>
+          <h1 className="page-title">Your Students</h1>
         </div>
         <div className="flex gap-2">
           <button
