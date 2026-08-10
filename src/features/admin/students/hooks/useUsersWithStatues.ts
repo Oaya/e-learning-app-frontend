@@ -11,7 +11,6 @@ export function useUsersWithStatuses() {
     staleTime: 60_000,
   });
 
-  console.log("Users WithStatus fetched:", userQuery.data);
   return {
     ...userQuery,
     users: userQuery.data,

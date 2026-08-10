@@ -1,13 +1,12 @@
 import axios from "axios";
-import type { Plan } from "../type/plan";
 
-export async function getPlans(): Promise<Plan[]> {
+export async function getPlans(): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/plans`;
     const response = await axios.get(url);
 
-    return response.data;
+    return { success: true, data: response.data };
   } catch (e: any) {
-    throw new Error(e.response?.data?.error);
+    return { success: false, error: e.response?.data?.error };
   }
 }

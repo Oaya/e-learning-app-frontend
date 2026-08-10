@@ -21,7 +21,14 @@ export default function HomeworkReviewPage() {
   const [aiLoading, setAiLoading] = useState(false);
 
   const { homework, isLoading } = useHomework(hwId);
-  const { submitFeedback, isSubmittingFeedback } = useHomeworkSubmission(hwId);
+  const { submitFeedback, isSubmittingFeedback } = useHomeworkSubmission(
+    hwId,
+    {
+      onSubmitFeedbackSuccess: () => {
+        navigate("/admin/homework");
+      },
+    },
+  );
   const submission = homework?.submission;
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import InviteUserModal from "../components/InviteUserModal";
 import UserFilterDropDown from "../components/UserFilterDropDown";
 import UsersTable from "../components/UsersTable";
 
-import { useUserTableControl } from "../hooks/userUserTableControl";
+import { useUserTableControl } from "../hooks/useUserTableControl";
 import { HiOutlineMail, HiUsers } from "react-icons/hi";
 import { HiOutlineCheckCircle, HiOutlineCurrencyDollar } from "react-icons/hi2";
 import StatCard from "../../../../ui/StatCard";

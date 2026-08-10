@@ -11,16 +11,15 @@ import {
   upsertHomeworkSubmission,
 } from "../../../../api/homework_submission";
 import { unwrapResponse } from "../../../../api/helper";
-import { useNavigate } from "react-router-dom";
 
 export function useHomeworkSubmission(
   id: string,
   options?: {
     onSaveDraftSuccess?: (submission: HomeworkSubmission) => void;
     onSubmitSuccess?: (submission: HomeworkSubmission) => void;
+    onSubmitFeedbackSuccess?: (submission: HomeworkSubmission) => void;
   },
 ) {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const alert = useAlert();
 
@@ -61,8 +60,7 @@ export function useHomeworkSubmission(
     onSuccess: (submission) => {
       queryClient.invalidateQueries({ queryKey: ["homework", id] });
       alert.success("Successfully submit Homework feedback.");
-      navigate("/admin/homework");
-      options?.onSubmitSuccess?.(submission);
+      options?.onSubmitFeedbackSuccess?.(submission);
     },
     onError: (err) => {
       alert.error(
@@ -72,48 +70,6 @@ export function useHomeworkSubmission(
       );
     },
   });
-
-  // const deleteMutation = useMutation({
-  //   mutationFn: (homeworkId: string) => deleteHomework(homeworkId),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["homeworks"],
-  //     });
-  //     options?.onDeleteSuccess?.();
-  //   },
-  //   onError: (error) => {
-  //     alert.error(
-  //       error instanceof Error ? error.message : "Failed to delete homework",
-  //     );
-  //   },
-  // });
-
-  // const cancelMutation = useMutation({
-  //   mutationFn: (homeworkId: string) => cancelhomework(homeworkId),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["homeworks"] });
-  //     options?.onCancelSuccess?.();
-  //   },
-  //   onError: (error) => {
-  //     alert.error(
-  //       error instanceof Error ? error.message : "Failed to cancel homework",
-  //     );
-  //   },
-  // });
-
-  // const updateMutation = useMutation({
-  //   mutationFn: ({ id, data }: { id: string; data: UpsertHomework }) =>
-  //     updateHomework(id, data),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["homeworks"] });
-  //     options?.onUpdateSuccess?.();
-  //   },
-  //   onError: (error) => {
-  //     alert.error(
-  //       error instanceof Error ? error.message : "Failed to update homework",
-  //     );
-  //   },
-  // });
 
   return {
     saveDraft: saveDraftMutation.mutateAsync,
