@@ -33,9 +33,17 @@ export default function HomeworkCard({ hw }: Props) {
 
   const dateLabel = getHomeworkDateLabel(hw);
   const displayStatus = hw.status === "draft" ? "pending" : hw.status;
+  const isReviewable =
+    displayStatus === "submitted" || displayStatus === "reviewed";
 
   return (
-    <div className={`card ${HW_BORDER_COLOR[displayStatus]}`}>
+    <div
+      className={`card ${HW_BORDER_COLOR[displayStatus]} ${isReviewable ? "cursor-pointer" : ""}`}
+      onClick={() => {
+        if (!isReviewable) return;
+        navigate(`/admin/homework/${hw.id}/review`);
+      }}
+    >
       {/* Main */}
       <div className="h-14 min-w-0 flex-1">
         <div className="mb-2 flex flex-wrap items-center gap-2">

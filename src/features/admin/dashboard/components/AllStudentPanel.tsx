@@ -5,19 +5,19 @@ import { ADMIN_HW_STATUS_BADGE } from "../../../../utils/constants";
 import defaultAvatar from "../../../../assets/user.png";
 import { capitalize } from "@/utils/helper";
 
-function PayDot({ paid }: { paid: boolean }) {
-  return paid ? (
-    <span className="flex items-center gap-1 text-xs text-gray-400">
-      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-      Paid
-    </span>
-  ) : (
-    <span className="flex items-center gap-1 text-xs text-gray-400">
-      <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-      Owed
-    </span>
-  );
-}
+// function PayDot({ paid }: { paid: boolean }) {
+//   return paid ? (
+//     <span className="flex items-center gap-1 text-xs text-gray-400">
+//       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+//       Paid
+//     </span>
+//   ) : (
+//     <span className="flex items-center gap-1 text-xs text-gray-400">
+//       <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+//       Owed
+//     </span>
+//   );
+// }
 
 type AllStudentPanelProps = {
   students: StudentWithStatues[];
@@ -63,13 +63,13 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
                 <div className="flex shrink-0 flex-col items-end gap-0.5 capitalize">
                   {student.hw_status && (
                     <span
-                      className={`rounded-full ${ADMIN_HW_STATUS_BADGE[student.hw_status]} px-1 py-0.5 text-[11px]`}
+                      className={`rounded-full ${ADMIN_HW_STATUS_BADGE[student.hw_status]} px-2 py-0.5 text-[11px]`}
                     >
                       {` HW ${capitalize(student.hw_status)}`}
                     </span>
                   )}
 
-                  <PayDot paid={false} />
+                  {/* <PayDot paid={false} /> */}
                 </div>
               </div>
             );

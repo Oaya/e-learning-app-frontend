@@ -23,7 +23,7 @@ const StudentHomeworkPage = lazy(
   () => import("../features/student/homework/pages/HomeworkPage"),
 );
 const StudentGoalsPage = lazy(
-  () => import("../features/student/goals/pages/GoalsPage"),
+  () => import("../features/shared/goals/pages/GoalsPage"),
 );
 const GoalDetailPage = lazy(
   () => import("../features/student/goals/pages/GoalDetailPage"),

@@ -30,8 +30,8 @@ const UserProfile = lazy(
 const LessonDetailPage = lazy(
   () => import("../features/shared/lessons/pages/LessonDetailPage"),
 );
-const StudentGoalsPage = lazy(
-  () => import("../features/admin/students/pages/StudentGoalsPage"),
+const GoalsPage = lazy(
+  () => import("../features/shared/goals/pages/GoalsPage"),
 );
 const AdminGoalDetailPage = lazy(
   () => import("../features/admin/students/pages/AdminGoalDetailPage"),
@@ -54,10 +54,7 @@ export default function AdminRoutes() {
         <Route path="/admin/payment" element={<PaymentsPage />} />
         <Route path="profile" element={<MyProfilePage />} />
         <Route path="/users/:id" element={<UserProfile />} />
-        <Route
-          path="/admin/students/:id/goals"
-          element={<StudentGoalsPage />}
-        />
+        <Route path="/admin/students/:id/goals" element={<GoalsPage />} />
         <Route
           path="/admin/students/:id/goals/:goalId"
           element={<AdminGoalDetailPage />}

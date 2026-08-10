@@ -4,11 +4,11 @@ import {
   HiOutlineCheck,
   HiOutlineClock,
   HiOutlineExclamationCircle,
-  HiOutlineSparkles,
+  // HiOutlineSparkles,
 } from "react-icons/hi2";
 import HomeworkCard from "../components/HomeworkCard";
 import UpsertHomeworkModal from "../components/UpsertHomeworkModal";
-import AiBanner from "../components/AiBanner";
+// import AiBanner from "../components/AiBanner";
 import StatCard from "../../../../ui/StatCard";
 import { useHomeworks } from "../hooks/useHomeworks";
 import TabFilters from "../components/TabFilters";
@@ -81,14 +81,14 @@ export default function HomeworkPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <button
+          {/* <button
             onClick={() => {
               setModalOpen(true);
             }}
             className="btn-white flex items-center gap-1.5"
           >
             <HiOutlineSparkles size={16} /> Generate with AI
-          </button>
+          </button> */}
           <button
             onClick={() => setModalOpen(true)}
             className="btn-primary-pink"
@@ -99,7 +99,7 @@ export default function HomeworkPage() {
       </section>
 
       {/* AI banner */}
-      <AiBanner onOpen={() => setModalOpen(true)} />
+      {/* <AiBanner onOpen={() => setModalOpen(true)} /> */}
 
       {/* Stats */}
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -127,7 +127,6 @@ export default function HomeworkPage() {
           label="Overdue"
           value={overdue}
           sub="past due date"
-          // subWarn={overdue > 0}
         />
       </section>
 

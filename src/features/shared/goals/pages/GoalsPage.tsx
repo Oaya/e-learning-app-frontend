@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
+import {
+  HiOutlineDocumentText,
+  HiOutlineCheck,
+  HiOutlineClock,
+  HiOutlineExclamationCircle,
+} from "react-icons/hi2";
 
-import { useUser } from "../hooks/useUser";
-import { useGoals } from "../hooks/useGoals";
-import type { Goal, GoalStatusType } from "../../../../type/goal";
-import ConfirmModal from "../../../../ui/ConfirmModal";
-import UpsertGoalModal from "../components/UpsertGoalModal";
-import StatCard from "../../../../ui/StatCard";
-import TabFilters from "../../homework/components/TabFilters";
-import GoalCard from "../components/GoalCard";
+import { useAuth } from "@/contexts/AuthContext";
+import { useUser } from "@/features/admin/students/hooks/useUser";
+import { useGoals } from "@/features/admin/students/hooks/useGoals";
+import type { Goal, GoalStatusType } from "@/type/goal";
+import ConfirmModal from "@/ui/ConfirmModal";
+import StatCard from "@/ui/StatCard";
+import TabFilters from "@/features/admin/homework/components/TabFilters";
+import GoalCard from "@/features/admin/students/components/GoalCard";
+import UpsertGoalModal from "@/features/admin/students/components/UpsertGoalModal";
 
 export type GoalFilterTab = "all" | GoalStatusType;
 
@@ -20,11 +27,14 @@ export const GOAL_TABS: GoalFilterTab[] = [
   "not_started",
 ];
 
-export default function StudentGoalsPage() {
-  const { id } = useParams<{ id: string }>();
+export default function GoalsPage() {
+  const { id: studentIdParam } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const userId = id ?? "";
-  const { user } = useUser(userId);
+  const { user: authUser } = useAuth();
+  const isAdmin = authUser?.role === "admin";
+
+  const userId = isAdmin ? (studentIdParam ?? "") : (authUser?.id ?? "");
+  const { user: student } = useUser(isAdmin ? userId : "");
   const { goals, isLoading, deleteGoal, isDeleting } = useGoals(userId);
 
   const [activeTab, setActiveTab] = useState<GoalFilterTab>("all");
@@ -52,37 +62,65 @@ export default function StudentGoalsPage() {
     setSelectedGoal(null);
   }
 
-  if (!userId) return <p>User ID is missing.</p>;
+  function goToGoal(goalId: string) {
+    navigate(
+      isAdmin
+        ? `/admin/students/${userId}/goals/${goalId}`
+        : `/student/goals/${goalId}`,
+    );
+  }
+
+  if (isAdmin && !userId) return <p>User ID is missing.</p>;
   if (isLoading) return <p className="p-10 text-sm text-gray-400">Loading…</p>;
 
   return (
     <div className="space-y-6 p-10">
       {/* Top bar */}
       <section className="flex flex-wrap items-center justify-between gap-3">
-        <button
-          onClick={() => navigate(`/users/${userId}`)}
-          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
-        >
-          <HiOutlineArrowLeft size={16} />
-          Back to {user?.first_name} {user?.last_name}
-        </button>
+        {isAdmin ? (
+          <button
+            onClick={() => navigate(`/users/${userId}`)}
+            className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
+          >
+            <HiOutlineArrowLeft size={16} />
+            Back to {student?.first_name} {student?.last_name}
+          </button>
+        ) : (
+          <h1 className="text-xl font-semibold text-gray-800">My Goals</h1>
+        )}
 
-        <div className="flex flex-col items-end gap-1">
+        {isAdmin && (
           <button
             onClick={() => setModalOpen("create")}
             className="btn-primary flex items-center gap-1.5"
           >
             + Add goal
           </button>
-        </div>
+        )}
       </section>
 
       {/* stats */}
       <section className="grid h-32 grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Total goals" value={goals?.length ?? 0} />
-        <StatCard label="In Progress" value={count("in_progress")} />
-        <StatCard label="Achieved" value={count("achieved")} />
-        <StatCard label="Not Started" value={count("not_started")} />
+        <StatCard
+          icon={HiOutlineDocumentText}
+          label="Total goals"
+          value={goals?.length ?? 0}
+        />
+        <StatCard
+          icon={HiOutlineClock}
+          label="In Progress"
+          value={count("in_progress")}
+        />
+        <StatCard
+          icon={HiOutlineCheck}
+          label="Achieved"
+          value={count("achieved")}
+        />
+        <StatCard
+          icon={HiOutlineExclamationCircle}
+          label="Not Started"
+          value={count("not_started")}
+        />
       </section>
 
       {/* Filters */}
@@ -104,21 +142,21 @@ export default function StudentGoalsPage() {
           {filtered?.map((goal) => (
             <div
               key={goal.id}
-              onClick={() => navigate(`/admin/students/${userId}/goals/${goal.id}`)}
+              onClick={() => goToGoal(goal.id)}
               className="cursor-pointer"
             >
               <GoalCard
                 goal={goal}
-                openEdit={(g) => { openEdit(g); }}
-                openDelete={(g) => { openDelete(g); }}
+                openEdit={isAdmin ? openEdit : undefined}
+                openDelete={isAdmin ? openDelete : undefined}
               />
             </div>
           ))}
         </div>
       )}
 
-      {/* Modals */}
-      {modalOpen && (
+      {/* Modals (admin only) */}
+      {isAdmin && modalOpen && (
         <UpsertGoalModal
           openType={modalOpen === "create" ? "Create" : "Edit"}
           onClose={closeModal}
@@ -127,7 +165,7 @@ export default function StudentGoalsPage() {
         />
       )}
 
-      {deleteId && (
+      {isAdmin && deleteId && (
         <ConfirmModal
           isOpen={deleteId !== null}
           title="Delete goal"
