@@ -3,7 +3,7 @@ import {
   HiOutlinePencil,
   HiOutlineClock,
 } from "react-icons/hi2";
-import ActionBtn from "./ActionButton";
+import ActionBtn from "@/ui/ActionButton";
 import type { Lesson, LessonStatusType } from "../../../../type/lesson";
 import {
   canJoinLesson,

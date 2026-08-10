@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { HiOutlineVideoCamera } from "react-icons/hi";
-import { useLesson } from "../../../admin/lessons/hooks/useLesson";
+import { useLesson } from "../hooks/useLesson";
 import { useLessons } from "../../../admin/lessons/hooks/useLessons";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";

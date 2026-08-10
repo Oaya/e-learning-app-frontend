@@ -4,7 +4,7 @@ import utc from "dayjs/plugin/utc";
 import dayjsTimezone from "dayjs/plugin/timezone";
 import { HiOutlineX } from "react-icons/hi";
 import { useState } from "react";
-import { useLesson } from "../../../admin/lessons/hooks/useLesson";
+import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useAlert } from "../../../../contexts/AlertContext";
 
 dayjs.extend(utc);

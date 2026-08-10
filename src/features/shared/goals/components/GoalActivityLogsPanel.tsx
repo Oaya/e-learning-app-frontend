@@ -7,8 +7,8 @@ import {
   HiOutlinePencil,
   HiOutlineTrash,
 } from "react-icons/hi2";
-import { useGoal } from "../../../student/goals/hooks/useGoal";
-import ActionBtn from "@/features/admin/lessons/components/ActionButton";
+import { useGoal } from "@/features/shared/goals/hooks/useGoal";
+import ActionBtn from "@/ui/ActionButton";
 
 type Props = {
   goal: Goal;

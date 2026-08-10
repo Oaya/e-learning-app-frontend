@@ -5,7 +5,7 @@ import {
 import type { Goal } from "../../../../type/goal";
 
 import Badge from "../../../../ui/Badge";
-import ActionBtn from "../../lessons/components/ActionButton";
+import ActionBtn from "@/ui/ActionButton";
 import {
   HiOutlineTrash,
   HiOutlineCalendar,

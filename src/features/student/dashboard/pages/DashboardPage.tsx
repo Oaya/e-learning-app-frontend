@@ -3,15 +3,15 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 import { useAuth } from "../../../../contexts/AuthContext";
-import { useHomeworks } from "../../../admin/homework/hooks/useHomeworks";
+import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import { greeting } from "../../../../utils/helper";
 
 import StatCard from "../../../../ui/StatCard";
 import UpcomingLessonsPanel from "../components/UpcomingLessonsPanel";
 import HomeworkPanel from "../components/HomeworkPanel";
-import { useAllLessons } from "../../../admin/lessons/hooks/useAllLessons";
-import { useGoals } from "@/features/admin/students/hooks/useGoals";
-import GoalsPanel from "@/features/student/dashboard/components/GoalsPanel";
+import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
+import { useGoals } from "@/features/shared/goals/hooks/useGoals";
+import GoalsPanel from "@/features/shared/goals/components/GoalsPanel";
 
 export default function StudentDashboardPage() {
   const { user } = useAuth();

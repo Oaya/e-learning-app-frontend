@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { HiArrowRight, HiOutlinePencil } from "react-icons/hi2";
 
 import { useAuth } from "@/contexts/AuthContext";
-import UpsertGoalModal from "../../../admin/students/components/UpsertGoalModal";
-import ActionBtn from "../../../admin/lessons/components/ActionButton";
+import UpsertGoalModal from "./UpsertGoalModal";
+import ActionBtn from "../../../../ui/ActionButton";
 import type { Goal } from "../../../../type/goal";
 
 type Props = {

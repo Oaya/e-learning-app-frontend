@@ -8,7 +8,7 @@ import { useAlert } from "../../../../contexts/AlertContext";
 import { fdString } from "../../../../utils/formData";
 import { levels } from "../../../../utils/constants";
 import type { StudentOption, User } from "../../../../type/user";
-import { useHomeworks } from "../hooks/useHomeworks";
+import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import type { Homework } from "../../../../type/homework";
 
 type ModalProps = {

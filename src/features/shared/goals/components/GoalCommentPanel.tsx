@@ -1,5 +1,5 @@
-import ActionBtn from "@/features/admin/lessons/components/ActionButton";
-import { useGoal } from "@/features/student/goals/hooks/useGoal";
+import ActionBtn from "@/ui/ActionButton";
+import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import type { Goal } from "@/type/goal";
 import dayjs from "dayjs";
 import { useState } from "react";

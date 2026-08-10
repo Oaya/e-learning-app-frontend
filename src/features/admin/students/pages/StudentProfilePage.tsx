@@ -4,7 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
 import { HiCalendar, HiUsers, HiDocumentText } from "react-icons/hi2";
-import { useGoals } from "../hooks/useGoals";
+import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import dayjs from "dayjs";
 
 import defaultAvatar from "../../../../assets/user.png";
@@ -13,11 +13,11 @@ import StatCard from "../../../../ui/StatCard";
 
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import EditStudentModal from "../components/EditStudentModal";
-import { useAllLessons } from "../../lessons/hooks/useAllLessons";
+import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
 import LessonsPanel from "../components/LessonsPanel";
 import HomeworksPanel from "../components/HomeworksPanel";
-import GoalsPanel from "../../../student/dashboard/components/GoalsPanel";
-import { useHomeworks } from "../../homework/hooks/useHomeworks";
+import GoalsPanel from "@/features/shared/goals/components/GoalsPanel";
+import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import Badge from "../../../../ui/Badge";
 import { USER_STATUS_BADGE } from "../../../../utils/constants";
 
@@ -162,13 +162,6 @@ export default function StudentProfile() {
         {/* Left — lessons + payment */}
         <div className="col-span-2 flex flex-col gap-6">
           <LessonsPanel lessons={lessons} user={user} />
-
-          <div className="panel-box">
-            <p className="panel-header mb-3">Payment</p>
-            <p className="text-sm text-gray-400">
-              Payment tracking coming soon.
-            </p>
-          </div>
         </div>
 
         {/* Right — homeworks + goals */}

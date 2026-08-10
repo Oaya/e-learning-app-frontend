@@ -11,7 +11,7 @@ import { HiOutlineX } from "react-icons/hi";
 
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
 
-import { useLesson } from "../hooks/useLesson";
+import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useState } from "react";
 import { addLessonRecording } from "../../../../api/lesson_recordings";
 import { capitalize } from "@/utils/helper";

@@ -10,10 +10,13 @@ import HomeworkCard from "../components/HomeworkCard";
 import UpsertHomeworkModal from "../components/UpsertHomeworkModal";
 // import AiBanner from "../components/AiBanner";
 import StatCard from "../../../../ui/StatCard";
-import { useHomeworks } from "../hooks/useHomeworks";
-import TabFilters from "../components/TabFilters";
-import type { Homework } from "../../../../type/homework";
-import type { HomeworkFilterTab } from "@/features/student/homework/pages/HomeworkPage";
+import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
+import TabFilters from "@/ui/TabFilters";
+import {
+  matchesTab,
+  inGroup,
+  type HomeworkFilterTab,
+} from "@/features/shared/homeworks/constants";
 
 export const HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",
@@ -29,18 +32,6 @@ export const HOMEWORK_GROUP_ORDER: Exclude<HomeworkFilterTab, "all">[] = [
   "pending",
   "reviewed",
 ];
-
-export function matchesTab(h: Homework, tab: HomeworkFilterTab) {
-  if (tab === "all") return true;
-  if (tab === "pending") return h.status === "draft" || h.status === "pending";
-  return h.status === tab;
-}
-
-export function inGroup(h: Homework, group: Exclude<HomeworkFilterTab, "all">) {
-  if (group === "pending")
-    return h.status === "draft" || h.status === "pending";
-  return h.status === group;
-}
 
 export default function HomeworkPage() {
   const [activeTab, setActiveTab] = useState<HomeworkFilterTab>("all");

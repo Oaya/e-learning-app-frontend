@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 
-import { useGoal } from "../../../student/goals/hooks/useGoal";
-import { useGoals } from "../hooks/useGoals";
+import { useGoal } from "@/features/shared/goals/hooks/useGoal";
+import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import { useUser } from "../hooks/useUser";
 
-import UpsertGoalModal from "../components/UpsertGoalModal";
+import UpsertGoalModal from "@/features/shared/goals/components/UpsertGoalModal";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import GoalHeader from "@/features/shared/goals/components/goalsHeader";
 import GoalCommentPanel from "../../../shared/goals/components/GoalCommentPanel";

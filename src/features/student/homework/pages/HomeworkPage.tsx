@@ -5,21 +5,15 @@ import {
   HiOutlineClock,
   HiOutlineExclamationCircle,
 } from "react-icons/hi2";
-import { useHomeworks } from "../../../admin/homework/hooks/useHomeworks";
+import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import StatCard from "../../../../ui/StatCard";
-import TabFilters from "../../../admin/homework/components/TabFilters";
+import TabFilters from "@/ui/TabFilters";
 import StudentHomeworkCard from "../components/StudentHomeworkCard";
 import {
   inGroup,
   matchesTab,
-} from "../../../admin/homework/pages/HomeworkPage";
-
-export type HomeworkFilterTab =
-  | "all"
-  | "pending"
-  | "submitted"
-  | "overdue"
-  | "reviewed";
+  type HomeworkFilterTab,
+} from "@/features/shared/homeworks/constants";
 
 export const STUDENT_HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",

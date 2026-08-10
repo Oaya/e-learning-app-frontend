@@ -2,7 +2,7 @@ import { useState } from "react";
 import { HiOutlineX } from "react-icons/hi";
 import type { GoalActivity, GoalStatusType } from "../../../../type/goal";
 import { GOAL_STATUS_BADGE } from "../../../../utils/constants";
-import { useGoal } from "../hooks/useGoal";
+import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 
 type Props = {
   openType: "Create" | "Edit";

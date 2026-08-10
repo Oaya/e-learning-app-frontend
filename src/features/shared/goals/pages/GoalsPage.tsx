@@ -10,13 +10,13 @@ import {
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@/features/admin/students/hooks/useUser";
-import { useGoals } from "@/features/admin/students/hooks/useGoals";
+import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import type { Goal, GoalStatusType } from "@/type/goal";
 import ConfirmModal from "@/ui/ConfirmModal";
 import StatCard from "@/ui/StatCard";
-import TabFilters from "@/features/admin/homework/components/TabFilters";
-import GoalCard from "@/features/admin/students/components/GoalCard";
-import UpsertGoalModal from "@/features/admin/students/components/UpsertGoalModal";
+import TabFilters from "@/ui/TabFilters";
+import GoalCard from "@/features/shared/goals/components/GoalCard";
+import UpsertGoalModal from "@/features/shared/goals/components/UpsertGoalModal";
 
 export type GoalFilterTab = "all" | GoalStatusType;
 

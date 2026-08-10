@@ -26,10 +26,7 @@ export default function LessonsPanel({ lessons, user }: Props) {
         <p className="panel-header mb-4">Lessons</p>
 
         <div className="flex items-center justify-between gap-4">
-          <Link
-            to={`/admin/students/${user!.id}/homeworks`}
-            className="view-all"
-          >
+          <Link to={`/admin/students/${user!.id}/lessons`} className="view-all">
             View all <HiArrowRight className="h-3 w-3" />
           </Link>
           <button

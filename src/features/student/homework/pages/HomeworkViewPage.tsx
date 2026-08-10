@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlinePencilSquare } from "react-icons/hi2";
 
-import { useHomework } from "../../../admin/homework/hooks/useHomework";
+import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
 
 import { SCORE_BUDGE } from "../../../../utils/constants";
 import HomeworkHeaderPanel from "../../../shared/homeworks/components/HomeworkHeaderPanel";
-import AttachmentsList from "../components/AttachmentsList";
+import AttachmentsList from "@/features/shared/homeworks/components/AttachmentsList";
 import type { ScoreType } from "../../../../type/homework_submission";
 
 export default function HomeworkViewPage() {

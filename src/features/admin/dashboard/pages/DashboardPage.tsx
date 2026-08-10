@@ -15,7 +15,7 @@ import TodayLessonsPanel from "../components/TodayLessonsPanel";
 import AllStudentPanel from "../components/AllStudentPanel";
 import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
 import { useUsersWithStatuses } from "../../students/hooks/useUsersWithStatues";
-import { useHomeworks } from "../../homework/hooks/useHomeworks";
+import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 
 export default function AdminDashboardPage() {
   const { user } = useAuth();

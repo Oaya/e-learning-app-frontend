@@ -2,15 +2,14 @@ import { useMemo, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import TabFilters from "../../../admin/homework/components/TabFilters";
-import LessonList from "../../../admin/lessons/components/LessonCardHeader";
+import TabFilters from "@/ui/TabFilters";
+import LessonList from "../../../shared/lessons/components/LessonCardHeader";
+import EmptyLessonsState from "../../../shared/lessons/components/EmptyLessonsState";
 import StudentLessonCard from "../components/StudentLessonCard";
 import StatCard from "../../../../ui/StatCard";
-import { useAllLessons } from "../../../admin/lessons/hooks/useAllLessons";
-import {
-  LESSON_TABS,
-  type LessonFilterTab,
-} from "../../../admin/lessons/pages/LessonsPage";
+import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
+import { useUpcomingPastSplit } from "../../../shared/lessons/hooks/useUpcomingPastSplit";
+import { LESSON_TABS, type LessonFilterTab } from "../../../shared/lessons/constants";
 import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 
@@ -19,7 +18,6 @@ dayjs.extend(relativeTime);
 export default function StudentLessonsPage() {
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
   const { lessons } = useAllLessons();
-  const now = dayjs();
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {
@@ -27,8 +25,7 @@ export default function StudentLessonsPage() {
     });
   }, [lessons, activeTab]);
 
-  const upcoming = filtered?.filter((s) => dayjs(s.scheduled_at).isAfter(now));
-  const past = filtered?.filter((s) => dayjs(s.scheduled_at).isBefore(now));
+  const { upcoming, past } = useUpcomingPastSplit(filtered);
 
   //Stats
   let totalHours: number = 0;
@@ -83,9 +80,7 @@ export default function StudentLessonsPage() {
 
       {/* Lesson list */}
       {filtered?.length === 0 ? (
-        <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400">
-          No lessons match your filter.
-        </div>
+        <EmptyLessonsState />
       ) : (
         <div className="space-y-6">
           {upcoming && upcoming.length > 0 && (

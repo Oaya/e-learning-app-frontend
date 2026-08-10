@@ -12,7 +12,7 @@ import { useUserTableControl } from "../hooks/userUserTableControl";
 import { HiOutlineMail, HiUsers } from "react-icons/hi";
 import { HiOutlineCheckCircle, HiOutlineCurrencyDollar } from "react-icons/hi2";
 import StatCard from "../../../../ui/StatCard";
-import { useAllLessons } from "../../lessons/hooks/useAllLessons";
+import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
 
 export default function StudentsPage() {
   const [isInviteOpen, setInviteOpen] = useState(false);

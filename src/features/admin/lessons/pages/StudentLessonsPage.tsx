@@ -12,14 +12,17 @@ import TabFilters from "@/ui/TabFilters";
 import LessonCard from "../components/LessonCard";
 import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
 import { useUpcomingPastSplit } from "../../../shared/lessons/hooks/useUpcomingPastSplit";
+import { useParams } from "react-router-dom";
 import { LESSON_TABS, type LessonFilterTab } from "../../../shared/lessons/constants";
 
-export default function LessonsPage() {
+export default function StudentLessonsPage() {
+  const { id: studentIdParam } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
-  const { lessons } = useAllLessons();
+  const { lessons } = useAllLessons(studentIdParam);
+  const now = dayjs();
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {
@@ -47,7 +50,6 @@ export default function LessonsPage() {
 
   const upcomingCountForThisWeek = lessons?.filter((s) => {
     const scheduledAt = dayjs(s.scheduled_at);
-    const now = dayjs();
     return (
       s.status === "scheduled" &&
       scheduledAt.isAfter(now) &&

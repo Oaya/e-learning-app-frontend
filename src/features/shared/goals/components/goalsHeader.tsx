@@ -2,7 +2,6 @@ import type { Goal } from "@/type/goal";
 import Badge from "@/ui/Badge";
 import { GOAL_STATUS_BADGE } from "@/utils/constants";
 import dayjs from "dayjs";
-import React from "react";
 import {
   HiOutlineCalendar,
   HiOutlineCheck,
