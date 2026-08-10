@@ -1,4 +1,11 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  lazy,
+  Suspense,
+} from "react";
 import { createPortal } from "react-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -17,19 +24,18 @@ import {
   type RoomOptions,
   type DisconnectReason,
 } from "livekit-client";
-import {
-  BackgroundProcessor,
-  supportsBackgroundProcessors,
-} from "@livekit/track-processors";
 import { TbNotes } from "react-icons/tb";
 
 import { joinLesson } from "../../../../api/lessons";
 import "../../../../styles/lesson-meeting.css";
 import { useAuth } from "../../../../contexts/AuthContext";
-import LessonCompleteModal from "../../../admin/lessons/components/CompleteLessonModal";
 import RecordingManager from "../components/RecordingManager";
-import LessonNotesPanel from "../components/LessonNotePanel";
-import LessonCloseModal from "../components/LessonCloseModal";
+
+const LessonCompleteModal = lazy(
+  () => import("../../../admin/lessons/components/CompleteLessonModal"),
+);
+const LessonNotesPanel = lazy(() => import("../components/LessonNotePanel"));
+const LessonCloseModal = lazy(() => import("../components/LessonCloseModal"));
 
 type RoomData = {
   token: string;
@@ -56,9 +62,24 @@ const roomOptions: RoomOptions = {
 function MeetingSettings() {
   const { localParticipant } = useLocalParticipant();
   const { dispatch, state } = useLayoutContext().widget;
-  const supported = useMemo(() => supportsBackgroundProcessors(), []);
+  const [supported, setSupported] = useState(false);
   const [blurred, setBlurred] = useState(false);
   const [pending, setPending] = useState(false);
+  const processorsRef = useRef<typeof import("@livekit/track-processors") | null>(
+    null,
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    import("@livekit/track-processors").then((mod) => {
+      if (cancelled) return;
+      processorsRef.current = mod;
+      setSupported(mod.supportsBackgroundProcessors());
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!state?.showSettings) return;
@@ -83,8 +104,13 @@ function MeetingSettings() {
       if (!track) return;
 
       if (on) {
+        const processors = processorsRef.current;
+        if (!processors) return;
         await track.setProcessor(
-          BackgroundProcessor({ mode: "background-blur", blurRadius: 30 }),
+          processors.BackgroundProcessor({
+            mode: "background-blur",
+            blurRadius: 30,
+          }),
         );
       } else {
         await track.stopProcessor();
@@ -337,25 +363,31 @@ export default function LessonMeetingPage() {
         style={{ width: notesOpen ? "70%" : "0px" }}
       >
         {lkRoom && (
-          <LessonNotesPanel
-            lessonId={id!}
-            room={lkRoom}
-            readonly={user?.role !== "admin"}
-            onClosed={setNotesOpen}
-          />
+          <Suspense fallback={null}>
+            <LessonNotesPanel
+              lessonId={id!}
+              room={lkRoom}
+              readonly={user?.role !== "admin"}
+              onClosed={setNotesOpen}
+            />
+          </Suspense>
         )}
       </div>
 
-      <LessonCloseModal isOpen={modalOpen} closeModal={closeModal} />
+      <Suspense fallback={null}>
+        <LessonCloseModal isOpen={modalOpen} closeModal={closeModal} />
+      </Suspense>
 
       {lessonEndModalOpen && (
-        <LessonCompleteModal
-          isOpen={lessonEndModalOpen}
-          onClose={() => closeLessonEndModal()}
-          lessonId={id!}
-          durationInSeconds={meetingDuration}
-          recordingBlob={recordingBlob}
-        />
+        <Suspense fallback={null}>
+          <LessonCompleteModal
+            isOpen={lessonEndModalOpen}
+            onClose={() => closeLessonEndModal()}
+            lessonId={id!}
+            durationInSeconds={meetingDuration}
+            recordingBlob={recordingBlob}
+          />
+        </Suspense>
       )}
     </div>
   );
