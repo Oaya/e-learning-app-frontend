@@ -1,4 +1,4 @@
-import { HiArrowRight } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import type { StudentWithStatues } from "../../../../type/user";
 import { ADMIN_HW_STATUS_BADGE } from "../../../../utils/constants";
@@ -28,16 +28,13 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="panel-header">All students</h2>
-        <Link
-          to="/admin/students"
-          className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
-        >
+        <Link to="/admin/students" className="view-all">
           Manage <HiArrowRight className="h-3 w-3" />
         </Link>
       </div>
       {students?.length === 0 ? (
         <div className="py-8 text-center text-sm text-gray-400">
-          No students yet.{" "}
+          No students yet.
           <Link to="/admin/students" className="text-theme-green-20 underline">
             Create Student
           </Link>

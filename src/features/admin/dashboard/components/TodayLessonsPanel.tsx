@@ -1,4 +1,4 @@
-import { HiArrowRight } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import type { Lesson } from "../../../../type/lesson";
 import dayjs from "dayjs";
@@ -18,10 +18,7 @@ export default function TodayLessonsPanel({ lessons }: TodayLessonPanelProps) {
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="panel-header">Today's lessons</h2>
-        <Link
-          to="/admin/lessons"
-          className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
-        >
+        <Link to="/admin/lessons" className="view-all">
           View all <HiArrowRight className="h-3 w-3" />
         </Link>
       </div>

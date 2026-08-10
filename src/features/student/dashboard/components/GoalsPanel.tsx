@@ -24,10 +24,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
           <p className="panel-header mb-4">Goals</p>
 
           <div className="flex items-center justify-between gap-4">
-            <Link
-              to={`/admin/students/${userId}/goals`}
-              className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
-            >
+            <Link to={`/student/goals`} className="view-all">
               View all <HiArrowRight className="h-3 w-3" />
             </Link>
             {authUser?.role === "admin" && (
@@ -42,7 +39,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
         </div>
 
         {goals?.length === 0 ? (
-          <p className="py-6 text-center text-sm text-gray-400">
+          <p className="py-6 text-center text-sm text-gray-400 italic">
             No goals set yet.
           </p>
         ) : (

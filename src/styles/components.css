@@ -49,6 +49,10 @@
     @apply flex items-center justify-between bg-gray-200 px-10 py-4;
   }
 
+  .view-all {
+    @apply text-theme-green-20 flex items-center gap-1 text-xs hover:underline;
+  }
+
   @media (hover: none) {
     .group-hover\:opacity-100 {
       opacity: 1;

@@ -1,4 +1,4 @@
-import { HiArrowRight } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import type { Homework } from "../../../../type/homework";
@@ -13,19 +13,16 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
   return (
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-          Homeworks
-        </p>
-        <Link
-          to="/student/homework"
-          className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
-        >
+        <p className="panel-header">Homeworks</p>
+        <Link to="/student/homework" className="view-all">
           View all <HiArrowRight className="h-3 w-3" />
         </Link>
       </div>
 
       {hws?.length === 0 ? (
-        <p className="text-sm text-gray-400">No homework yet.</p>
+        <p className="text-center text-sm text-gray-400 italic">
+          No homework yet.
+        </p>
       ) : (
         <div className="divide-y divide-gray-100">
           {hws?.slice(0, 8).map((hw) => {

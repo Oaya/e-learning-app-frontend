@@ -24,7 +24,7 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
       : "This Homework is Overdue. You may not get feedback.";
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white px-6 py-4">
+    <div className="panel-box">
       <div className="flex justify-between">
         <div className="flex items-center gap-4">
           <p className="text-lg font-semibold text-gray-800">{hw.title}</p>
@@ -40,9 +40,9 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400">
         {hw.student && authUser?.role === "admin" && (
-          <span className="flex items-center gap-1 text-xs text-gray-400">
+          <span className="flex items-center gap-1">
             <img
               src={hw.student.avatar || defaultAvatar}
               alt="avatar"
@@ -51,20 +51,20 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
             {hw.student.first_name} {hw.student.last_name}
           </span>
         )}
-        <span className="flex items-center gap-1 text-xs text-gray-400">
-          <HiOutlineCalendar className="h-3.5 w-3.5" />
+        <span className="flex items-center gap-1">
+          <HiOutlineCalendar size={14} />
           Due: {hw.due_date}
         </span>
 
         {hw.language && (
-          <span className="flex items-center gap-1 text-xs text-gray-400">
-            <HiOutlineLanguage className="h-3.5 w-3.5" />
+          <span className="flex items-center gap-1">
+            <HiOutlineLanguage size={14} />
             {hw.language} · {hw.level}
           </span>
         )}
 
         {hw.submission?.submitted_at && (
-          <span className="ml-auto text-xs text-gray-400">
+          <span className="ml-auto">
             Submitted at: {hw.submission?.submitted_at}
           </span>
         )}

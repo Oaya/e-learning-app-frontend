@@ -54,7 +54,6 @@ export default function UpsertGoalModal({
       } else {
         await createGoal(data);
       }
-      onClose();
 
       onClose();
     } catch {
@@ -187,7 +186,7 @@ export default function UpsertGoalModal({
             </button>
             <button
               type="submit"
-              disabled={isCreating}
+              disabled={isSubmitting}
               className="btn-primary-pink"
             >
               {isSubmitting

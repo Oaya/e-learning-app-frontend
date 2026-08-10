@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { HiArrowRight } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import type { Lesson } from "../../../../type/lesson";
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
@@ -20,16 +20,15 @@ export default function UpcomingLessonsPanel({
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
         <p className="panel-header">Upcoming lessons</p>
-        <Link
-          to="/student/lessons"
-          className="text-theme-green-20 flex items-center gap-1 text-xs hover:underline"
-        >
+        <Link to="/student/lessons" className="view-all">
           View all <HiArrowRight className="h-3 w-3" />
         </Link>
       </div>
 
       {lessons?.length === 0 ? (
-        <p className="text-sm text-gray-400">No upcoming lessons.</p>
+        <p className="text-center text-sm text-gray-400 italic">
+          No upcoming lessons.
+        </p>
       ) : (
         <div className="divide-y divide-gray-100">
           {lessons?.map((l) => {

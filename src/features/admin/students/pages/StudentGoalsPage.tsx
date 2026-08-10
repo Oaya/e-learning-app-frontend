@@ -43,6 +43,10 @@ export default function StudentGoalsPage() {
     setModalOpen("edit");
   }
 
+  function openDelete(goal: Goal) {
+    setDeleteId(goal.id);
+  }
+
   function closeModal() {
     setModalOpen(null);
     setSelectedGoal(null);
@@ -102,7 +106,7 @@ export default function StudentGoalsPage() {
               goal={goal}
               key={goal.id}
               openEdit={openEdit}
-              userId={userId}
+              openDelete={openDelete}
             />
           ))}
         </div>
@@ -118,19 +122,21 @@ export default function StudentGoalsPage() {
         />
       )}
 
-      <ConfirmModal
-        isOpen={deleteId !== null}
-        title="Delete goal"
-        message="Are you sure you want to delete this goal? This cannot be undone."
-        isSubmitting={isDeleting}
-        onCancel={() => setDeleteId(null)}
-        onConfirm={async () => {
-          if (deleteId) {
-            await deleteGoal(deleteId);
-            setDeleteId(null);
-          }
-        }}
-      />
+      {deleteId && (
+        <ConfirmModal
+          isOpen={deleteId !== null}
+          title="Delete goal"
+          message="Are you sure you want to delete this goal? This cannot be undone."
+          isSubmitting={isDeleting}
+          onCancel={() => setDeleteId(null)}
+          onConfirm={async () => {
+            if (deleteId) {
+              await deleteGoal(deleteId);
+              setDeleteId(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

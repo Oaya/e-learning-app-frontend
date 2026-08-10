@@ -80,7 +80,7 @@ export default function LessonDetailPage() {
         ) : (
           <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-16 text-center">
             <HiOutlineVideoCamera size={32} className="text-gray-300" />
-            <p className="text-sm text-gray-300 italic">
+            <p className="text-sm text-gray-400 italic">
               No recording for this lesson.
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function LessonDetailPage() {
             <LessonNotesViewer html={lesson.meeting_note} />
           ) : (
             <div className="flex flex-col items-center justify-center gap-2 rounded-xl bg-white py-16 text-center">
-              <p className="text-sm text-gray-300 italic">
+              <p className="text-sm text-gray-400 italic">
                 No meeting note for this lesson
               </p>
             </div>
@@ -115,7 +115,7 @@ export default function LessonDetailPage() {
                   {lesson.teacher_note}
                 </p>
               ) : (
-                <p className="text-sm text-gray-300 italic">No note added.</p>
+                <p className="text-sm text-gray-400 italic">No note added.</p>
               )}
             </div>
 
@@ -147,7 +147,7 @@ export default function LessonDetailPage() {
               {lesson.student_note}
             </p>
           ) : (
-            <p className="text-sm text-gray-300 italic">No note added.</p>
+            <p className="text-sm text-gray-400 italic">No note added.</p>
           )}
         </div>
       )}

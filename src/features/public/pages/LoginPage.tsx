@@ -81,7 +81,7 @@ export default function LoginPage() {
       </form>
 
       <p className="mt-4 text-center text-xs text-gray-400">
-        No account?{"   "}
+        No account?
         <button
           type="button"
           onClick={() => navigate("/signup")}

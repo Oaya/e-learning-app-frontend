@@ -68,7 +68,7 @@ export default function HomeworkViewPage() {
                   {submission.answer_text}
                 </p>
               ) : (
-                <p className="text-sm text-gray-400 italic">
+                <p className="text-center text-sm text-gray-400 italic">
                   No written answer.
                 </p>
               )}
@@ -107,7 +107,7 @@ export default function HomeworkViewPage() {
                   </p>
                 </div>
               ) : (
-                <div className="rounded-lg px-4 py-5 text-center">
+                <div className="rounded-lg px-4 py-5 text-center italic">
                   <p className="text-sm text-gray-400">
                     Your teacher hasn't reviewed this yet.
                   </p>
