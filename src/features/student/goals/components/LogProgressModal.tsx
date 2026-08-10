@@ -1,4 +1,4 @@
-import { act, useState } from "react";
+import { useState } from "react";
 import { HiOutlineX } from "react-icons/hi";
 import type { GoalActivity, GoalStatusType } from "../../../../type/goal";
 import { GOAL_STATUS_BADGE } from "../../../../utils/constants";
