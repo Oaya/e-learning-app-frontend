@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LogProgressModal from "./LogProgressModal";
+import LogProgressModal from "../../../student/goals/components/LogProgressModal";
 import type { Goal, GoalActivity } from "@/type/goal";
 import dayjs from "dayjs";
 import {
@@ -7,14 +7,15 @@ import {
   HiOutlinePencil,
   HiOutlineTrash,
 } from "react-icons/hi2";
-import { useGoal } from "../hooks/useGoal";
+import { useGoal } from "../../../student/goals/hooks/useGoal";
 import ActionBtn from "@/features/admin/lessons/components/ActionButton";
 
 type Props = {
   goal: Goal;
+  isAdmin: boolean;
 };
 
-export default function GoalActivityLogsPanel({ goal }: Props) {
+export default function GoalActivityLogsPanel({ goal, isAdmin }: Props) {
   const [modalOpen, setModalOpen] = useState<"create" | "edit" | null>(null);
   const [editActivity, setEditActivity] = useState<GoalActivity | null>(null);
   const { removeActivity } = useGoal(goal.id);
@@ -34,8 +35,10 @@ export default function GoalActivityLogsPanel({ goal }: Props) {
   return (
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
-        <p className="panel-header">Activity log</p>
-        {goal.status !== "achieved" && (
+        <p className="panel-header">
+          {isAdmin ? "Student activity log" : "activity log"}
+        </p>
+        {goal.status !== "achieved" && !isAdmin && (
           <button
             onClick={() => setModalOpen("create")}
             className="btn-white flex items-center gap-1.5 text-xs"
@@ -65,7 +68,7 @@ export default function GoalActivityLogsPanel({ goal }: Props) {
                       {dayjs(activity.date).format("YYYY-MM-DD")}
                     </span>
                   )}
-                  {activity.progress !== undefined && (
+                  {!isAdmin && activity.progress !== undefined && (
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                         activity.progress === 100
@@ -79,17 +82,31 @@ export default function GoalActivityLogsPanel({ goal }: Props) {
                 </div>
               </div>
 
-              <div className="flex gap-1">
-                <ActionBtn title="Delete" onClick={() => openEdit(activity)}>
-                  <HiOutlinePencil size={16} />
-                </ActionBtn>
-                <ActionBtn
-                  title="Delete"
-                  onClick={() => removeActivity(activity.id)}
-                >
-                  <HiOutlineTrash size={16} />
-                </ActionBtn>
-              </div>
+              {isAdmin ? (
+                activity.progress !== undefined && (
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                      activity.progress === 100
+                        ? "bg-theme-green-30 text-theme-green-20"
+                        : "bg-theme-purple-10/20 text-theme-purple-50"
+                    }`}
+                  >
+                    {`${activity.progress}%`}
+                  </span>
+                )
+              ) : (
+                <div className="flex gap-1">
+                  <ActionBtn title="Edit" onClick={() => openEdit(activity)}>
+                    <HiOutlinePencil size={16} />
+                  </ActionBtn>
+                  <ActionBtn
+                    title="Delete"
+                    onClick={() => removeActivity(activity.id)}
+                  >
+                    <HiOutlineTrash size={16} />
+                  </ActionBtn>
+                </div>
+              )}
             </div>
           ))}
         </div>

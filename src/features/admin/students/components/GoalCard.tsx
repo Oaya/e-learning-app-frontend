@@ -61,7 +61,10 @@ export default function GoalCard({ goal, openEdit, openDelete }: Props) {
             </div>
 
             {authUser?.role === "admin" && (
-              <div className="flex shrink-0 gap-1">
+              <div
+                className="flex shrink-0 gap-1"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {openEdit && (
                   <ActionBtn title="Edit" onClick={() => openEdit(goal)}>
                     <HiOutlinePencil size={14} />

@@ -101,7 +101,7 @@ export default function LessonDetailsHeader({
         </button>
         <button
           onClick={() => setDeleteOpen(true)}
-          className="btn-primary-pink"
+          className="btn-primary-pink flex items-center gap-1.5 px-3 py-1.5"
         >
           <HiOutlineTrash size={15} />
           Delete

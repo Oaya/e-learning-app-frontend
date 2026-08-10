@@ -7,6 +7,8 @@ import type { Lesson } from "../../../../type/lesson";
 import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
 import { useAuth } from "../../../../contexts/AuthContext";
 import type { User } from "../../../../type/user";
+import { Link, useNavigate } from "react-router-dom";
+import { HiArrowRight } from "react-icons/hi";
 
 type Props = {
   lessons: Lesson[] | undefined;
@@ -16,17 +18,27 @@ type Props = {
 export default function LessonsPanel({ lessons, user }: Props) {
   const { user: authUser } = useAuth();
   const [isCreateLessonOpen, setIsCreateLessonOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="panel-box min-w-0 flex-1">
       <div className="mb-4 flex items-center justify-between">
         <p className="panel-header mb-4">Lessons</p>
-        <button
-          onClick={() => setIsCreateLessonOpen(true)}
-          className="btn-white px-2 py-1"
-        >
-          + New
-        </button>
+
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            to={`/admin/students/${user!.id}/homeworks`}
+            className="view-all"
+          >
+            View all <HiArrowRight className="h-3 w-3" />
+          </Link>
+          <button
+            onClick={() => setIsCreateLessonOpen(true)}
+            className="btn-white px-2 py-1"
+          >
+            + New
+          </button>
+        </div>
       </div>
 
       {lessons?.length === 0 ? (
@@ -38,7 +50,8 @@ export default function LessonsPanel({ lessons, user }: Props) {
           {lessons?.slice(0, 6).map((lesson) => (
             <div
               key={lesson.id}
-              className="flex items-center justify-between py-2.5"
+              className="flex cursor-pointer items-center justify-between py-2.5"
+              onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
             >
               <div>
                 <p className="text-sm font-medium text-gray-800">

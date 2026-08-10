@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiArrowRight, HiOutlinePencil } from "react-icons/hi2";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -16,6 +16,20 @@ export default function GoalsPanel({ goals, userId }: Props) {
   const [openType, setOpenType] = useState<"Create" | "Edit" | "">("");
   const [goal, setGoal] = useState<Goal | undefined>();
   const { user: authUser } = useAuth();
+  const navigate = useNavigate();
+  const isAdmin = authUser?.role === "admin";
+
+  const viewAllHref = isAdmin
+    ? `/admin/students/${userId}/goals`
+    : `/student/goals`;
+
+  function handleGoalClick(g: Goal) {
+    if (isAdmin) {
+      navigate(`/admin/students/${userId}/goals/${g.id}`);
+    } else {
+      navigate(`/student/goals/${g.id}`);
+    }
+  }
 
   return (
     <>
@@ -24,7 +38,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
           <p className="panel-header mb-4">Goals</p>
 
           <div className="flex items-center justify-between gap-4">
-            <Link to={`/student/goals`} className="view-all">
+            <Link to={viewAllHref} className="view-all">
               View all <HiArrowRight className="h-3 w-3" />
             </Link>
             {authUser?.role === "admin" && (
@@ -48,13 +62,18 @@ export default function GoalsPanel({ goals, userId }: Props) {
               const isAchieved = g.status === "achieved";
 
               return (
-                <div key={g.id} className="flex items-center gap-3 py-2.5">
+                <div
+                  key={g.id}
+                  className="flex cursor-pointer items-center gap-3 py-2.5 hover:bg-gray-50 -mx-1 px-1 rounded-lg transition-colors"
+                  onClick={() => handleGoalClick(g)}
+                >
                   <div className="mt-0.5 shrink-0"></div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between">
                       <p className="text-sm">{g.title}</p>
 
                       {authUser?.role === "admin" && (
+                        <div onClick={(e) => e.stopPropagation()}>
                         <ActionBtn
                           title="Edit"
                           onClick={() => {
@@ -64,6 +83,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
                         >
                           <HiOutlinePencil size={16} />
                         </ActionBtn>
+                        </div>
                       )}
                     </div>
 

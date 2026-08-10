@@ -1,5 +1,5 @@
 import { HiArrowRight } from "react-icons/hi2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { StudentWithStatues } from "../../../../type/user";
 import { ADMIN_HW_STATUS_BADGE } from "../../../../utils/constants";
 import defaultAvatar from "../../../../assets/user.png";
@@ -24,6 +24,7 @@ type AllStudentPanelProps = {
 };
 
 export default function AllStudentPanel({ students }: AllStudentPanelProps) {
+  const navigate = useNavigate();
   return (
     <div className="panel-box">
       <div className="mb-4 flex items-center justify-between">
@@ -40,10 +41,14 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
           </Link>
         </div>
       ) : (
-        <div className="divide-y divide-gray-100">
-          {students?.map((student) => {
+        <div className="cursor-pointer divide-y divide-gray-100">
+          {students?.slice(0, 6).map((student) => {
             return (
-              <div key={student.id} className="flex items-center gap-3 py-2.5">
+              <div
+                key={student.id}
+                className="flex items-center gap-3 py-2.5"
+                onClick={() => navigate(`/users/${student.id}`)}
+              >
                 <img
                   src={student.avatar || defaultAvatar}
                   alt="avatar"

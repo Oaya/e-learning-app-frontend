@@ -116,3 +116,34 @@ export async function deleteGoalActivity(
     return { success: false, error: e.response?.data?.error };
   }
 }
+
+export async function createGoalComment(
+  id: string,
+  comment: string,
+): Promise<ApiResponse> {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/goals/${id}/comment`,
+      { comment },
+      { headers: authHeader() },
+    );
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function deleteGoalComment(
+  goalId: string,
+  commentId: string,
+): Promise<ApiResponse> {
+  try {
+    const res = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/api/goals/${goalId}/comment/${commentId}`,
+      { headers: authHeader() },
+    );
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}

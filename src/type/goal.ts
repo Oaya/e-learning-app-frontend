@@ -17,8 +17,11 @@ export type Goal = {
   target_date?: string;
   achieved_at?: string;
   created_at: string;
-  student_notes?: string | null;
-  teacher_comment?: string | null;
+  comments?: {
+    id: string;
+    comment: string;
+    created_at: Date;
+  }[];
   activities?: GoalActivity[];
 };
 

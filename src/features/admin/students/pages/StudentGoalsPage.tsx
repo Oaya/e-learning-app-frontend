@@ -102,12 +102,17 @@ export default function StudentGoalsPage() {
       ) : (
         <div className="space-y-6">
           {filtered?.map((goal) => (
-            <GoalCard
-              goal={goal}
+            <div
               key={goal.id}
-              openEdit={openEdit}
-              openDelete={openDelete}
-            />
+              onClick={() => navigate(`/admin/students/${userId}/goals/${goal.id}`)}
+              className="cursor-pointer"
+            >
+              <GoalCard
+                goal={goal}
+                openEdit={(g) => { openEdit(g); }}
+                openDelete={(g) => { openDelete(g); }}
+              />
+            </div>
           ))}
         </div>
       )}

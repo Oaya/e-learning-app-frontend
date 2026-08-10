@@ -4,13 +4,11 @@ import {
   createGoalActivity,
   deleteGoalActivity,
   updateGoalActivity,
+  createGoalComment,
+  deleteGoalComment,
 } from "../../../../api/goals";
 import { useAlert } from "../../../../contexts/AlertContext";
-import type {
-  Goal,
-  GoalActivity,
-  UpsertGoalActivity,
-} from "../../../../type/goal";
+import type { Goal, UpsertGoalActivity } from "../../../../type/goal";
 import { unwrapResponse } from "../../../../api/helper";
 
 export function useGoal(goalId: string) {
@@ -26,7 +24,7 @@ export function useGoal(goalId: string) {
 
   const createActivityMutation = useMutation({
     mutationFn: async (data: UpsertGoalActivity) =>
-      unwrapResponse<GoalActivity>(await createGoalActivity(goalId, data)),
+      unwrapResponse<Goal>(await createGoalActivity(goalId, data)),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["goal", goalId],
@@ -38,7 +36,7 @@ export function useGoal(goalId: string) {
 
   const updateActivityMutation = useMutation({
     mutationFn: async (data: UpsertGoalActivity) =>
-      unwrapResponse<GoalActivity>(await updateGoalActivity(goalId, data)),
+      unwrapResponse<Goal>(await updateGoalActivity(goalId, data)),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["goal", goalId],
@@ -60,6 +58,30 @@ export function useGoal(goalId: string) {
     onError: () => alert.error("Failed to remove activity"),
   });
 
+  const createCommentMutation = useMutation({
+    mutationFn: async (comment: string) =>
+      unwrapResponse<Goal>(await createGoalComment(goalId, comment)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["goal", goalId],
+      });
+      alert.success("Comment added");
+    },
+    onError: () => alert.error("Failed to add comment"),
+  });
+
+  const deleteCommentMutation = useMutation({
+    mutationFn: async (commentId: string) =>
+      unwrapResponse<Goal>(await deleteGoalComment(goalId, commentId)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["goal", goalId],
+      });
+      alert.success("Comment removed");
+    },
+    onError: () => alert.error("Failed to remove comment"),
+  });
+
   return {
     goal: goalQuery.data,
     isLoading: goalQuery.isLoading,
@@ -69,5 +91,9 @@ export function useGoal(goalId: string) {
     isUpdatingActivity: updateActivityMutation.isPending,
     removeActivity: deleteActivityMutation.mutateAsync,
     isRemovingActivity: deleteActivityMutation.isPending,
+    createComment: createCommentMutation.mutateAsync,
+    isCreating: createCommentMutation.isPending,
+    removeComment: deleteCommentMutation.mutateAsync,
+    isRemovingComment: deleteCommentMutation.isPending,
   };
 }

@@ -92,12 +92,12 @@ export default function GoalsPage() {
         onTabChange={(tab) => setActiveTab(tab as GoalsFilterTab)}
       />
 
-      {isLoading && <p className="text-sm text-gray-400">Loading homework…</p>}
+      {isLoading && <p className="text-sm text-gray-400">Loading goals…</p>}
 
       {/* Grouped list */}
       {filtered?.length === 0 ? (
         <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400">
-          No homework matches your filter.
+          No Goals matches your filter.
         </div>
       ) : (
         <div className="space-y-6">

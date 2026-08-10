@@ -1,18 +1,18 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useActionData, useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import { HiOutlineCalendar, HiOutlineCheck } from "react-icons/hi2";
-import dayjs from "dayjs";
-
 import { useGoal } from "../hooks/useGoal";
-import { GOAL_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/Badge";
 
-import GoalActivityLogsPanel from "../components/GoalActivityLogsPanel";
+import GoalActivityLogsPanel from "../../../shared/goals/components/GoalActivityLogsPanel";
+import GoalHeader from "@/features/shared/goals/components/goalsHeader";
+import { useAuth } from "@/contexts/AuthContext";
+import GoalCommentPanel from "@/features/shared/goals/components/GoalCommentPanel";
 
 export default function GoalDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const goalId = id ?? "";
+  const { user: authUser } = useAuth();
+  const isAdmin = authUser?.role === "admin";
 
   const { goal, isLoading } = useGoal(goalId);
 
@@ -42,77 +42,15 @@ export default function GoalDetailPage() {
       </section>
 
       {/* Goal header */}
-      <div className="panel-box">
-        <div className="mb-4 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-xl font-semibold text-gray-800">
-              {goal.title}
-            </h1>
-            <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-400">
-              {goal.created_at && (
-                <span className="flex items-center gap-1">
-                  <HiOutlineCalendar size={13} />
-                  Started {dayjs(goal.created_at).format("YYYY-MM-DD")}
-                </span>
-              )}
-              {goal.target_date && (
-                <span className="flex items-center gap-1">
-                  <HiOutlineCalendar size={13} />
-                  Target {dayjs(goal.target_date).format("YYYY-MM-DD")}
-                </span>
-              )}
-              {goal.achieved_at && (
-                <span className="text-theme-green-20 flex items-center gap-1">
-                  <HiOutlineCheck size={13} />
-                  Achieved {dayjs(goal.achieved_at).format("YYYY-MM-DD")}
-                </span>
-              )}
-            </div>
-          </div>
-          <Badge status={goal.status} constant={GOAL_STATUS_BADGE} />
-        </div>
-
-        {/* Progress bar */}
-        <div className="mb-4 flex items-center gap-3">
-          <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-gray-100">
-            <div
-              className={`h-full rounded-full transition-all ${GOAL_STATUS_BADGE[goal.status]}`}
-              style={{ width: `${progressWidth}%` }}
-            />
-          </div>
-          <span className="text-sm font-medium text-gray-700">
-            {progressWidth}%
-          </span>
-        </div>
-
-        {goal.description && (
-          <>
-            <p className="panel-header mb-1">Goal description</p>
-            <p className="text-sm leading-relaxed text-gray-500">
-              {goal.description}
-            </p>
-          </>
-        )}
-      </div>
+      <GoalHeader goal={goal} progressWidth={progressWidth} />
 
       {/* Activity log + Teacher comment */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Activity log */}
-        <GoalActivityLogsPanel goal={goal} />
+        <GoalActivityLogsPanel goal={goal} isAdmin={isAdmin} />
 
         {/* Teacher comment */}
-        <div className="panel-box">
-          <p className="panel-header mb-3">Your teacher's comment</p>
-          {goal.teacher_comment ? (
-            <p className="text-sm leading-relaxed text-gray-700">
-              {goal.teacher_comment}
-            </p>
-          ) : (
-            <p className="text-center text-sm text-gray-400 italic">
-              Your teacher hasn't commented yet.
-            </p>
-          )}
-        </div>
+        <GoalCommentPanel goal={goal} isAdmin={isAdmin} />
       </div>
     </div>
   );
