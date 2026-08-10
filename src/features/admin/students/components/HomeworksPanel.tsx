@@ -5,6 +5,8 @@ import { HW_STATUS_BADGE } from "../../../../utils/constants";
 import { useState } from "react";
 import UpsertHomeworkModal from "../../homework/components/UpsertHomeworkModal";
 import type { User } from "../../../../type/user";
+import { Link } from "react-router-dom";
+import { HiArrowRight } from "react-icons/hi";
 
 type Props = { homeworks: Homework[] | undefined; user: User | undefined };
 
@@ -15,12 +17,21 @@ export default function HomeworksPanel({ homeworks, user }: Props) {
     <div className="panel-box min-w-0 flex-1">
       <div className="mb-4 flex items-center justify-between">
         <p className="panel-header mb-4">Homeworks</p>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="btn-white px-2 py-1"
-        >
-          + New
-        </button>
+
+        <div className="flex items-center justify-between gap-4">
+          <Link
+            to={`/admin/students/${user!.id}/homework`}
+            className="view-all"
+          >
+            View all <HiArrowRight className="h-3 w-3" />
+          </Link>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="btn-white px-2 py-1"
+          >
+            + New
+          </button>
+        </div>
       </div>
 
       {homeworks?.length === 0 ? (

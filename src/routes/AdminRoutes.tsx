@@ -37,6 +37,9 @@ const GoalsPage = lazy(
 const StudentLessonsPage = lazy(
   () => import("../features/admin/lessons/pages/StudentLessonsPage"),
 );
+const StudentHomeworkPage = lazy(
+  () => import("../features/admin/homework/pages/StudentHomeworkPage"),
+);
 const AdminGoalDetailPage = lazy(
   () => import("../features/admin/students/pages/AdminGoalDetailPage"),
 );
@@ -62,6 +65,10 @@ export default function AdminRoutes() {
         <Route
           path="/admin/students/:id/lessons"
           element={<StudentLessonsPage />}
+        />
+        <Route
+          path="/admin/students/:id/homework"
+          element={<StudentHomeworkPage />}
         />
         <Route
           path="/admin/students/:id/goals/:goalId"

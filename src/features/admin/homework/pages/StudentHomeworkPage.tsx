@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 
-import LessonsList from "../components/LessonList";
+import HomeworkList from "../components/HomeworkList";
 import { useUser } from "../../students/hooks/useUser";
 
-export default function StudentLessonsPage() {
+export default function StudentHomeworkPage() {
   const { id: studentIdParam } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user: student } = useUser(studentIdParam ?? "");
@@ -12,9 +12,10 @@ export default function StudentLessonsPage() {
   if (!studentIdParam) return <p>User ID is missing.</p>;
 
   return (
-    <LessonsList
+    <HomeworkList
       studentId={studentIdParam}
       student={student}
+      searchPlaceholder="Search homework…"
       topBar={(openModal) => (
         <>
           <button
@@ -25,8 +26,8 @@ export default function StudentLessonsPage() {
             Back to {student?.first_name} {student?.last_name}
           </button>
 
-          <button onClick={openModal} className="btn-primary">
-            + New lesson
+          <button onClick={openModal} className="btn-primary-pink">
+            + Assign Homework
           </button>
         </>
       )}
