@@ -16,8 +16,8 @@ import ActionBtn from "@/ui/ActionButton";
 import ConfirmModal from "../../../../ui/ConfirmModal";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
-import Badge from "../../../../ui/Badge";
 import defaultAvatar from "../../../../assets/user.png";
+import Badge from "@/ui/Badge";
 
 type Props = {
   hw: Homework;
