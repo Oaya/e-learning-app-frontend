@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { HiOutlineArrowLeft } from "react-icons/hi";
-import { useGoal } from "@/features/shared/goals/hooks/useGoal";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
 
+import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import GoalActivityLogsPanel from "@/features/shared/goals/components/GoalActivityLogsPanel";
 import GoalHeader from "@/features/shared/goals/components/goalsHeader";
 import { useAuth } from "@/contexts/AuthContext";

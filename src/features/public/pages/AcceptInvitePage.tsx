@@ -1,4 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { useAlert } from "@/contexts/AlertContext";
 import { useAuth } from "@/contexts/AuthContext";
 import type { AcceptInviteUser } from "@/type/user";

@@ -1,6 +1,11 @@
 import { useMemo, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import {
+  HiOutlineCalendarDays,
+  HiOutlineCalendar,
+  HiOutlineClock,
+} from "react-icons/hi2";
 
 import TabFilters from "@/ui/TabFilters";
 import CardHeader from "@/ui/CardHeader";
@@ -13,8 +18,6 @@ import {
   LESSON_TABS,
   type LessonFilterTab,
 } from "@/features/shared/lessons/constants";
-import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
-import { HiOutlineCalendarDays } from "react-icons/hi2";
 
 dayjs.extend(relativeTime);
 

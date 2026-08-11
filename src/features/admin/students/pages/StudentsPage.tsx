@@ -2,15 +2,18 @@ import { useEffect, useMemo, useState } from "react";
 import { FiFilter } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
 import ReactPaginate from "react-paginate";
+import {
+  HiOutlineCheckCircle,
+  HiOutlineCurrencyDollar,
+  HiUsers,
+} from "react-icons/hi2";
+import { HiOutlineMail } from "react-icons/hi";
 
 import { useUsers } from "@/features/admin/students/hooks/useUsers";
 import InviteUserModal from "@/features/admin/students/components/InviteUserModal";
 import UserFilterDropDown from "@/features/admin/students/components/UserFilterDropDown";
 import UsersTable from "@/features/admin/students/components/UsersTable";
-
 import { useUserTableControl } from "@/features/admin/students/hooks/useUserTableControl";
-import { HiOutlineMail, HiUsers } from "react-icons/hi";
-import { HiOutlineCheckCircle, HiOutlineCurrencyDollar } from "react-icons/hi2";
 import StatCard from "@/ui/StatCard";
 import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
 import PageLoadingState from "@/ui/PageLoadingState";

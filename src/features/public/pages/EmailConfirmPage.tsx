@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { useAlert } from "@/contexts/AlertContext";
 
 export default function EmailConfirmPage() {

@@ -3,6 +3,13 @@ import {
   HiOutlinePencil,
   HiOutlineClock,
 } from "react-icons/hi2";
+import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import { useNavigate } from "react-router-dom";
+import { LuVideo } from "react-icons/lu";
+import { useState } from "react";
+
 import ActionBtn from "@/ui/ActionButton";
 import type { Lesson, LessonStatusType } from "@/type/lesson";
 import {
@@ -11,20 +18,13 @@ import {
   formatTime,
   requireStatusChange,
 } from "@/utils/helper";
-import {
-  LESSON_BORDER_COLOR,
-  LESSON_STATUS_BADGE,
-} from "@/utils/constants";
+import { LESSON_BORDER_COLOR, LESSON_STATUS_BADGE } from "@/utils/constants";
 import ConfirmModal from "@/ui/ConfirmModal";
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
-import { useState } from "react";
+
 import UpsertLessonModal from "./UpsertLessonModal";
 import Badge from "@/ui/Badge";
-import dayjs from "dayjs";
-import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { useNavigate } from "react-router-dom";
-import { LuVideo } from "react-icons/lu";
+
 import LessonCompleteModal from "./CompleteLessonModal";
 import defaultAvatar from "@/assets/user.png";
 

@@ -1,12 +1,13 @@
 import { useState } from "react";
-import LogProgressModal from "@/features/student/goals/components/LogProgressModal";
-import type { Goal, GoalActivity } from "@/type/goal";
 import dayjs from "dayjs";
 import {
   HiOutlineCalendar,
   HiOutlinePencil,
   HiOutlineTrash,
 } from "react-icons/hi2";
+
+import LogProgressModal from "@/features/student/goals/components/LogProgressModal";
+import type { Goal, GoalActivity } from "@/type/goal";
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import ActionBtn from "@/ui/ActionButton";
 

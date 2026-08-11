@@ -1,7 +1,7 @@
 import { MdOutlineClose } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-
 import { TbSquareRoundedCheckFilled } from "react-icons/tb";
+
 import type { Plan } from "@/type/plan";
 
 function PlanFeatureRow({ label, value }: { label: string; value: boolean }) {

@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import { HiArrowRight } from "react-icons/hi2";
 import { LuVideo } from "react-icons/lu";
-
 import { Link, useNavigate } from "react-router-dom";
+
 import type { Lesson } from "@/type/lesson";
 import { LESSON_STATUS_BADGE } from "@/utils/constants";
 import Badge from "@/ui/Badge";

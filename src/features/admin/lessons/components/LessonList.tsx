@@ -1,7 +1,10 @@
 import dayjs from "dayjs";
 import { useMemo, useState, type ReactNode } from "react";
-import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
-import { HiOutlineCalendarDays } from "react-icons/hi2";
+import {
+  HiOutlineCalendarDays,
+  HiOutlineCalendar,
+  HiOutlineClock,
+} from "react-icons/hi2";
 
 import { useAuth } from "@/contexts/AuthContext";
 import StatCard from "@/ui/StatCard";

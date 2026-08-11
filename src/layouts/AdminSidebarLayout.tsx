@@ -1,4 +1,4 @@
-import { HiHome, HiUsers } from "react-icons/hi";
+import { HiHome, HiUsers } from "react-icons/hi2";
 import { LuNewspaper, LuCalendar1 } from "react-icons/lu";
 // import { MdPayment } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";

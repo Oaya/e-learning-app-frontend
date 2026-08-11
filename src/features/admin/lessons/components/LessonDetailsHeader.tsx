@@ -3,7 +3,7 @@ import {
   HiOutlineTrash,
   HiOutlineClock,
   HiOutlineCalendar,
-} from "react-icons/hi";
+} from "react-icons/hi2";
 import dayjs from "dayjs";
 import { LuLanguages, LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router-dom";

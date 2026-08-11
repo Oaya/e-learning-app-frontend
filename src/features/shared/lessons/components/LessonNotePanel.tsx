@@ -22,15 +22,13 @@ import type { Room } from "livekit-client";
 import { Color } from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
-import { ColorHighlightPopover } from "@/components/tiptap-ui/color-highlight-popover";
-import { TextColorPopover } from "@/components/tiptap-ui/text-color-popover";
-
-import { UpdateMeetingNote } from "@/api/lessons";
-
 import { TaskList, TaskItem } from "@tiptap/extension-list";
 import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
 
+import { ColorHighlightPopover } from "@/components/tiptap-ui/color-highlight-popover";
+import { TextColorPopover } from "@/components/tiptap-ui/text-color-popover";
+import { UpdateMeetingNote } from "@/api/lessons";
 import { MarkButton } from "@/components/tiptap-ui/mark-button";
 import { ListDropdownMenu } from "@/components/tiptap-ui/list-dropdown-menu";
 import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button";

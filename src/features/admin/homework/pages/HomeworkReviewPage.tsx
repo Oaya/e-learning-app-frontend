@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
+
 import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
 import { SCORE_BUDGE } from "@/utils/constants";
 import AttachmentsList from "@/features/shared/homeworks/components/AttachmentsList";
@@ -21,14 +22,11 @@ export default function HomeworkReviewPage() {
   const [aiLoading, setAiLoading] = useState(false);
 
   const { homework, isLoading } = useHomework(hwId);
-  const { submitFeedback, isSubmittingFeedback } = useHomeworkSubmission(
-    hwId,
-    {
-      onSubmitFeedbackSuccess: () => {
-        navigate("/admin/homework");
-      },
+  const { submitFeedback, isSubmittingFeedback } = useHomeworkSubmission(hwId, {
+    onSubmitFeedbackSuccess: () => {
+      navigate("/admin/homework");
     },
-  );
+  });
   const submission = homework?.submission;
 
   useEffect(() => {

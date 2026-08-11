@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { HiOutlineArrowLeft } from "react-icons/hi";
-import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
+import {
+  HiOutlinePencil,
+  HiOutlineTrash,
+  HiOutlineArrowLeft,
+} from "react-icons/hi2";
 
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import { useUser } from "@/features/admin/students/hooks/useUser";
-
 import UpsertGoalModal from "@/features/shared/goals/components/UpsertGoalModal";
 import ConfirmModal from "@/ui/ConfirmModal";
 import GoalHeader from "@/features/shared/goals/components/goalsHeader";

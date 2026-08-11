@@ -4,13 +4,12 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
 import { HiCalendar, HiUsers, HiDocumentText } from "react-icons/hi2";
-import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import dayjs from "dayjs";
 
+import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import defaultAvatar from "@/assets/user.png";
 import { useUser } from "@/features/admin/students/hooks/useUser";
 import StatCard from "@/ui/StatCard";
-
 import ConfirmModal from "@/ui/ConfirmModal";
 import EditStudentModal from "@/features/admin/students/components/EditStudentModal";
 import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";

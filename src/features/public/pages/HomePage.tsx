@@ -1,9 +1,8 @@
 import { Link, Navigate } from "react-router-dom";
+import { BsStars } from "react-icons/bs";
 
 import { usePlans } from "@/features/public/hooks/usePlans";
 import PlanCard from "@/features/public/components/PlanCard";
-
-import { BsStars } from "react-icons/bs";
 import { features, howItWorks } from "@/utils/constants";
 import { useAuth } from "@/contexts/AuthContext";
 

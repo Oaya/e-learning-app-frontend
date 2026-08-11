@@ -1,8 +1,9 @@
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import dayjsTimezone from "dayjs/plugin/timezone";
 import { useState } from "react";
+
+import dayjsTimezone from "dayjs/plugin/timezone";
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useAlert } from "@/contexts/AlertContext";
 import ModalShell from "@/ui/ModalShell";
@@ -49,47 +50,52 @@ export default function UpsertLessonNoteModal({
   }
 
   return (
-    <ModalShell isOpen={isOpen} onClose={onClose} title="My note" maxWidth="max-w-xl">
-        <div className="px-6 py-5">
-          <p className="text-lg text-gray-500">
-            {lesson?.topic} ·{" "}
-            <span>
-              {lesson?.scheduled_at &&
-                dayjs(lesson.scheduled_at).format("DD MMM YYYY")}
-            </span>
-          </p>
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title="My note"
+      maxWidth="max-w-xl"
+    >
+      <div className="px-6 py-5">
+        <p className="text-lg text-gray-500">
+          {lesson?.topic} ·{" "}
+          <span>
+            {lesson?.scheduled_at &&
+              dayjs(lesson.scheduled_at).format("DD MMM YYYY")}
+          </span>
+        </p>
+      </div>
+
+      <div className="modal-body">
+        {/* feedback */}
+        <FormField label="Note" className="mb-4">
+          <textarea
+            name="meeting_feedback"
+            rows={5}
+            defaultValue={note}
+            onChange={(e) => setNote(e.target.value)}
+            className="form-textarea"
+          />
+        </FormField>
+
+        <div className="modal-footer">
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn-primary-white mr-4"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={(e) => handleSubmit(e)}
+            className="btn-primary-pink"
+            disabled={loading || isAdding}
+          >
+            {loading || isAdding ? "Saving..." : "Save note"}
+          </button>
         </div>
-
-        <div className="modal-body">
-          {/* feedback */}
-          <FormField label="Note" className="mb-4">
-            <textarea
-              name="meeting_feedback"
-              rows={5}
-              defaultValue={note}
-              onChange={(e) => setNote(e.target.value)}
-              className="form-textarea"
-            />
-          </FormField>
-
-          <div className="modal-footer">
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn-primary-white mr-4"
-            >
-              Cancel
-            </button>
-
-            <button
-              onClick={(e) => handleSubmit(e)}
-              className="btn-primary-pink"
-              disabled={loading || isAdding}
-            >
-              {loading || isAdding ? "Saving..." : "Save note"}
-            </button>
-          </div>
-        </div>
+      </div>
     </ModalShell>
   );
 }

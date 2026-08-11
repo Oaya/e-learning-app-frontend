@@ -1,4 +1,5 @@
 import ISO6391 from "iso-639-1";
+import { useState } from "react";
 
 import { type Level } from "@/utils/constants";
 import { inviteUser } from "@/api/users";
@@ -7,7 +8,6 @@ import { useAlert } from "@/contexts/AlertContext";
 import CustomSelect from "@/ui/CustomSelect";
 import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
-import { useState } from "react";
 
 type InviteUserModalProps = {
   isOpen: boolean;

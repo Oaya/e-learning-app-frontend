@@ -1,6 +1,3 @@
-import ActionBtn from "@/ui/ActionButton";
-import { useGoal } from "@/features/shared/goals/hooks/useGoal";
-import type { Goal } from "@/type/goal";
 import dayjs from "dayjs";
 import { useState } from "react";
 import {
@@ -8,6 +5,10 @@ import {
   HiOutlinePencil,
   HiOutlineTrash,
 } from "react-icons/hi2";
+
+import ActionBtn from "@/ui/ActionButton";
+import { useGoal } from "@/features/shared/goals/hooks/useGoal";
+import type { Goal } from "@/type/goal";
 
 type Props = {
   goal: Goal;

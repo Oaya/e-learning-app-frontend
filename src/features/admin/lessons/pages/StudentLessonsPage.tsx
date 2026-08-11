@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { HiOutlineArrowLeft } from "react-icons/hi";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
 
 import LessonsList from "@/features/admin/lessons/components/LessonList";
 import { useUser } from "@/features/admin/students/hooks/useUser";
