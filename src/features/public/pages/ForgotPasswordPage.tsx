@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HiOutlineArrowLeft, HiOutlineEnvelope } from "react-icons/hi2";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
 
 import { useAlert } from "@/contexts/AlertContext";
 import { forgotPassword } from "@/api/auth";

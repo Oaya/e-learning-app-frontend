@@ -30,7 +30,7 @@ function PlanCard({ plan, bgColor }: { plan: Plan; bgColor?: string }) {
         navigate("/signup", { state: { selectedPlan: plan.name } })
       }
       className={[
-        "border-default block w-100 rounded-2xl border border-gray-200 p-6 text-left shadow-md transition hover:shadow-2xl",
+        "border-default block rounded-2xl border border-gray-200 p-6 text-left shadow-md transition hover:shadow-2xl max-md:even:mt-10 md:w-100",
         bgColor ?? "bg-white",
       ].join(" ")}
     >

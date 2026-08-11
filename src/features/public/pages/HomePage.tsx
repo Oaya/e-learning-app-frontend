@@ -34,10 +34,12 @@ export default function HomePage() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Link to="/signup">
-            <button className="btn-primary px-7 py-3.5">Start for free</button>
+            <button className="btn-primary md:px-7 md:py-3.5">
+              Start for free
+            </button>
           </Link>
           <a href="#how">
-            <button className="btn-primary-white px-7 py-3.5">
+            <button className="btn-primary-white md:px-7 md:py-3.5">
               See how it works
             </button>
           </a>
@@ -51,11 +53,11 @@ export default function HomePage() {
           <h2 className="home-section-title text-center">
             Everything you need to land the job
           </h2>
-          <div className="grid grid-cols-3 gap-10">
+          <div className="grid gap-5 md:grid-cols-3 md:gap-10">
             {features.map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="rounded-xl border border-gray-200 bg-white p-6"
+                className="rounded-xl border border-gray-200 bg-white p-4 md:p-6"
               >
                 <div className="bg-theme-pink-10 mb-3.5 flex h-10 w-10 items-center justify-center rounded-md text-xl">
                   <Icon size={20} className="text-theme-pink-20" />
@@ -74,7 +76,7 @@ export default function HomePage() {
         <h2 className="home-section-title">
           Your whole teaching workflow, in order
         </h2>
-        <div className="p-10">
+        <div className="md:p-10">
           {howItWorks.map((value, i) => (
             <div key={i} className="py flex gap-10 text-left">
               <div className="flex flex-col items-center">
@@ -106,7 +108,7 @@ export default function HomePage() {
           <p className="home-section-header">Pricing</p>
           <h2 className="home-section-title">Simple, honest pricing</h2>
           {(!isLoading || !isError) && plans ? (
-            <div className="flex justify-center gap-10 pt-8">
+            <div className="justify-center gap-10 pt-8 md:flex">
               {plans.map((plan) => {
                 return <PlanCard key={plan.id} plan={plan} />;
               })}
