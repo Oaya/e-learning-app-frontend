@@ -11,7 +11,7 @@ import CustomSelect from "../../../../ui/CustomSelect";
 import type { Lesson, LessonStatusType } from "../../../../type/lesson";
 import { useLessons } from "../hooks/useLessons";
 import { useUsers } from "../../students/hooks/useUsers";
-import { HiOutlineX } from "react-icons/hi";
+import ModalShell from "../../../../ui/ModalShell";
 import type { StudentOption, User } from "../../../../type/user";
 import { lessonDuration, LessonStatus } from "../../../../utils/constants";
 
@@ -125,21 +125,12 @@ export default function UpsertLessonModal({
   const isSubmitting = isCreating || isUpdating;
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="w-full max-w-xl rounded-lg bg-white shadow-xl">
-        {/* Header */}
-        <div className="modal-header">
-          <h2 className="section-title">
-            {type === "Create" ? "Create New" : "Edit"} Lesson
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <HiOutlineX className="h-5 w-5" />
-          </button>
-        </div>
-
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title={`${type === "Create" ? "Create New" : "Edit"} Lesson`}
+      maxWidth="max-w-xl"
+    >
         {/* Form */}
         <form onSubmit={handleSubmit} className="modal-body">
           {/* Student */}
@@ -294,7 +285,6 @@ export default function UpsertLessonModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

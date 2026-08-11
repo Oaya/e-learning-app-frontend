@@ -1,6 +1,6 @@
-import { AiOutlineClose } from "react-icons/ai";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
+import ModalShell from "../../../../ui/ModalShell";
 
 type CancelSubscriptionModalProps = {
   isOpen: boolean;
@@ -42,20 +42,13 @@ export default function CancelSubscriptionModal({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="w-full max-w-2xl rounded-lg bg-white p-8">
-        <div className="mb-6 flex items-start justify-between">
-          <h2 className="text-2xl font-semibold">Cancel Subscription</h2>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="icon-btn"
-          >
-            <AiOutlineClose className="text-2xl" />
-          </button>
-        </div>
-
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Cancel Subscription"
+      maxWidth="max-w-2xl"
+    >
+      <div className="px-6 py-5">
         <p>Are you sure you want to cancel your subscription?</p>
         <p>
           This action cannot be undone. You will lose access to premium features
@@ -74,6 +67,6 @@ export default function CancelSubscriptionModal({
           </div>
         </form>
       </div>
-    </div>
+    </ModalShell>
   );
 }

@@ -2,10 +2,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import dayjsTimezone from "dayjs/plugin/timezone";
-import { HiOutlineX } from "react-icons/hi";
 import { useState } from "react";
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useAlert } from "../../../../contexts/AlertContext";
+import ModalShell from "../../../../ui/ModalShell";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -48,19 +48,7 @@ export default function UpsertLessonNoteModal({
   }
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="w-full max-w-xl rounded-lg bg-white shadow-xl">
-        {/* Header */}
-        <div className="modal-header">
-          <h2 className="section-title">My note</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <HiOutlineX className="h-5 w-5" />
-          </button>
-        </div>
-
+    <ModalShell isOpen={isOpen} onClose={onClose} title="My note" maxWidth="max-w-xl">
         <div className="px-6 py-5">
           <p className="text-lg text-gray-500">
             {lesson?.topic} ·{" "}
@@ -102,7 +90,6 @@ export default function UpsertLessonNoteModal({
             </button>
           </div>
         </div>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

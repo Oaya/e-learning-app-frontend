@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { HiOutlineX } from "react-icons/hi";
 import type { Goal, GoalStatusType } from "../../../../type/goal";
 import { useGoals } from "../hooks/useGoals";
 import { GOAL_STATUS_BADGE, GoalStatus } from "../../../../utils/constants";
+import ModalShell from "../../../../ui/ModalShell";
 
 type Props = {
   openType: "Create" | "Edit";
@@ -64,22 +64,7 @@ export default function UpsertGoalModal({
   const isSubmitting = isCreating || isUpdating;
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="modal-box">
-        {/* Header */}
-        <div className="modal-header">
-          <h2 className="section-title">
-            {openType} Goal
-          </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <HiOutlineX className="h-5 w-5" />
-          </button>
-        </div>
-
+    <ModalShell isOpen={!!openType} onClose={onClose} title={`${openType} Goal`}>
         <form onSubmit={handleSubmit} className="modal-body">
           {/* Title */}
           <div>
@@ -197,7 +182,6 @@ export default function UpsertGoalModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

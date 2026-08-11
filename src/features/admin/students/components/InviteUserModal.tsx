@@ -1,4 +1,3 @@
-import { AiOutlineClose } from "react-icons/ai";
 import ISO6391 from "iso-639-1";
 
 import { type Level } from "../../../../utils/constants";
@@ -6,6 +5,7 @@ import { inviteUser } from "../../../../api/users";
 import { fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
+import ModalShell from "../../../../ui/ModalShell";
 import { useState } from "react";
 
 type InviteUserModalProps = {
@@ -61,20 +61,13 @@ export default function InviteUserModal({
   }
 
   return (
-    <div className="modal-overlay">
-      <div className="w-full max-w-2xl rounded-lg bg-white p-8">
-        <div className="mb-6 flex items-start justify-between">
-          <h2 className="text-2xl font-semibold">Invite a new student</h2>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="icon-btn"
-          >
-            <AiOutlineClose className="text-2xl" />
-          </button>
-        </div>
-
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Invite a new student"
+      maxWidth="max-w-2xl"
+    >
+      <div className="px-6 py-5">
         <p>
           An invitation will be sent to this email address with a link to
           complete their account.
@@ -145,6 +138,6 @@ export default function InviteUserModal({
           </div>
         </form>
       </div>
-    </div>
+    </ModalShell>
   );
 }

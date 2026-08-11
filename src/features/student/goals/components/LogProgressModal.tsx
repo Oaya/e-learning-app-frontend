@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { HiOutlineX } from "react-icons/hi";
 import type { GoalActivity, GoalStatusType } from "../../../../type/goal";
 import { GOAL_STATUS_BADGE } from "../../../../utils/constants";
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
+import ModalShell from "../../../../ui/ModalShell";
 
 type Props = {
   openType: "Create" | "Edit";
@@ -77,22 +77,13 @@ export default function LogProgressModal({
   const isSubmitting = isAddingActivity || isUpdatingActivity;
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="w-full max-w-xl rounded-xl bg-white shadow-xl">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
-          <h2 className="section-title">
-            {openType} Log progress
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <HiOutlineX size={18} />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4 px-5 py-5">
+    <ModalShell
+      isOpen={!!openType}
+      onClose={onClose}
+      title={`${openType} Log progress`}
+      maxWidth="max-w-xl"
+    >
+        <form onSubmit={handleSubmit} className="modal-body">
           {/* Description */}
           <div>
             <label className="sm-label">What did you do?</label>
@@ -180,7 +171,7 @@ export default function LogProgressModal({
           </div>
 
           {/* Footer */}
-          <div className="flex justify-end gap-3 pt-1">
+          <div className="modal-footer">
             <button
               type="button"
               onClick={onClose}
@@ -197,7 +188,6 @@ export default function LogProgressModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

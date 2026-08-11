@@ -107,7 +107,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const res = await login(data);
 
-      console.log("Login response in AuthContext:", res); // Debug log for login response
       if (res.success && res.data?.user && res.data?.token) {
         localStorage.setItem("jwt", res.data.token);
         setUser(res.data.user as User);
@@ -154,37 +153,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    try {
+      const userRes = await getAuthUser();
+      setUser(userRes.data);
+    } catch (err) {
+      console.log("Error refreshing user:", err);
+    }
+  }, []);
+
   const cancelSubscriptionPlan = useCallback(async () => {
     setIsLoading(true);
     const res = await cancelSubscription();
 
     if (res.success) {
-      try {
-        const userRes = await getAuthUser();
-        setUser(userRes.data);
-      } catch (err) {
-        console.log("Error fetching user after plan change:", err);
-      }
+      await refreshUser();
     }
     setIsLoading(false);
     return res;
-  }, []);
+  }, [refreshUser]);
 
   const changeSubscriptionPlan = useCallback(async (plan: string) => {
     setIsLoading(true);
     const res = await changePlan(plan);
 
     if (res.success) {
-      try {
-        const userRes = await getAuthUser();
-        setUser(userRes.data);
-      } catch (err) {
-        console.log("Error fetching user after plan change:", err);
-      }
+      await refreshUser();
     }
     setIsLoading(false);
     return res;
-  }, []);
+  }, [refreshUser]);
 
   const value = useMemo(
     () => ({

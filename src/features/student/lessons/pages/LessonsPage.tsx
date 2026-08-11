@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import TabFilters from "@/ui/TabFilters";
-import LessonList from "../../../shared/lessons/components/LessonCardHeader";
-import EmptyLessonsState from "../../../shared/lessons/components/EmptyLessonsState";
+import LessonCardHeader from "@/ui/LessonCardHeader";
+import EmptyLessonsState from "@/ui/EmptyLessonsState";
 import StudentLessonCard from "../components/StudentLessonCard";
 import StatCard from "../../../../ui/StatCard";
 import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
@@ -85,7 +85,7 @@ export default function StudentLessonsPage() {
         <div className="space-y-6">
           {upcoming && upcoming.length > 0 && (
             <section>
-              <LessonList type="upcoming" />
+              <LessonCardHeader type="upcoming" />
               <div className="space-y-2">
                 {upcoming.map((l) => (
                   <StudentLessonCard key={l.id} lesson={l} />
@@ -96,7 +96,7 @@ export default function StudentLessonsPage() {
 
           {past && past.length > 0 && (
             <section>
-              <LessonList type="past" />
+              <LessonCardHeader type="past" />
               <div className="space-y-2">
                 {past.slice(0, 8).map((s) => (
                   <StudentLessonCard key={s.id} lesson={s} />

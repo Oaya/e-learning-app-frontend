@@ -1,10 +1,7 @@
 import { useState, useRef } from "react";
-import {
-  HiOutlineXMark,
-  HiOutlineDocumentArrowUp,
-  HiOutlineTrash,
-} from "react-icons/hi2";
+import { HiOutlineDocumentArrowUp, HiOutlineTrash } from "react-icons/hi2";
 import type { Homework } from "../../../../type/homework";
+import ModalShell from "../../../../ui/ModalShell";
 
 type Props = {
   hw: Homework;
@@ -37,24 +34,12 @@ export default function SubmitHomeworkModal({
   }
 
   return (
-    <div className="modal-overlay px-4">
-      <div className="modal-box">
-        {/* Header */}
-        <div className="flex items-start justify-between border-b border-gray-100 px-6 py-4">
-          <div>
-            <h2 className="section-title">
-              Submit homework
-            </h2>
-            <p className="mt-0.5 text-sm text-gray-400">{hw.title}</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <HiOutlineXMark className="h-5 w-5" />
-          </button>
-        </div>
-
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Submit homework"
+      subtitle={hw.title}
+    >
         <div className="modal-body">
           {/* Instructions reminder */}
           {hw.instructions && (
@@ -133,7 +118,6 @@ export default function SubmitHomeworkModal({
             {submitting ? "Submitting…" : "Submit"}
           </button>
         </div>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

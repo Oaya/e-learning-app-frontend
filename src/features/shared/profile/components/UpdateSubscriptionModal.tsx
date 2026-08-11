@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { BsStars } from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
@@ -7,6 +6,7 @@ import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { usePlans } from "../../../public/hooks/usePlans";
 import { capitalize } from "../../../../utils/helper";
+import ModalShell from "../../../../ui/ModalShell";
 
 type UpdateSubscriptionProps = {
   isOpen: boolean;
@@ -69,23 +69,7 @@ export default function UpdateSubscriptionModal({
   };
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="modal-box">
-        {/* Header */}
-        <div className="modal-header">
-          <div>
-            <h2 className="text-2xl font-semibold">{mode} Plan</h2>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="icon-btn"
-          >
-            <AiOutlineClose className="text-2xl" />
-          </button>
-        </div>
-
+    <ModalShell isOpen={isOpen} onClose={onClose} title={`${mode} Plan`}>
         <form onSubmit={handleChangePlan} className="modal-body">
           <div>
             <p>
@@ -146,7 +130,6 @@ export default function UpdateSubscriptionModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

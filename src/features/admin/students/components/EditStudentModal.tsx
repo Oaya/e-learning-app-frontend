@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { HiOutlineX } from "react-icons/hi";
 import ISO6391 from "iso-639-1";
 
 import { statusValue, type Status, type User } from "../../../../type/user";
 import CustomSelect from "../../../../ui/CustomSelect";
 import { useUser } from "../hooks/useUser";
-import TimezoneSelector from "../../../shared/profile/components/TimezoneSelector";
+import TimezoneSelector from "../../../../ui/TimezoneSelector";
+import ModalShell from "../../../../ui/ModalShell";
 import { useAlert } from "../../../../contexts/AlertContext";
 import defaultAvatar from "../../../../assets/user.png";
 
@@ -63,22 +63,12 @@ export default function EditStudentModal({
   }
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="w-full max-w-2xl rounded-xl bg-white shadow-xl">
-        {/* Header */}
-        <div className="modal-header">
-          <h2 className="section-title">
-            Edit Student
-          </h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <HiOutlineX className="h-5 w-5" />
-          </button>
-        </div>
-
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Edit Student"
+      maxWidth="max-w-2xl"
+    >
         <form onSubmit={handleSubmit} className="px-6 py-5">
           {/* Avatar preview */}
           <div className="mb-5 flex items-center gap-4">
@@ -192,7 +182,6 @@ export default function EditStudentModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

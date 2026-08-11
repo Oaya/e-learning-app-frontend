@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
 
 import defaultAvatar from "../../../../assets/user.png";
-import TimezoneSelector from "./TimezoneSelector";
+import TimezoneSelector from "../../../../ui/TimezoneSelector";
 
 import type { User } from "../../../../type/user";
 import { useAuth } from "../../../../contexts/AuthContext";

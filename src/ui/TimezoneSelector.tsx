@@ -2,7 +2,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import CustomSelect from "../../../../ui/CustomSelect";
+import CustomSelect from "./CustomSelect";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

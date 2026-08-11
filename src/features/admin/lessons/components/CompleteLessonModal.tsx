@@ -7,9 +7,8 @@ import { fdString } from "../../../../utils/formData";
 
 import type { LessonStatusType } from "../../../../type/lesson";
 
-import { HiOutlineX } from "react-icons/hi";
-
 import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
+import ModalShell from "../../../../ui/ModalShell";
 
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useState } from "react";
@@ -83,19 +82,7 @@ export default function CompleteLessonModal({
   }
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="w-full max-w-xl rounded-lg bg-white shadow-xl">
-        {/* Header */}
-        <div className="modal-header">
-          <h2 className="section-title">End Lesson</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <HiOutlineX className="h-5 w-5" />
-          </button>
-        </div>
-
+    <ModalShell isOpen={isOpen} onClose={onClose} title="End Lesson" maxWidth="max-w-xl">
         <div className="px-6 pt-5">
           <p className="mb-4 text-lg text-gray-500">
             {lesson?.topic} ·{" "}
@@ -221,7 +208,6 @@ export default function CompleteLessonModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

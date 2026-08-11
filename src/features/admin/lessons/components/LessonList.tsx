@@ -5,8 +5,8 @@ import { HiOutlineCalendarDays } from "react-icons/hi2";
 
 import { useAuth } from "../../../../contexts/AuthContext";
 import StatCard from "../../../../ui/StatCard";
-import LessonList from "../../../shared/lessons/components/LessonCardHeader";
-import EmptyLessonsState from "../../../shared/lessons/components/EmptyLessonsState";
+import LessonCardHeader from "../../../../ui/LessonCardHeader";
+import EmptyLessonsState from "../../../../ui/EmptyLessonsState";
 import UpsertLessonModal from "./UpsertLessonModal";
 import TabFilters from "@/ui/TabFilters";
 import LessonCard from "./LessonCard";
@@ -146,7 +146,7 @@ export default function LessonsList({
         <div className="space-y-6">
           {upcoming && upcoming.length > 0 && (
             <section>
-              <LessonList type="upcoming" />
+              <LessonCardHeader type="upcoming" />
               <div className="space-y-2">
                 {upcoming.map((s) => (
                   <LessonCard key={s.id} lesson={s} />
@@ -157,7 +157,7 @@ export default function LessonsList({
 
           {past && past.length > 0 && (
             <section>
-              <LessonList type="past" />
+              <LessonCardHeader type="past" />
               <div className="space-y-2">
                 {past.slice(0, 8).map((s) => (
                   <LessonCard key={s.id} lesson={s} />

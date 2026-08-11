@@ -1,7 +1,7 @@
-import { AiOutlineClose } from "react-icons/ai";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { fdString } from "../../../../utils/formData";
+import ModalShell from "../../../../ui/ModalShell";
 
 type UpdatePasswordModalProps = {
   isOpen: boolean;
@@ -44,20 +44,13 @@ export default function UpdatePasswordModal({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="w-full max-w-2xl rounded-lg bg-white p-8">
-        <div className="mb-6 flex items-start justify-between">
-          <h2 className="text-2xl font-semibold">Update Password</h2>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="icon-btn"
-          >
-            <AiOutlineClose className="text-2xl" />
-          </button>
-        </div>
-
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Update Password"
+      maxWidth="max-w-2xl"
+    >
+      <div className="px-6 py-5">
         <p>
           Please enter your current password and the new password you would like
           to set.
@@ -104,6 +97,6 @@ export default function UpdatePasswordModal({
           </div>
         </form>
       </div>
-    </div>
+    </ModalShell>
   );
 }

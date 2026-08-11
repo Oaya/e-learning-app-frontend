@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { HiOutlineSparkles } from "react-icons/hi2";
-import { HiOutlineX } from "react-icons/hi";
 
 import { useUsers } from "../../students/hooks/useUsers";
 import CustomSelect from "../../../../ui/CustomSelect";
+import ModalShell from "../../../../ui/ModalShell";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { fdString } from "../../../../utils/formData";
 import { levels } from "../../../../utils/constants";
@@ -102,36 +102,26 @@ export default function UpsertHomeworkModal({
   const isSubmitting = isCreating || isUpdating;
 
   return (
-    <div className="modal-overlay p-4">
-      <div className="modal-box">
-        {/* Header */}
-        <div className="modal-header">
-          <h2 className="section-title">
-            {type} homework
-          </h2>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setAiMode((v) => !v)}
-              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
-                aiMode
-                  ? "bg-purple-600 text-white"
-                  : "border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100"
-              }`}
-            >
-              <HiOutlineSparkles size={14} />
-              Generate with AI
-            </button>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <HiOutlineX className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="modal-body">
+    <ModalShell
+      isOpen={isOpen}
+      onClose={onClose}
+      title={`${type} homework`}
+      headerExtra={
+        <button
+          type="button"
+          onClick={() => setAiMode((v) => !v)}
+          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+            aiMode
+              ? "bg-purple-600 text-white"
+              : "border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100"
+          }`}
+        >
+          <HiOutlineSparkles size={14} />
+          Generate with AI
+        </button>
+      }
+    >
+      <form onSubmit={handleSubmit} className="modal-body">
           {/* AI generate panel */}
           {/* {aiMode && (
             <div className="rounded-xl border border-purple-100 bg-purple-50 p-4">
@@ -273,8 +263,7 @@ export default function UpsertHomeworkModal({
                   : "Assign"}
             </button>
           </div>
-        </form>
-      </div>
-    </div>
+      </form>
+    </ModalShell>
   );
 }
