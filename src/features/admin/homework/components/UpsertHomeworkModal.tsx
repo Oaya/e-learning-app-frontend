@@ -4,6 +4,7 @@ import { HiOutlineSparkles } from "react-icons/hi2";
 import { useUsers } from "../../students/hooks/useUsers";
 import CustomSelect from "../../../../ui/CustomSelect";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 import { useAlert } from "../../../../contexts/AlertContext";
 import { fdString } from "../../../../utils/formData";
 import { levels } from "../../../../utils/constants";
@@ -148,8 +149,7 @@ export default function UpsertHomeworkModal({
           )} */}
 
           {/* Student */}
-          <div>
-            <label className="sm-label">Student</label>
+          <FormField label="Student">
             <CustomSelect
               name="student"
               withAvatar
@@ -163,11 +163,10 @@ export default function UpsertHomeworkModal({
                 languages: i.learning_languages,
               }))}
             />
-          </div>
+          </FormField>
 
           {/* Title */}
-          <div>
-            <label className="sm-label">Title</label>
+          <FormField label="Title">
             <input
               type="text"
               name="title"
@@ -176,11 +175,10 @@ export default function UpsertHomeworkModal({
               placeholder="e.g. Write 10 sentences using past tense"
               className="form-input"
             />
-          </div>
+          </FormField>
 
           {/* Instructions */}
-          <div>
-            <label className="sm-label">Instructions</label>
+          <FormField label="Instructions">
             <textarea
               name="instructions"
               rows={3}
@@ -188,12 +186,11 @@ export default function UpsertHomeworkModal({
               placeholder="Describe what the student should do…"
               className="form-textarea"
             />
-          </div>
+          </FormField>
 
           {/* Language + Level */}
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="sm-label">Language</label>
+            <FormField label="Language">
               <CustomSelect
                 name="language"
                 className="w-full capitalize"
@@ -210,9 +207,8 @@ export default function UpsertHomeworkModal({
                   label: lang,
                 }))}
               />
-            </div>
-            <div>
-              <label className="sm-label">Level</label>
+            </FormField>
+            <FormField label="Level">
               <CustomSelect
                 name="level"
                 className="w-full capitalize"
@@ -224,12 +220,11 @@ export default function UpsertHomeworkModal({
                   label: level,
                 }))}
               />
-            </div>
+            </FormField>
           </div>
 
           {/* Due date */}
-          <div>
-            <label className="sm-label">Due date</label>
+          <FormField label="Due date">
             <input
               type="date"
               name="due_date"
@@ -237,7 +232,7 @@ export default function UpsertHomeworkModal({
               required
               className="form-input"
             />
-          </div>
+          </FormField>
 
           {/* Actions */}
 

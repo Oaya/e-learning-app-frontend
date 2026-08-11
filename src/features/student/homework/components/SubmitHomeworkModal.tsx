@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { HiOutlineDocumentArrowUp, HiOutlineTrash } from "react-icons/hi2";
 import type { Homework } from "../../../../type/homework";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 
 type Props = {
   hw: Homework;
@@ -52,10 +53,7 @@ export default function SubmitHomeworkModal({
           )}
 
           {/* Written answer */}
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">
-              Your answer
-            </label>
+          <FormField label="Your answer">
             <textarea
               rows={5}
               placeholder="Write your answer here…"
@@ -63,14 +61,10 @@ export default function SubmitHomeworkModal({
               onChange={(e) => setText(e.target.value)}
               className="form-textarea"
             />
-          </div>
+          </FormField>
 
           {/* File upload */}
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-gray-600">
-              Attach a file{" "}
-              <span className="font-normal text-gray-400">(optional)</span>
-            </label>
+          <FormField label="Attach a file" optional>
             {file ? (
               <div className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3">
                 <HiOutlineDocumentArrowUp className="h-5 w-5 shrink-0 text-emerald-600" />
@@ -99,7 +93,7 @@ export default function SubmitHomeworkModal({
               className="hidden"
               onChange={(e) => setFile(e.target.files?.[0] ?? null)}
             />
-          </div>
+          </FormField>
         </div>
 
         {/* Footer */}

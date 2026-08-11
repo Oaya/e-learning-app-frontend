@@ -6,6 +6,7 @@ import CustomSelect from "../../../../ui/CustomSelect";
 import { useUser } from "../hooks/useUser";
 import TimezoneSelector from "../../../../ui/TimezoneSelector";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 import { useAlert } from "../../../../contexts/AlertContext";
 import defaultAvatar from "../../../../assets/user.png";
 
@@ -88,8 +89,7 @@ export default function EditStudentModal({
 
           {/* Name */}
           <div className="mb-4 grid grid-cols-2 gap-3">
-            <div>
-              <label className="sm-label">First name</label>
+            <FormField label="First name">
               <input
                 name="first_name"
                 type="text"
@@ -97,9 +97,8 @@ export default function EditStudentModal({
                 defaultValue={user.first_name}
                 className="form-input"
               />
-            </div>
-            <div>
-              <label className="sm-label">Last name</label>
+            </FormField>
+            <FormField label="Last name">
               <input
                 name="last_name"
                 type="text"
@@ -107,13 +106,12 @@ export default function EditStudentModal({
                 defaultValue={user.last_name}
                 className="form-input"
               />
-            </div>
+            </FormField>
           </div>
 
           {/* Email & Languages*/}
           <div className="mb-4 grid grid-cols-2 gap-3">
-            <div>
-              <label className="sm-label">Email</label>
+            <FormField label="Email">
               <input
                 name="email"
                 type="email"
@@ -121,9 +119,8 @@ export default function EditStudentModal({
                 defaultValue={user.email}
                 className="form-input"
               />
-            </div>
-            <div>
-              <label className="sm-label">Learning languages</label>
+            </FormField>
+            <FormField label="Learning languages">
               <CustomSelect
                 isMulti
                 className="form-select capitalize"
@@ -142,16 +139,14 @@ export default function EditStudentModal({
                   )
                 }
               />
-            </div>
+            </FormField>
           </div>
 
           <div className="mb-4 grid grid-cols-2 gap-3">
-            <div>
-              <label className="sm-label">Time zone</label>
+            <FormField label="Time zone">
               <TimezoneSelector value={timezone} onChange={setTimezone} />
-            </div>
-            <div>
-              <label className="sm-label">Status</label>
+            </FormField>
+            <FormField label="Status">
               <CustomSelect
                 name="status"
                 className="form-select capitalize"
@@ -165,7 +160,7 @@ export default function EditStudentModal({
                   setStatus(selected ? selected.value : undefined)
                 }
               />
-            </div>
+            </FormField>
           </div>
 
           {/* Footer */}

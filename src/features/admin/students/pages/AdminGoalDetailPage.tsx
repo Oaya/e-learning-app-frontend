@@ -13,6 +13,7 @@ import GoalHeader from "@/features/shared/goals/components/goalsHeader";
 import GoalCommentPanel from "../../../shared/goals/components/GoalCommentPanel";
 import GoalActivityLogsPanel from "@/features/shared/goals/components/GoalActivityLogsPanel";
 import { useAuth } from "@/contexts/AuthContext";
+import PageLoadingState from "@/ui/PageLoadingState";
 
 export default function AdminGoalDetailPage() {
   const { id: studentId, goalId } = useParams<{ id: string; goalId: string }>();
@@ -37,8 +38,7 @@ export default function AdminGoalDetailPage() {
         ? 0
         : (goal?.progress ?? 0);
 
-  if (isLoading)
-    return <p className="p-10 text-sm text-gray-400">Loading...</p>;
+  if (isLoading) return <PageLoadingState />;
   if (!goal)
     return <p className="p-10 text-sm text-gray-400">Goal not found.</p>;
 

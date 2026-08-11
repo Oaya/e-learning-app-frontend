@@ -5,8 +5,8 @@ import { HiOutlineCalendarDays } from "react-icons/hi2";
 
 import { useAuth } from "../../../../contexts/AuthContext";
 import StatCard from "../../../../ui/StatCard";
-import LessonCardHeader from "../../../../ui/LessonCardHeader";
-import EmptyLessonsState from "../../../../ui/EmptyLessonsState";
+import CardHeader from "../../../../ui/CardHeader";
+import EmptyState from "../../../../ui/EmptyState";
 import UpsertLessonModal from "./UpsertLessonModal";
 import TabFilters from "@/ui/TabFilters";
 import LessonCard from "./LessonCard";
@@ -90,10 +90,7 @@ export default function LessonsList({
                 Manage and track all your lessons
               </p>
             </div>
-            <button
-              onClick={() => setModalOpen(true)}
-              className="btn-primary"
-            >
+            <button onClick={() => setModalOpen(true)} className="btn-primary">
               + New lesson
             </button>
           </>
@@ -141,12 +138,12 @@ export default function LessonsList({
 
       {/* Lesson list */}
       {filtered?.length === 0 ? (
-        <EmptyLessonsState />
+        <EmptyState message="No lessons match your filter." />
       ) : (
         <div className="space-y-6">
           {upcoming && upcoming.length > 0 && (
             <section>
-              <LessonCardHeader type="upcoming" />
+              <CardHeader type="upcoming" />
               <div className="space-y-2">
                 {upcoming.map((s) => (
                   <LessonCard key={s.id} lesson={s} />
@@ -157,7 +154,7 @@ export default function LessonsList({
 
           {past && past.length > 0 && (
             <section>
-              <LessonCardHeader type="past" />
+              <CardHeader type="past" />
               <div className="space-y-2">
                 {past.slice(0, 8).map((s) => (
                   <LessonCard key={s.id} lesson={s} />

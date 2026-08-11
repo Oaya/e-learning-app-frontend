@@ -6,6 +6,7 @@ import GoalActivityLogsPanel from "../../../shared/goals/components/GoalActivity
 import GoalHeader from "@/features/shared/goals/components/goalsHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import GoalCommentPanel from "@/features/shared/goals/components/GoalCommentPanel";
+import PageLoadingState from "@/ui/PageLoadingState";
 
 export default function GoalDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -23,8 +24,7 @@ export default function GoalDetailPage() {
         ? 0
         : (goal?.progress ?? 0);
 
-  if (isLoading)
-    return <p className="p-10 text-sm text-gray-400">Loading...</p>;
+  if (isLoading) return <PageLoadingState />;
   if (!goal)
     return <p className="p-10 text-sm text-gray-400">Goal not found.</p>;
 

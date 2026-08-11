@@ -13,6 +13,7 @@ import { HiOutlineMail, HiUsers } from "react-icons/hi";
 import { HiOutlineCheckCircle, HiOutlineCurrencyDollar } from "react-icons/hi2";
 import StatCard from "../../../../ui/StatCard";
 import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
+import PageLoadingState from "../../../../ui/PageLoadingState";
 
 export default function StudentsPage() {
   const [isInviteOpen, setInviteOpen] = useState(false);
@@ -72,7 +73,7 @@ export default function StudentsPage() {
   }
 
   if (isLoading) {
-    return <div className="p-6">Loading students...</div>;
+    return <PageLoadingState message="Loading students..." />;
   }
 
   if (isError) {

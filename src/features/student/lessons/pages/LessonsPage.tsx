@@ -3,13 +3,16 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import TabFilters from "@/ui/TabFilters";
-import LessonCardHeader from "@/ui/LessonCardHeader";
-import EmptyLessonsState from "@/ui/EmptyLessonsState";
+import CardHeader from "@/ui/CardHeader";
+import EmptyState from "@/ui/EmptyState";
 import StudentLessonCard from "../components/StudentLessonCard";
 import StatCard from "../../../../ui/StatCard";
 import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
 import { useUpcomingPastSplit } from "../../../shared/lessons/hooks/useUpcomingPastSplit";
-import { LESSON_TABS, type LessonFilterTab } from "../../../shared/lessons/constants";
+import {
+  LESSON_TABS,
+  type LessonFilterTab,
+} from "../../../shared/lessons/constants";
 import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 
@@ -80,12 +83,12 @@ export default function StudentLessonsPage() {
 
       {/* Lesson list */}
       {filtered?.length === 0 ? (
-        <EmptyLessonsState />
+        <EmptyState message="No lessons match your filter." />
       ) : (
         <div className="space-y-6">
           {upcoming && upcoming.length > 0 && (
             <section>
-              <LessonCardHeader type="upcoming" />
+              <CardHeader type="upcoming" />
               <div className="space-y-2">
                 {upcoming.map((l) => (
                   <StudentLessonCard key={l.id} lesson={l} />
@@ -96,7 +99,7 @@ export default function StudentLessonsPage() {
 
           {past && past.length > 0 && (
             <section>
-              <LessonCardHeader type="past" />
+              <CardHeader type="past" />
               <div className="space-y-2">
                 {past.slice(0, 8).map((s) => (
                   <StudentLessonCard key={s.id} lesson={s} />

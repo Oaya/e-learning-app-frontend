@@ -8,6 +8,7 @@ import {
 
 import HomeworkCard from "./HomeworkCard";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
+import EmptyState from "@/ui/EmptyState";
 import StatCard from "@/ui/StatCard";
 import TabFilters from "@/ui/TabFilters";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
@@ -17,6 +18,7 @@ import {
   type HomeworkFilterTab,
 } from "@/features/shared/homeworks/constants";
 import type { User } from "@/type/user";
+import CardHeader from "@/ui/CardHeader";
 
 export const HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",
@@ -129,9 +131,7 @@ export default function HomeworkList({
 
       {/* Grouped list */}
       {filtered?.length === 0 ? (
-        <div className="empty-state">
-          No homework matches your filter.
-        </div>
+        <EmptyState message="No homework matches your filter." />
       ) : (
         <div className="space-y-6">
           {HOMEWORK_GROUP_ORDER.map((status) => {
@@ -139,9 +139,11 @@ export default function HomeworkList({
             if (!group?.length) return null;
             return (
               <section key={status}>
-                <p className="mb-3 text-[11px] font-semibold tracking-widest text-gray-400 uppercase">
-                  {status === "submitted" ? "Submitted — needs review" : status}
-                </p>
+                <CardHeader
+                  type={
+                    status === "submitted" ? "Submitted — needs review" : status
+                  }
+                />
                 <div className="space-y-2">
                   {group?.map((hw) => (
                     <HomeworkCard key={hw.id} hw={hw} />

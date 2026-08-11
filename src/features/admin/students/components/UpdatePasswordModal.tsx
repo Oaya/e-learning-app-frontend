@@ -2,6 +2,7 @@ import { useAlert } from "../../../../contexts/AlertContext";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { fdString } from "../../../../utils/formData";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 
 type UpdatePasswordModalProps = {
   isOpen: boolean;
@@ -57,25 +58,23 @@ export default function UpdatePasswordModal({
         </p>
         <form onSubmit={handleUpdatePassword} className="my-6">
           <div className="-cols-2 gap-6">
-            <div className="mb-2">
-              <label className="sm-label">Current Password</label>
+            <FormField label="Current Password" className="mb-2">
               <input
                 name="current_password"
                 type="password"
                 required
                 className="form-input"
               />
-            </div>
+            </FormField>
 
-            <div className="mb-2">
-              <label className="sm-label">New Password</label>
+            <FormField label="New Password" className="mb-2">
               <input
                 name="new_password"
                 type="password"
                 required
                 className="form-input"
               />
-            </div>
+            </FormField>
           </div>
 
           <div className="modal-footer">

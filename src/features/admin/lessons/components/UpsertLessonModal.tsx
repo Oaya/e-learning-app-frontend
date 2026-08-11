@@ -12,6 +12,7 @@ import type { Lesson, LessonStatusType } from "../../../../type/lesson";
 import { useLessons } from "../hooks/useLessons";
 import { useUsers } from "../../students/hooks/useUsers";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 import type { StudentOption, User } from "../../../../type/user";
 import { lessonDuration, LessonStatus } from "../../../../utils/constants";
 
@@ -135,8 +136,7 @@ export default function UpsertLessonModal({
         <form onSubmit={handleSubmit} className="modal-body">
           {/* Student */}
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="sm-label">Student</label>
+            <FormField label="Student">
               <CustomSelect
                 name="student"
                 withAvatar
@@ -152,10 +152,9 @@ export default function UpsertLessonModal({
                   languages: i.learning_languages,
                 }))}
               />
-            </div>
+            </FormField>
 
-            <div>
-              <label className="sm-label">Language</label>
+            <FormField label="Language">
               <CustomSelect
                 name="language"
                 className="form-select capitalize"
@@ -172,13 +171,12 @@ export default function UpsertLessonModal({
                   label: lang,
                 }))}
               />
-            </div>
+            </FormField>
           </div>
 
           {/* Date + time */}
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="sm-label">Date</label>
+            <FormField label="Date">
               <DatePicker
                 selected={date}
                 onChange={(d: Date | null) => setDate(d)}
@@ -190,11 +188,9 @@ export default function UpsertLessonModal({
                 wrapperClassName="w-full"
                 className="form-input w-full"
               />
-            </div>
+            </FormField>
 
-            <div>
-              <label className="sm-label">Lesson Status</label>
-
+            <FormField label="Lesson Status">
               <CustomSelect
                 name="status"
                 className="capitalize"
@@ -211,12 +207,11 @@ export default function UpsertLessonModal({
                   label: value,
                 }))}
               />
-            </div>
+            </FormField>
           </div>
 
           {/* Duration */}
-          <div>
-            <label className="sm-label">Duration</label>
+          <FormField label="Duration">
             <div className="flex gap-2">
               {lessonDuration.map((d) => (
                 <button
@@ -233,11 +228,10 @@ export default function UpsertLessonModal({
                 </button>
               ))}
             </div>
-          </div>
+          </FormField>
 
           {/* Topic */}
-          <div>
-            <label className="sm-label">Topic</label>
+          <FormField label="Topic">
             <input
               name="topic"
               type="text"
@@ -245,13 +239,10 @@ export default function UpsertLessonModal({
               defaultValue={lesson?.topic ?? ""}
               className="form-input"
             />
-          </div>
+          </FormField>
 
           {/* Notes */}
-          <div>
-            <label className="sm-label">
-              Teacher Note <span className="text-gray-300">(optional)</span>
-            </label>
+          <FormField label="Teacher Note" optional>
             <textarea
               name="teacher_note"
               rows={3}
@@ -259,7 +250,7 @@ export default function UpsertLessonModal({
               placeholder="Preparation notes, goals for this lesson…"
               className="form-textarea"
             />
-          </div>
+          </FormField>
 
           <div className="modal-footer">
             <button

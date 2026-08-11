@@ -3,6 +3,7 @@ import type { Goal, GoalStatusType } from "../../../../type/goal";
 import { useGoals } from "../hooks/useGoals";
 import { GOAL_STATUS_BADGE, GoalStatus } from "../../../../utils/constants";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 
 type Props = {
   openType: "Create" | "Edit";
@@ -67,8 +68,7 @@ export default function UpsertGoalModal({
     <ModalShell isOpen={!!openType} onClose={onClose} title={`${openType} Goal`}>
         <form onSubmit={handleSubmit} className="modal-body">
           {/* Title */}
-          <div>
-            <label className="sm-label">Goal</label>
+          <FormField label="Goal">
             <input
               name="title"
               type="text"
@@ -77,21 +77,19 @@ export default function UpsertGoalModal({
               placeholder="e.g. Hold a 5-minute conversation in Japanese"
               className="form-input"
             />
-          </div>
+          </FormField>
 
-          <div>
-            <label className="sm-label">Description</label>
+          <FormField label="Description">
             <textarea
               name="description"
               rows={2}
               defaultValue={goal?.description}
               className="form-textarea"
             />
-          </div>
+          </FormField>
 
           {/* Status */}
-          <div>
-            <label className="sm-label">Status</label>
+          <FormField label="Status">
             <div className="flex gap-2">
               {(Object.entries(GoalStatus) as [GoalStatusType, string][]).map(
                 ([key, label]) => (
@@ -110,7 +108,7 @@ export default function UpsertGoalModal({
                 ),
               )}
             </div>
-          </div>
+          </FormField>
 
           {/* Progress — only when in_progress */}
           {status === "in_progress" && (
@@ -136,8 +134,7 @@ export default function UpsertGoalModal({
           )}
 
           {/* Target date */}
-          <div>
-            <label className="sm-label">Target date</label>
+          <FormField label="Target date">
             <input
               required
               name="target_date"
@@ -145,11 +142,10 @@ export default function UpsertGoalModal({
               defaultValue={goal?.target_date}
               className="form-input"
             />
-          </div>
+          </FormField>
 
           {status === "achieved" && (
-            <div>
-              <label className="sm-label">Achieved date</label>
+            <FormField label="Achieved date">
               <input
                 required
                 name="achieved_at"
@@ -157,7 +153,7 @@ export default function UpsertGoalModal({
                 defaultValue={goal?.achieved_at}
                 className="form-input"
               />
-            </div>
+            </FormField>
           )}
 
           {/* Footer */}

@@ -13,6 +13,7 @@ import UpsertLessonNoteModal from "../../../student/lessons/components/UpsertLes
 import CompleteLessonModal from "../../../admin/lessons/components/CompleteLessonModal";
 import UpsertLessonModal from "../../../admin/lessons/components/UpsertLessonModal";
 import LessonNotesViewer from "../components/LessonNoteViewer";
+import PageLoadingState from "../../../../ui/PageLoadingState";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -29,11 +30,7 @@ export default function LessonDetailPage() {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   if (isLoading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <p className="text-sm text-gray-400">Loading lesson...</p>
-      </div>
-    );
+    return <PageLoadingState message="Loading lesson..." />;
   }
 
   if (!lesson) {

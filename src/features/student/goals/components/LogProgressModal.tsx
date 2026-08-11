@@ -3,6 +3,7 @@ import type { GoalActivity, GoalStatusType } from "../../../../type/goal";
 import { GOAL_STATUS_BADGE } from "../../../../utils/constants";
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 
 type Props = {
   openType: "Create" | "Edit";
@@ -85,8 +86,7 @@ export default function LogProgressModal({
     >
         <form onSubmit={handleSubmit} className="modal-body">
           {/* Description */}
-          <div>
-            <label className="sm-label">What did you do?</label>
+          <FormField label="What did you do?">
             <input
               type="text"
               value={description}
@@ -96,13 +96,10 @@ export default function LogProgressModal({
               autoFocus
               required
             />
-          </div>
+          </FormField>
 
           {/* Date */}
-          <div>
-            <label className="sm-label">
-              Date <span className="font-normal text-gray-300"></span>
-            </label>
+          <FormField label="Date">
             <input
               type="date"
               required
@@ -111,11 +108,10 @@ export default function LogProgressModal({
               max={new Date().toISOString().split("T")[0]}
               className="form-input"
             />
-          </div>
+          </FormField>
 
           {/* Progress */}
-          <div>
-            <label className="sm-label">Update progress</label>
+          <FormField label="Update progress">
             <div className="mt-1 space-y-3 rounded-xl border border-gray-200 bg-gray-50 p-4">
               {/* Value + status */}
               <div className="flex items-center justify-between">
@@ -168,7 +164,7 @@ export default function LogProgressModal({
                 </div>
               </div>
             </div>
-          </div>
+          </FormField>
 
           {/* Footer */}
           <div className="modal-footer">

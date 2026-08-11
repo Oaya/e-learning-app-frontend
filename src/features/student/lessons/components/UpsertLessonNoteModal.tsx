@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useAlert } from "../../../../contexts/AlertContext";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -61,8 +62,7 @@ export default function UpsertLessonNoteModal({
 
         <div className="modal-body">
           {/* feedback */}
-          <div className="mb-4">
-            <label className="sm-label">Note</label>
+          <FormField label="Note" className="mb-4">
             <textarea
               name="meeting_feedback"
               rows={5}
@@ -70,7 +70,7 @@ export default function UpsertLessonNoteModal({
               onChange={(e) => setNote(e.target.value)}
               className="form-textarea"
             />
-          </div>
+          </FormField>
 
           <div className="modal-footer">
             <button

@@ -17,6 +17,8 @@ import StatCard from "@/ui/StatCard";
 import TabFilters from "@/ui/TabFilters";
 import GoalCard from "@/features/shared/goals/components/GoalCard";
 import UpsertGoalModal from "@/features/shared/goals/components/UpsertGoalModal";
+import EmptyState from "@/ui/EmptyState";
+import PageLoadingState from "@/ui/PageLoadingState";
 
 export type GoalFilterTab = "all" | GoalStatusType;
 
@@ -71,7 +73,7 @@ export default function GoalsPage() {
   }
 
   if (isAdmin && !userId) return <p>User ID is missing.</p>;
-  if (isLoading) return <p className="p-10 text-sm text-gray-400">Loading…</p>;
+  if (isLoading) return <PageLoadingState />;
 
   return (
     <div className="page-container">
@@ -134,9 +136,7 @@ export default function GoalsPage() {
 
       {/* Goal list */}
       {filtered?.length === 0 ? (
-        <div className="empty-state">
-          No goals matches your filter.
-        </div>
+        <EmptyState message="No goals matches your filter." />
       ) : (
         <div className="space-y-6">
           {filtered?.map((goal) => (

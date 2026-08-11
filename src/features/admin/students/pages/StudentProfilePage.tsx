@@ -20,6 +20,7 @@ import GoalsPanel from "@/features/shared/goals/components/GoalsPanel";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import Badge from "../../../../ui/Badge";
 import { USER_STATUS_BADGE } from "../../../../utils/constants";
+import PageLoadingState from "../../../../ui/PageLoadingState";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -46,7 +47,7 @@ export default function StudentProfile() {
   });
 
   if (!userId) return <p>User ID is missing.</p>;
-  if (isLoading) return <p>Loading…</p>;
+  if (isLoading) return <PageLoadingState />;
   if (!user) return <p>User not found.</p>;
 
   //Stat Values//

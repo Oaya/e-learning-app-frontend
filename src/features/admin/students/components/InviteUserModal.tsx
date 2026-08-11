@@ -6,6 +6,7 @@ import { fdString } from "../../../../utils/formData";
 import { useAlert } from "../../../../contexts/AlertContext";
 import CustomSelect from "../../../../ui/CustomSelect";
 import ModalShell from "../../../../ui/ModalShell";
+import FormField from "../../../../ui/FormField";
 import { useState } from "react";
 
 type InviteUserModalProps = {
@@ -73,35 +74,31 @@ export default function InviteUserModal({
           complete their account.
         </p>
         <form onSubmit={handleInvite} className="my-6">
-          <div className="mb-2">
-            <label className="sm-label">Email</label>
+          <FormField label="Email" className="mb-2">
             <input name="email" type="email" required className="form-input" />
-          </div>
+          </FormField>
 
           <div className="grid grid-cols-2 gap-6">
-            <div className="mb-2">
-              <label className="sm-label">First Name</label>
+            <FormField label="First Name" className="mb-2">
               <input
                 name="first_name"
                 type="text"
                 required
                 className="form-input"
               />
-            </div>
+            </FormField>
 
-            <div className="mb-2">
-              <label className="sm-label">Last Name</label>
+            <FormField label="Last Name" className="mb-2">
               <input
                 name="last_name"
                 type="text"
                 required
                 className="form-input"
               />
-            </div>
+            </FormField>
           </div>
 
-          <div className="mb-2">
-            <label className="sm-label">Learning Languages</label>
+          <FormField label="Learning Languages" className="mb-2">
             <CustomSelect
               isMulti
               name="learning_languages"
@@ -117,7 +114,7 @@ export default function InviteUserModal({
                 )
               }
             />
-          </div>
+          </FormField>
 
           <div className="modal-footer">
             <button
