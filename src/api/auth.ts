@@ -115,6 +115,38 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
   }
 }
 
+export async function forgotPassword(email: string): Promise<ApiResponse> {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/auth/password`,
+      { email },
+    );
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function resetPassword(data: {
+  token: string;
+  password: string;
+  password_confirmation: string;
+}): Promise<ApiResponse> {
+  try {
+    const res = await axios.put(
+      `${import.meta.env.VITE_API_URL}/api/auth/password`,
+      {
+        reset_password_token: data.token,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+      },
+    );
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
 export async function updateUserPassword(
   data: UpdatePassword,
 ): Promise<ApiResponse> {

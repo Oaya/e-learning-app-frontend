@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
 import { useAlert } from "@/contexts/AlertContext";
 import { useAuth } from "@/contexts/AuthContext";
 import type { SignupUser } from "@/type/user";
 import { fdString } from "@/utils/formData";
-import AuthCard from "@/features/public/components/AuthCard";
+import AuthLayout from "@/features/public/components/AuthLayout";
 import { usePlans } from "@/features/public/hooks/usePlans";
 
 export default function SignupPage() {
@@ -47,117 +48,130 @@ export default function SignupPage() {
   };
 
   return (
-    <AuthCard className="py-10">
-      <h1 className="mb-1 text-center text-lg font-semibold text-gray-800">
-        Create your account
-      </h1>
-      <p className="mb-7 text-center text-sm text-gray-400">
-        Start managing your students today
-      </p>
+    <AuthLayout>
+      <div className="w-full max-w-sm">
+        <h1 className="mb-1 text-xl font-medium text-gray-800">
+          Create account
+        </h1>
+        <p className="mb-6 text-sm text-gray-400">Join as a Teacher</p>
 
-      <form onSubmit={handleSignup} className="space-y-2">
-        {/* Name row */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="sm-label">First name</label>
-            <input name="first_name" placeholder="Aya" className="form-input" />
-          </div>
-          <div>
-            <label className="sm-label">Last name</label>
-            <input
-              name="last_name"
-              placeholder="Smith"
-              className="form-input"
-            />
-          </div>
-        </div>
-
-        {/* Email */}
-        <div>
-          <label className="sm-label">Email</label>
-          <input
-            name="email"
-            type="email"
-            placeholder="you@example.com"
-            className="form-input"
-          />
-        </div>
-
-        {/* Password row */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="sm-label">Password</label>
-            <input
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              className="form-input"
-            />
-          </div>
-          <div>
-            <label className="sm-label">Confirm password</label>
-            <input
-              name="password_confirm"
-              type="password"
-              placeholder="••••••••"
-              className="form-input"
-            />
-          </div>
-        </div>
-
-        {/* Plan */}
-        <div>
-          <label className="sm-label mb-2 block">Choose a plan</label>
-          <div className="grid grid-cols-2 gap-2">
-            {plans?.map((plan) => (
-              <button
-                key={plan.id}
-                type="button"
-                onClick={() => setSelectedPlan(plan.name)}
-                className={`relative rounded-xl border p-2 text-left capitalize transition-colors ${
-                  selectedPlan === plan.name
-                    ? "border-theme-purple-50 bg-purple-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <p className="text-sm font-semibold text-gray-800">
-                  {plan.name}
-                </p>
-                <p className="text-xs text-gray-400">$ {plan.price} / Month</p>
-                {plan.name === "pro" && selectedPlan !== plan.name && (
-                  <span className="bg-theme-purple-10 text-theme-purple-50 absolute top-2 right-2 rounded px-1.5 py-0.5 text-[9px] font-semibold">
-                    Popular
-                  </span>
-                )}
-                {selectedPlan === plan.name && (
-                  <div className="bg-theme-purple-50 absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded-full">
-                    <span className="text-[9px] text-white">✓</span>
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="btn-primary mt-2 w-full py-2.5"
-        >
-          {isLoading ? "Creating account..." : "Create account"}
-        </button>
-      </form>
-
-      <p className="mt-4 text-center text-xs text-gray-400">
-        Already have an account?{" "}
+        {/* Google button */}
         <button
           type="button"
-          onClick={() => navigate("/login")}
-          className="text-theme-purple-50 cursor-pointer"
+          className="mb-4 flex w-full items-center justify-center gap-2.5 rounded border border-gray-200 bg-white py-3 text-sm text-gray-700 transition hover:bg-gray-50"
         >
-          Sign in
+          <FcGoogle size={20} />
+          Continue with Google
         </button>
-      </p>
-    </AuthCard>
+
+        <div className="mb-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-100" />
+          <span className="text-xs text-gray-400">or</span>
+          <div className="h-px flex-1 bg-gray-100" />
+        </div>
+
+        <form onSubmit={handleSignup} className="space-y-2">
+          {/* Name row */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="sm-label">First name</label>
+              <input name="first_name" className="form-input" />
+            </div>
+            <div>
+              <label className="sm-label">Last name</label>
+              <input name="last_name" className="form-input" />
+            </div>
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="sm-label">Email</label>
+            <input name="email" type="email" className="form-input" />
+          </div>
+
+          {/* Password row */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="sm-label">Password</label>
+              <input name="password" className="form-input" />
+            </div>
+            <div>
+              <label className="sm-label">Confirm password</label>
+              <input
+                name="password_confirm"
+                type="password"
+                className="form-input"
+              />
+            </div>
+          </div>
+
+          {/* Plan */}
+          <div>
+            <label className="sm-label mb-2 block">Choose a plan</label>
+            <div className="grid grid-cols-2 gap-2">
+              {plans?.map((plan) => (
+                <button
+                  key={plan.id}
+                  type="button"
+                  onClick={() => setSelectedPlan(plan.name)}
+                  className={`relative rounded-xl border p-2 text-left capitalize transition-colors ${
+                    selectedPlan === plan.name
+                      ? "border-theme-purple-50 bg-purple-50"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                >
+                  <p className="text-sm font-semibold text-gray-800">
+                    {plan.name}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    $ {plan.price} / Month
+                  </p>
+                  {plan.name === "pro" && selectedPlan !== plan.name && (
+                    <span className="bg-theme-purple-10 text-theme-purple-50 absolute top-2 right-2 rounded px-1.5 py-0.5 text-[9px] font-semibold">
+                      Popular
+                    </span>
+                  )}
+                  {selectedPlan === plan.name && (
+                    <div className="bg-theme-purple-50 absolute top-2 right-2 flex h-4 w-4 items-center justify-center rounded-full">
+                      <span className="text-[9px] text-white">✓</span>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="btn-primary mt-4 w-full py-2.5"
+          >
+            {isLoading ? "Creating account..." : "Create account"}
+          </button>
+        </form>
+
+        <p className="mt-3 text-xs text-gray-400">
+          By creating an account you agree to our{" "}
+          <button
+            onClick={() => navigate("/refund-policy")}
+            className="text-theme-purple-50 cursor-pointer hover:underline"
+          >
+            Refund policy
+          </button>
+          .
+        </p>
+
+        <p className="mt-1 text-xs text-gray-400">
+          Already have an account?{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/login")}
+            className="text-theme-purple-50 cursor-pointer hover:underline"
+          >
+            Sign in
+          </button>
+        </p>
+      </div>
+    </AuthLayout>
   );
 }

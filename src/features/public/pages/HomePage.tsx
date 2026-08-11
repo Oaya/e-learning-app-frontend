@@ -17,8 +17,9 @@ export default function HomePage() {
     <div className="flex min-h-screen flex-col">
       {/* Hero */}
       <section className="mx-auto max-w-275 px-12 pt-20 pb-30 text-center">
-        <div className="bg-theme-green-10 mb-6 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium">
-          <BsStars size={16}></BsStars>Build for language teachers
+        <div className="bg-theme-green-10 text-theme-green-20 mb-6 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium">
+          <BsStars size={16} />
+          Build for language teachers
         </div>
         <h1 className="mx-auto mb-5 max-w-160 text-5xl leading-tight font-bold tracking-tight">
           Everything you need to{" "}

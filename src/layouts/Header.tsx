@@ -5,7 +5,7 @@ export default function Header() {
     <nav className="bg-theme-purple-30 fixed start-0 top-0 left-0 z-20 w-full">
       <div className="mx-auto flex flex-wrap items-center justify-between px-20 py-4">
         <div className="flex items-center space-x-8">
-          <NavLink to="/" className="text-xl font-semibold">
+          <NavLink to="/" className="text-2xl font-bold">
             Fluently
           </NavLink>
 
@@ -21,8 +21,12 @@ export default function Header() {
         </div>
 
         <div className="flex space-x-4">
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Get started</Link>
+          <Link to="/login" className="hover:text-gray-600">
+            Login
+          </Link>
+          <Link to="/signup" className="hover:text-gray-600">
+            Get started
+          </Link>
         </div>
       </div>
     </nav>

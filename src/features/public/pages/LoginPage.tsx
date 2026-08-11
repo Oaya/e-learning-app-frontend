@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAlert } from "@/contexts/AlertContext";
 import { useAuth } from "@/contexts/AuthContext";
 import type { LoginUser } from "@/type/user";
-import AuthCard from "@/features/public/components/AuthCard";
+import AuthLayout from "@/features/public/components/AuthLayout";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
   const { loginUser, isLoading } = useAuth();
@@ -43,54 +44,60 @@ export default function LoginPage() {
   };
 
   return (
-    <AuthCard className="py-23">
-      <h1 className="mb-1 text-center text-lg font-semibold text-gray-800">
-        Welcome back
-      </h1>
-      <p className="mb-7 text-center text-sm text-gray-400">
-        Sign in to continue
-      </p>
-
-      <form onSubmit={handleLogin} className="space-y-2">
-        <div>
-          <label className="sm-label">Email</label>
-          <input
-            name="email"
-            type="email"
-            placeholder="you@example.com"
-            className="form-input"
-          />
-        </div>
-
-        <div>
-          <label className="sm-label">password</label>
-          <input
-            name="password"
-            type="password"
-            placeholder="••••••••"
-            className="form-input"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="btn-primary w-full py-2.5"
-        >
-          {isLoading ? "Signing in..." : "Sign in"}
-        </button>
-      </form>
-
-      <p className="mt-4 text-center text-xs text-gray-400">
-        No account?
+    <AuthLayout>
+      <div className="w-full max-w-sm">
+        <h1 className="mb-1 text-xl font-medium text-gray-800">Welcome back</h1>
+        <p className="mb-6 text-sm text-gray-400">Sign in to continue</p>
+        {/* Google button */}
         <button
           type="button"
-          onClick={() => navigate("/signup")}
-          className="text-theme-purple-50 cursor-pointer"
+          className="mb-4 flex w-full items-center justify-center gap-2.5 rounded border border-gray-200 bg-white py-3 text-sm text-gray-700 transition hover:bg-gray-50"
         >
-          create your account
+          <FcGoogle size={20} />
+          Continue with Google
         </button>
-      </p>
-    </AuthCard>
+        <div className="mb-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-100" />
+          <span className="text-xs text-gray-400">or</span>
+          <div className="h-px flex-1 bg-gray-100" />
+        </div>
+        <form onSubmit={handleLogin} className="space-y-2">
+          <div>
+            <label className="sm-label">Email</label>
+            <input name="email" type="email" className="form-input" />
+          </div>
+          <div>
+            <label className="sm-label">Password</label>
+            <input name="password" type="password" className="form-input" />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="btn-primary mt-4 w-full py-2.5"
+          >
+            {isLoading ? "Signing in..." : "Sign in"}
+          </button>
+        </form>
+        <p className="mt-3 text-xs text-gray-400">
+          No account yet?{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/signup")}
+            className="text-theme-purple-50 cursor-pointer hover:underline"
+          >
+            Create account
+          </button>
+        </p>
+
+        <button
+          type="button"
+          onClick={() => navigate("/forgot-password")}
+          className="text-theme-purple-50 text-xs hover:underline"
+        >
+          Forgot password?
+        </button>
+      </div>
+    </AuthLayout>
   );
 }
