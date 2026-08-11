@@ -3,9 +3,9 @@ import { LuNewspaper, LuCalendar1 } from "react-icons/lu";
 // import { MdPayment } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 
-import { useAuth } from "../contexts/AuthContext";
-import StyledNavLink from "../ui/NavLink";
-import SubscriptionBanner from "../features/public/components/SubscriptionBanner";
+import { useAuth } from "@/contexts/AuthContext";
+import StyledNavLink from "@/ui/NavLink";
+import SubscriptionBanner from "@/features/public/components/SubscriptionBanner";
 import SidebarShell from "./SidebarShell";
 
 export default function AdminSidebarLayout() {

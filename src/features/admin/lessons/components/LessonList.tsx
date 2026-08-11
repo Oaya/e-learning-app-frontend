@@ -3,19 +3,19 @@ import { useMemo, useState, type ReactNode } from "react";
 import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 
-import { useAuth } from "../../../../contexts/AuthContext";
-import StatCard from "../../../../ui/StatCard";
-import CardHeader from "../../../../ui/CardHeader";
-import EmptyState from "../../../../ui/EmptyState";
+import { useAuth } from "@/contexts/AuthContext";
+import StatCard from "@/ui/StatCard";
+import CardHeader from "@/ui/CardHeader";
+import EmptyState from "@/ui/EmptyState";
 import UpsertLessonModal from "./UpsertLessonModal";
 import TabFilters from "@/ui/TabFilters";
 import LessonCard from "./LessonCard";
-import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
-import { useUpcomingPastSplit } from "../../../shared/lessons/hooks/useUpcomingPastSplit";
+import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
+import { useUpcomingPastSplit } from "@/features/shared/lessons/hooks/useUpcomingPastSplit";
 import {
   LESSON_TABS,
   type LessonFilterTab,
-} from "../../../shared/lessons/constants";
+} from "@/features/shared/lessons/constants";
 import type { User } from "@/type/user";
 
 type LessonsListProps = {

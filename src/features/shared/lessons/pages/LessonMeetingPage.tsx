@@ -26,16 +26,16 @@ import {
 } from "livekit-client";
 import { TbNotes } from "react-icons/tb";
 
-import { joinLesson } from "../../../../api/lessons";
-import "../../../../styles/lesson-meeting.css";
-import { useAuth } from "../../../../contexts/AuthContext";
-import RecordingManager from "../components/RecordingManager";
+import { joinLesson } from "@/api/lessons";
+import "@/styles/lesson-meeting.css";
+import { useAuth } from "@/contexts/AuthContext";
+import RecordingManager from "@/features/shared/lessons/components/RecordingManager";
 
 const LessonCompleteModal = lazy(
-  () => import("../../../admin/lessons/components/CompleteLessonModal"),
+  () => import("@/features/admin/lessons/components/CompleteLessonModal"),
 );
-const LessonNotesPanel = lazy(() => import("../components/LessonNotePanel"));
-const LessonCloseModal = lazy(() => import("../components/LessonCloseModal"));
+const LessonNotesPanel = lazy(() => import("@/features/shared/lessons/components/LessonNotePanel"));
+const LessonCloseModal = lazy(() => import("@/features/shared/lessons/components/LessonCloseModal"));
 
 type RoomData = {
   token: string;

@@ -1,4 +1,4 @@
-import { capitalize } from "../utils/helper";
+import { capitalize } from "@/utils/helper";
 
 type Props = {
   status: string;

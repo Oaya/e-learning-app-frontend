@@ -5,7 +5,7 @@ import type {
   SignupUser,
   UpdatePassword,
   UpdateUser,
-} from "../type/user";
+} from "@/type/user";
 import { directUploadToActiveStorage } from "./files";
 
 export const authHeader = () => {

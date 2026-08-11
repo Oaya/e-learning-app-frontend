@@ -1,10 +1,10 @@
-import type { Homework } from "../../../../type/homework";
+import type { Homework } from "@/type/homework";
 import dayjs from "dayjs";
-import Badge from "../../../../ui/Badge";
-import { HW_STATUS_BADGE } from "../../../../utils/constants";
+import Badge from "@/ui/Badge";
+import { HW_STATUS_BADGE } from "@/utils/constants";
 import { useState } from "react";
-import UpsertHomeworkModal from "../../homework/components/UpsertHomeworkModal";
-import type { User } from "../../../../type/user";
+import UpsertHomeworkModal from "@/features/admin/homework/components/UpsertHomeworkModal";
+import type { User } from "@/type/user";
 import { Link } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 

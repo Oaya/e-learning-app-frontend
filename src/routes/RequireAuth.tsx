@@ -1,6 +1,6 @@
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import type { Role } from "../type/user";
+import type { Role } from "@/type/user";
 
 interface Props {
   role?: Role;

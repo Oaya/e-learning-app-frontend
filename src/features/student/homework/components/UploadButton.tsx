@@ -1,5 +1,5 @@
-import type { AttachmentType } from "../../../../type/homework_submission";
-import { HW_UPLOAD_BUTTON } from "../../../../utils/constants";
+import type { AttachmentType } from "@/type/homework_submission";
+import { HW_UPLOAD_BUTTON } from "@/utils/constants";
 
 type Props = {
   type: AttachmentType;

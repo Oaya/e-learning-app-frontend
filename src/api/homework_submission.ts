@@ -3,7 +3,7 @@ import { directUploadToActiveStorage } from "./files";
 import type {
   FeedbackData,
   UpsertHomeworkSubmission,
-} from "../type/homework_submission";
+} from "@/type/homework_submission";
 import { authHeader } from "./auth";
 
 export async function getHomeworkSubmission(id: string): Promise<ApiResponse> {

@@ -1,8 +1,8 @@
-import { HW_UPLOAD_BUTTON } from "../../../../utils/constants";
+import { HW_UPLOAD_BUTTON } from "@/utils/constants";
 import type {
   Attachment,
   AttachmentType,
-} from "../../../../type/homework_submission";
+} from "@/type/homework_submission";
 
 type Props = { atts: Attachment[]; title: string };
 

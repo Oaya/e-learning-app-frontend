@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useAlert } from "../../../contexts/AlertContext";
-import { useAuth } from "../../../contexts/AuthContext";
-import type { LoginUser } from "../../../type/user";
-import AuthCard from "../components/AuthCard";
+import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
+import type { LoginUser } from "@/type/user";
+import AuthCard from "@/features/public/components/AuthCard";
 
 export default function LoginPage() {
   const { loginUser, isLoading } = useAuth();

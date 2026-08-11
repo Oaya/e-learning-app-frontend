@@ -1,12 +1,13 @@
-import type { Goal } from "@/type/goal";
-import Badge from "@/ui/Badge";
-import { GOAL_STATUS_BADGE } from "@/utils/constants";
 import dayjs from "dayjs";
 import {
   HiOutlineCalendar,
   HiOutlineCheck,
   HiOutlineClock,
 } from "react-icons/hi2";
+
+import type { Goal } from "@/type/goal";
+import Badge from "@/ui/Badge";
+import { GOAL_STATUS_BADGE } from "@/utils/constants";
 
 type Props = {
   goal: Goal;

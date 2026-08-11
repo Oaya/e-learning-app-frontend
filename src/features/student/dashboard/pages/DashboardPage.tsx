@@ -2,14 +2,14 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import { useAuth } from "../../../../contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
-import { greeting } from "../../../../utils/helper";
+import { greeting } from "@/utils/helper";
 
-import StatCard from "../../../../ui/StatCard";
-import UpcomingLessonsPanel from "../components/UpcomingLessonsPanel";
-import HomeworkPanel from "../components/HomeworkPanel";
-import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
+import StatCard from "@/ui/StatCard";
+import UpcomingLessonsPanel from "@/features/student/dashboard/components/UpcomingLessonsPanel";
+import HomeworkPanel from "@/features/student/dashboard/components/HomeworkPanel";
+import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import GoalsPanel from "@/features/shared/goals/components/GoalsPanel";
 

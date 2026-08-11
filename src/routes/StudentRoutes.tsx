@@ -2,34 +2,34 @@ import { lazy } from "react";
 import { Route } from "react-router-dom";
 
 import RequireAuth from "./RequireAuth";
-import SidebarLayout from "../layouts/SidebarLayout";
+import SidebarLayout from "@/layouts/SidebarLayout";
 
 const StudentDashboard = lazy(
-  () => import("../features/student/dashboard/pages/DashboardPage"),
+  () => import("@/features/student/dashboard/pages/DashboardPage"),
 );
 const StudentLessonsPage = lazy(
-  () => import("../features/student/lessons/pages/LessonsPage"),
+  () => import("@/features/student/lessons/pages/LessonsPage"),
 );
 const StudentLessonDetailPage = lazy(
-  () => import("../features/shared/lessons/pages/LessonDetailPage"),
+  () => import("@/features/shared/lessons/pages/LessonDetailPage"),
 );
 const HomeworkSubmitPage = lazy(
-  () => import("../features/student/homework/pages/HomeworkSubmitPage"),
+  () => import("@/features/student/homework/pages/HomeworkSubmitPage"),
 );
 const HomeworkViewPage = lazy(
-  () => import("../features/student/homework/pages/HomeworkViewPage"),
+  () => import("@/features/student/homework/pages/HomeworkViewPage"),
 );
 const StudentHomeworkPage = lazy(
-  () => import("../features/student/homework/pages/HomeworkPage"),
+  () => import("@/features/student/homework/pages/HomeworkPage"),
 );
 const StudentGoalsPage = lazy(
-  () => import("../features/shared/goals/pages/GoalsPage"),
+  () => import("@/features/shared/goals/pages/GoalsPage"),
 );
 const GoalDetailPage = lazy(
-  () => import("../features/student/goals/pages/GoalDetailPage"),
+  () => import("@/features/student/goals/pages/GoalDetailPage"),
 );
 const MyProfilePage = lazy(
-  () => import("../features/shared/profile/pages/MyProfilePage"),
+  () => import("@/features/shared/profile/pages/MyProfilePage"),
 );
 
 export default function StudentRoutes() {

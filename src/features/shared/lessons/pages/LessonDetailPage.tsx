@@ -2,18 +2,18 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { HiOutlineVideoCamera } from "react-icons/hi";
-import { useLesson } from "../hooks/useLesson";
-import { useLessons } from "../../../admin/lessons/hooks/useLessons";
-import ConfirmModal from "../../../../ui/ConfirmModal";
+import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
+import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
+import ConfirmModal from "@/ui/ConfirmModal";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import LessonDetailsHeader from "../../../admin/lessons/components/LessonDetailsHeader";
-import { useAuth } from "../../../../contexts/AuthContext";
-import StudentLessonDetailsHeader from "../../../student/lessons/components/StudentLessonDetailsHeader";
-import UpsertLessonNoteModal from "../../../student/lessons/components/UpsertLessonNoteModal";
-import CompleteLessonModal from "../../../admin/lessons/components/CompleteLessonModal";
-import UpsertLessonModal from "../../../admin/lessons/components/UpsertLessonModal";
-import LessonNotesViewer from "../components/LessonNoteViewer";
-import PageLoadingState from "../../../../ui/PageLoadingState";
+import LessonDetailsHeader from "@/features/admin/lessons/components/LessonDetailsHeader";
+import { useAuth } from "@/contexts/AuthContext";
+import StudentLessonDetailsHeader from "@/features/student/lessons/components/StudentLessonDetailsHeader";
+import UpsertLessonNoteModal from "@/features/student/lessons/components/UpsertLessonNoteModal";
+import CompleteLessonModal from "@/features/admin/lessons/components/CompleteLessonModal";
+import UpsertLessonModal from "@/features/admin/lessons/components/UpsertLessonModal";
+import LessonNotesViewer from "@/features/shared/lessons/components/LessonNoteViewer";
+import PageLoadingState from "@/ui/PageLoadingState";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();

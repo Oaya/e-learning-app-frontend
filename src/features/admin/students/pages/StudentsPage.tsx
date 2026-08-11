@@ -3,17 +3,17 @@ import { FiFilter } from "react-icons/fi";
 import { IoIosClose } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 
-import { useUsers } from "../hooks/useUsers";
-import InviteUserModal from "../components/InviteUserModal";
-import UserFilterDropDown from "../components/UserFilterDropDown";
-import UsersTable from "../components/UsersTable";
+import { useUsers } from "@/features/admin/students/hooks/useUsers";
+import InviteUserModal from "@/features/admin/students/components/InviteUserModal";
+import UserFilterDropDown from "@/features/admin/students/components/UserFilterDropDown";
+import UsersTable from "@/features/admin/students/components/UsersTable";
 
-import { useUserTableControl } from "../hooks/useUserTableControl";
+import { useUserTableControl } from "@/features/admin/students/hooks/useUserTableControl";
 import { HiOutlineMail, HiUsers } from "react-icons/hi";
 import { HiOutlineCheckCircle, HiOutlineCurrencyDollar } from "react-icons/hi2";
-import StatCard from "../../../../ui/StatCard";
-import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
-import PageLoadingState from "../../../../ui/PageLoadingState";
+import StatCard from "@/ui/StatCard";
+import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
+import PageLoadingState from "@/ui/PageLoadingState";
 
 export default function StudentsPage() {
   const [isInviteOpen, setInviteOpen] = useState(false);

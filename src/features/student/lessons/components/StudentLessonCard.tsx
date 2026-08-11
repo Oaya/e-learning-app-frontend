@@ -1,13 +1,15 @@
-import { HiOutlineClock } from "react-icons/hi";
-import type { Lesson } from "../../../../type/lesson";
+import { HiOutlineClock } from "react-icons/hi2";
+import { LuLanguages, LuVideo } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
+
+import type { Lesson } from "@/type/lesson";
 import {
   LESSON_BORDER_COLOR,
   LESSON_STATUS_BADGE,
-} from "../../../../utils/constants";
-import { canJoinLesson, formatDay, formatTime } from "../../../../utils/helper";
-import { LuLanguages, LuVideo } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
-import Badge from "../../../../ui/Badge";
+} from "@/utils/constants";
+import { canJoinLesson, formatDay, formatTime } from "@/utils/helper";
+
+import Badge from "@/ui/Badge";
 
 export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
   const { day, mon } = formatDay(lesson.scheduled_at);

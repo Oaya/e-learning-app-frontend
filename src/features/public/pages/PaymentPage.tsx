@@ -5,9 +5,9 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
-import { startCheckout } from "../../../api/subscription";
-import { useAlert } from "../../../contexts/AlertContext";
-import { useAuth } from "../../../contexts/AuthContext";
+import { startCheckout } from "@/api/subscription";
+import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 

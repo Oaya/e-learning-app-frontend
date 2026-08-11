@@ -1,9 +1,9 @@
 import { HiArrowRight } from "react-icons/hi2";
 import { Link } from "react-router-dom";
-import { HW_STATUS_BADGE } from "../../../../utils/constants";
-import type { Homework } from "../../../../type/homework";
-import { getHomeworkDateLabel } from "../../../../utils/helper";
-import Badge from "../../../../ui/Badge";
+import { HW_STATUS_BADGE } from "@/utils/constants";
+import type { Homework } from "@/type/homework";
+import { getHomeworkDateLabel } from "@/utils/helper";
+import Badge from "@/ui/Badge";
 
 type HWPanelProps = {
   hws?: Homework[];

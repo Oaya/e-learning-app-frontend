@@ -1,15 +1,14 @@
 import { useState } from "react";
-
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
-import { useAuth } from "../../../../contexts/AuthContext";
-import { ADMIN_PLAN_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/Badge";
-import CancelSubscriptionModal from "../components/CancelSubscriptionModal";
-import UpdateSubscriptionModal from "../components/UpdateSubscriptionModal";
-import UserProfileSection from "../components/UserProfileSection";
+import { useAuth } from "@/contexts/AuthContext";
+import { ADMIN_PLAN_STATUS_BADGE } from "@/utils/constants";
+import Badge from "@/ui/Badge";
+import CancelSubscriptionModal from "@/features/shared/profile/components/CancelSubscriptionModal";
+import UpdateSubscriptionModal from "@/features/shared/profile/components/UpdateSubscriptionModal";
+import UserProfileSection from "@/features/shared/profile/components/UserProfileSection";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -34,9 +33,7 @@ export default function MyProfilePage() {
       {/* Top bar */}
       <div className="page-header-row">
         <div>
-          <h1 className="page-title">
-            Profile & Settings
-          </h1>
+          <h1 className="page-title">Profile & Settings</h1>
           <p className="mt-0.5 text-sm text-gray-400">
             Manage your account details and preferences
           </p>

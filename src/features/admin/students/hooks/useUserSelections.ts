@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { User } from "../../../../type/user";
+import type { User } from "@/type/user";
 
 export function useUserSelections(users: User[], currentUserId?: string) {
   const [selected, setSelected] = useState<Set<string>>(new Set());

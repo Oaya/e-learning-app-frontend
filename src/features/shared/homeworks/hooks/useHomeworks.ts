@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAlert } from "../../../../contexts/AlertContext";
-import type { UpsertHomework, Homework } from "../../../../type/homework";
+import { useAlert } from "@/contexts/AlertContext";
+import type { UpsertHomework, Homework } from "@/type/homework";
 import {
   createHomework,
   deleteHomework,
   getHomeworks,
   updateHomework,
-} from "../../../../api/homeworks";
-import { unwrapResponse } from "../../../../api/helper";
+} from "@/api/homeworks";
+import { unwrapResponse } from "@/api/helper";
 
 export function useHomeworks(
   studentId?: string,

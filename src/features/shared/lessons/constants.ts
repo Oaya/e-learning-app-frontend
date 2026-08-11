@@ -1,4 +1,4 @@
-import type { LessonStatusType } from "../../../type/lesson";
+import type { LessonStatusType } from "@/type/lesson";
 
 export type LessonFilterTab = "all" | LessonStatusType;
 

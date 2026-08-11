@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { Lesson } from "../../../../type/lesson";
-import { getLessons } from "../../../../api/lessons";
-import { unwrapResponse } from "../../../../api/helper";
+import type { Lesson } from "@/type/lesson";
+import { getLessons } from "@/api/lessons";
+import { unwrapResponse } from "@/api/helper";
 
 export function useAllLessons(studentId?: string) {
   const lessonsQuery = useQuery<Lesson[], Error>({

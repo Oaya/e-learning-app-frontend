@@ -2,11 +2,11 @@ import { useState } from "react";
 import { BsStars } from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
-import { useAlert } from "../../../../contexts/AlertContext";
-import { useAuth } from "../../../../contexts/AuthContext";
-import { usePlans } from "../../../public/hooks/usePlans";
-import { capitalize } from "../../../../utils/helper";
-import ModalShell from "../../../../ui/ModalShell";
+import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { usePlans } from "@/features/public/hooks/usePlans";
+import { capitalize } from "@/utils/helper";
+import ModalShell from "@/ui/ModalShell";
 
 type UpdateSubscriptionProps = {
   isOpen: boolean;

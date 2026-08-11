@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import type { Homework } from "../../../../type/homework";
-import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
 import {
+  HiOutlineLanguage,
   HiOutlineCalendar,
   HiOutlineEye,
-  HiOutlinePencilAlt,
-} from "react-icons/hi";
-import { HiOutlineLanguage } from "react-icons/hi2";
-import { getHomeworkDateLabel } from "../../../../utils/helper";
-import Badge from "../../../../ui/Badge";
+} from "react-icons/hi2";
+import { HiOutlinePencilAlt } from "react-icons/hi";
+
+import type { Homework } from "@/type/homework";
+import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "@/utils/constants";
+
+import { getHomeworkDateLabel } from "@/utils/helper";
+import Badge from "@/ui/Badge";
 
 type Props = {
   hw: Homework;

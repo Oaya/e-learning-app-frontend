@@ -4,10 +4,10 @@ import {
   deleteGoal,
   getUserGoals,
   updateGoal,
-} from "../../../../api/goals";
-import { useAlert } from "../../../../contexts/AlertContext";
-import type { Goal, UpsertGoal } from "../../../../type/goal";
-import { unwrapResponse } from "../../../../api/helper";
+} from "@/api/goals";
+import { useAlert } from "@/contexts/AlertContext";
+import type { Goal, UpsertGoal } from "@/type/goal";
+import { unwrapResponse } from "@/api/helper";
 
 export function useGoals(userId?: string) {
   const queryClient = useQueryClient();

@@ -5,12 +5,12 @@ import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi2";
 
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "@/features/admin/students/hooks/useUser";
 
 import UpsertGoalModal from "@/features/shared/goals/components/UpsertGoalModal";
-import ConfirmModal from "../../../../ui/ConfirmModal";
+import ConfirmModal from "@/ui/ConfirmModal";
 import GoalHeader from "@/features/shared/goals/components/goalsHeader";
-import GoalCommentPanel from "../../../shared/goals/components/GoalCommentPanel";
+import GoalCommentPanel from "@/features/shared/goals/components/GoalCommentPanel";
 import GoalActivityLogsPanel from "@/features/shared/goals/components/GoalActivityLogsPanel";
 import { useAuth } from "@/contexts/AuthContext";
 import PageLoadingState from "@/ui/PageLoadingState";

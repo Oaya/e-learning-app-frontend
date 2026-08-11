@@ -2,9 +2,9 @@ import { useRef, useState, useEffect, type ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
 
-import { useAuth } from "../contexts/AuthContext";
-import { useAlert } from "../contexts/AlertContext";
-import defaultAvatar from "../assets/user.png";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAlert } from "@/contexts/AlertContext";
+import defaultAvatar from "@/assets/user.png";
 
 interface Props {
   children: ReactNode;

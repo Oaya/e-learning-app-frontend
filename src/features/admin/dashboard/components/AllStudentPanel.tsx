@@ -1,8 +1,8 @@
 import { HiArrowRight } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
-import type { StudentWithStatues } from "../../../../type/user";
-import { ADMIN_HW_STATUS_BADGE } from "../../../../utils/constants";
-import defaultAvatar from "../../../../assets/user.png";
+import type { StudentWithStatues } from "@/type/user";
+import { ADMIN_HW_STATUS_BADGE } from "@/utils/constants";
+import defaultAvatar from "@/assets/user.png";
 import { capitalize } from "@/utils/helper";
 
 // function PayDot({ paid }: { paid: boolean }) {

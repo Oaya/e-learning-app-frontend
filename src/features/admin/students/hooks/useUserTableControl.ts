@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import type { UserSort } from "../../../../type/user";
-import { createFilters } from "../../../../models/filters";
+import type { UserSort } from "@/type/user";
+import { createFilters } from "@/models/filters";
 
 export function useUserTableControl() {
   const [sorts, setSorts] = useState<UserSort[]>([]);

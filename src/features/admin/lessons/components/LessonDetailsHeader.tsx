@@ -8,11 +8,11 @@ import dayjs from "dayjs";
 import { LuLanguages, LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
-import { formatTime, requireStatusChange } from "../../../../utils/helper";
-import type { Lesson } from "../../../../type/lesson";
-import Badge from "../../../../ui/Badge";
-import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
-import defaultAvatar from "../../../../assets/user.png";
+import { formatTime, requireStatusChange } from "@/utils/helper";
+import type { Lesson } from "@/type/lesson";
+import Badge from "@/ui/Badge";
+import { LESSON_STATUS_BADGE } from "@/utils/constants";
+import defaultAvatar from "@/assets/user.png";
 
 type Props = {
   lesson: Lesson;
@@ -36,9 +36,7 @@ export default function LessonDetailsHeader({
       <div className="space-y-2">
         {/* Title + student chip */}
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="page-title">
-            {lesson.topic}
-          </h1>
+          <h1 className="page-title">{lesson.topic}</h1>
           <Link
             to={`/users/${lesson.student.id}`}
             className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white py-1 pr-3 pl-1 text-xs font-medium text-gray-700 hover:border-gray-300"

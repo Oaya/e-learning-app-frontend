@@ -6,10 +6,10 @@ import {
   updateGoalActivity,
   createGoalComment,
   deleteGoalComment,
-} from "../../../../api/goals";
-import { useAlert } from "../../../../contexts/AlertContext";
-import type { Goal, UpsertGoalActivity } from "../../../../type/goal";
-import { unwrapResponse } from "../../../../api/helper";
+} from "@/api/goals";
+import { useAlert } from "@/contexts/AlertContext";
+import type { Goal, UpsertGoalActivity } from "@/type/goal";
+import { unwrapResponse } from "@/api/helper";
 
 export function useGoal(goalId: string) {
   const queryClient = useQueryClient();

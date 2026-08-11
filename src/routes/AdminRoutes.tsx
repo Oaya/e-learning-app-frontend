@@ -1,47 +1,47 @@
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 import RequireAuth from "./RequireAuth";
-import AdminSidebarLayout from "../layouts/AdminSidebarLayout";
+import AdminSidebarLayout from "@/layouts/AdminSidebarLayout";
 
 const AdminDashboardPage = lazy(
-  () => import("../features/admin/dashboard/pages/DashboardPage"),
+  () => import("@/features/admin/dashboard/pages/DashboardPage"),
 );
 const StudentsPage = lazy(
-  () => import("../features/admin/students/pages/StudentsPage"),
+  () => import("@/features/admin/students/pages/StudentsPage"),
 );
 const LessonsPage = lazy(
-  () => import("../features/admin/lessons/pages/LessonsPage"),
+  () => import("@/features/admin/lessons/pages/LessonsPage"),
 );
 const HomeworkPage = lazy(
-  () => import("../features/admin/homework/pages/HomeworkPage"),
+  () => import("@/features/admin/homework/pages/HomeworkPage"),
 );
 const HomeworkReviewPage = lazy(
-  () => import("../features/admin/homework/pages/HomeworkReviewPage"),
+  () => import("@/features/admin/homework/pages/HomeworkReviewPage"),
 );
 const PaymentsPage = lazy(
-  () => import("../features/admin/payments/pages/PaymentsPage"),
+  () => import("@/features/admin/payments/pages/PaymentsPage"),
 );
 const MyProfilePage = lazy(
-  () => import("../features/shared/profile/pages/MyProfilePage"),
+  () => import("@/features/shared/profile/pages/MyProfilePage"),
 );
 const UserProfile = lazy(
-  () => import("../features/admin/students/pages/StudentProfilePage"),
+  () => import("@/features/admin/students/pages/StudentProfilePage"),
 );
 const LessonDetailPage = lazy(
-  () => import("../features/shared/lessons/pages/LessonDetailPage"),
+  () => import("@/features/shared/lessons/pages/LessonDetailPage"),
 );
 const GoalsPage = lazy(
-  () => import("../features/shared/goals/pages/GoalsPage"),
+  () => import("@/features/shared/goals/pages/GoalsPage"),
 );
 
 const StudentLessonsPage = lazy(
-  () => import("../features/admin/lessons/pages/StudentLessonsPage"),
+  () => import("@/features/admin/lessons/pages/StudentLessonsPage"),
 );
 const StudentHomeworkPage = lazy(
-  () => import("../features/admin/homework/pages/StudentHomeworkPage"),
+  () => import("@/features/admin/homework/pages/StudentHomeworkPage"),
 );
 const AdminGoalDetailPage = lazy(
-  () => import("../features/admin/students/pages/AdminGoalDetailPage"),
+  () => import("@/features/admin/students/pages/AdminGoalDetailPage"),
 );
 
 export default function AdminRoutes() {

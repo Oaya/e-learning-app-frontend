@@ -1,7 +1,7 @@
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
-import ScrollToHash from "../utils/ScrollToHash";
+import ScrollToHash from "@/utils/ScrollToHash";
 
 export default function PublicLayout() {
   return (

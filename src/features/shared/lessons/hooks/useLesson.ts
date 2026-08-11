@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { Lesson, UpsertLessonMeeting } from "../../../../type/lesson";
-import { unwrapResponse } from "../../../../api/helper";
+import type { Lesson, UpsertLessonMeeting } from "@/type/lesson";
+import { unwrapResponse } from "@/api/helper";
 import {
   AddStudentNote,
   getLessonById,
   upsertLessonMeeting,
-} from "../../../../api/lessons";
-import { useAlert } from "../../../../contexts/AlertContext";
+} from "@/api/lessons";
+import { useAlert } from "@/contexts/AlertContext";
 
 export function useLesson(id: string) {
   const queryClient = useQueryClient();

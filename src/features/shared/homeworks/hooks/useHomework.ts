@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { Homework } from "../../../../type/homework";
-import { getHomework } from "../../../../api/homeworks";
-import { unwrapResponse } from "../../../../api/helper";
+import type { Homework } from "@/type/homework";
+import { getHomework } from "@/api/homeworks";
+import { unwrapResponse } from "@/api/helper";
 
 export function useHomework(id: string) {
   const homeworkQuery = useQuery<Homework, Error>({

@@ -25,7 +25,7 @@ import Highlight from "@tiptap/extension-highlight";
 import { ColorHighlightPopover } from "@/components/tiptap-ui/color-highlight-popover";
 import { TextColorPopover } from "@/components/tiptap-ui/text-color-popover";
 
-import { UpdateMeetingNote } from "../../../../api/lessons";
+import { UpdateMeetingNote } from "@/api/lessons";
 
 import { TaskList, TaskItem } from "@tiptap/extension-list";
 import TextAlign from "@tiptap/extension-text-align";

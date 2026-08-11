@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
 import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
-import { SCORE_BUDGE } from "../../../../utils/constants";
+import { SCORE_BUDGE } from "@/utils/constants";
 import AttachmentsList from "@/features/shared/homeworks/components/AttachmentsList";
-import type { ScoreType } from "../../../../type/homework_submission";
-import { useAlert } from "../../../../contexts/AlertContext";
+import type { ScoreType } from "@/type/homework_submission";
+import { useAlert } from "@/contexts/AlertContext";
 import { useHomeworkSubmission } from "@/features/shared/homeworks/hooks/useHomeworkSubmission";
 import HomeworkHeaderPanel from "@/features/shared/homeworks/components/HomeworkHeaderPanel";
 

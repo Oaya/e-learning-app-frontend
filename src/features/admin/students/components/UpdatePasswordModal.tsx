@@ -1,8 +1,8 @@
-import { useAlert } from "../../../../contexts/AlertContext";
-import { useAuth } from "../../../../contexts/AuthContext";
-import { fdString } from "../../../../utils/formData";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
+import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { fdString } from "@/utils/formData";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
 
 type UpdatePasswordModalProps = {
   isOpen: boolean;

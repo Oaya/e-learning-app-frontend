@@ -1,21 +1,21 @@
 import { lazy } from "react";
 import { Route } from "react-router-dom";
 
-import PlainLayout from "../layouts/PlainLayout";
-import PublicLayout from "../layouts/PublicLayout";
+import PlainLayout from "@/layouts/PlainLayout";
+import PublicLayout from "@/layouts/PublicLayout";
 
-const HomePage = lazy(() => import("../features/public/pages/HomePage"));
+const HomePage = lazy(() => import("@/features/public/pages/HomePage"));
 const AcceptInvitePage = lazy(
-  () => import("../features/public/pages/AcceptInvitePage"),
+  () => import("@/features/public/pages/AcceptInvitePage"),
 );
 const EmailConfirmPage = lazy(
-  () => import("../features/public/pages/EmailConfirmPage"),
+  () => import("@/features/public/pages/EmailConfirmPage"),
 );
-const LoginPage = lazy(() => import("../features/public/pages/LoginPage"));
-const PaymentPage = lazy(() => import("../features/public/pages/PaymentPage"));
-const SignupPage = lazy(() => import("../features/public/pages/SignupPage"));
+const LoginPage = lazy(() => import("@/features/public/pages/LoginPage"));
+const PaymentPage = lazy(() => import("@/features/public/pages/PaymentPage"));
+const SignupPage = lazy(() => import("@/features/public/pages/SignupPage"));
 const RefundPolicyPage = lazy(
-  () => import("../features/public/pages/RefundPolicyPage"),
+  () => import("@/features/public/pages/RefundPolicyPage"),
 );
 
 export default function PublicRoutes() {

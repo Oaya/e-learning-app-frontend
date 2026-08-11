@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import type { Homework } from "../type/homework";
-import type { Lesson } from "../type/lesson";
+import type { Homework } from "@/type/homework";
+import type { Lesson } from "@/type/lesson";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);

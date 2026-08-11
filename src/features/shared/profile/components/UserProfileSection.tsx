@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
 
-import defaultAvatar from "../../../../assets/user.png";
-import TimezoneSelector from "../../../../ui/TimezoneSelector";
+import defaultAvatar from "@/assets/user.png";
+import TimezoneSelector from "@/ui/TimezoneSelector";
 
-import type { User } from "../../../../type/user";
-import { useAuth } from "../../../../contexts/AuthContext";
-import { useAlert } from "../../../../contexts/AlertContext";
-import UpdatePasswordModal from "../../../admin/students/components/UpdatePasswordModal";
+import type { User } from "@/type/user";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAlert } from "@/contexts/AlertContext";
+import UpdatePasswordModal from "@/features/admin/students/components/UpdatePasswordModal";
 import { BsStars } from "react-icons/bs";
 
 type Props = {

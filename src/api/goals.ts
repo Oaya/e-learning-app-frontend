@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { UpsertGoal, UpsertGoalActivity } from "../type/goal";
+import type { UpsertGoal, UpsertGoalActivity } from "@/type/goal";
 import { authHeader } from "./auth";
 
 export async function getUserGoals(studentId?: string): Promise<ApiResponse> {

@@ -1,14 +1,14 @@
 import dayjs from "dayjs";
 import { useState } from "react";
-
-import Badge from "../../../../ui/Badge";
-import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
-import type { Lesson } from "../../../../type/lesson";
-import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
-import { useAuth } from "../../../../contexts/AuthContext";
-import type { User } from "../../../../type/user";
+import { HiArrowRight } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
-import { HiArrowRight } from "react-icons/hi";
+
+import Badge from "@/ui/Badge";
+import { LESSON_STATUS_BADGE } from "@/utils/constants";
+import type { Lesson } from "@/type/lesson";
+import UpsertLessonModal from "@/features/admin/lessons/components/UpsertLessonModal";
+import { useAuth } from "@/contexts/AuthContext";
+import type { User } from "@/type/user";
 
 type Props = {
   lessons: Lesson[] | undefined;

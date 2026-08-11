@@ -1,4 +1,4 @@
-import { HiUsers, HiCalendar, HiDocumentText } from "react-icons/hi";
+import { HiUsers, HiCalendar, HiDocumentText } from "react-icons/hi2";
 import { useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -6,15 +6,14 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { useAuth } from "../../../../contexts/AuthContext";
-
-import StatCard from "../../../../ui/StatCard";
-import { greeting } from "../../../../utils/helper";
-import { useLessons } from "../../lessons/hooks/useLessons";
-import TodayLessonsPanel from "../components/TodayLessonsPanel";
-import AllStudentPanel from "../components/AllStudentPanel";
-import UpsertLessonModal from "../../lessons/components/UpsertLessonModal";
-import { useUsersWithStatuses } from "../../students/hooks/useUsersWithStatues";
+import { useAuth } from "@/contexts/AuthContext";
+import StatCard from "@/ui/StatCard";
+import { greeting } from "@/utils/helper";
+import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
+import TodayLessonsPanel from "@/features/admin/dashboard/components/TodayLessonsPanel";
+import AllStudentPanel from "@/features/admin/dashboard/components/AllStudentPanel";
+import UpsertLessonModal from "@/features/admin/lessons/components/UpsertLessonModal";
+import { useUsersWithStatuses } from "@/features/admin/students/hooks/useUsersWithStatues";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 
 export default function AdminDashboardPage() {

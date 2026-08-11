@@ -1,8 +1,8 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
-import type { User, UserSort } from "../../../../type/user";
-import { getStudents } from "../../../../api/users";
-import { unwrapResponse } from "../../../../api/helper";
+import type { User, UserSort } from "@/type/user";
+import { getStudents } from "@/api/users";
+import { unwrapResponse } from "@/api/helper";
 
 export type UserQueryInput = {
   filters?: Record<string, string[]>;

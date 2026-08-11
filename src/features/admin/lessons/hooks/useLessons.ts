@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAlert } from "../../../../contexts/AlertContext";
-import type { Lesson, UpsertLesson } from "../../../../type/lesson";
+import { useAlert } from "@/contexts/AlertContext";
+import type { Lesson, UpsertLesson } from "@/type/lesson";
 import {
   createLesson,
   deleteLesson,
   getTodayLessons,
   updateLesson as updateLessonApi,
-} from "../../../../api/lessons";
-import { unwrapResponse } from "../../../../api/helper";
+} from "@/api/lessons";
+import { unwrapResponse } from "@/api/helper";
 
 export function useLessons(options?: {
   onDeleteSuccess?: () => void;

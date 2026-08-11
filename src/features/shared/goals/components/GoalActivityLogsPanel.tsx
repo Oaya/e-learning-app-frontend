@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LogProgressModal from "../../../student/goals/components/LogProgressModal";
+import LogProgressModal from "@/features/student/goals/components/LogProgressModal";
 import type { Goal, GoalActivity } from "@/type/goal";
 import dayjs from "dayjs";
 import {

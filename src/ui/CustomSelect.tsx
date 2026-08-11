@@ -3,7 +3,7 @@ import Select, {
   type MultiValueGenericProps,
   type OptionProps,
 } from "react-select";
-import defaultAvatar from "../assets/user.png";
+import defaultAvatar from "@/assets/user.png";
 
 type InstructorOptions = {
   value: string;

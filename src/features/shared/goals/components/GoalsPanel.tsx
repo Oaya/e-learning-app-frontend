@@ -4,8 +4,8 @@ import { HiArrowRight, HiOutlinePencil } from "react-icons/hi2";
 
 import { useAuth } from "@/contexts/AuthContext";
 import UpsertGoalModal from "./UpsertGoalModal";
-import ActionBtn from "../../../../ui/ActionButton";
-import type { Goal } from "../../../../type/goal";
+import ActionBtn from "@/ui/ActionButton";
+import type { Goal } from "@/type/goal";
 
 type Props = {
   goals: Goal[] | undefined;

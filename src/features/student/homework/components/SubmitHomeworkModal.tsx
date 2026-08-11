@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { HiOutlineDocumentArrowUp, HiOutlineTrash } from "react-icons/hi2";
-import type { Homework } from "../../../../type/homework";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
+import type { Homework } from "@/type/homework";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
 
 type Props = {
   hw: Homework;

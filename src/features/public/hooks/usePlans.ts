@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPlans } from "../../../api/plans";
-import { unwrapResponse } from "../../../api/helper";
-import type { Plan } from "../../../type/plan";
+import { getPlans } from "@/api/plans";
+import { unwrapResponse } from "@/api/helper";
+import type { Plan } from "@/type/plan";
 
 export function usePlans() {
   const userQuery = useQuery<Plan[], Error>({

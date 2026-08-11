@@ -4,9 +4,9 @@ import utc from "dayjs/plugin/utc";
 import dayjsTimezone from "dayjs/plugin/timezone";
 import { useState } from "react";
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
-import { useAlert } from "../../../../contexts/AlertContext";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
+import { useAlert } from "@/contexts/AlertContext";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);

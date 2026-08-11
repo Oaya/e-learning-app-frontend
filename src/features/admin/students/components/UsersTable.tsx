@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-import type { User, UserSort } from "../../../../type/user";
-import SortButton from "../../../../ui/SortButton";
-import defaultAvatar from "../../../../assets/user.png";
+import type { User, UserSort } from "@/type/user";
+import SortButton from "@/ui/SortButton";
+import defaultAvatar from "@/assets/user.png";
 
 export default function UsersTable({
   users,

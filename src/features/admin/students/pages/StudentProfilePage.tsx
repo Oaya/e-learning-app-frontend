@@ -7,20 +7,20 @@ import { HiCalendar, HiUsers, HiDocumentText } from "react-icons/hi2";
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import dayjs from "dayjs";
 
-import defaultAvatar from "../../../../assets/user.png";
-import { useUser } from "../hooks/useUser";
-import StatCard from "../../../../ui/StatCard";
+import defaultAvatar from "@/assets/user.png";
+import { useUser } from "@/features/admin/students/hooks/useUser";
+import StatCard from "@/ui/StatCard";
 
-import ConfirmModal from "../../../../ui/ConfirmModal";
-import EditStudentModal from "../components/EditStudentModal";
-import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
-import LessonsPanel from "../components/LessonsPanel";
-import HomeworksPanel from "../components/HomeworksPanel";
+import ConfirmModal from "@/ui/ConfirmModal";
+import EditStudentModal from "@/features/admin/students/components/EditStudentModal";
+import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
+import LessonsPanel from "@/features/admin/students/components/LessonsPanel";
+import HomeworksPanel from "@/features/admin/students/components/HomeworksPanel";
 import GoalsPanel from "@/features/shared/goals/components/GoalsPanel";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
-import Badge from "../../../../ui/Badge";
-import { USER_STATUS_BADGE } from "../../../../utils/constants";
-import PageLoadingState from "../../../../ui/PageLoadingState";
+import Badge from "@/ui/Badge";
+import { USER_STATUS_BADGE } from "@/utils/constants";
+import PageLoadingState from "@/ui/PageLoadingState";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null

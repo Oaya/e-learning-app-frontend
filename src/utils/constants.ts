@@ -13,10 +13,10 @@ import {
   HiOutlineHandThumbUp,
   HiOutlineWrenchScrewdriver,
 } from "react-icons/hi2";
-import type { AttachmentType, ScoreType } from "../type/homework_submission";
-import type { GoalStatusType } from "../type/goal";
-import type { LessonStatusType } from "../type/lesson";
-import type { Status } from "../type/user";
+import type { AttachmentType, ScoreType } from "@/type/homework_submission";
+import type { GoalStatusType } from "@/type/goal";
+import type { LessonStatusType } from "@/type/lesson";
+import type { Status } from "@/type/user";
 
 export const levels = ["beginner", "intermediate", "advanced"] as const;
 export type Level = (typeof levels)[number];

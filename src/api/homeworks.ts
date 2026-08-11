@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { UpsertHomework } from "../type/homework";
+import type { UpsertHomework } from "@/type/homework";
 import { authHeader } from "./auth";
 
 export async function getHomeworks(studentId?: string): Promise<ApiResponse> {

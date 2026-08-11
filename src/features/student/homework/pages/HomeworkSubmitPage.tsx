@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineCheck } from "react-icons/hi2";
 import { useHomeworkSubmission } from "@/features/shared/homeworks/hooks/useHomeworkSubmission";
-import HomeworkHeaderPanel from "../../../shared/homeworks/components/HomeworkHeaderPanel";
-import AttachmentsPanel from "../components/AttachmentsPanel";
-import { useAlert } from "../../../../contexts/AlertContext";
+import HomeworkHeaderPanel from "@/features/shared/homeworks/components/HomeworkHeaderPanel";
+import AttachmentsPanel from "@/features/student/homework/components/AttachmentsPanel";
+import { useAlert } from "@/contexts/AlertContext";
 import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
-import type { Attachment } from "../../../../type/homework_submission";
+import type { Attachment } from "@/type/homework_submission";
 
 export default function HomeworkSubmitPage() {
   const { id } = useParams<{ id: string }>();

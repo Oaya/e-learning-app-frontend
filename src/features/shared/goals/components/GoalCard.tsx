@@ -1,16 +1,18 @@
 import {
-  GOAL_BORDER_COLOR,
-  GOAL_STATUS_BADGE,
-} from "../../../../utils/constants";
-import type { Goal } from "../../../../type/goal";
-
-import Badge from "../../../../ui/Badge";
-import ActionBtn from "@/ui/ActionButton";
-import {
   HiOutlineTrash,
   HiOutlineCalendar,
   HiOutlinePencil,
 } from "react-icons/hi2";
+
+import {
+  GOAL_BORDER_COLOR,
+  GOAL_STATUS_BADGE,
+} from "@/utils/constants";
+import type { Goal } from "@/type/goal";
+
+import Badge from "@/ui/Badge";
+import ActionBtn from "@/ui/ActionButton";
+
 import { useAuth } from "@/contexts/AuthContext";
 
 type Props = {

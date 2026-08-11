@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 
-import HomeworkList from "../components/HomeworkList";
-import { useUser } from "../../students/hooks/useUser";
+import HomeworkList from "@/features/admin/homework/components/HomeworkList";
+import { useUser } from "@/features/admin/students/hooks/useUser";
 
 export default function StudentHomeworkPage() {
   const { id: studentIdParam } = useParams<{ id: string }>();

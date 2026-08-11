@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { UpdateStudentData, User } from "../../../../type/user";
+import type { UpdateStudentData, User } from "@/type/user";
 import {
   deleteStudent,
   getStudentById,
   updateStudent,
-} from "../../../../api/users";
-import { unwrapResponse } from "../../../../api/helper";
-import { useAlert } from "../../../../contexts/AlertContext";
+} from "@/api/users";
+import { unwrapResponse } from "@/api/helper";
+import { useAlert } from "@/contexts/AlertContext";
 
 export function useUser(
   id: string,

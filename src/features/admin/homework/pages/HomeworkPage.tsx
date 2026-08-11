@@ -1,4 +1,4 @@
-import HomeworkList from "../components/HomeworkList";
+import HomeworkList from "@/features/admin/homework/components/HomeworkList";
 
 export default function HomeworkPage() {
   return (

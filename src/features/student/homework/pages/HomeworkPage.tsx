@@ -6,9 +6,9 @@ import {
   HiOutlineExclamationCircle,
 } from "react-icons/hi2";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
-import StatCard from "../../../../ui/StatCard";
+import StatCard from "@/ui/StatCard";
 import TabFilters from "@/ui/TabFilters";
-import StudentHomeworkCard from "../components/StudentHomeworkCard";
+import StudentHomeworkCard from "@/features/student/homework/components/StudentHomeworkCard";
 import EmptyState from "@/ui/EmptyState";
 import {
   inGroup,

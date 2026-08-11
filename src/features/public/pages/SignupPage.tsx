@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAlert } from "../../../contexts/AlertContext";
-import { useAuth } from "../../../contexts/AuthContext";
-import type { SignupUser } from "../../../type/user";
-import { fdString } from "../../../utils/formData";
-import AuthCard from "../components/AuthCard";
-import { usePlans } from "../hooks/usePlans";
+import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
+import type { SignupUser } from "@/type/user";
+import { fdString } from "@/utils/formData";
+import AuthCard from "@/features/public/components/AuthCard";
+import { usePlans } from "@/features/public/hooks/usePlans";
 
 export default function SignupPage() {
   const { signupUser, isLoading } = useAuth();

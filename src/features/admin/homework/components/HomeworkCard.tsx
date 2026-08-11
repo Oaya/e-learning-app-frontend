@@ -9,14 +9,14 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import type { Homework } from "../../../../type/homework";
-import { getHomeworkDateLabel } from "../../../../utils/helper";
-import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "../../../../utils/constants";
+import type { Homework } from "@/type/homework";
+import { getHomeworkDateLabel } from "@/utils/helper";
+import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "@/utils/constants";
 import ActionBtn from "@/ui/ActionButton";
-import ConfirmModal from "../../../../ui/ConfirmModal";
+import ConfirmModal from "@/ui/ConfirmModal";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
-import defaultAvatar from "../../../../assets/user.png";
+import defaultAvatar from "@/assets/user.png";
 import Badge from "@/ui/Badge";
 
 type Props = {

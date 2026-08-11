@@ -14,7 +14,7 @@ import type {
   UpdatePassword,
   UpdateUser,
   User,
-} from "../type/user";
+} from "@/type/user";
 import {
   getAuthUser,
   login,
@@ -22,8 +22,8 @@ import {
   acceptInvite,
   updateUserData,
   updateUserPassword,
-} from "../api/auth";
-import { cancelSubscription, changePlan } from "../api/subscription";
+} from "@/api/auth";
+import { cancelSubscription, changePlan } from "@/api/subscription";
 
 type AuthContextType = {
   user?: User | null;

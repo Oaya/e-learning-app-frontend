@@ -1,6 +1,6 @@
-import { useAlert } from "../../../../contexts/AlertContext";
-import { useAuth } from "../../../../contexts/AuthContext";
-import ModalShell from "../../../../ui/ModalShell";
+import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
+import ModalShell from "@/ui/ModalShell";
 
 type CancelSubscriptionModalProps = {
   isOpen: boolean;

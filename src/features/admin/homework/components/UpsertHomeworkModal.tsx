@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { HiOutlineSparkles } from "react-icons/hi2";
 
-import { useUsers } from "../../students/hooks/useUsers";
-import CustomSelect from "../../../../ui/CustomSelect";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
-import { useAlert } from "../../../../contexts/AlertContext";
-import { fdString } from "../../../../utils/formData";
-import { levels } from "../../../../utils/constants";
-import type { StudentOption, User } from "../../../../type/user";
+import { useUsers } from "@/features/admin/students/hooks/useUsers";
+import CustomSelect from "@/ui/CustomSelect";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
+import { useAlert } from "@/contexts/AlertContext";
+import { fdString } from "@/utils/formData";
+import { levels } from "@/utils/constants";
+import type { StudentOption, User } from "@/type/user";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
-import type { Homework } from "../../../../type/homework";
+import type { Homework } from "@/type/homework";
 
 type ModalProps = {
   isOpen: boolean;

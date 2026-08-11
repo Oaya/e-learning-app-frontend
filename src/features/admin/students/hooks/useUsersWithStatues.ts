@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import type { StudentWithStatues } from "../../../../type/user";
-import { getStudentsWithStatues } from "../../../../api/users";
-import { unwrapResponse } from "../../../../api/helper";
+import type { StudentWithStatues } from "@/type/user";
+import { getStudentsWithStatues } from "@/api/users";
+import { unwrapResponse } from "@/api/helper";
 
 export function useUsersWithStatuses() {
   const userQuery = useQuery<StudentWithStatues[], Error>({

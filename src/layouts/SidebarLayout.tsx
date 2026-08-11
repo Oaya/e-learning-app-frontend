@@ -2,7 +2,7 @@ import { HiHome } from "react-icons/hi2";
 import { LuNewspaper, LuGoal, LuCalendar1 } from "react-icons/lu";
 import { IoMdSettings } from "react-icons/io";
 
-import StyledNavLink from "../ui/NavLink";
+import StyledNavLink from "@/ui/NavLink";
 import SidebarShell from "./SidebarShell";
 
 export default function SidebarLayout() {

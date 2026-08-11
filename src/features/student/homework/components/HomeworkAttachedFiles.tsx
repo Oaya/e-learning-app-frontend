@@ -1,6 +1,6 @@
 import { HiOutlineXMark } from "react-icons/hi2";
-import { HW_UPLOAD_BUTTON } from "../../../../utils/constants";
-import type { Attachment } from "../../../../type/homework_submission";
+import { HW_UPLOAD_BUTTON } from "@/utils/constants";
+import type { Attachment } from "@/type/homework_submission";
 
 type Props = {
   attachments: Attachment[];

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import ISO6391 from "iso-639-1";
 
-import { statusValue, type Status, type User } from "../../../../type/user";
-import CustomSelect from "../../../../ui/CustomSelect";
-import { useUser } from "../hooks/useUser";
-import TimezoneSelector from "../../../../ui/TimezoneSelector";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
-import { useAlert } from "../../../../contexts/AlertContext";
-import defaultAvatar from "../../../../assets/user.png";
+import { statusValue, type Status, type User } from "@/type/user";
+import CustomSelect from "@/ui/CustomSelect";
+import { useUser } from "@/features/admin/students/hooks/useUser";
+import TimezoneSelector from "@/ui/TimezoneSelector";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
+import { useAlert } from "@/contexts/AlertContext";
+import defaultAvatar from "@/assets/user.png";
 
 type Props = {
   isOpen: boolean;

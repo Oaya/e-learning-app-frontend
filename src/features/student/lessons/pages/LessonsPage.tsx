@@ -5,14 +5,14 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import TabFilters from "@/ui/TabFilters";
 import CardHeader from "@/ui/CardHeader";
 import EmptyState from "@/ui/EmptyState";
-import StudentLessonCard from "../components/StudentLessonCard";
-import StatCard from "../../../../ui/StatCard";
-import { useAllLessons } from "../../../shared/lessons/hooks/useAllLessons";
-import { useUpcomingPastSplit } from "../../../shared/lessons/hooks/useUpcomingPastSplit";
+import StudentLessonCard from "@/features/student/lessons/components/StudentLessonCard";
+import StatCard from "@/ui/StatCard";
+import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
+import { useUpcomingPastSplit } from "@/features/shared/lessons/hooks/useUpcomingPastSplit";
 import {
   LESSON_TABS,
   type LessonFilterTab,
-} from "../../../shared/lessons/constants";
+} from "@/features/shared/lessons/constants";
 import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 

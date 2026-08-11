@@ -1,4 +1,4 @@
-import { HiOutlineSparkles } from "react-icons/hi";
+import { HiOutlineSparkles } from "react-icons/hi2";
 
 type AiBannerProps = {
   onOpen: () => void;

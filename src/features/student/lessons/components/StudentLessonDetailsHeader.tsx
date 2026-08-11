@@ -2,14 +2,14 @@ import {
   HiOutlinePencil,
   HiOutlineClock,
   HiOutlineCalendar,
-} from "react-icons/hi";
+} from "react-icons/hi2";
 import dayjs from "dayjs";
 import { LuLanguages } from "react-icons/lu";
 
-import { formatTime } from "../../../../utils/helper";
-import type { Lesson } from "../../../../type/lesson";
-import Badge from "../../../../ui/Badge";
-import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
+import { formatTime } from "@/utils/helper";
+import type { Lesson } from "@/type/lesson";
+import Badge from "@/ui/Badge";
+import { LESSON_STATUS_BADGE } from "@/utils/constants";
 
 type Props = {
   lesson: Lesson;
@@ -31,9 +31,7 @@ export default function StudentLessonDetailsHeader({
       <div className="space-y-2">
         {/* Title + student chip */}
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="page-title">
-            {lesson.topic}
-          </h1>
+          <h1 className="page-title">{lesson.topic}</h1>
         </div>
 
         {/* Meta */}

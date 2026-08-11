@@ -5,16 +5,16 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import dayjsTimezone from "dayjs/plugin/timezone";
 
-import { fdString } from "../../../../utils/formData";
-import { useAlert } from "../../../../contexts/AlertContext";
-import CustomSelect from "../../../../ui/CustomSelect";
-import type { Lesson, LessonStatusType } from "../../../../type/lesson";
-import { useLessons } from "../hooks/useLessons";
-import { useUsers } from "../../students/hooks/useUsers";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
-import type { StudentOption, User } from "../../../../type/user";
-import { lessonDuration, LessonStatus } from "../../../../utils/constants";
+import { fdString } from "@/utils/formData";
+import { useAlert } from "@/contexts/AlertContext";
+import CustomSelect from "@/ui/CustomSelect";
+import type { Lesson, LessonStatusType } from "@/type/lesson";
+import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
+import { useUsers } from "@/features/admin/students/hooks/useUsers";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
+import type { StudentOption, User } from "@/type/user";
+import { lessonDuration, LessonStatus } from "@/utils/constants";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);

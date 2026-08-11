@@ -1,6 +1,6 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
-import type { UserTableFilter } from "../../../../type/user";
+import type { UserTableFilter } from "@/type/user";
 
 export default function UserFilterDropDown({
   onClose,

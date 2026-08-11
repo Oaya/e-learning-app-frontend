@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAlert } from "../../../contexts/AlertContext";
-import { useAuth } from "../../../contexts/AuthContext";
-import type { AcceptInviteUser } from "../../../type/user";
-import { fdString } from "../../../utils/formData";
+import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
+import type { AcceptInviteUser } from "@/type/user";
+import { fdString } from "@/utils/formData";
 
 export default function AcceptInvitePage() {
   const [searchParams] = useSearchParams();

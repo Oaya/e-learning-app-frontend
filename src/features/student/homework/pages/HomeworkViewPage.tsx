@@ -3,10 +3,10 @@ import { HiOutlineArrowLeft, HiOutlinePencilSquare } from "react-icons/hi2";
 
 import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
 
-import { SCORE_BUDGE } from "../../../../utils/constants";
-import HomeworkHeaderPanel from "../../../shared/homeworks/components/HomeworkHeaderPanel";
+import { SCORE_BUDGE } from "@/utils/constants";
+import HomeworkHeaderPanel from "@/features/shared/homeworks/components/HomeworkHeaderPanel";
 import AttachmentsList from "@/features/shared/homeworks/components/AttachmentsList";
-import type { ScoreType } from "../../../../type/homework_submission";
+import type { ScoreType } from "@/type/homework_submission";
 
 export default function HomeworkViewPage() {
   const navigate = useNavigate();

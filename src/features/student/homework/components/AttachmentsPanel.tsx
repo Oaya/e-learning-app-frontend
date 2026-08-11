@@ -6,8 +6,8 @@ import type {
   Attachment,
   AttachmentType,
   HomeworkAttachmentInput,
-} from "../../../../type/homework_submission";
-import { capitalize } from "../../../../utils/helper";
+} from "@/type/homework_submission";
+import { capitalize } from "@/utils/helper";
 
 type Props = {
   attachments: Attachment[];

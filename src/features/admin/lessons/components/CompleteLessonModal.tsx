@@ -3,17 +3,17 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import dayjsTimezone from "dayjs/plugin/timezone";
 
-import { fdString } from "../../../../utils/formData";
+import { fdString } from "@/utils/formData";
 
-import type { LessonStatusType } from "../../../../type/lesson";
+import type { LessonStatusType } from "@/type/lesson";
 
-import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
+import { LESSON_STATUS_BADGE } from "@/utils/constants";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
 
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useState } from "react";
-import { addLessonRecording } from "../../../../api/lesson_recordings";
+import { addLessonRecording } from "@/api/lesson_recordings";
 import { capitalize } from "@/utils/helper";
 import { TbLock, TbUsers } from "react-icons/tb";
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { UpsertLesson, UpsertLessonMeeting } from "../type/lesson";
+import type { UpsertLesson, UpsertLessonMeeting } from "@/type/lesson";
 import { authHeader } from "./auth";
 
 export async function createLesson(data: UpsertLesson): Promise<ApiResponse> {

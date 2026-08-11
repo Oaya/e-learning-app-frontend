@@ -1,11 +1,12 @@
 import dayjs from "dayjs";
 import { HiArrowRight } from "react-icons/hi2";
-import { Link, useNavigate } from "react-router-dom";
-import type { Lesson } from "../../../../type/lesson";
-import { LESSON_STATUS_BADGE } from "../../../../utils/constants";
-import Badge from "../../../../ui/Badge";
-import { canJoinLesson } from "../../../../utils/helper";
 import { LuVideo } from "react-icons/lu";
+
+import { Link, useNavigate } from "react-router-dom";
+import type { Lesson } from "@/type/lesson";
+import { LESSON_STATUS_BADGE } from "@/utils/constants";
+import Badge from "@/ui/Badge";
+import { canJoinLesson } from "@/utils/helper";
 
 type UpcomingLessonPanelProps = {
   lessons?: Lesson[];

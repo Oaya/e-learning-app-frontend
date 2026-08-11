@@ -1,4 +1,4 @@
-import type { Homework } from "../../../type/homework";
+import type { Homework } from "@/type/homework";
 
 export type HomeworkFilterTab =
   | "all"

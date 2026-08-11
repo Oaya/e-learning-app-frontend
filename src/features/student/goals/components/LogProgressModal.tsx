@@ -1,9 +1,9 @@
 import { useState } from "react";
-import type { GoalActivity, GoalStatusType } from "../../../../type/goal";
-import { GOAL_STATUS_BADGE } from "../../../../utils/constants";
+import type { GoalActivity, GoalStatusType } from "@/type/goal";
+import { GOAL_STATUS_BADGE } from "@/utils/constants";
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
-import ModalShell from "../../../../ui/ModalShell";
-import FormField from "../../../../ui/FormField";
+import ModalShell from "@/ui/ModalShell";
+import FormField from "@/ui/FormField";
 
 type Props = {
   openType: "Create" | "Edit";
