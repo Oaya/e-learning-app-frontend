@@ -4,7 +4,6 @@ import { useAlert } from "@/contexts/AlertContext";
 import { useAuth } from "@/contexts/AuthContext";
 import type { LoginUser } from "@/type/user";
 import AuthLayout from "@/features/public/components/AuthLayout";
-import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
   const { loginUser, isLoading } = useAuth();
@@ -48,19 +47,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         <h1 className="mb-1 text-xl font-medium text-gray-800">Welcome back</h1>
         <p className="mb-6 text-sm text-gray-400">Sign in to continue</p>
-        {/* Google button */}
-        <button
-          type="button"
-          className="mb-4 flex w-full items-center justify-center gap-2.5 rounded border border-gray-200 bg-white py-3 text-sm text-gray-700 transition hover:bg-gray-50"
-        >
-          <FcGoogle size={20} />
-          Continue with Google
-        </button>
-        <div className="mb-4 flex items-center gap-3">
-          <div className="h-px flex-1 bg-gray-100" />
-          <span className="text-xs text-gray-400">or</span>
-          <div className="h-px flex-1 bg-gray-100" />
-        </div>
+
         <form onSubmit={handleLogin} className="space-y-2">
           <div>
             <label className="sm-label">Email</label>
