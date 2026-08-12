@@ -61,7 +61,7 @@ export default function StudentDashboardPage() {
   }
 
   return (
-    <div className="space-y-6 pb-10">
+    <div className="space-y-4 pb-10 md:space-y-6">
       {/* Top bar */}
       <section className="flex items-center justify-between bg-gray-200 px-6 py-4 md:px-10 md:py-6">
         <div>

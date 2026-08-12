@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { HiOutlineVideoCamera } from "react-icons/hi2";
+import { HiOutlinePencil, HiOutlineVideoCamera } from "react-icons/hi2";
 
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
@@ -53,6 +53,18 @@ export default function LessonDetailPage() {
         >
           <MdOutlineKeyboardBackspace size={16} /> Back to Lessons
         </button>
+
+        {authUser?.role === "student" && (
+          <div className="flex shrink-0 gap-2">
+            <button
+              onClick={() => setAddOpen(true)}
+              className="btn-white flex items-center gap-1.5 px-3 py-1.5"
+            >
+              <HiOutlinePencil size={15} />
+              Update My Note
+            </button>
+          </div>
+        )}
       </section>
 
       {/* Header */}
@@ -63,11 +75,11 @@ export default function LessonDetailPage() {
           setDeleteOpen={setDeleteOpen}
         />
       ) : (
-        <StudentLessonDetailsHeader lesson={lesson} setAddOpen={setAddOpen} />
+        <StudentLessonDetailsHeader lesson={lesson} />
       )}
 
       {/* Recording */}
-      <div className="gap-5 overflow-hidden border-gray-200">
+      <div className="gap-4 overflow-hidden border-gray-200">
         {hasRecording ? (
           <video
             src={lesson.recording_url}
@@ -75,7 +87,7 @@ export default function LessonDetailPage() {
             className="h-full w-full rounded-xl bg-black object-contain"
           />
         ) : (
-          <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-16 text-center">
+          <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-6 text-center md:py-16">
             <HiOutlineVideoCamera size={32} className="text-gray-300" />
             <p className="text-sm text-gray-400 italic">
               No recording for this lesson.
@@ -85,7 +97,7 @@ export default function LessonDetailPage() {
       </div>
 
       {/* Details + Notes */}
-      <div className="grid grid-cols-5 gap-4">
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-5">
         {/* Notes */}
         <div className="panel-box col-span-3">
           <p className="panel-header">Meeting Note</p>
@@ -104,9 +116,7 @@ export default function LessonDetailPage() {
           <p className="panel-header mb-4">Notes</p>
           <div className="space-y-4">
             <div>
-              <p className="mb-1.5 text-xs font-medium tracking-wide text-gray-400 uppercase">
-                Lesson note
-              </p>
+              <p className="panel-header">Lesson note</p>
               {lesson.teacher_note ? (
                 <p className="rounded-lg text-sm leading-relaxed text-gray-700">
                   {lesson.teacher_note}
@@ -117,9 +127,7 @@ export default function LessonDetailPage() {
             </div>
 
             <div>
-              <p className="mb-1.5 text-xs font-medium tracking-wide text-gray-400 uppercase">
-                Meeting feedback
-              </p>
+              <p className="panel-header">Meeting feedback</p>
               {lesson.meeting_feedback ? (
                 <p className="rounded-lg text-sm leading-relaxed text-gray-700">
                   {lesson.meeting_feedback}
@@ -136,9 +144,7 @@ export default function LessonDetailPage() {
 
       {authUser?.role === "student" && (
         <div className="panel-box">
-          <p className="mb-1.5 text-xs font-medium tracking-wide text-gray-400 uppercase">
-            My note
-          </p>
+          <p className="panel-header">My note</p>
           {lesson.student_note ? (
             <p className="rounded-lg text-sm leading-relaxed text-gray-700">
               {lesson.student_note}

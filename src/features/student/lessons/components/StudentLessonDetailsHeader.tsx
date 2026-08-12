@@ -1,8 +1,4 @@
-import {
-  HiOutlinePencil,
-  HiOutlineClock,
-  HiOutlineCalendar,
-} from "react-icons/hi2";
+import { HiOutlineClock, HiOutlineCalendar } from "react-icons/hi2";
 import dayjs from "dayjs";
 import { LuLanguages } from "react-icons/lu";
 
@@ -13,13 +9,9 @@ import { LESSON_STATUS_BADGE } from "@/utils/constants";
 
 type Props = {
   lesson: Lesson;
-  setAddOpen: (open: boolean) => void;
 };
 
-export default function StudentLessonDetailsHeader({
-  lesson,
-  setAddOpen,
-}: Props) {
+export default function StudentLessonDetailsHeader({ lesson }: Props) {
   const scheduledAt = dayjs(lesson.scheduled_at);
 
   const actualMinutes = lesson.meeting_duration_in_seconds
@@ -60,17 +52,6 @@ export default function StudentLessonDetailsHeader({
             </div>
           )}
         </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex shrink-0 gap-2">
-        <button
-          onClick={() => setAddOpen(true)}
-          className="btn-white flex items-center gap-1.5 px-3 py-1.5"
-        >
-          <HiOutlinePencil size={15} />
-          Update My Note
-        </button>
       </div>
     </div>
   );
