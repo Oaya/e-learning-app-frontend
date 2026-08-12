@@ -3,12 +3,8 @@ import { LuLanguages, LuVideo } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 import type { Lesson } from "@/type/lesson";
-import {
-  LESSON_BORDER_COLOR,
-  LESSON_STATUS_BADGE,
-} from "@/utils/constants";
+import { LESSON_BORDER_COLOR, LESSON_STATUS_BADGE } from "@/utils/constants";
 import { canJoinLesson, formatDay, formatTime } from "@/utils/helper";
-
 import Badge from "@/ui/Badge";
 
 export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
@@ -32,7 +28,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
       </div>
 
       {/* Divider */}
-      <div className="mx-4 h-14 w-px shrink-0 bg-gray-200" />
+      <div className="mx-4 h-16 w-px shrink-0 bg-gray-200" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">

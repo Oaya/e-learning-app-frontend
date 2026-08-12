@@ -50,13 +50,11 @@ export default function StudentLessonsPage() {
     <div className="page-container">
       {/* Top bar */}
       <div className="page-header-row">
-        <div>
-          <h1 className="page-title">Lessons</h1>
-        </div>
+        <h1 className="page-title">Lessons</h1>
       </div>
 
       {/* Stat */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-3 gap-4">
         <StatCard
           label="Total lessons"
           icon={HiOutlineCalendar}
@@ -104,8 +102,8 @@ export default function StudentLessonsPage() {
             <section>
               <CardHeader type="past" />
               <div className="space-y-2">
-                {past.slice(0, 8).map((s) => (
-                  <StudentLessonCard key={s.id} lesson={s} />
+                {past.slice(0, 8).map((l) => (
+                  <StudentLessonCard key={l.id} lesson={l} />
                 ))}
               </div>
             </section>
