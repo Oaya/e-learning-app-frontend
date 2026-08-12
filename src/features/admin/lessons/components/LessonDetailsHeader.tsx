@@ -3,9 +3,10 @@ import {
   HiOutlineTrash,
   HiOutlineClock,
   HiOutlineCalendar,
+  HiLanguage,
 } from "react-icons/hi2";
 import dayjs from "dayjs";
-import { HiLanguage, LuExternalLink } from "react-icons/lu";
+import { LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
 import { formatTime, requireStatusChange } from "@/utils/helper";

@@ -1,6 +1,5 @@
-import { HiOutlineClock, HiOutlineCalendar } from "react-icons/hi2";
+import { HiOutlineClock, HiOutlineCalendar, HiLanguage } from "react-icons/hi2";
 import dayjs from "dayjs";
-import { HiLanguage } from "react-icons/lu";
 
 import { formatTime } from "@/utils/helper";
 import type { Lesson } from "@/type/lesson";
