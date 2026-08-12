@@ -15,7 +15,7 @@ export default function AuthLayout({ children }: Props) {
   return (
     <div className="flex min-h-screen">
       {/* ── Left panel ── */}
-      <div className="bg-theme-purple-50 relative hidden w-[38%] flex-col overflow-hidden p-20 lg:flex">
+      <div className="bg-theme-purple-50 relative hidden w-[38%] flex-col overflow-hidden p-20 md:flex">
         {/* Decorative circles */}
         <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full bg-white/5" />
         <div className="absolute -bottom-20 -left-12 h-64 w-64 rounded-full bg-white/5" />
@@ -96,7 +96,19 @@ export default function AuthLayout({ children }: Props) {
       </div>
 
       {/* ── Right panel ── */}
-      <div className="flex flex-1 justify-center bg-white px-6 py-12 pt-20">
+      <div className="relative flex flex-1 justify-center bg-white px-6 py-12 pt-20">
+        <div
+          className="absolute top-6 flex cursor-pointer items-center gap-2 md:hidden"
+          onClick={() => navigate("/")}
+        >
+          <div className="bg-theme-purple-50 flex h-8 w-8 items-center justify-center rounded-lg">
+            <TbLanguage className="text-white" size={18} />
+          </div>
+          <span className="text-theme-purple-50 text-base font-semibold tracking-tight">
+            Fluently
+          </span>
+        </div>
+
         {children}
       </div>
     </div>

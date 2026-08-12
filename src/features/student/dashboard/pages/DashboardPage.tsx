@@ -20,8 +20,6 @@ export default function StudentDashboardPage() {
 
   const now = dayjs();
 
-  console.log("e", lessons);
-
   // Upcoming or ongoing lessons — scheduled and not yet ended
   const upcomingOrOngoing = (lessons ?? [])
     ?.filter(
@@ -65,10 +63,10 @@ export default function StudentDashboardPage() {
   return (
     <div className="space-y-6 pb-10">
       {/* Top bar */}
-      <section className="flex items-center justify-between bg-gray-200 px-10 py-6">
+      <section className="flex items-center justify-between bg-gray-200 px-6 py-4 md:px-10 md:py-6">
         <div>
           <h1 className="page-title">
-            {greeting()},{"  "}
+            {greeting()},{" "}
             <span className="text-theme-purple-40">{user?.first_name}</span>
           </h1>
           <p className="mt-1 text-sm text-gray-500">{nextLabel}</p>
@@ -76,7 +74,7 @@ export default function StudentDashboardPage() {
       </section>
 
       {/* Stat cards */}
-      <section className="grid grid-cols-2 gap-4 px-10 pt-4 lg:grid-cols-3">
+      <section className="grid grid-cols-3 gap-4 px-6 md:px-10 md:pt-4">
         <StatCard
           label="Lessons completed"
           value={completedLessons}
@@ -92,7 +90,7 @@ export default function StudentDashboardPage() {
       </section>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-10 px-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-10 px-6 md:px-10 lg:grid-cols-2">
         {/* Upcoming lessons */}
         <UpcomingLessonsPanel lessons={upcomingOrOngoing} />
         {/* Homework */}
@@ -100,7 +98,7 @@ export default function StudentDashboardPage() {
       </div>
 
       {/* Goals panel */}
-      <div className="px-10">
+      <div className="px-6 md:px-10">
         <GoalsPanel goals={goals} userId={user!.id} />
       </div>
     </div>

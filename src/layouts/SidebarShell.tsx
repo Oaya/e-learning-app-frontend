@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, type ReactNode } from "react";
-import { Outlet } from "react-router-dom";
-import { HiArrowRightOnRectangle } from "react-icons/hi2";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { HiArrowRightOnRectangle, HiBars3, HiXMark } from "react-icons/hi2";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useAlert } from "@/contexts/AlertContext";
@@ -14,8 +14,11 @@ interface Props {
 export default function SidebarShell({ children, banner }: Props) {
   const { logoutUser, user } = useAuth();
   const alert = useAlert();
+  const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   function handleLogout() {
     logoutUser();
@@ -35,11 +38,42 @@ export default function SidebarShell({ children, banner }: Props) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [location.pathname]);
+
   return (
-    <div className="bg-theme-gray-10 flex h-screen">
-      <aside className="bg-theme-purple-10 sticky top-0 flex h-screen w-60 flex-col">
+    <div className="bg-theme-gray-10 flex h-screen flex-col md:flex-row">
+      <div className="bg-theme-purple-10 flex items-center justify-between px-4 py-3 md:hidden">
+        <h1 className="text-2xl font-bold" onClick={() => navigate("/")}>
+          Fluently
+        </h1>
+        <button
+          type="button"
+          onClick={() => setIsSidebarOpen((prev) => !prev)}
+          className="text-2xl"
+          aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isSidebarOpen}
+        >
+          {isSidebarOpen ? <HiXMark /> : <HiBars3 />}
+        </button>
+      </div>
+
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-20 bg-black/40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      <aside
+        className={[
+          "bg-theme-purple-10 fixed inset-y-0 left-0 z-30 flex h-screen flex-col transition-transform duration-200 md:sticky md:top-0 md:w-60 md:translate-x-0",
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full",
+        ].join(" ")}
+      >
         <div className="px-10 pt-6">
-          <h1 className="text-2xl font-bold">fluently</h1>
+          <h1 className="text-2xl font-bold">Fluently</h1>
         </div>
 
         <nav className="flex flex-1 flex-col gap-10 overflow-y-auto py-4 pt-8">
