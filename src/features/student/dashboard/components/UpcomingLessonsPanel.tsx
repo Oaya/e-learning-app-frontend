@@ -27,7 +27,7 @@ export default function UpcomingLessonsPanel({
       </div>
 
       {lessons?.length === 0 ? (
-        <p className="mt-10 text-center text-sm text-gray-400 italic">
+        <p className="text-center text-sm text-gray-400 italic max-sm:m-5">
           No upcoming lessons.
         </p>
       ) : (

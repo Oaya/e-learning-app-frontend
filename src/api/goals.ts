@@ -4,7 +4,6 @@ import { authHeader } from "./auth";
 
 export async function getUserGoals(studentId?: string): Promise<ApiResponse> {
   try {
-    console.log(studentId);
     const url: string = `${import.meta.env.VITE_API_URL}/api/goals/${studentId ? `?student_id=${studentId}` : ""}`;
     const res = await axios.get(url, {
       headers: authHeader(),

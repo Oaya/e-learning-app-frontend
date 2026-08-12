@@ -35,7 +35,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
     <>
       <div className="panel-box">
         <div className="mb-4 flex items-center justify-between">
-          <p className="panel-header mb-4">Goals</p>
+          <p className="panel-header">Goals</p>
 
           <div className="flex items-center justify-between gap-4">
             <Link to={viewAllHref} className="view-all">
@@ -53,7 +53,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
         </div>
 
         {goals?.length === 0 ? (
-          <p className="py-6 text-center text-sm text-gray-400 italic">
+          <p className="text-center text-sm text-gray-400 italic max-sm:m-5">
             No goals set yet.
           </p>
         ) : (
@@ -64,7 +64,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
               return (
                 <div
                   key={g.id}
-                  className="flex cursor-pointer items-center gap-3 py-2.5 hover:bg-gray-50 -mx-1 px-1 rounded-lg transition-colors"
+                  className="flex cursor-pointer items-center rounded-lg py-2.5 transition-colors hover:bg-gray-50"
                   onClick={() => handleGoalClick(g)}
                 >
                   <div className="mt-0.5 shrink-0"></div>
@@ -74,15 +74,15 @@ export default function GoalsPanel({ goals, userId }: Props) {
 
                       {authUser?.role === "admin" && (
                         <div onClick={(e) => e.stopPropagation()}>
-                        <ActionBtn
-                          title="Edit"
-                          onClick={() => {
-                            setOpenType("Edit");
-                            setGoal(g);
-                          }}
-                        >
-                          <HiOutlinePencil size={16} />
-                        </ActionBtn>
+                          <ActionBtn
+                            title="Edit"
+                            onClick={() => {
+                              setOpenType("Edit");
+                              setGoal(g);
+                            }}
+                          >
+                            <HiOutlinePencil size={16} />
+                          </ActionBtn>
                         </div>
                       )}
                     </div>

@@ -20,7 +20,7 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
       </div>
 
       {hws?.length === 0 ? (
-        <p className="text-center text-sm text-gray-400 italic">
+        <p className="text-center text-sm text-gray-400 italic max-sm:m-5">
           No homework yet.
         </p>
       ) : (
