@@ -98,12 +98,12 @@ export default function GoalsPanel({ goals, userId }: Props) {
                           style={{ width: `${g.progress}%` }}
                         />
                       </div>
-                      <div className="flex justify-between">
-                        <p className="mt-0.5 text-[12px] text-gray-400">
+                      <div className="mt-1 flex justify-between">
+                        <p className="text-[12px] text-gray-400">
                           {g.progress}% complete
                         </p>
                         {isAchieved && g.achieved_at ? (
-                          <p className="text-theme-green-20 mt-0.5 text-[12px]">
+                          <p className="text-theme-green-20 text-[12px]">
                             Achieved at: {g.achieved_at}
                           </p>
                         ) : (

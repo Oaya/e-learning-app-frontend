@@ -1,5 +1,9 @@
-import { HiOutlineClock } from "react-icons/hi2";
-import { LuLanguages, LuVideo } from "react-icons/lu";
+import {
+  HiOutlineClock,
+  HiLanguage,
+  HiOutlineVideoCamera,
+} from "react-icons/hi2";
+
 import { useNavigate } from "react-router-dom";
 
 import type { Lesson } from "@/type/lesson";
@@ -40,7 +44,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1 text-xs text-gray-400">
-            <LuLanguages size={16} />
+            <HiLanguage size={16} />
             {lesson.language}
           </span>
         </div>
@@ -54,7 +58,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
-            <LuVideo size={16} />
+            <HiOutlineVideoCamera size={16} />
             Join Lesson
           </button>
         )}
@@ -64,7 +68,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             onClick={() => navigate(`/student/lessons/${lesson.id}`)}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
-            <LuVideo size={16} />
+            <HiOutlineVideoCamera size={16} />
             Watch
           </button>
         )}

@@ -19,8 +19,13 @@ export default function StatCard({
   return (
     <div className="h-auto rounded-xl border border-gray-200 bg-white p-4 sm:h-28">
       <div className="mb-2 flex items-center gap-2 text-xs text-gray-400">
-        {Icon && <Icon size={16} className="text-theme-green-20" />}
-        {label}
+        {Icon && (
+          <Icon
+            size={16}
+            className="text-theme-green-20 hidden shrink-0 sm:block"
+          />
+        )}
+        <span>{label}</span>
       </div>
       <p className="text-2xl font-semibold text-gray-800">{value}</p>
       {sub && (

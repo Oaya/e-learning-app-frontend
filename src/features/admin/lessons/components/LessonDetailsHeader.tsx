@@ -5,7 +5,7 @@ import {
   HiOutlineCalendar,
 } from "react-icons/hi2";
 import dayjs from "dayjs";
-import { LuLanguages, LuExternalLink } from "react-icons/lu";
+import { HiLanguage, LuExternalLink } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
 import { formatTime, requireStatusChange } from "@/utils/helper";
@@ -71,7 +71,7 @@ export default function LessonDetailsHeader({
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1 text-sm">
-            <LuLanguages size={15} />
+            <HiLanguage size={15} />
             {lesson.language}
           </span>
           <Badge

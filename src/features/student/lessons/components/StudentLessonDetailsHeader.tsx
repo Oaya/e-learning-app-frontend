@@ -1,6 +1,6 @@
 import { HiOutlineClock, HiOutlineCalendar } from "react-icons/hi2";
 import dayjs from "dayjs";
-import { LuLanguages } from "react-icons/lu";
+import { HiLanguage } from "react-icons/lu";
 
 import { formatTime } from "@/utils/helper";
 import type { Lesson } from "@/type/lesson";
@@ -37,7 +37,7 @@ export default function StudentLessonDetailsHeader({ lesson }: Props) {
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1 text-sm">
-            <LuLanguages size={15} />
+            <HiLanguage size={15} />
             {lesson.language}
           </span>
           <Badge
