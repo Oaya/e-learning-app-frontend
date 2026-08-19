@@ -50,9 +50,7 @@ export default function GoalActivityLogsPanel({ goal, isAdmin }: Props) {
       </div>
 
       {goal?.activities?.length === 0 ? (
-        <p className="text-center text-sm text-gray-400 italic">
-          No activities logged yet.
-        </p>
+        <p className="no-content text-center">No activities logged yet.</p>
       ) : (
         <div className="divide-y divide-gray-100">
           {goal.activities?.map((activity) => (

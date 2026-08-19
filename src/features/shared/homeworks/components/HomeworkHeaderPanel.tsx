@@ -25,14 +25,11 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
       : "This Homework is Overdue. You may not get feedback.";
 
   return (
-    <div className="panel-box">
+    <div className="panel-box mb-4">
       <div className="flex justify-between">
-        <div className="flex items-center gap-4">
-          <p className="text-lg font-semibold text-gray-800">{hw.title}</p>
-          {overDue && (
-            <p className="text-sm font-semibold text-red-500">{warning}</p>
-          )}
-        </div>
+        <p className="min-w-0 text-lg font-semibold text-gray-800">
+          {hw.title}
+        </p>
 
         <Badge
           status={hw.status}
@@ -41,7 +38,13 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400">
+      {overDue && (
+        <p className="my-1.5 text-[12px] font-semibold text-red-500 md:mt-1 md:text-sm">
+          {warning}
+        </p>
+      )}
+
+      <div className="flex-wrap items-center text-sm text-gray-400 md:flex md:gap-3">
         {hw.student && authUser?.role === "admin" && (
           <span className="flex items-center gap-1">
             <img
@@ -66,16 +69,18 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
 
         {hw.submission?.submitted_at && (
           <span className="ml-auto">
-            Submitted at: {hw.submission?.submitted_at}
+            Submitted: {hw.submission?.submitted_at}
           </span>
         )}
       </div>
 
-      <p className="panel-header mt-6">Homework Instruction</p>
       {hw.instructions && (
-        <div className="rounded-lg text-sm leading-relaxed text-gray-500">
-          {hw.instructions}
-        </div>
+        <>
+          <p className="panel-header mt-6">Homework Instruction</p>
+          <div className="rounded-lg text-sm leading-relaxed text-gray-500">
+            {hw.instructions}
+          </div>
+        </>
       )}
     </div>
   );

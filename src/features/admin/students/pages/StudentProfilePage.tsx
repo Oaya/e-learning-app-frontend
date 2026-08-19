@@ -68,10 +68,7 @@ export default function StudentProfile() {
         </button>
 
         <div className="flex gap-2">
-          <button
-            onClick={() => {}}
-            className="btn-white flex items-center gap-1.5"
-          >
+          <button onClick={() => {}} className="btn-white gap-1.5">
             <MdMessage size={16} /> Message
           </button>
         </div>

@@ -20,23 +20,23 @@ export default function GoalHeader({ goal, progressWidth }: Props) {
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <h1 className="page-title">{goal.title}</h1>
-          <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-400">
+          <div className="mt-1 flex flex-wrap items-center text-xs text-gray-400 md:gap-3">
             {goal.created_at && (
               <span className="flex items-center gap-1">
                 <HiOutlineCalendar size={13} />
-                Started {dayjs(goal.created_at).format("YYYY-MM-DD")}
+                Started: {dayjs(goal.created_at).format("YYYY-MM-DD")}
               </span>
             )}
             {goal.target_date && (
               <span className="flex items-center gap-1">
                 <HiOutlineClock size={13} />
-                Target {dayjs(goal.target_date).format("YYYY-MM-DD")}
+                Target: {dayjs(goal.target_date).format("YYYY-MM-DD")}
               </span>
             )}
             {goal.achieved_at && (
-              <span className="text-theme-green-20 flex items-center gap-1">
+              <span className="text-theme-green-20 flex items-center gap-1 font-semibold">
                 <HiOutlineCheck size={13} />
-                Achieved {dayjs(goal.achieved_at).format("YYYY-MM-DD")}
+                Achieved: {dayjs(goal.achieved_at).format("YYYY-MM-DD")}
               </span>
             )}
           </div>

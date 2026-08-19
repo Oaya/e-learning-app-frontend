@@ -184,15 +184,15 @@ export const SCORE_BUDGE: Record<
   }
 > = {
   needs_work: {
-    css: "bg-theme-pink-10 text-theme-pink-20 border-theme-pink-20",
+    css: "bg-theme-pink-10 text-theme-pink-20",
     icon: HiOutlineWrenchScrewdriver,
   },
   good: {
-    css: "bg-theme-yellow-10  text-theme-yellow-20 border-theme-yellow-20",
+    css: "bg-theme-yellow-10  text-theme-yellow-20 ",
     icon: HiOutlineHandThumbUp,
   },
   excellent: {
-    css: "bg-theme-green-30 text-theme-green-20 border-theme-green-20",
+    css: "bg-theme-green-30 text-theme-green-20 ",
     icon: HiOutlineStar,
   },
 };

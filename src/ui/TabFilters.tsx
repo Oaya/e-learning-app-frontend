@@ -12,12 +12,12 @@ export default function TabFilters({
   onTabChange,
 }: TabFiltersProps) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="scrollbar-none flex flex-nowrap items-center gap-2 overflow-x-auto md:flex-wrap">
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => onTabChange(tab)}
-          className={`cursor-pointer rounded-full border px-1.5 py-1 text-xs font-medium transition md:px-3 md:py-1.5 ${
+          className={`shrink-0 cursor-pointer rounded-lg border px-3 py-1 text-xs font-medium whitespace-nowrap transition md:rounded-xl md:px-3 md:py-1.5 ${
             activeTab === tab
               ? "border-theme-purple-40 bg-theme-purple-40 text-white"
               : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"

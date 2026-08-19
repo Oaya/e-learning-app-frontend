@@ -111,7 +111,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             e.stopPropagation();
             navigate(`/lessons/${lesson.id}/meeting`);
           }}
-          className="btn-white mt-2 mr-4 flex items-center gap-1 px-2 py-1.5"
+          className="btn-white mt-2 mr-4 gap-1 px-2 py-1.5"
         >
           <LuVideo size={16} />
           Join Lesson
@@ -121,7 +121,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       {lesson.recording_url && lesson.status === "completed" && (
         <button
           onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
-          className="btn-white mt-2 mr-4 flex items-center gap-1 px-2 py-1.5"
+          className="btn-white mt-2 mr-4 gap-1 px-2 py-1.5"
         >
           <LuVideo size={16} />
           Watch

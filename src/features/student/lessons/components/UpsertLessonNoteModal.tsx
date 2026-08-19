@@ -1,13 +1,14 @@
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { useState } from "react";
 
 import dayjsTimezone from "dayjs/plugin/timezone";
+
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useAlert } from "@/contexts/AlertContext";
 import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
+import { useState } from "react";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -57,11 +58,11 @@ export default function UpsertLessonNoteModal({
       maxWidth="max-w-xl"
     >
       <div className="px-6 py-5">
-        <p className="text-lg text-gray-500">
+        <p className="text-lg font-semibold">
           {lesson?.topic} ·{" "}
-          <span>
+          <span className="text-gray-500">
             {lesson?.scheduled_at &&
-              dayjs(lesson.scheduled_at).format("DD MMM YYYY")}
+              dayjs(lesson.scheduled_at).format("YYYY-MM-DD")}
           </span>
         </p>
       </div>
@@ -79,11 +80,7 @@ export default function UpsertLessonNoteModal({
         </FormField>
 
         <div className="modal-footer">
-          <button
-            type="button"
-            onClick={onClose}
-            className="btn-primary-white mr-4"
-          >
+          <button type="button" onClick={onClose} className="btn-primary-white">
             Cancel
           </button>
 

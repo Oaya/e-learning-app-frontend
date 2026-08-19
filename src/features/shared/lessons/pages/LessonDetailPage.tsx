@@ -89,9 +89,7 @@ export default function LessonDetailPage() {
         ) : (
           <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-6 text-center md:py-16">
             <HiOutlineVideoCamera size={32} className="text-gray-300" />
-            <p className="text-sm text-gray-400 italic">
-              No recording for this lesson.
-            </p>
+            <p className="no-content">No recording for this lesson.</p>
           </div>
         )}
       </div>
@@ -105,15 +103,12 @@ export default function LessonDetailPage() {
           lesson.meeting_note ? (
             <LessonNotesViewer html={lesson.meeting_note} />
           ) : (
-            <div className="flex flex-col items-center justify-center gap-2 rounded-xl bg-white py-16 text-center">
-              <p className="text-sm text-gray-400 italic">
-                No meeting note for this lesson
-              </p>
+            <div className="flex flex-col items-center justify-center gap-2 rounded-xl bg-white py-4 text-center md:py-16">
+              <p className="no-content">No meeting note for this lesson</p>
             </div>
           )}
         </div>
         <div className="panel-box col-span-2">
-          <p className="panel-header mb-4">Notes</p>
           <div className="space-y-4">
             <div>
               <p className="panel-header">Lesson note</p>
@@ -122,7 +117,7 @@ export default function LessonDetailPage() {
                   {lesson.teacher_note}
                 </p>
               ) : (
-                <p className="text-sm text-gray-400 italic">No note added.</p>
+                <p className="no-content mt-2">No note added.</p>
               )}
             </div>
 
@@ -133,9 +128,7 @@ export default function LessonDetailPage() {
                   {lesson.meeting_feedback}
                 </p>
               ) : (
-                <p className="text-sm text-gray-300 italic">
-                  No feedback added.
-                </p>
+                <p className="no-content mt-2">No feedback added.</p>
               )}
             </div>
           </div>
@@ -150,7 +143,7 @@ export default function LessonDetailPage() {
               {lesson.student_note}
             </p>
           ) : (
-            <p className="text-sm text-gray-400 italic">No note added.</p>
+            <p className="no-content mt-2">No note added.</p>
           )}
         </div>
       )}

@@ -74,7 +74,7 @@ export default function StudentDashboardPage() {
       </section>
 
       {/* Stat cards */}
-      <section className="grid grid-cols-3 gap-4 px-6 md:px-10 md:pt-4">
+      <section className="grid grid-cols-3 gap-2 px-6 md:gap-4 md:px-10 md:pt-4">
         <StatCard
           label="Lessons completed"
           value={completedLessons}

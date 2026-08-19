@@ -20,9 +20,7 @@ export default function HomeworkPanel({ hws }: HWPanelProps) {
       </div>
 
       {hws?.length === 0 ? (
-        <p className="text-center text-sm text-gray-400 italic max-sm:m-5">
-          No homework yet.
-        </p>
+        <p className="no-content text-center max-sm:m-5">No homework yet.</p>
       ) : (
         <div className="divide-y divide-gray-100">
           {hws?.slice(0, 8).map((hw) => {

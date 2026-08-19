@@ -53,9 +53,7 @@ export default function GoalsPanel({ goals, userId }: Props) {
         </div>
 
         {goals?.length === 0 ? (
-          <p className="text-center text-sm text-gray-400 italic max-sm:m-5">
-            No goals set yet.
-          </p>
+          <p className="no-content text-center max-sm:m-5">No goals set yet.</p>
         ) : (
           <div className="divide-y divide-gray-100">
             {goals?.map((g) => {
@@ -103,8 +101,8 @@ export default function GoalsPanel({ goals, userId }: Props) {
                           {g.progress}% complete
                         </p>
                         {isAchieved && g.achieved_at ? (
-                          <p className="text-theme-green-20 text-[12px]">
-                            Achieved at: {g.achieved_at}
+                          <p className="text-theme-green-20 text-[12px] font-semibold">
+                            Achieved: {g.achieved_at}
                           </p>
                         ) : (
                           <p className="text-[12px] text-gray-400">

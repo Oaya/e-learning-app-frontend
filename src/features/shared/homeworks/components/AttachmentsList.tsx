@@ -1,8 +1,5 @@
 import { HW_UPLOAD_BUTTON } from "@/utils/constants";
-import type {
-  Attachment,
-  AttachmentType,
-} from "@/type/homework_submission";
+import type { Attachment, AttachmentType } from "@/type/homework_submission";
 
 type Props = { atts: Attachment[]; title: string };
 
@@ -32,7 +29,7 @@ export default function AttachmentsList({ atts, title }: Props) {
           return (
             <div
               key={a.id}
-              className="flex items-center gap-3 rounded-lg border border-gray-100 bg-gray-50 px-4 py-2.5"
+              className="flex items-center gap-3 rounded-lg border border-gray-100 bg-gray-50 p-2 md:px-4 md:py-2.5"
             >
               <div
                 className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${bg} ${color}`}

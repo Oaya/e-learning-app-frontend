@@ -59,7 +59,7 @@ export default function AdminGoalDetailPage() {
         <div className="flex gap-2">
           <button
             onClick={() => setEditGoalOpen(true)}
-            className="btn-white flex items-center gap-1.5 px-3 py-1.5"
+            className="btn-white gap-1.5 px-3 py-1.5"
           >
             <HiOutlinePencil size={15} />
             Edit

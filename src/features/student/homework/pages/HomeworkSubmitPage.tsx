@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineCheck } from "react-icons/hi2";
-
 import { useHomeworkSubmission } from "@/features/shared/homeworks/hooks/useHomeworkSubmission";
 import HomeworkHeaderPanel from "@/features/shared/homeworks/components/HomeworkHeaderPanel";
 import AttachmentsPanel from "@/features/student/homework/components/AttachmentsPanel";
@@ -82,13 +81,14 @@ export default function HomeworkSubmitPage() {
   return (
     <div className="page-container">
       {/* Top bar */}
-      <section className="page-header-row">
+      <section className="page-header-row flex-nowrap items-start gap-2">
         <button
           onClick={() => navigate("/student/homework")}
-          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
+          className="flex shrink-0 items-center gap-1 text-gray-500 hover:text-gray-700 md:gap-2"
         >
           <HiOutlineArrowLeft size={16} />
-          Back to homework
+          <span className="hidden sm:inline">Back to homework</span>
+          <span className="sm:hidden">Back</span>
         </button>
 
         <div className="flex flex-col items-end gap-1">
@@ -109,7 +109,7 @@ export default function HomeworkSubmitPage() {
               {isSubmitting ? "Submitting…" : "Submit"}
             </button>
           </div>
-          <p className="text-xs text-gray-400">
+          <p className="hidden text-xs text-gray-400 sm:block">
             You can edit your submission until your teacher reviews it.
           </p>
         </div>
@@ -118,15 +118,15 @@ export default function HomeworkSubmitPage() {
       <div className="space-y-6">
         <HomeworkHeaderPanel hw={homework} />
 
-        <div className="flex items-stretch gap-5">
+        <div className="items-stretch gap-5 md:flex">
           {/* Written answer */}
-          <div className="panel-box flex shrink-0 grow-0 basis-[60%] flex-col">
-            <p className="panel-header">Written answer</p>
+          <div className="panel-box flex shrink-0 grow-0 basis-[60%] flex-col max-sm:mb-4">
+            <p className="panel-header mb-2">Written answer</p>
             <textarea
               placeholder="Write your answer here…"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="form-textarea min-h-90"
+              className="form-textarea md:min-h-90"
             />
           </div>
 

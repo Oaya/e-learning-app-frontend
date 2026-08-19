@@ -27,7 +27,7 @@ export default function GoalCommentPanel({ goal, isAdmin }: Props) {
   }
   return (
     <div className="panel-box">
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between">
         <p className="panel-header">
           {isAdmin ? "Your comments" : "Your teacher's comment"}
         </p>
@@ -77,9 +77,7 @@ export default function GoalCommentPanel({ goal, isAdmin }: Props) {
 
       {!goal.comments || goal.comments.length === 0 ? (
         !addingComment && (
-          <p className="text-center text-sm text-gray-400 italic">
-            You haven't commented yet.
-          </p>
+          <p className="no-content text-center">You haven't commented yet.</p>
         )
       ) : (
         <div className="divide-y divide-gray-100">

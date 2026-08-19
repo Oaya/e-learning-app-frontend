@@ -54,7 +54,7 @@ export default function HomeworkViewPage() {
         <HomeworkHeaderPanel hw={homework} />
 
         {/* Two-column layout */}
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid-cols-2 gap-5 md:grid">
           {/* LEFT — answer + attachments */}
           <div className="flex min-w-0 flex-1 flex-col gap-4">
             {/* Written answer */}
@@ -67,15 +67,13 @@ export default function HomeworkViewPage() {
                   {submission.answer_text}
                 </p>
               ) : (
-                <p className="text-center text-sm text-gray-400 italic">
-                  No written answer.
-                </p>
+                <p className="no-content text-center">No written answer.</p>
               )}
             </div>
 
             {/* Attachments */}
             {submission?.attachments && submission.attachments.length > 0 && (
-              <div className="panel-box">
+              <div className="panel-box mb-4">
                 <AttachmentsList
                   atts={submission.attachments}
                   title="Attachments"
@@ -88,29 +86,32 @@ export default function HomeworkViewPage() {
           <div className="flex shrink-0 flex-col gap-4">
             {/* Teacher feedback */}
             <div className="panel-box">
-              <p className="panel-header">Teacher feedback</p>
+              <p className="panel-header mb-2">Teacher feedback</p>
 
               {submission && feedback ? (
-                <div className="space-y-2">
-                  <span
-                    className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm font-medium capitalize ${scoreBadge.css}`}
-                  >
-                    <scoreBadge.icon size={14} />
-                    {homework!.submission!.feedback.score}
-                  </span>
+                <div className="flex justify-between space-y-2">
                   <p className="text-sm leading-relaxed text-gray-600">
                     {feedback.feedback_text}
                   </p>
-                  <p className="text-xs text-gray-400">
-                    Reviewed: {submission?.reviewed_at}
-                  </p>
+
+                  <div>
+                    <span
+                      className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-sm font-medium capitalize ${scoreBadge.css}`}
+                    >
+                      <scoreBadge.icon size={14} />
+                      {homework!.submission!.feedback.score}
+                    </span>
+                    <p className="text-[14px] text-gray-400">
+                      Reviewed: {submission?.reviewed_at}
+                    </p>
+                  </div>
                 </div>
               ) : (
-                <div className="rounded-lg px-4 py-5 text-center italic">
-                  <p className="text-sm text-gray-400">
+                <div className="rounded-lg px-4 py-5 text-center">
+                  <p className="no-content">
                     Your teacher hasn't reviewed this yet.
                   </p>
-                  <p className="mt-1 text-xs text-gray-300">
+                  <p className="mt-1 text-xs text-gray-400 italic">
                     Check back after your next lessons.
                   </p>
                 </div>
@@ -118,7 +119,7 @@ export default function HomeworkViewPage() {
             </div>
 
             {/* What's next */}
-            <div className="panel-box">
+            <div className="panel-box gap-4">
               <p className="panel-header mb-2">What's next</p>
               <p className="text-sm text-gray-500">
                 Your next lesson is coming up. Keep practising until then!

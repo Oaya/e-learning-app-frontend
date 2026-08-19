@@ -53,14 +53,14 @@ export default function AttachmentsPanel({
 
   return (
     <div className="panel-box flex flex-1 flex-col">
-      <p className="panel-header">Attachments</p>
+      <p className="panel-header mb-2">Attachments</p>
 
       <div className="mb-4 grid grid-cols-3 gap-3">
         <UploadButton
           type="file"
           onClick={() => fileRef.current?.click()}
           label="Upload file"
-          sub="PDF, Word, image…"
+          sub="PDF, Word, image"
         />
         <UploadButton
           type="video"
@@ -96,14 +96,14 @@ export default function AttachmentsPanel({
         <span className="text-[10px] text-gray-400">or paste a link</span>
         <div className="h-px flex-1 bg-gray-100" />
       </div>
-      <div className="mb-4 flex gap-2">
+      <div className="flex items-center gap-2">
         <input
           id="link-input"
           type="url"
           placeholder="https://docs.google.com/… or any URL"
           value={linkInput}
           onChange={(e) => setLinkInput(e.target.value)}
-          className="flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 focus:border-emerald-400 focus:outline-none"
+          className="flex-1 rounded-lg border border-gray-200 px-2 py-1 text-sm text-gray-800 placeholder-gray-300 focus:border-emerald-400 focus:outline-none md:px-3 md:py-2"
         />
         <button
           onClick={handleAddLink}

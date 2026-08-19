@@ -44,7 +44,7 @@ export default function SidebarShell({ children, banner }: Props) {
 
   return (
     <div className="bg-theme-gray-10 flex h-screen flex-col md:flex-row">
-      <div className="bg-theme-purple-10 flex items-center justify-between px-4 py-3 md:hidden">
+      <div className="bg-theme-purple-10 flex items-center justify-between px-6 py-3 md:hidden">
         <h1 className="text-2xl font-bold" onClick={() => navigate("/")}>
           Fluently
         </h1>

@@ -8,23 +8,23 @@
   }
 
   .btn-primary {
-    @apply bg-theme-purple-50 hover:bg-theme-purple-50/80 inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm text-white disabled:opacity-50;
+    @apply bg-theme-purple-50 hover:bg-theme-purple-50/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
 
   .btn-primary-white {
-    @apply inline-flex cursor-pointer items-center justify-center rounded border border-gray-300 px-4 py-2 text-sm hover:opacity-50 disabled:opacity-50;
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border border-gray-300 px-2 py-1 text-sm hover:opacity-50 disabled:opacity-50 md:px-4 md:py-2;
   }
 
   .btn-primary-pink {
-    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm text-white disabled:opacity-50;
+    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-2 py-1 text-sm text-white disabled:opacity-50 md:px-4 md:py-2;
   }
 
   .btn-secondary {
-    @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 inline-flex cursor-pointer items-center justify-center rounded px-4 py-2 text-sm text-white disabled:opacity-50;
+    @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
 
   .btn-white {
-    @apply border-theme-purple-50 text-theme-purple-50 inline-flex cursor-pointer items-center justify-center rounded border bg-purple-50 px-4 py-2 text-sm font-medium hover:bg-purple-100;
+    @apply border-theme-purple-50 text-theme-purple-50 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border bg-purple-50 px-2 py-1 text-sm font-medium hover:bg-purple-100 md:px-4 md:py-2;
   }
 
   .sm-label {
@@ -42,7 +42,7 @@
     @apply text-[10px] font-semibold tracking-widest text-gray-400 uppercase;
   }
   .panel-box {
-    @apply rounded-xl border border-gray-200 bg-white p-5;
+    @apply rounded-xl border border-gray-200 bg-white p-4 md:p-5;
   }
 
   .top-bar {
@@ -88,7 +88,7 @@
   }
 
   .page-container {
-    @apply space-y-4 p-6 md:space-y-6 md:p-10;
+    @apply space-y-4 px-6 py-4 md:space-y-6 md:p-10;
   }
 
   .page-header-row {
@@ -106,11 +106,22 @@
   .empty-state {
     @apply rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-400;
   }
+  .no-content {
+    @apply text-sm text-gray-400 italic;
+  }
 
   .home-section-header {
     @apply text-theme-purple-50 mb-2.5 text-xs font-semibold tracking-widest uppercase;
   }
   .home-section-title {
     @apply mb-12 text-4xl font-bold tracking-tight;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }

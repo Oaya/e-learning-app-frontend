@@ -51,13 +51,11 @@ export default function StudentHomeworkPage() {
     <div className="page-container">
       {/* Top bar */}
       <section className="page-header-row">
-        <div>
-          <h1 className="page-title">Homework</h1>
-        </div>
+        <h1 className="page-title">Homework</h1>
       </section>
 
       {/* Stat cards */}
-      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineDocumentText}
           label="Total assigned"
