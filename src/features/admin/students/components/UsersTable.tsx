@@ -1,8 +1,24 @@
 import { Link } from "react-router-dom";
+import { HiOutlineChevronRight } from "react-icons/hi2";
 
 import type { User, UserSort } from "@/type/user";
 import SortButton from "@/ui/SortButton";
 import defaultAvatar from "@/assets/user.png";
+
+function StatusBadge({ status }: { status: string }) {
+  const styles: Record<string, string> = {
+    active: "bg-green-50 text-green-700",
+    invited: "bg-yellow-50 text-yellow-700",
+    inactive: "bg-gray-100 text-gray-500",
+  };
+  return (
+    <span
+      className={`rounded-full px-2 py-0.5 text-[11px] capitalize ${styles[status] ?? "bg-gray-100 text-gray-500"}`}
+    >
+      {status || "—"}
+    </span>
+  );
+}
 
 export default function UsersTable({
   users,
@@ -17,25 +33,57 @@ export default function UsersTable({
     return sorts.find((s) => s.field === field)?.dir;
   }
 
+  if (users.length === 0) {
+    return (
+      <p className="rounded border border-gray-200 bg-white p-4 text-sm text-gray-400">
+        No students found.
+      </p>
+    );
+  }
+
   return (
     <div>
-      <div className="overflow-x-auto rounded border bg-white">
-        <table className="min-w-full text-sm">
+      {/* ── Mobile card list (hidden on sm+) ── */}
+      <div className="flex flex-col gap-2 sm:hidden">
+        {users.map((u) => (
+          <Link
+            key={u.id}
+            to={`/users/${u.id}`}
+            className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 hover:border-gray-300"
+          >
+            <img
+              src={u.avatar || defaultAvatar}
+              alt=""
+              className="h-10 w-10 shrink-0 rounded-full object-cover"
+            />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-gray-800">
+                {u.first_name} {u.last_name}
+              </p>
+              <p className="truncate text-xs text-gray-400">{u.email}</p>
+            </div>
+            <div className="flex shrink-0 items-center gap-2">
+              <StatusBadge status={u.status ?? ""} />
+              <HiOutlineChevronRight size={15} className="text-gray-300" />
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* ── Desktop table (hidden on mobile) ── */}
+      <div className="hidden overflow-x-auto rounded border border-gray-200 bg-white sm:block">
+        <table className="w-full table-fixed text-sm">
           <thead>
             <tr className="bg-theme-purple-10/20 text-left">
-              <th className="p-3">
+              <th className="w-2/5 p-3">
                 <div className="flex items-center">
                   Name
-                  <button
-                    type="button"
-                    onClick={() => onToggleSort("first_name")}
-                  >
+                  <button type="button" onClick={() => onToggleSort("first_name")}>
                     <SortButton sort={getSortValue("first_name")} />
                   </button>
                 </div>
               </th>
-
-              <th className="p-3">
+              <th className="w-2/5 p-3">
                 <div className="flex items-center">
                   Email
                   <button type="button" onClick={() => onToggleSort("email")}>
@@ -43,8 +91,7 @@ export default function UsersTable({
                   </button>
                 </div>
               </th>
-
-              <th className="p-3">
+              <th className="w-1/5 p-3">
                 <div className="flex items-center">
                   Status
                   <button type="button" onClick={() => onToggleSort("status")}>
@@ -54,36 +101,32 @@ export default function UsersTable({
               </th>
             </tr>
           </thead>
-
           <tbody>
-            {users.length === 0 ? (
-              <tr>
-                <td className="p-4 text-gray-500" colSpan={3}>
-                  No users found.
+            {users.map((u) => (
+              <tr key={u.id} className="border-t hover:bg-gray-50">
+                <td className="p-3">
+                  <Link
+                    to={`/users/${u.id}`}
+                    className="flex min-w-0 items-center gap-2 text-blue-600 hover:underline"
+                  >
+                    <img
+                      src={u.avatar || defaultAvatar}
+                      alt=""
+                      className="h-8 w-8 shrink-0 rounded-full object-cover"
+                    />
+                    <span className="truncate">
+                      {u.first_name} {u.last_name}
+                    </span>
+                  </Link>
+                </td>
+                <td className="truncate p-3 text-gray-600" title={u.email}>
+                  {u.email}
+                </td>
+                <td className="p-3">
+                  <StatusBadge status={u.status ?? ""} />
                 </td>
               </tr>
-            ) : (
-              users.map((u) => (
-                <tr key={u.id} className="border-t">
-                  <td className="p-3">
-                    <Link
-                      to={`/users/${u.id}`}
-                      className="flex items-center gap-2 text-blue-600 hover:underline"
-                    >
-                      <img
-                        src={u.avatar || defaultAvatar}
-                        alt=""
-                        className="h-8 w-8 rounded-full object-cover"
-                      />
-                      {u?.first_name} {u.last_name}
-                    </Link>
-                  </td>
-
-                  <td className="p-3">{u.email}</td>
-                  <td className="p-3 capitalize">{u.status ? u.status : ""}</td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
       </div>

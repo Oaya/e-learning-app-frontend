@@ -123,7 +123,7 @@ export default function LessonsList({
       </div>
 
       {/* Filters */}
-      <div className="flex">
+      <div className="flex items-center">
         <TabFilters
           tabs={LESSON_TABS}
           activeTab={activeTab}
@@ -135,7 +135,7 @@ export default function LessonsList({
           placeholder="Search student or topic…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="form-input ml-auto w-80 px-3 py-1.5"
+          className="form-input mb-0 ml-auto w-100 px-3 py-1 text-xs md:py-1.5 md:text-[16px]"
         />
       </div>
 

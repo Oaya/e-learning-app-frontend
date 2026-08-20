@@ -34,8 +34,8 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
         </Link>
       </div>
       {students?.length === 0 ? (
-        <div className="py-8 text-center text-sm text-gray-400">
-          No students yet.
+        <div className="no-content text-center max-sm:m-5">
+          No students yet.{" "}
           <Link to="/admin/students" className="text-theme-green-20 underline">
             Create Student
           </Link>

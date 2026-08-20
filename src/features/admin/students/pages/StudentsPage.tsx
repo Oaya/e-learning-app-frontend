@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { FiFilter } from "react-icons/fi";
+import { LuSlidersHorizontal } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import {
@@ -91,13 +91,12 @@ export default function StudentsPage() {
     <div className="page-container">
       {/* Top bar */}
       <div className="page-header-row">
-        <div>
-          <h1 className="page-title">Your Students</h1>
-        </div>
+        <h1 className="page-title">Your Students</h1>
+
         <div className="flex gap-2">
           <button
             onClick={() => setInviteOpen(true)}
-            className="btn-primary-pink flex items-center gap-1.5"
+            className="btn-primary-pink max-sm:tex-[11px] max-sm:px-2 max-sm:py-1.5"
           >
             <HiOutlineMail size={16} /> Invite Student
           </button>
@@ -105,42 +104,36 @@ export default function StudentsPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-8 lg:grid-cols-3">
-        <StatCard
-          icon={HiUsers}
-          label="Total student"
-          value={users.length ?? 0}
-        />
-        <StatCard
-          icon={HiOutlineCheckCircle}
-          label="Active"
-          value={active}
-          sub="Currently Active"
-        />
+      <section className="grid grid-cols-3 gap-2 md:gap-4">
+        <StatCard icon={HiUsers} label="Total" value={users.length ?? 0} />
+        <StatCard icon={HiOutlineCheckCircle} label="Active" value={active} />
         <StatCard
           icon={HiOutlineCurrencyDollar}
           label="Unpaid"
           value={unpaid}
           sub="Owes for lessons"
         />
-      </div>
+      </section>
 
-      <div className="flex">
+      <div className="flex items-center">
         <input
-          className="form-input w-full"
+          className="form-input mb-0 h-10.5 w-100 px-3 max-sm:text-[11px]"
           type="text"
           placeholder="Search student by First, Last name or Email"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
 
-        <div className="relative ml-6">
+        <div className="relative max-sm:ml-2 md:ml-auto">
           <button
-            className="bg-theme-purple-40 text-theme-purple-50 flex h-11.5 cursor-pointer items-center justify-center rounded px-4 shadow-xl"
+            className="btn-white h-10.5 text-xs text-[16px]"
             onClick={() => setOpenFilter((v) => !v)}
           >
-            <FiFilter size={18} className="text-theme-purple-50 mr-2 flex" />
-            Filters
+            <LuSlidersHorizontal
+              size={16}
+              className="text-theme-purple-50 flex"
+            />
+            <span className="hidden sm:inline">Filters</span>
           </button>
 
           {openFilter && (
@@ -156,21 +149,19 @@ export default function StudentsPage() {
         </div>
       </div>
 
-      <div>
-        {chips.map((chip) => (
-          <span
-            key={chip.label}
-            className="bg-theme-purple-40 text-theme-purple-20 mr-4 inline-block rounded-full px-2 py-1 text-sm capitalize shadow"
-          >
-            {chip.label}
-            <IoIosClose
-              size={20}
-              className="ml-1 inline-block"
-              onClick={() => removeFilterChip(chip.key, chip.value)}
-            />
-          </span>
-        ))}
-      </div>
+      {chips.map((chip) => (
+        <span
+          key={chip.label}
+          className="bg-theme-purple-40 text-theme-purple-50 mr-4 inline-block rounded-full px-2 py-1 text-sm capitalize shadow"
+        >
+          {chip.label}
+          <IoIosClose
+            size={18}
+            className="ml-1 inline-block"
+            onClick={() => removeFilterChip(chip.key, chip.value)}
+          />
+        </span>
+      ))}
 
       <UsersTable
         users={displayUsers}

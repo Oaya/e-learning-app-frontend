@@ -23,17 +23,13 @@ export default function UserFilterDropDown({
 }) {
   return (
     <div
-      className="absolute right-0 z-50 mt-4 w-100 rounded-lg bg-white shadow-lg ring-1 ring-black/10"
+      className="absolute right-0 z-50 mt-4 w-[calc(100vw-3rem)] max-w-100 rounded-lg bg-white shadow-lg ring-1 ring-black/10"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="mb-4 flex items-start justify-between p-4">
+      <div className="mb-4 flex items-start justify-between px-4 py-2">
         <h2 className="text-lg font-semibold">Filters</h2>
-        <button
-          type="button"
-          className="icon-btn"
-          onClick={onClose}
-        >
-          <AiOutlineClose className="text-2xl" />
+        <button type="button" className="icon-btn" onClick={onClose}>
+          <AiOutlineClose size={16} />
         </button>
       </div>
 

@@ -78,8 +78,8 @@ export default function InviteUserModal({
             <input name="email" type="email" required className="form-input" />
           </FormField>
 
-          <div className="grid grid-cols-2 gap-6">
-            <FormField label="First Name" className="mb-2">
+          <div className="grid md:grid-cols-2 md:gap-6">
+            <FormField label="First Name" className="md:mb-2">
               <input
                 name="first_name"
                 type="text"
@@ -120,7 +120,7 @@ export default function InviteUserModal({
             <button
               type="button"
               onClick={onClose}
-              className="btn-primary-white mr-4"
+              className="btn-primary-white"
             >
               Cancel
             </button>

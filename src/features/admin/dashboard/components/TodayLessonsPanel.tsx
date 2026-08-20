@@ -24,45 +24,51 @@ export default function TodayLessonsPanel({ lessons }: TodayLessonPanelProps) {
         </Link>
       </div>
 
-      <div className="divide-y divide-gray-100">
-        {lessons?.map((l) => (
-          <div key={l.id} className="flex items-center gap-3 py-2.5">
-            <span className="w-20 shrink-0 pt-0.5 text-xs text-gray-400">
-              {formatTime(l.scheduled_at)} -{" "}
-              {dayjs(l.scheduled_at)
-                .add(l.duration_in_minutes, "minute")
-                .format("h:mm A")}
-            </span>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-gray-800">
-                {l.student.first_name} {l.student.last_name}
-              </p>
-              <p className="text-xs text-gray-400">{l.topic}</p>
-            </div>
+      {lessons?.length === 0 ? (
+        <p className="no-content text-center max-sm:m-5">
+          No lessons for today.
+        </p>
+      ) : (
+        <div className="divide-y divide-gray-100">
+          {lessons?.map((l) => (
+            <div key={l.id} className="flex items-center gap-3 py-2.5">
+              <span className="w-20 shrink-0 pt-0.5 text-xs text-gray-400">
+                {formatTime(l.scheduled_at)} -{" "}
+                {dayjs(l.scheduled_at)
+                  .add(l.duration_in_minutes, "minute")
+                  .format("h:mm A")}
+              </span>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-800">
+                  {l.student.first_name} {l.student.last_name}
+                </p>
+                <p className="text-xs text-gray-400">{l.topic}</p>
+              </div>
 
-            <div className="flex flex-col items-end">
-              <Badge
-                status={l.status}
-                constant={LESSON_STATUS_BADGE}
-                className="items-center px-1 py-0.5 text-[11px]"
-              />
+              <div className="flex flex-col items-end">
+                <Badge
+                  status={l.status}
+                  constant={LESSON_STATUS_BADGE}
+                  className="items-center px-1 py-0.5 text-[11px]"
+                />
 
-              {canJoinLesson(l) && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/lessons/${l.id}/meeting`);
-                  }}
-                  className="btn-white mt-2 flex items-center gap-1 px-1 py-0.5 text-[11px]"
-                >
-                  <LuVideo size={14} />
-                  Join Lesson
-                </button>
-              )}
+                {canJoinLesson(l) && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/lessons/${l.id}/meeting`);
+                    }}
+                    className="btn-white mt-2 flex items-center gap-1 px-1 py-0.5 text-[11px]"
+                  >
+                    <LuVideo size={14} />
+                    Join Lesson
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

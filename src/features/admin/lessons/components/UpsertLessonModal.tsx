@@ -132,150 +132,144 @@ export default function UpsertLessonModal({
       title={`${type === "Create" ? "Create New" : "Edit"} Lesson`}
       maxWidth="max-w-xl"
     >
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="modal-body">
-          {/* Student */}
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Student">
-              <CustomSelect
-                name="student"
-                withAvatar
-                isDisabled={!!lData}
-                value={selectedStudent}
-                onChange={(opt: StudentOption | null) =>
-                  setSelectedStudent(opt)
-                }
-                options={(selectableStudent ?? []).map((i) => ({
-                  value: i.id,
-                  label: `${i.first_name} ${i.last_name}`,
-                  avatar: i.avatar,
-                  languages: i.learning_languages,
-                }))}
-              />
-            </FormField>
-
-            <FormField label="Language">
-              <CustomSelect
-                name="language"
-                className="form-select capitalize"
-                defaultValue={
-                  defaultLanguage
-                    ? {
-                        value: defaultLanguage,
-                        label: defaultLanguage,
-                      }
-                    : undefined
-                }
-                options={selectedStudent?.languages?.map((lang) => ({
-                  value: lang,
-                  label: lang,
-                }))}
-              />
-            </FormField>
-          </div>
-
-          {/* Date + time */}
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Date">
-              <DatePicker
-                selected={date}
-                onChange={(d: Date | null) => setDate(d)}
-                showTimeSelect
-                dateFormat="Pp"
-                minDate={new Date()}
-                filterTime={filterTime}
-                placeholderText="Select date & time"
-                wrapperClassName="w-full"
-                className="form-input w-full"
-              />
-            </FormField>
-
-            <FormField label="Lesson Status">
-              <CustomSelect
-                name="status"
-                className="capitalize"
-                defaultValue={
-                  lesson?.status
-                    ? {
-                        value: lesson.status,
-                        label: lesson.status,
-                      }
-                    : undefined
-                }
-                options={Object.entries(LessonStatus).map(([key, value]) => ({
-                  value: key,
-                  label: value,
-                }))}
-              />
-            </FormField>
-          </div>
-
-          {/* Duration */}
-          <FormField label="Duration">
-            <div className="flex gap-2">
-              {lessonDuration.map((d) => (
-                <button
-                  key={d}
-                  type="button"
-                  onClick={() => setSelectedDuration(d)}
-                  className={`flex-1 rounded-lg border py-2 text-xs font-medium transition ${
-                    selectedDuration === d
-                      ? "border-theme-yellow-20 text-theme-yellow-20 bg-theme-yellow-10"
-                      : "border-gray-200 text-gray-500 hover:border-gray-300"
-                  }`}
-                >
-                  {d}m
-                </button>
-              ))}
-            </div>
-          </FormField>
-
-          {/* Topic */}
-          <FormField label="Topic">
-            <input
-              name="topic"
-              type="text"
-              required
-              defaultValue={lesson?.topic ?? ""}
-              className="form-input"
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="modal-body">
+        {/* Student */}
+        <div className="grid-cols-2 md:grid md:gap-3">
+          <FormField label="Student">
+            <CustomSelect
+              name="student"
+              withAvatar
+              isDisabled={!!lData}
+              value={selectedStudent}
+              onChange={(opt: StudentOption | null) => setSelectedStudent(opt)}
+              options={(selectableStudent ?? []).map((i) => ({
+                value: i.id,
+                label: `${i.first_name} ${i.last_name}`,
+                avatar: i.avatar,
+                languages: i.learning_languages,
+              }))}
             />
           </FormField>
 
-          {/* Notes */}
-          <FormField label="Teacher Note" optional>
-            <textarea
-              name="teacher_note"
-              rows={3}
-              defaultValue={lesson?.teacher_note ?? ""}
-              placeholder="Preparation notes, goals for this lesson…"
-              className="form-textarea"
+          <FormField label="Language">
+            <CustomSelect
+              name="language"
+              className="form-select capitalize"
+              defaultValue={
+                defaultLanguage
+                  ? {
+                      value: defaultLanguage,
+                      label: defaultLanguage,
+                    }
+                  : undefined
+              }
+              options={selectedStudent?.languages?.map((lang) => ({
+                value: lang,
+                label: lang,
+              }))}
+            />
+          </FormField>
+        </div>
+
+        {/* Date + time */}
+        <div className="grid-cols-2 md:grid md:gap-3">
+          <FormField label="Date">
+            <DatePicker
+              selected={date}
+              onChange={(d: Date | null) => setDate(d)}
+              showTimeSelect
+              dateFormat="Pp"
+              minDate={new Date()}
+              filterTime={filterTime}
+              placeholderText="Select date & time"
+              wrapperClassName="w-full"
+              className="form-input w-full"
             />
           </FormField>
 
-          <div className="modal-footer">
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn-primary-white mr-4"
-            >
-              Cancel
-            </button>
+          <FormField label="Lesson Status">
+            <CustomSelect
+              name="status"
+              className="capitalize"
+              defaultValue={
+                lesson?.status
+                  ? {
+                      value: lesson.status,
+                      label: lesson.status,
+                    }
+                  : undefined
+              }
+              options={Object.entries(LessonStatus).map(([key, value]) => ({
+                value: key,
+                label: value,
+              }))}
+            />
+          </FormField>
+        </div>
 
-            <button
-              type="submit"
-              className="btn-primary-pink"
-              disabled={isSubmitting}
-            >
-              {isSubmitting
-                ? type === "Edit"
-                  ? "Saving..."
-                  : "Creating..."
-                : type === "Edit"
-                  ? "Save Changes"
-                  : "Create Lesson"}
-            </button>
+        {/* Duration */}
+        <FormField label="Duration">
+          <div className="flex gap-2">
+            {lessonDuration.map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => setSelectedDuration(d)}
+                className={`flex-1 rounded-lg border py-2 text-xs font-medium transition ${
+                  selectedDuration === d
+                    ? "border-theme-yellow-20 text-theme-yellow-20 bg-theme-yellow-10"
+                    : "border-gray-200 text-gray-500 hover:border-gray-300"
+                }`}
+              >
+                {d}m
+              </button>
+            ))}
           </div>
-        </form>
+        </FormField>
+
+        {/* Topic */}
+        <FormField label="Topic">
+          <input
+            name="topic"
+            type="text"
+            required
+            defaultValue={lesson?.topic ?? ""}
+            className="form-input"
+          />
+        </FormField>
+
+        {/* Notes */}
+        <FormField label="Teacher Note" optional>
+          <textarea
+            name="teacher_note"
+            rows={3}
+            defaultValue={lesson?.teacher_note ?? ""}
+            placeholder="Preparation notes, goals for this lesson…"
+            className="form-textarea"
+          />
+        </FormField>
+
+        <div className="modal-footer">
+          <button type="button" onClick={onClose} className="btn-primary-white">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className="btn-primary-pink"
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? type === "Edit"
+                ? "Saving..."
+                : "Creating..."
+              : type === "Edit"
+                ? "Save Changes"
+                : "Create Lesson"}
+          </button>
+        </div>
+      </form>
     </ModalShell>
   );
 }

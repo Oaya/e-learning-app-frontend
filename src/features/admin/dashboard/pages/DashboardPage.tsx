@@ -34,22 +34,25 @@ export default function AdminDashboardPage() {
   const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
 
   return (
-    <div className="space-y-6 pb-10">
+    <div className="space-y-4 pb-10 md:space-y-6">
       {/* Top bar */}
-      <section className="flex items-center justify-between bg-gray-200 px-10 py-6">
+      <section className="flex items-center justify-between bg-gray-200 px-6 py-4 md:px-10 md:py-6">
         <div>
           <h1 className="page-title">
             {greeting()},{" "}
             <span className="text-theme-purple-40">{user?.first_name}</span>
           </h1>
         </div>
-        <button onClick={() => setModalOpen(true)} className="btn-primary">
+        <button
+          onClick={() => setModalOpen(true)}
+          className="btn-primary max-sm:tex-[11px] max-sm:px-2 max-sm:py-1.5"
+        >
           + New lesson
         </button>
       </section>
 
       {/* Stat cards */}
-      <section className="grid grid-cols-2 gap-6 px-10 pt-4 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-2 px-6 md:gap-4 md:px-10 md:pt-4 lg:grid-cols-4">
         <StatCard
           icon={HiUsers}
           label="Students"
@@ -77,7 +80,7 @@ export default function AdminDashboardPage() {
       </section>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-10 px-10 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 px-6 md:gap-10 md:px-10 lg:grid-cols-2">
         {/* Today lessons */}
         {lessons && user && (
           <div className="lg:col-span-3">
