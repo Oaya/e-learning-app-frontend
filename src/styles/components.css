@@ -12,11 +12,11 @@
   }
 
   .btn-primary-white {
-    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border border-gray-300 px-2 py-1 text-sm hover:opacity-50 disabled:opacity-50 md:px-4 md:py-2;
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border border-gray-300 px-4 py-2 text-sm hover:opacity-50 disabled:opacity-50;
   }
 
   .btn-primary-pink {
-    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-2 py-1 text-sm text-white disabled:opacity-50 md:px-4 md:py-2;
+    @apply bg-theme-pink-20 hover:bg-theme-pink-20/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
 
   .btn-secondary {
@@ -24,7 +24,7 @@
   }
 
   .btn-white {
-    @apply border-theme-purple-50 text-theme-purple-50 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border bg-purple-50 px-2 py-1 text-sm font-medium hover:bg-purple-100 md:px-4 md:py-2;
+    @apply border-theme-purple-50 text-theme-purple-50 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border bg-purple-50 px-4 py-2 text-sm font-medium hover:bg-purple-100;
   }
 
   .sm-label {

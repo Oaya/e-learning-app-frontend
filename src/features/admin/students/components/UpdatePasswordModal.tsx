@@ -81,7 +81,7 @@ export default function UpdatePasswordModal({
             <button
               type="button"
               onClick={onClose}
-              className="btn-primary-white mr-4"
+              className="btn-primary-white"
             >
               Cancel
             </button>

@@ -103,16 +103,16 @@ export default function UserProfileSection({ user }: Props) {
 
   return (
     <div>
-      <div className="my-10 items-center gap-10 rounded-xl border border-gray-300 bg-white px-8 py-6">
+      <div className="gap-10 rounded-xl border border-gray-300 bg-white px-6 py-4 md:my-10 md:px-8 md:py-6">
         <h2 className="pb-8 text-xl font-semibold">Personal information</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6 py-2">
-          <div className="mb-8 flex gap-6 gap-y-10 border-b border-gray-300 pb-6">
-            <div className="group relative h-28 w-28">
+        <form onSubmit={handleSubmit} className="space-y-4 py-2 md:space-y-6">
+          <div className="flex items-center gap-4 gap-y-10 border-b border-gray-300 pb-3 md:mb-8 md:gap-6 md:pb-6">
+            <div className="group relative h-14 w-14 shrink-0 md:h-28 md:w-28">
               <img
                 src={avatarPreviewUrl || user.avatar || defaultAvatar}
                 alt="avatar"
-                className="h-28 w-28 rounded-full object-cover"
+                className="h-14 w-14 rounded-full object-cover md:h-28 md:w-28"
               />
 
               <label className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
@@ -127,10 +127,10 @@ export default function UserProfileSection({ user }: Props) {
             </div>
 
             <div className="flex-1 flex-col">
-              <h1 className="text-2xl font-semibold">
+              <h1 className="font-semibold md:text-2xl">
                 {user.first_name} {user.last_name}
               </h1>
-              <p>{user.email}</p>
+              <p className="max-sm:text-[12px]">{user.email}</p>
               {user.role === "admin" ? (
                 <div
                   className={`bg-theme-green-30 text-theme-green-20 mt-2 inline-flex w-fit items-center justify-center gap-1 rounded-full px-4 py-1 capitalize`}
@@ -145,11 +145,11 @@ export default function UserProfileSection({ user }: Props) {
               ) : (
                 user.learning_languages &&
                 user.learning_languages.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-1 flex flex-wrap gap-2 md:mt-2">
                     {user.learning_languages.map((language) => (
                       <span
                         key={language}
-                        className="bg-theme-green-30 text-theme-green-20 w-fit rounded-full px-2 py-1 text-sm"
+                        className="bg-theme-green-30 text-theme-green-20 w-fit rounded-full px-1.5 py-0.5 text-[11px] md:px-2 md:py-1 md:text-sm"
                       >
                         {language}
                       </span>
@@ -159,7 +159,7 @@ export default function UserProfileSection({ user }: Props) {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+          <div className="grid gap-x-6 gap-y-2 md:grid-cols-2 md:gap-y-4">
             <div>
               <label className="sm-label">First Name</label>
               <input
@@ -210,14 +210,17 @@ export default function UserProfileSection({ user }: Props) {
           </div>
         </form>
 
-        <div className="flex justify-between border-t border-gray-300 py-4">
+        <div className="flex items-center justify-between border-t border-gray-300 py-4">
           <div>
             <label className="sm-label">Password</label>
-            <p className="text-2xl font-extrabold">••••••••••</p>
+            <p className="text-xl font-extrabold md:text-2xl">••••••••••</p>
           </div>
 
-          <div className="btn-primary mt-4 flex w-fit justify-end">
-            <button onClick={() => setIsPasswordModalOpen(true)}>
+          <div className="mt-4 flex w-fit justify-end">
+            <button
+              className="btn-primary"
+              onClick={() => setIsPasswordModalOpen(true)}
+            >
               Change Password
             </button>
           </div>
