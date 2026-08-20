@@ -34,7 +34,8 @@ export default function HomeworkViewPage() {
           className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
         >
           <HiOutlineArrowLeft size={16} />
-          Back to homework
+          <span className="hidden sm:inline">Back to homework</span>
+          <span className="sm:hidden">Back</span>
         </button>
         <div className="flex items-center gap-3">
           {!isReviewed && (
@@ -110,9 +111,6 @@ export default function HomeworkViewPage() {
                 <div className="rounded-lg px-4 py-5 text-center">
                   <p className="no-content">
                     Your teacher hasn't reviewed this yet.
-                  </p>
-                  <p className="mt-1 text-xs text-gray-400 italic">
-                    Check back after your next lessons.
                   </p>
                 </div>
               )}

@@ -44,7 +44,7 @@ export default function SidebarShell({ children, banner }: Props) {
 
   return (
     <div className="bg-theme-gray-10 flex h-screen flex-col md:flex-row">
-      <div className="bg-theme-purple-10 flex items-center justify-between px-6 py-3 md:hidden">
+      <div className="bg-theme-purple-10 flex items-center justify-between px-4 py-3 md:hidden">
         <h1 className="text-2xl font-bold" onClick={() => navigate("/")}>
           Fluently
         </h1>
@@ -68,11 +68,11 @@ export default function SidebarShell({ children, banner }: Props) {
 
       <aside
         className={[
-          "bg-theme-purple-10 fixed inset-y-0 left-0 z-30 flex h-screen flex-col transition-transform duration-200 md:sticky md:top-0 md:w-60 md:translate-x-0",
+          "bg-theme-purple-10 fixed inset-y-0 left-0 z-30 flex h-screen flex-col transition-transform duration-200 md:sticky md:top-0 md:w-48 md:translate-x-0 lg:w-60",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full",
         ].join(" ")}
       >
-        <div className="px-10 pt-6">
+        <div className="px-6 pt-6 md:px-8 lg:px-10">
           <h1 className="text-2xl font-bold">Fluently</h1>
         </div>
 

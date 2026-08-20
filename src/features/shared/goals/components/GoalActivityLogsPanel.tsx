@@ -35,7 +35,7 @@ export default function GoalActivityLogsPanel({ goal, isAdmin }: Props) {
 
   return (
     <div className="panel-box">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between md:mb-4">
         <p className="panel-header">
           {isAdmin ? "Student activity log" : "activity log"}
         </p>
@@ -50,13 +50,15 @@ export default function GoalActivityLogsPanel({ goal, isAdmin }: Props) {
       </div>
 
       {goal?.activities?.length === 0 ? (
-        <p className="no-content text-center">No activities logged yet.</p>
+        <p className="no-content text-center max-sm:mt-4">
+          No activities logged yet.
+        </p>
       ) : (
         <div className="divide-y divide-gray-100">
           {goal.activities?.map((activity) => (
             <div
               key={activity.id}
-              className="group flex items-center gap-3 py-3"
+              className="group flex items-center gap-3 py-2 md:py-3"
             >
               <div className="min-w-0 flex-1">
                 <p className="text-sm text-gray-700">{activity.description}</p>

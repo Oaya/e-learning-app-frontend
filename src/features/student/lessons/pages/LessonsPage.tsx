@@ -23,7 +23,7 @@ dayjs.extend(relativeTime);
 
 export default function StudentLessonsPage() {
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
-  const { lessons } = useAllLessons();
+  const { lessons, isLoading } = useAllLessons();
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {
@@ -54,7 +54,7 @@ export default function StudentLessonsPage() {
       </div>
 
       {/* Stat */}
-      <div className="grid grid-cols-3 gap-2 md:gap-4">
+      <section className="grid grid-cols-3 gap-2 md:gap-4">
         <StatCard
           label="Total lessons"
           icon={HiOutlineCalendar}
@@ -73,7 +73,7 @@ export default function StudentLessonsPage() {
           value={`${totalHours}h`}
           sub="Completed"
         />
-      </div>
+      </section>
 
       {/* Filter tabs */}
       <TabFilters
@@ -82,31 +82,33 @@ export default function StudentLessonsPage() {
         onTabChange={(tab) => setActiveTab(tab as LessonFilterTab)}
       />
 
+      {isLoading && <p className="text-sm text-gray-400">Loading Lessons…</p>}
+
       {/* Lesson list */}
       {filtered?.length === 0 ? (
         <EmptyState message="No lessons match your filter." />
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {upcoming && upcoming.length > 0 && (
-            <section>
+            <>
               <CardHeader type="upcoming" />
               <div className="space-y-2">
                 {upcoming.map((l) => (
                   <StudentLessonCard key={l.id} lesson={l} />
                 ))}
               </div>
-            </section>
+            </>
           )}
 
           {past && past.length > 0 && (
-            <section>
+            <>
               <CardHeader type="past" />
               <div className="space-y-2">
                 {past.slice(0, 8).map((l) => (
                   <StudentLessonCard key={l.id} lesson={l} />
                 ))}
               </div>
-            </section>
+            </>
           )}
         </div>
       )}

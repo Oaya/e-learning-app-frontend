@@ -17,7 +17,7 @@ export default function TabFilters({
         <button
           key={tab}
           onClick={() => onTabChange(tab)}
-          className={`shrink-0 cursor-pointer rounded-lg border px-3 py-1 text-xs font-medium whitespace-nowrap transition md:rounded-xl md:px-3 md:py-1.5 ${
+          className={`shrink-0 cursor-pointer rounded-lg border px-3 py-1 text-xs font-medium whitespace-nowrap transition md:rounded-xl md:px-3 md:py-1.5 md:text-[16px] ${
             activeTab === tab
               ? "border-theme-purple-40 bg-theme-purple-40 text-white"
               : "border-gray-200 bg-white text-gray-500 hover:border-gray-300"

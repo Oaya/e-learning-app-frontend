@@ -27,7 +27,7 @@ export default function GoalCommentPanel({ goal, isAdmin }: Props) {
   }
   return (
     <div className="panel-box">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between md:mb-8">
         <p className="panel-header">
           {isAdmin ? "Your comments" : "Your teacher's comment"}
         </p>

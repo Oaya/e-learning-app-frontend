@@ -9,7 +9,7 @@ type Props = {
 export default function Badge({ status, constant, className = "" }: Props) {
   return (
     <span
-      className={`rounded-full px-2 py-0.5 text-sm ${constant[status]} ${className}`}
+      className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] whitespace-nowrap md:text-sm ${constant[status]} ${className}`}
     >
       {capitalize(status)}
     </span>

@@ -37,7 +37,8 @@ export default function GoalDetailPage() {
           className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
         >
           <HiOutlineArrowLeft size={16} />
-          Back to goals
+          <span className="hidden sm:inline">Back to goals</span>
+          <span className="sm:hidden">Back</span>
         </button>
       </section>
 
