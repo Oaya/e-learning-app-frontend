@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BsStars } from "react-icons/bs";
+import { HiOutlineSparkles } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
 import { useAlert } from "@/contexts/AlertContext";

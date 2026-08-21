@@ -45,7 +45,7 @@ export default function HomeworkCard({ hw }: Props) {
       }}
     >
       {/* Main */}
-      <div className="h-14 min-w-0 flex-1">
+      <div className="h-20 min-w-0 flex-1 md:h-14">
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <p className="text-sm font-medium text-gray-800">{hw.title}</p>
           {/* {hw.ai_generated && (

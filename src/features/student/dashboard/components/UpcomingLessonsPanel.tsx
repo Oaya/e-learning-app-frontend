@@ -66,7 +66,7 @@ export default function UpcomingLessonsPanel({
                       className="btn-white mt-2 flex items-center gap-1 px-1 py-0.5 text-[11px]"
                     >
                       <LuVideo size={14} />
-                      Join Lesson
+                      Join
                     </button>
                   )}
                 </div>

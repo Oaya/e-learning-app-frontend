@@ -96,7 +96,7 @@ export default function StudentsPage() {
         <div className="flex gap-2">
           <button
             onClick={() => setInviteOpen(true)}
-            className="btn-primary-pink max-sm:tex-[11px] max-sm:px-2 max-sm:py-1.5"
+            className="btn-primary-pink"
           >
             <HiOutlineMail size={16} /> Invite Student
           </button>

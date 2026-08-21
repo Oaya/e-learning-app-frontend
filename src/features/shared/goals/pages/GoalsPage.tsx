@@ -85,7 +85,10 @@ export default function GoalsPage() {
             className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
           >
             <HiOutlineArrowLeft size={16} />
-            Back to {student?.first_name} {student?.last_name}
+            <span className="hidden sm:inline">
+              Back to {student?.first_name} {student?.last_name}
+            </span>
+            <span className="sm:hidden">Back</span>
           </button>
         ) : (
           <h1 className="page-title">My Goals</h1>

@@ -64,11 +64,13 @@ export default function StudentProfile() {
           onClick={() => navigate("/admin/students")}
           className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
         >
-          <MdOutlineKeyboardBackspace size={16} /> Back to Students
+          <MdOutlineKeyboardBackspace size={16} />
+          <span className="hidden sm:inline">Back to Students</span>
+          <span className="sm:hidden">Back</span>
         </button>
 
         <div className="flex gap-2">
-          <button onClick={() => {}} className="btn-white gap-1.5">
+          <button onClick={() => {}} className="btn-white">
             <MdMessage size={16} /> Message
           </button>
         </div>

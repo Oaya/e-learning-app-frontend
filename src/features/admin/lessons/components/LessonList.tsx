@@ -89,7 +89,7 @@ export default function LessonsList({
           <>
             <div>
               <h1 className="page-title">Lessons</h1>
-              <p className="mt-0.5 text-sm text-gray-400">
+              <p className="mt-0.5 hidden text-sm text-gray-400 sm:block">
                 Manage and track all your lessons
               </p>
             </div>
@@ -101,7 +101,7 @@ export default function LessonsList({
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid gap-4 lg:grid-cols-3">
         <StatCard
           icon={HiOutlineCalendar}
           label="This month"
@@ -123,7 +123,7 @@ export default function LessonsList({
       </div>
 
       {/* Filters */}
-      <div className="flex items-center">
+      <div className="items-center xl:flex">
         <TabFilters
           tabs={LESSON_TABS}
           activeTab={activeTab}
@@ -135,7 +135,7 @@ export default function LessonsList({
           placeholder="Search student or topic…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="form-input mb-0 ml-auto w-100 px-3 py-1 text-xs md:py-1.5 md:text-[16px]"
+          className="form-input mt-2 mb-0 ml-auto h-10.5 text-xs md:text-[16px] xl:mt-0 xl:w-100"
         />
       </div>
 

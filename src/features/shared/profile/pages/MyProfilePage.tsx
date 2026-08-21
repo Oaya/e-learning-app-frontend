@@ -34,7 +34,7 @@ export default function MyProfilePage() {
       <div className="page-header-row">
         <div>
           <h1 className="page-title">Profile & Settings</h1>
-          <p className="mt-0.5 text-sm text-gray-400">
+          <p className="mt-0.5 hidden text-sm text-gray-400 sm:block">
             Manage your account details and preferences
           </p>
         </div>
@@ -42,14 +42,14 @@ export default function MyProfilePage() {
 
       <UserProfileSection user={user} />
       {isAdmin && (
-        <div className="items-center gap-4 rounded-xl border border-gray-300 bg-white px-8 py-6">
-          <div className="flex justify-between pb-8">
+        <div className="items-center gap-4 rounded-xl border border-gray-300 bg-white px-6 py-4 md:my-10 md:px-8 md:py-6">
+          <div className="flex justify-between pb-4 md:pb-8">
             <h2 className="text-xl font-semibold">Billing</h2>
             {user.subscription && (
               <Badge
                 status={user.subscription.status}
                 constant={ADMIN_PLAN_STATUS_BADGE}
-                className="px-4 py-1 text-[16px]"
+                className="px-4 text-[16px] md:py-1"
               />
             )}
           </div>
@@ -60,14 +60,14 @@ export default function MyProfilePage() {
             </p>
           )}
           <div>
-            <div className="flex justify-between border-b border-gray-200 py-4">
+            <div className="flex justify-between border-b border-gray-200 py-2.5 md:py-4">
               <p className="text-lg font-semibold">Plan</p>
               <p className="capitalize">
                 {user.subscription?.plan ? user.subscription?.plan : "-"}
               </p>
             </div>
 
-            <div className="flex justify-between border-b border-gray-200 py-4">
+            <div className="flex justify-between border-b border-gray-200 py-2.5 md:py-4">
               <p className="text-lg font-semibold">
                 {user.subscription?.cancel_at_period_end
                   ? "Access Ends"
@@ -82,7 +82,7 @@ export default function MyProfilePage() {
               </p>
             </div>
 
-            <div className="flex justify-between border-b border-gray-200 py-4">
+            <div className="flex justify-between border-b border-gray-200 py-2.5 md:py-4">
               <p className="text-lg font-semibold">Amount</p>
               <p>${user.subscription?.price} / month</p>
             </div>

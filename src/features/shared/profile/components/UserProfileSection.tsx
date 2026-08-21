@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
-import { BsStars } from "react-icons/bs";
+import { HiOutlineSparkles } from "react-icons/hi2";
 
 import defaultAvatar from "@/assets/user.png";
 import TimezoneSelector from "@/ui/TimezoneSelector";
@@ -130,12 +130,12 @@ export default function UserProfileSection({ user }: Props) {
               <h1 className="font-semibold md:text-2xl">
                 {user.first_name} {user.last_name}
               </h1>
-              <p className="max-sm:text-[12px]">{user.email}</p>
+              <p className="max-sm:text-[14px]">{user.email}</p>
               {user.role === "admin" ? (
                 <div
-                  className={`bg-theme-green-30 text-theme-green-20 mt-2 inline-flex w-fit items-center justify-center gap-1 rounded-full px-4 py-1 capitalize`}
+                  className={`bg-theme-green-30 text-theme-green-20 mt-2 inline-flex w-fit items-center justify-center gap-1 rounded-full px-1.5 py-0.5 text-[11px] capitalize md:px-2 md:py-1 md:text-sm`}
                 >
-                  <BsStars />
+                  <HiOutlineSparkles className="size-3 md:size-4" />
                   <p>
                     {user.subscription?.plan
                       ? user.subscription?.plan + " Plan"

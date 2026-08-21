@@ -111,7 +111,7 @@ export default function HomeworkList({
       </section>
 
       {/* Filters */}
-      <div className="flex">
+      <div className="items-center xl:flex">
         <TabFilters
           tabs={HOMEWORK_TABS}
           activeTab={activeTab}
@@ -123,7 +123,7 @@ export default function HomeworkList({
           placeholder={searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="form-input ml-auto w-80 px-3 py-1.5"
+          className="form-input mt-2 mb-0 ml-auto h-10.5 text-xs md:text-[16px] xl:mt-0 xl:w-100"
         />
       </div>
 

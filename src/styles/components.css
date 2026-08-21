@@ -11,6 +11,10 @@
     @apply bg-theme-purple-50 hover:bg-theme-purple-50/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
 
+  .btn-white {
+    @apply border-theme-purple-50 text-theme-purple-50 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border bg-purple-50 px-4 py-2 text-sm hover:bg-purple-100;
+  }
+
   .btn-primary-white {
     @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border border-gray-300 px-4 py-2 text-sm hover:opacity-50 disabled:opacity-50;
   }
@@ -21,10 +25,6 @@
 
   .btn-secondary {
     @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
-  }
-
-  .btn-white {
-    @apply border-theme-purple-50 text-theme-purple-50 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded border bg-purple-50 px-4 py-2 text-sm font-medium hover:bg-purple-100;
   }
 
   .sm-label {
@@ -60,7 +60,7 @@
   }
 
   .card {
-    @apply flex items-center rounded-xl border border-l-4 border-gray-200 bg-white p-4 md:h-22;
+    @apply flex items-center rounded-xl border border-l-4 border-gray-200 bg-white p-2.5 md:h-22 md:p-4;
   }
 
   .modal-overlay {

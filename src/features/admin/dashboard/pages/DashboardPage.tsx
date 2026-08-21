@@ -43,10 +43,7 @@ export default function AdminDashboardPage() {
             <span className="text-theme-purple-40">{user?.first_name}</span>
           </h1>
         </div>
-        <button
-          onClick={() => setModalOpen(true)}
-          className="btn-primary max-sm:tex-[11px] max-sm:px-2 max-sm:py-1.5"
-        >
+        <button onClick={() => setModalOpen(true)} className="btn-primary">
           + New lesson
         </button>
       </section>

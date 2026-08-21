@@ -34,8 +34,15 @@ import RecordingManager from "@/features/shared/lessons/components/RecordingMana
 const LessonCompleteModal = lazy(
   () => import("@/features/admin/lessons/components/CompleteLessonModal"),
 );
-const LessonNotesPanel = lazy(() => import("@/features/shared/lessons/components/LessonNotePanel"));
-const LessonCloseModal = lazy(() => import("@/features/shared/lessons/components/LessonCloseModal"));
+const LessonNotesPanel = lazy(
+  () => import("@/features/shared/lessons/components/LessonNotePanel"),
+);
+const LessonCloseModal = lazy(
+  () => import("@/features/shared/lessons/components/LessonCloseModal"),
+);
+const MobileControlBar = lazy(
+  () => import("@/features/shared/lessons/components/MobileControlBar"),
+);
 
 type RoomData = {
   token: string;
@@ -65,9 +72,9 @@ function MeetingSettings() {
   const [supported, setSupported] = useState(false);
   const [blurred, setBlurred] = useState(false);
   const [pending, setPending] = useState(false);
-  const processorsRef = useRef<typeof import("@livekit/track-processors") | null>(
-    null,
-  );
+  const processorsRef = useRef<
+    typeof import("@livekit/track-processors") | null
+  >(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -285,7 +292,7 @@ export default function LessonMeetingPage() {
       const res = await joinLesson(id);
 
       if (res.error) {
-        setError("Could not join lesson.");
+        setError("Could not Join.");
         return;
       }
 
@@ -340,6 +347,12 @@ export default function LessonMeetingPage() {
           <LiveCaptions />
           <RecordingManager stopRef={stopRecordingRef} />
           <RoomBridge onRoom={setLkRoom} />
+          <Suspense fallback={null}>
+            <MobileControlBar
+              notesOpen={notesOpen}
+              onToggleNotes={() => setNotesOpen((p) => !p)}
+            />
+          </Suspense>
 
           {/* Notes toggle button — portaled into the control bar, between chat and settings */}
           {notesPortalTarget &&

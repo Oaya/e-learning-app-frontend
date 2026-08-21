@@ -8,7 +8,7 @@ export default function HomeworkPage() {
         <>
           <div>
             <h1 className="page-title">Homework</h1>
-            <p className="mt-0.5 text-sm text-gray-400">
+            <p className="mt-0.5 hidden text-sm text-gray-400 sm:block">
               Assign, track and review student homework
             </p>
           </div>

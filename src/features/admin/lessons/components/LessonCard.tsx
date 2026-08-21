@@ -63,7 +63,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
     >
       {/* Date block */}
-      <div className="w-12 shrink-0 text-center">
+      <div className="shrink-0 text-center xl:w-12">
         <div className="text-2xl leading-none font-semibold text-gray-800">
           {day}
         </div>
@@ -73,21 +73,24 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       </div>
 
       {/* Divider */}
-      <div className="mx-4 h-14 w-px shrink-0 bg-gray-200" />
+      <div className="mr-4 ml-2 h-18 w-px shrink-0 bg-gray-200 md:h-14 xl:mx-4" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-4">
-          <p className="truncate text-sm font-medium text-gray-800">
-            {lesson.topic}
-          </p>
-          {requireStatusChange(lesson) && (
-            <p className="truncate text-sm font-medium text-red-400">
+        <p className="truncate text-sm font-medium text-gray-800">
+          {lesson.topic}
+        </p>
+        {requireStatusChange(lesson) && (
+          <>
+            <p className="hidden truncate text-sm font-medium text-red-400 xl:block">
               This lesson is in the past but is still marked as scheduled.
               Update its status.
             </p>
-          )}
-        </div>
+            <p className="truncate text-sm font-medium text-red-400 xl:hidden">
+              Past Date, Update status.
+            </p>
+          </>
+        )}
 
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
@@ -111,17 +114,17 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             e.stopPropagation();
             navigate(`/lessons/${lesson.id}/meeting`);
           }}
-          className="btn-white mt-2 mr-4 gap-1 px-2 py-1.5"
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
         >
           <LuVideo size={16} />
-          Join Lesson
+          Join
         </button>
       )}
 
       {lesson.recording_url && lesson.status === "completed" && (
         <button
           onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
-          className="btn-white mt-2 mr-4 gap-1 px-2 py-1.5"
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
         >
           <LuVideo size={16} />
           Watch
@@ -156,6 +159,32 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             </ActionBtn>
           </>
         </div>
+
+        {canJoinLesson(lesson) && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/lessons/${lesson.id}/meeting`);
+            }}
+            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
+          >
+            <LuVideo size={16} />
+            Join
+          </button>
+        )}
+
+        {lesson.recording_url && lesson.status === "completed" && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/admin/lessons/${lesson.id}`);
+            }}
+            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
+          >
+            <LuVideo size={16} />
+            Watch
+          </button>
+        )}
 
         {/* <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${

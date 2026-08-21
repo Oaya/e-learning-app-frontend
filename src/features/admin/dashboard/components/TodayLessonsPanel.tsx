@@ -58,10 +58,10 @@ export default function TodayLessonsPanel({ lessons }: TodayLessonPanelProps) {
                       e.stopPropagation();
                       navigate(`/lessons/${l.id}/meeting`);
                     }}
-                    className="btn-white mt-2 flex items-center gap-1 px-1 py-0.5 text-[11px]"
+                    className="btn-white mt-2 flex items-center max-sm:px-2 max-sm:py-1 md:h-9"
                   >
-                    <LuVideo size={14} />
-                    Join Lesson
+                    <LuVideo size={16} />
+                    Join
                   </button>
                 )}
               </div>

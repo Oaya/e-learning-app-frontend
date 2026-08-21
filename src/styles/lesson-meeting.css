@@ -200,3 +200,106 @@
 .meeting-status-error {
   color: #f0555a;
 }
+
+/* Mobile control bar: LiveKit's own control bar overflows on narrow
+   screens once mic, camera, screen share, chat, settings, notes and leave
+   are all present. Below md we hide it (still mounted, so its layout
+   height reservation and the settings-modal positioning stay correct) and
+   render a compact Zoom-style bar instead: mic/camera/leave always
+   visible, everything else tucked behind "More". */
+.mobile-control-bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .lesson-meeting-room {
+    --lk-control-bar-height: 64px;
+  }
+
+  .lesson-meeting-room .lk-control-bar {
+    display: none;
+  }
+
+  .mobile-control-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    height: var(--lk-control-bar-height);
+    padding: 0 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  }
+}
+
+.mobile-bar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--lk-bg3);
+  color: var(--lk-fg);
+  cursor: pointer;
+}
+
+.mobile-bar-button[aria-pressed="true"] {
+  background: var(--lk-accent-bg);
+}
+
+.mobile-leave-button {
+  background: #e5484d;
+  color: #fff;
+}
+
+.mobile-more-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.mobile-more-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--lk-control-bar-height);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  background: var(--lk-bg2);
+  border: 1px solid var(--lk-border-color);
+  border-bottom: none;
+}
+
+.mobile-more-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--lk-fg);
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mobile-more-item:hover {
+  background: var(--lk-bg3);
+}
+
+.mobile-more-item[aria-pressed="true"] {
+  background: var(--lk-accent-bg);
+}

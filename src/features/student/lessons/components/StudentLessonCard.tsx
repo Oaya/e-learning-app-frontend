@@ -55,17 +55,23 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
         <Badge status={lesson.status} constant={LESSON_STATUS_BADGE} />
         {canJoinLesson(lesson) && (
           <button
-            onClick={() => navigate(`/lessons/${lesson.id}/meeting`)}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/lessons/${lesson.id}/meeting`);
+            }}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
             <HiOutlineVideoCamera size={16} />
-            Join Lesson
+            Join
           </button>
         )}
 
         {lesson.recording_url && lesson.status === "completed" && (
           <button
-            onClick={() => navigate(`/student/lessons/${lesson.id}`)}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/student/lessons/${lesson.id}`);
+            }}
             className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
           >
             <HiOutlineVideoCamera size={16} />
