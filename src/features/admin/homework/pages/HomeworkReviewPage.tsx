@@ -9,6 +9,7 @@ import type { ScoreType } from "@/type/homework_submission";
 import { useAlert } from "@/contexts/AlertContext";
 import { useHomeworkSubmission } from "@/features/shared/homeworks/hooks/useHomeworkSubmission";
 import HomeworkHeaderPanel from "@/features/shared/homeworks/components/HomeworkHeaderPanel";
+import { capitalize } from "@/utils/helper";
 
 export default function HomeworkReviewPage() {
   const alert = useAlert();
@@ -131,7 +132,7 @@ export default function HomeworkReviewPage() {
             {/* Score */}
             <div className="panel-box">
               <p className="panel-header">Score</p>
-              <div className="flex gap-2">
+              <div className="mt-2 flex gap-2">
                 {Object.entries(SCORE_BUDGE).map(([key, value]) => (
                   <button
                     key={key}
@@ -142,9 +143,9 @@ export default function HomeworkReviewPage() {
                         : "border-gray-200 text-gray-500 hover:border-gray-300"
                     }`}
                   >
-                    <div className="flex justify-center gap-2 capitalize">
-                      <value.icon size={18} />
-                      <span>{key}</span>
+                    <div className="flex justify-center gap-1 capitalize">
+                      <value.icon size={16} />
+                      <span>{capitalize(key)}</span>
                     </div>
                   </button>
                 ))}
@@ -188,7 +189,7 @@ export default function HomeworkReviewPage() {
                 placeholder="Write feedback visible to the student…"
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
-                className="form-textarea"
+                className="form-textarea mt-2"
               />
             </div>
 

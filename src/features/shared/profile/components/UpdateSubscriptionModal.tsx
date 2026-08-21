@@ -80,7 +80,7 @@ export default function UpdateSubscriptionModal({
           <p className="text-gray-500">Changes take effect immediately</p>
 
           <div className="bg-theme-purple-30 text-theme-purple-50 my-3 inline-flex w-fit items-center justify-center gap-1 rounded-full px-2 py-0.5 text-sm">
-            <BsStars />
+            <HiOutlineSparkles />
             <p> Currently on {capitalize(plan)}</p>
           </div>
         </div>

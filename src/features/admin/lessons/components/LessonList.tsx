@@ -101,7 +101,7 @@ export default function LessonsList({
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-3 gap-2 md:gap-4">
         <StatCard
           icon={HiOutlineCalendar}
           label="This month"

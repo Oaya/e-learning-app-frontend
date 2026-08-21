@@ -123,8 +123,8 @@ export default function UpsertHomeworkModal({
       }
     >
       <form onSubmit={handleSubmit} className="modal-body">
-          {/* AI generate panel */}
-          {/* {aiMode && (
+        {/* AI generate panel */}
+        {/* {aiMode && (
             <div className="rounded-xl border border-purple-100 bg-purple-50 p-4">
               <p className="mb-2 text-xs font-medium text-purple-700">
                 Describe what you want Claude to generate
@@ -148,116 +148,116 @@ export default function UpsertHomeworkModal({
             </div>
           )} */}
 
-          {/* Student */}
-          <FormField label="Student">
+        {/* Student */}
+        <FormField label="Student">
+          <CustomSelect
+            name="student"
+            withAvatar
+            isDisabled={!!hData}
+            value={selectedStudent}
+            onChange={(opt: StudentOption | null) => setSelectedStudent(opt)}
+            options={(students ?? []).map((i) => ({
+              value: i.id,
+              label: `${i.first_name} ${i.last_name}`,
+              avatar: i.avatar,
+              languages: i.learning_languages,
+            }))}
+          />
+        </FormField>
+
+        {/* Title */}
+        <FormField label="Title">
+          <input
+            type="text"
+            name="title"
+            defaultValue={hw?.title}
+            required
+            placeholder="e.g. Write 10 sentences using past tense"
+            className="form-input"
+          />
+        </FormField>
+
+        {/* Instructions */}
+        <FormField label="Instructions">
+          <textarea
+            name="instructions"
+            rows={3}
+            defaultValue={hw?.instructions}
+            placeholder="Describe what the student should do…"
+            className="form-textarea"
+          />
+        </FormField>
+
+        {/* Language + Level */}
+        <div className="grid-cols-2 md:grid md:gap-3">
+          <FormField label="Language">
             <CustomSelect
-              name="student"
-              withAvatar
-              isDisabled={!!hData}
-              value={selectedStudent}
-              onChange={(opt: StudentOption | null) => setSelectedStudent(opt)}
-              options={(students ?? []).map((i) => ({
-                value: i.id,
-                label: `${i.first_name} ${i.last_name}`,
-                avatar: i.avatar,
-                languages: i.learning_languages,
+              name="language"
+              className="w-full capitalize"
+              defaultValue={
+                defaultLanguage
+                  ? {
+                      value: defaultLanguage,
+                      label: defaultLanguage,
+                    }
+                  : undefined
+              }
+              options={selectedStudent?.languages?.map((lang) => ({
+                value: lang,
+                label: lang,
               }))}
             />
           </FormField>
-
-          {/* Title */}
-          <FormField label="Title">
-            <input
-              type="text"
-              name="title"
-              defaultValue={hw?.title}
-              required
-              placeholder="e.g. Write 10 sentences using past tense"
-              className="form-input"
+          <FormField label="Level">
+            <CustomSelect
+              name="level"
+              className="w-full capitalize"
+              defaultValue={
+                hw?.level ? { value: hw.level, label: hw.level } : undefined
+              }
+              options={levels.map((level) => ({
+                value: level,
+                label: level,
+              }))}
             />
           </FormField>
+        </div>
 
-          {/* Instructions */}
-          <FormField label="Instructions">
-            <textarea
-              name="instructions"
-              rows={3}
-              defaultValue={hw?.instructions}
-              placeholder="Describe what the student should do…"
-              className="form-textarea"
-            />
-          </FormField>
+        {/* Due date */}
+        <FormField label="Due date">
+          <input
+            type="date"
+            name="due_date"
+            defaultValue={hw?.due_date}
+            required
+            className="form-input"
+          />
+        </FormField>
 
-          {/* Language + Level */}
-          <div className="grid grid-cols-2 gap-3">
-            <FormField label="Language">
-              <CustomSelect
-                name="language"
-                className="w-full capitalize"
-                defaultValue={
-                  defaultLanguage
-                    ? {
-                        value: defaultLanguage,
-                        label: defaultLanguage,
-                      }
-                    : undefined
-                }
-                options={selectedStudent?.languages?.map((lang) => ({
-                  value: lang,
-                  label: lang,
-                }))}
-              />
-            </FormField>
-            <FormField label="Level">
-              <CustomSelect
-                name="level"
-                className="w-full capitalize"
-                defaultValue={
-                  hw?.level ? { value: hw.level, label: hw.level } : undefined
-                }
-                options={levels.map((level) => ({
-                  value: level,
-                  label: level,
-                }))}
-              />
-            </FormField>
-          </div>
+        {/* Actions */}
 
-          {/* Due date */}
-          <FormField label="Due date">
-            <input
-              type="date"
-              name="due_date"
-              defaultValue={hw?.due_date}
-              required
-              className="form-input"
-            />
-          </FormField>
-
-          {/* Actions */}
-
-          <div className="mt-6 flex justify-end">
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn-primary-white mr-4"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="btn-primary-pink"
-              disabled={isSubmitting}
-            >
-              {isSubmitting
-                ? type === "Edit"
-                  ? "Saving..."
-                  : "Assigning..."
-                : type === "Edit"
-                  ? "Save Changes"
-                  : "Assign"}
-            </button>
-          </div>
+        <div className="mt-6 flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn-primary-white mr-4"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="btn-primary-pink"
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? type === "Edit"
+                ? "Saving..."
+                : "Assigning..."
+              : type === "Edit"
+                ? "Save Changes"
+                : "Assign"}
+          </button>
+        </div>
       </form>
     </ModalShell>
   );

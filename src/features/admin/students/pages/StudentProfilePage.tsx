@@ -76,31 +76,38 @@ export default function StudentProfile() {
         </div>
       </section>
 
-      <section className="my-10 flex items-stretch justify-between gap-10 rounded-xl border border-gray-300 bg-white px-8 py-6">
-        <div className="flex items-center gap-6 gap-y-10">
-          <div className="group relative h-28 w-28">
+      <section className="flex flex-col gap-6 rounded-xl border border-gray-300 bg-white px-6 py-6 md:my-10 md:flex-row md:items-stretch md:justify-between md:gap-10 md:px-8">
+        <div className="flex items-center gap-4 gap-y-10">
+          <div className="group relative h-14 w-14 shrink-0 md:h-28 md:w-28">
             <img
               src={user.avatar || defaultAvatar}
               alt="avatar"
-              className="h-28 w-28 rounded-full object-cover"
+              className="h-14 w-14 rounded-full object-cover md:h-28 md:w-28"
             />
           </div>
 
-          <div className="item-end flex flex-col justify-between">
-            <h1 className="mb-2 text-2xl font-semibold">
+          <div className="item-end flex min-w-0 flex-col justify-between">
+            <h1 className="font-semibold wrap-break-word md:mb-2 md:text-2xl">
               {user.first_name} {user.last_name}
             </h1>
-            <p>{user.email}</p>
+            <p className="break-all">{user.email}</p>
             {user.learning_languages && user.learning_languages.length > 0 && (
-              <p className="text-gray-500">
-                Learning languages: {user.learning_languages.join(", ")}
-              </p>
+              <div className="mt-1 flex flex-wrap gap-2 md:mt-2">
+                {user.learning_languages.map((language) => (
+                  <span
+                    key={language}
+                    className="bg-theme-green-30 text-theme-green-20 w-fit rounded-full px-1.5 py-0.5 text-[11px] md:px-2 md:py-1 md:text-sm"
+                  >
+                    {language}
+                  </span>
+                ))}
+              </div>
             )}
           </div>
         </div>
 
-        <div className="flex flex-col items-end justify-between gap-2">
-          <div className="flex flex-col items-end gap-1">
+        <div className="flex flex-col items-start gap-4 md:items-end md:justify-between">
+          <div className="flex items-center gap-4 md:flex-col md:items-end md:gap-1">
             <Badge status={user.status} constant={USER_STATUS_BADGE} />
 
             <p className="text-gray-500">
@@ -108,15 +115,15 @@ export default function StudentProfile() {
             </p>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex w-full gap-4 md:w-auto">
             <button
               onClick={() => setIsEditOpen(true)}
-              className="btn-primary flex items-center gap-1.5 px-4 py-2"
+              className="btn-primary flex flex-1 items-center justify-center gap-1.5 px-4 py-2 md:flex-none"
             >
               <FaRegEdit size={16} /> Edit
             </button>
             <button
-              className="btn-primary-pink flex items-center gap-1.5"
+              className="btn-primary-pink flex flex-1 items-center justify-center gap-1.5 md:flex-none"
               onClick={() => setIsDeleteOpen(true)}
             >
               <RiDeleteBinLine size={16} />
@@ -127,7 +134,7 @@ export default function StudentProfile() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-2 md:gap-4 md:pt-4 lg:grid-cols-4">
         <StatCard
           icon={HiUsers}
           label="Total lessons"
@@ -157,14 +164,14 @@ export default function StudentProfile() {
       </section>
 
       {/* Two panels — 50/50 */}
-      <div className="grid grid-cols-5 items-start gap-6">
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-5 md:items-start md:gap-6">
         {/* Left — lessons + payment */}
-        <div className="col-span-2 flex flex-col gap-6">
+        <div className="flex flex-col gap-4 md:col-span-2 md:gap-6">
           <LessonsPanel lessons={lessons} user={user} />
         </div>
 
         {/* Right — homeworks + goals */}
-        <div className="col-span-3 flex flex-col gap-6">
+        <div className="flex flex-col gap-4 md:col-span-3 md:gap-6">
           <HomeworksPanel homeworks={homeworks} user={user} />
           <GoalsPanel goals={goals} userId={userId} />
         </div>
