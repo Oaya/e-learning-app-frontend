@@ -77,7 +77,7 @@ export default function AdminDashboardPage() {
       </section>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-4 px-6 md:gap-10 md:px-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 px-6 md:gap-10 md:px-10 lg:grid-cols-5">
         {/* Today lessons */}
         {lessons && user && (
           <div className="lg:col-span-3">

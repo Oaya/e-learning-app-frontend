@@ -82,11 +82,10 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
         </p>
         {requireStatusChange(lesson) && (
           <>
-            <p className="hidden truncate text-sm font-medium text-red-400 xl:block">
-              This lesson is in the past but is still marked as scheduled.
-              Update its status.
+            <p className="hidden truncate text-sm font-semibold text-red-400 xl:block">
+              This lesson is past due. Please update its status.
             </p>
-            <p className="truncate text-sm font-medium text-red-400 xl:hidden">
+            <p className="truncate text-sm font-semibold text-red-400 xl:hidden">
               Past Date, Update status.
             </p>
           </>

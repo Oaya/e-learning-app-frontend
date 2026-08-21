@@ -322,11 +322,14 @@ export default function LessonMeetingPage() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#17181c]">
+    <div className="flex h-screen overflow-hidden bg-[#17181c] min-[720px]:flex-col-reverse min-[1025px]:flex-row">
       {/*  Video side  */}
       <div
-        className="relative min-w-0 transition-all duration-300"
-        style={{ width: notesOpen ? "30%" : "100%" }}
+        className={`relative w-full min-w-0 transition-all duration-300 ${
+          notesOpen
+            ? "min-[720px]:h-auto min-[720px]:w-full min-[720px]:flex-1 min-[1025px]:w-[40%] min-[1025px]:flex-none"
+            : "min-[720px]:h-auto min-[720px]:w-full min-[720px]:flex-1 min-[1025px]:w-full"
+        }`}
       >
         <LiveKitRoom
           data-lk-theme="default"
@@ -372,8 +375,11 @@ export default function LessonMeetingPage() {
 
       {/*  Notes side  */}
       <div
-        className="overflow-hidden border-l border-white/10 bg-white transition-all duration-300"
-        style={{ width: notesOpen ? "70%" : "0px" }}
+        className={`overflow-hidden border-white/10 bg-white transition-all duration-300 ${
+          notesOpen
+            ? "w-full max-[719px]:fixed max-[719px]:inset-0 max-[719px]:z-40 min-[720px]:h-[45%] min-[720px]:w-full min-[720px]:border-b min-[1025px]:h-auto min-[1025px]:w-[60%] min-[1025px]:border-b-0 min-[1025px]:border-l"
+            : "hidden w-0 min-[720px]:block min-[720px]:h-0"
+        }`}
       >
         {lkRoom && (
           <Suspense fallback={null}>

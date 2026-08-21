@@ -18,9 +18,11 @@ export default function CustomSelect(props: any) {
       className="mb-2 w-full"
       classNamePrefix="rs"
       classNames={{
-        control: () =>
-          "!rounded !border !border-gray-200 !bg-white !text-sm !shadow-none",
-        valueContainer: () => "!px-3 !py-2",
+        control: (state) =>
+          `!rounded !border !bg-white !text-sm !shadow-none ${
+            state.isFocused ? "!border-theme-purple-50" : "!border-gray-200"
+          } ${state.isDisabled ? "!bg-gray-50" : "!bg-white"}`,
+        valueContainer: () => "!px-2 !py-2.5 max-sm:!px-3",
       }}
       components={
         props.withAvatar

@@ -184,7 +184,7 @@ export default function UpsertLessonModal({
               filterTime={filterTime}
               placeholderText="Select date & time"
               wrapperClassName="w-full"
-              className="form-input w-full"
+              className="form-input w-full max-sm:mb-4"
             />
           </FormField>
 

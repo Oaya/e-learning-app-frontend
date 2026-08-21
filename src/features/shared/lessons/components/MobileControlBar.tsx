@@ -44,7 +44,9 @@ export default function MobileControlBar({
             <TrackToggle
               source={Track.Source.ScreenShare}
               className="mobile-more-item"
-              onChange={() => setMoreOpen(false)}
+              onChange={(_enabled, isUserInteraction) => {
+                if (isUserInteraction) setMoreOpen(false);
+              }}
             >
               <HiOutlineComputerDesktop size={20} />
               Share screen

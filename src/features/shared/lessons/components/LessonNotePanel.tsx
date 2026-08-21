@@ -179,17 +179,18 @@ export default function LessonNotesPanel({
       {/* Header */}
       <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
         <span className="text-sm font-semibold text-gray-700">Lesson Note</span>
-        {!readonly && (
-          <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
+          {!readonly && (
             <span className="text-xs text-gray-400">Auto-saved</span>
-            <div
-              className="rounded border border-gray-500 p-1 font-semibold text-gray-500"
-              onClick={() => onClosed(false)}
-            >
-              <TbX size={20} />
-            </div>
-          </div>
-        )}
+          )}
+          <button
+            type="button"
+            className="rounded border border-gray-500 p-1 font-semibold text-gray-500"
+            onClick={() => onClosed(false)}
+          >
+            <TbX size={20} />
+          </button>
+        </div>
       </div>
 
       {/* Toolbar — teacher only */}
