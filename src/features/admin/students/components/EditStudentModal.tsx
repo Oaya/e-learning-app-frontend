@@ -70,25 +70,26 @@ export default function EditStudentModal({
       title="Edit Student"
       maxWidth="max-w-2xl"
     >
-        <form onSubmit={handleSubmit} className="px-6 py-5">
-          {/* Avatar preview */}
-          <div className="mb-5 flex items-center gap-4">
-            <img
-              src={user.avatar || defaultAvatar}
-              alt="avatar"
-              className="h-14 w-14 rounded-full object-cover"
-            />
+      <form onSubmit={handleSubmit} className="px-6 py-5">
+        {/* Avatar preview */}
+        <div className="mb-5 flex items-center gap-4">
+          <img
+            src={user.avatar || defaultAvatar}
+            alt="avatar"
+            className="h-14 w-14 rounded-full object-cover"
+          />
 
-            <div>
-              <p className="text-sm font-medium text-gray-700">
-                {user.first_name} {user.last_name}
-              </p>
-              <p className="text-xs text-gray-400">{user.email}</p>
-            </div>
+          <div>
+            <p className="text-sm font-medium text-gray-700">
+              {user.first_name} {user.last_name}
+            </p>
+            <p className="text-xs text-gray-400">{user.email}</p>
           </div>
+        </div>
 
+        <div className="mb-4 flex flex-col gap-3 md:gap-4">
           {/* Name */}
-          <div className="mb-4 grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4">
             <FormField label="First name">
               <input
                 name="first_name"
@@ -110,7 +111,7 @@ export default function EditStudentModal({
           </div>
 
           {/* Email & Languages*/}
-          <div className="mb-4 grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4">
             <FormField label="Email">
               <input
                 name="email"
@@ -142,7 +143,7 @@ export default function EditStudentModal({
             </FormField>
           </div>
 
-          <div className="mb-4 grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4">
             <FormField label="Time zone">
               <TimezoneSelector value={timezone} onChange={setTimezone} />
             </FormField>
@@ -162,21 +163,22 @@ export default function EditStudentModal({
               />
             </FormField>
           </div>
+        </div>
 
-          {/* Footer */}
-          <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="btn-primary-white mr-4"
-            >
-              Cancel
-            </button>
-            <button type="submit" disabled={isSaving} className="btn-primary">
-              {isSaving ? "Saving…" : "Save changes"}
-            </button>
-          </div>
-        </form>
+        {/* Footer */}
+        <div className="flex justify-end gap-3">
+          <button type="button" onClick={onClose} className="btn-primary-white">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isSaving}
+            className="btn-primary-pink"
+          >
+            {isSaving ? "Saving…" : "Save changes"}
+          </button>
+        </div>
+      </form>
     </ModalShell>
   );
 }

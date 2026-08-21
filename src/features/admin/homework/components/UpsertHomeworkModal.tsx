@@ -189,7 +189,7 @@ export default function UpsertHomeworkModal({
         </FormField>
 
         {/* Language + Level */}
-        <div className="grid-cols-2 md:grid md:gap-3">
+        <div className="flex flex-col gap-4 md:grid md:grid-cols-2">
           <FormField label="Language">
             <CustomSelect
               name="language"
