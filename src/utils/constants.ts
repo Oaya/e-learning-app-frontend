@@ -18,9 +18,6 @@ import type { GoalStatusType } from "@/type/goal";
 import type { LessonStatusType } from "@/type/lesson";
 import type { Status } from "@/type/user";
 
-export const levels = ["beginner", "intermediate", "advanced"] as const;
-export type Level = (typeof levels)[number];
-
 export const lessonDuration = [30, 60, 90, 120] as const;
 
 export const howItWorks = [
@@ -208,3 +205,23 @@ export const GOAL_BORDER_COLOR: Record<GoalStatusType, string> = {
   achieved: "border-l-theme-green-20",
   not_started: "border-l-blue-500",
 };
+
+export const EXERCISE_TYPES = [
+  "Fill in the blank",
+  "Vocabulary",
+  "Reading",
+  "Writing prompt",
+  "Conversation",
+  "Translation",
+] as const;
+
+export const TOPIC_CHIPS = [
+  "Daily life",
+  "Travel",
+  "Food",
+  "Business",
+  "Nature",
+  "Technology",
+  "Health",
+  "Education",
+] as const;

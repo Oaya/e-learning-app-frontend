@@ -61,7 +61,7 @@ export default function UpsertLessonModal({
           value: lData.id,
           label: `${lData.first_name} ${lData.last_name}`,
           avatar: lData.avatar,
-          languages: lData.learning_languages,
+          language_levels: lData.language_levels,
         }
       : null,
   );
@@ -147,7 +147,7 @@ export default function UpsertLessonModal({
                 value: i.id,
                 label: `${i.first_name} ${i.last_name}`,
                 avatar: i.avatar,
-                languages: i.learning_languages,
+                language_levels: i.language_levels,
               }))}
             />
           </FormField>
@@ -164,9 +164,9 @@ export default function UpsertLessonModal({
                     }
                   : undefined
               }
-              options={selectedStudent?.languages?.map((lang) => ({
-                value: lang,
-                label: lang,
+              options={selectedStudent?.language_levels?.map((ll) => ({
+                value: ll.language,
+                label: ll.level ? `${ll.language} · ${ll.level}` : ll.language,
               }))}
             />
           </FormField>

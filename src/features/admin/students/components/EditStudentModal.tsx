@@ -1,7 +1,13 @@
 import { useState } from "react";
 import ISO6391 from "iso-639-1";
 
-import { statusValue, type Status, type User } from "@/type/user";
+import {
+  statusValue,
+  type Status,
+  type User,
+  type LanguageLevel,
+  levels,
+} from "@/type/user";
 import CustomSelect from "@/ui/CustomSelect";
 import { useUser } from "@/features/admin/students/hooks/useUser";
 import TimezoneSelector from "@/ui/TimezoneSelector";
@@ -25,9 +31,11 @@ export default function EditStudentModal({
 }: Props) {
   const codes = ISO6391.getAllCodes();
 
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(
-    user.learning_languages ?? [],
+  const [languageLevels, setLanguageLevels] = useState<LanguageLevel[]>(
+    user.language_levels ?? [],
   );
+  // Derive language list from languageLevels
+  const selectedLanguages = languageLevels.map((ll) => ll.language);
   const [timezone, setTimezone] = useState<string | undefined>(user.timezone);
   const [status, setStatus] = useState<Status | undefined>(user.status);
   const alert = useAlert();
@@ -35,6 +43,32 @@ export default function EditStudentModal({
   const { updateStudent } = useUser(user.id, {});
 
   if (!isOpen) return null;
+
+  function handleLanguagesChange(langs: string[]) {
+    setLanguageLevels((prev) =>
+      langs.map(
+        (lang) =>
+          prev.find((ll) => ll.language === lang) ?? {
+            language: lang,
+            level: "A1-Beginner" as LanguageLevel["level"],
+          },
+      ),
+    );
+  }
+
+  function setLevel(language: string, level: string) {
+    setLanguageLevels((prev) => {
+      const exists = prev.some((ll) => ll.language === language);
+      if (!exists) {
+        return [...prev, { language, level: level as LanguageLevel["level"] }];
+      }
+      return prev.map((ll) =>
+        ll.language === language
+          ? { ...ll, level: level as LanguageLevel["level"] }
+          : ll,
+      );
+    });
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,11 +82,19 @@ export default function EditStudentModal({
         return;
       }
 
+      const finalLanguageLevels: LanguageLevel[] = selectedLanguages.map(
+        (lang) =>
+          languageLevels.find((ll) => ll.language === lang) ?? {
+            language: lang,
+            level: "A1-Beginner",
+          },
+      );
+
       await updateStudent({
         first_name: fd.get("first_name") as string,
         last_name: fd.get("last_name") as string,
         email: fd.get("email") as string,
-        learning_languages: selectedLanguages,
+        language_levels: finalLanguageLevels,
         timezone: timezone ?? "",
         status: status,
       });
@@ -135,11 +177,43 @@ export default function EditStudentModal({
                   label: ISO6391.getName(code),
                 }))}
                 onChange={(selected: any) =>
-                  setSelectedLanguages(
+                  handleLanguagesChange(
                     selected ? selected.map((s: any) => s.value) : [],
                   )
                 }
               />
+
+              {/* Level per language */}
+              {selectedLanguages.length > 0 && (
+                <div className="mt-2 flex flex-col gap-1.5">
+                  {selectedLanguages.map((lang) => {
+                    const ll = languageLevels.find((l) => l.language === lang);
+                    return (
+                      <div key={lang} className="flex items-center gap-2">
+                        <span className="w-28 shrink-0 truncate text-xs text-gray-500">
+                          {lang}
+                        </span>
+                        <div className="level-select w-full">
+                          <CustomSelect
+                            className="form-select w-full text-xs capitalize"
+                            value={{
+                              value: ll?.level ?? "A1-Beginner",
+                              label: ll?.level ?? "A1-Beginner",
+                            }}
+                            options={levels.map((lv) => ({
+                              value: lv,
+                              label: lv,
+                            }))}
+                            onChange={(selected: any) =>
+                              setLevel(lang, selected.value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </FormField>
           </div>
 

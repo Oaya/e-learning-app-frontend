@@ -4,6 +4,7 @@ import type {
   HomeworkSubmissionStatus,
   ScoreType,
 } from "./homework_submission";
+import type { LanguageLevel } from "./user";
 
 export type Homework = {
   id: string;
@@ -20,7 +21,7 @@ export type Homework = {
     last_name: string;
     email: string;
     avatar?: string;
-    learning_languages: string[];
+    language_levels: LanguageLevel[];
   };
   submission?: FeedbackData & {
     id: string;
@@ -45,4 +46,13 @@ export type UpsertHomework = {
   language: string;
   level: string;
   ai_generated: boolean;
+};
+
+export type GenerateHomeworkWithAI = {
+  student_id: string;
+  language: string;
+  level: string;
+  exercise_type: string;
+  topics: string[];
+  notes?: string;
 };

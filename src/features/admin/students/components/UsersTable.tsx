@@ -78,7 +78,10 @@ export default function UsersTable({
               <th className="w-2/5 p-3">
                 <div className="flex items-center">
                   Name
-                  <button type="button" onClick={() => onToggleSort("first_name")}>
+                  <button
+                    type="button"
+                    onClick={() => onToggleSort("first_name")}
+                  >
                     <SortButton sort={getSortValue("first_name")} />
                   </button>
                 </div>
@@ -122,9 +125,7 @@ export default function UsersTable({
                 <td className="truncate p-3 text-gray-600" title={u.email}>
                   {u.email}
                 </td>
-                <td className="p-3">
-                  <StatusBadge status={u.status ?? ""} />
-                </td>
+                <td className="p-3">{u.status}</td>
               </tr>
             ))}
           </tbody>

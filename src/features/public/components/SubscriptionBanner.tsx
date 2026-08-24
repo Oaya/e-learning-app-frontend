@@ -12,7 +12,7 @@ export default function SubscriptionBanner({
   const isPending = !hasStripeSubscription && status !== "active";
 
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-amber-200 bg-amber-50 px-8 py-3">
+    <div className="flex items-center justify-between gap-4 border-b border-amber-200 bg-amber-50 px-4 py-3 xl:px-8">
       <div className="flex items-center gap-3">
         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-amber-200">
           <TbAlertTriangle size={15} className="text-theme-yellow-20" />
@@ -23,7 +23,7 @@ export default function SubscriptionBanner({
               ? "Your subscription is pending payment"
               : "Your subscription needs attention"}
           </p>
-          <p className="text-theme-yellow-20 text-xs">
+          <p className="text-theme-yellow-20 hidden text-xs xl:block">
             {isPending
               ? "Complete checkout to activate your plan and unlock all features."
               : "Reactivate your subscription to keep access to all features."}
@@ -38,12 +38,12 @@ export default function SubscriptionBanner({
         {isPending ? (
           <>
             <TbCreditCard size={16} />
-            Complete payment
+            <span className="hidden md:inline">Complete payment</span>
           </>
         ) : (
           <>
             <TbRefresh size={16} />
-            Reactivate
+            <span className="hidden md:inline">Reactivate</span>
           </>
         )}
       </button>

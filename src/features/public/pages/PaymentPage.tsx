@@ -62,12 +62,16 @@ export default function PaymentPage() {
   }, [user, navigate, alert, plan]);
 
   if (loading) {
-    return <div className="m-10 text-center text-2xl">Starting checkout…</div>;
+    return (
+      <div className="px-4 py-10 text-center text-2xl sm:px-6">
+        Starting checkout…
+      </div>
+    );
   }
 
   if (!clientSecret) {
     return (
-      <div className="m-10 text-center text-2xl">
+      <div className="px-4 py-10 text-center text-2xl sm:px-6">
         Missing checkout lesson. Please go back to the home.
         <div className="mt-4">
           <button
@@ -82,10 +86,10 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="m-10 mx-auto w-225 text-2xl">
+    <div className="mx-auto w-full px-4 py-10 text-2xl sm:px-6 lg:px-10 xl:w-225">
       <h2 className="pb-4 text-center text-4xl">Checkout</h2>
 
-      <div className="rounded bg-white p-6 shadow">
+      <div className="rounded bg-white p-4 shadow sm:p-6">
         <EmbeddedCheckoutProvider
           stripe={stripePromise}
           options={{ clientSecret }}

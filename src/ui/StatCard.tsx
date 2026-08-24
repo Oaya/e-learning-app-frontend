@@ -17,7 +17,7 @@ export default function StatCard({
   subColor,
 }: StatCardProps) {
   return (
-    <div className="h-auto rounded-xl border border-gray-200 bg-white p-4 sm:h-28">
+    <div className="h-auto rounded-xl border border-gray-200 bg-white p-4 shadow sm:h-28">
       <div className="mb-2 flex items-center gap-2 text-xs text-gray-400">
         {Icon && (
           <Icon

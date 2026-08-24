@@ -1,3 +1,5 @@
+import type { LanguageLevel } from "./user";
+
 export type LessonStatusType =
   | "scheduled"
   | "canceled"
@@ -44,6 +46,6 @@ export type Lesson = {
     last_name: string;
     email: string;
     avatar?: string;
-    learning_languages: string[];
+    language_levels: LanguageLevel[];
   };
 };

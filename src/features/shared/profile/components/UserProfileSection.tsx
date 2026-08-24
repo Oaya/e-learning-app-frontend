@@ -143,15 +143,15 @@ export default function UserProfileSection({ user }: Props) {
                   </p>
                 </div>
               ) : (
-                user.learning_languages &&
-                user.learning_languages.length > 0 && (
+                user.language_levels &&
+                user.language_levels.length > 0 && (
                   <div className="mt-1 flex flex-wrap gap-2 md:mt-2">
-                    {user.learning_languages.map((language) => (
+                    {user.language_levels.map((ll) => (
                       <span
-                        key={language}
+                        key={ll.language}
                         className="bg-theme-green-30 text-theme-green-20 w-fit rounded-full px-1.5 py-0.5 text-[11px] md:px-2 md:py-1 md:text-sm"
                       >
-                        {language}
+                        {ll.language}{ll.level ? ` · ${ll.level}` : ""}
                       </span>
                     ))}
                   </div>

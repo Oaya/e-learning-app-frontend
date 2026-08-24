@@ -1,10 +1,15 @@
+import { HiOutlineSparkles } from "react-icons/hi2";
 import HomeworkList from "@/features/admin/homework/components/HomeworkList";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function HomeworkPage() {
+  const { user } = useAuth();
+  const canUseAI =
+    user?.subscription?.plan === "pro" && user.subscription.status === "active";
   return (
     <HomeworkList
       searchPlaceholder="Search student or task…"
-      topBar={(openModal) => (
+      topBar={(openModal, openAiModal) => (
         <>
           <div>
             <h1 className="page-title">Homework</h1>
@@ -13,12 +18,16 @@ export default function HomeworkPage() {
             </p>
           </div>
           <div className="flex gap-2">
-            {/* <button
-              onClick={openModal}
-              className="btn-white flex items-center gap-1.5"
-            >
-              <HiOutlineSparkles size={16} /> Generate with AI
-            </button> */}
+            {canUseAI && (
+              <button
+                onClick={openAiModal}
+                className="btn-white flex items-center gap-1.5"
+              >
+                <HiOutlineSparkles size={15} className="text-theme-purple-50" />
+                <span className="hidden sm:inline">Generate with AI</span>
+              </button>
+            )}
+
             <button onClick={openModal} className="btn-primary-pink">
               + Assign Homework
             </button>

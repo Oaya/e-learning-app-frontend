@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { UpsertHomework } from "@/type/homework";
+import type { GenerateHomeworkWithAI, UpsertHomework } from "@/type/homework";
 import { authHeader } from "./auth";
 
 export async function getHomeworks(studentId?: string): Promise<ApiResponse> {
@@ -57,6 +57,18 @@ export async function updateHomework(
     const response = await axios.patch(url, data, {
       headers: authHeader(),
     });
+    return { success: true, data: response.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function generateHomework(
+  data: GenerateHomeworkWithAI,
+): Promise<ApiResponse> {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}/api/homeworks/ai_generate`;
+    const response = await axios.post(url, data, { headers: authHeader() });
     return { success: true, data: response.data };
   } catch (e: any) {
     return { success: false, error: e.response?.data?.error };

@@ -141,25 +141,71 @@ input[type="number"] {
   font-weight: 500;
 }
 
-/* Global react-select sizing to match .form-input */
-.rs__control {
-  min-height: 46px !important;
-  height: 46px !important;
-  border-radius: 0.375rem;
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 0.1),
-    0 2px 4px -2px rgb(0 0 0 / 0.1) !important; /* shadow-md */
-}
+/* Declared in the same Tailwind utilities layer (after the Tailwind import
+   above) so these !important rules actually win over the !important utility
+   classes CustomSelect applies via its `classNames` prop (e.g. !py-2.5) —
+   an unlayered !important rule loses to a layered one regardless of
+   specificity. */
+@layer utilities {
+  /* Global react-select sizing to match .form-input */
+  .rs__control {
+    min-height: 42px !important;
+    border-radius: 0.375rem;
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1) !important; /* shadow-md */
+  }
 
-.rs__input-container {
-  margin: 0 !important;
-  padding: 0 !important;
-}
+  .rs__input-container {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
-.rs__indicators {
-  height: 46px !important;
-}
+  /* Vertical padding only — a chip's own height (~23px) plus the default
+     10px top/bottom padding pushes multi-selects past 42px; horizontal
+     padding (px-2 / max-sm:px-3) stays controlled by CustomSelect. */
+  .rs__value-container {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
 
-.rs__indicatorSeparator {
-  display: none;
+  .rs__multi-value {
+    margin: 1px 4px 1px 0 !important;
+  }
+
+  .rs__indicators {
+    align-self: stretch;
+    height: auto !important;
+  }
+
+  .rs__indicatorSeparator {
+    display: none;
+  }
+
+  /* Compact react-select variant (e.g. per-language level pickers) */
+  .level-select .rs__control {
+    min-height: 32px !important;
+  }
+
+  .level-select .rs__indicators {
+    min-height: 32px !important;
+  }
+
+  .level-select .rs__value-container {
+    padding: 6px 8px !important;
+  }
+
+  .level-select .rs__single-value,
+  .level-select .rs__input,
+  .level-select .rs__input-container,
+  .level-select .rs__placeholder {
+    margin: 0 !important;
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .level-select .rs__indicators svg {
+    width: 16px;
+    height: 16px;
+  }
 }

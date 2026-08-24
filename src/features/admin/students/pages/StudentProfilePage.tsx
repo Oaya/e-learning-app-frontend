@@ -69,11 +69,11 @@ export default function StudentProfile() {
           <span className="sm:hidden">Back</span>
         </button>
 
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           <button onClick={() => {}} className="btn-white">
             <MdMessage size={16} /> Message
           </button>
-        </div>
+        </div> */}
       </section>
 
       <section className="flex flex-col gap-6 rounded-xl border border-gray-300 bg-white px-6 py-6 md:my-10 md:flex-row md:items-stretch md:justify-between md:gap-10 md:px-8">
@@ -91,14 +91,12 @@ export default function StudentProfile() {
               {user.first_name} {user.last_name}
             </h1>
             <p className="break-all">{user.email}</p>
-            {user.learning_languages && user.learning_languages.length > 0 && (
+            {user.language_levels && user.language_levels.length > 0 && (
               <div className="mt-1 flex flex-wrap gap-2 md:mt-2">
-                {user.learning_languages.map((language) => (
-                  <span
-                    key={language}
-                    className="bg-theme-green-30 text-theme-green-20 w-fit rounded-full px-1.5 py-0.5 text-[11px] md:px-2 md:py-1 md:text-sm"
-                  >
-                    {language}
+                {user.language_levels.map((ll) => (
+                  <span key={ll.language} className="budge-purple">
+                    {ll.language}
+                    {ll.level ? ` · ${ll.level}` : ""}
                   </span>
                 ))}
               </div>

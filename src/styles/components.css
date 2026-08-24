@@ -1,10 +1,10 @@
 @layer components {
   .form-input {
-    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm focus:outline-none disabled:bg-gray-50 max-sm:px-3;
+    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm shadow focus:outline-none disabled:bg-gray-50 max-sm:px-3;
   }
 
   .form-textarea {
-    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm placeholder-gray-300 focus:outline-none max-sm:px-3;
+    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm placeholder-gray-300 shadow focus:outline-none max-sm:px-3;
   }
 
   .btn-primary {
@@ -27,6 +27,10 @@
     @apply bg-theme-yellow-20 hover:bg-theme-yellow-20/80 inline-flex cursor-pointer items-center justify-center gap-1.5 rounded px-4 py-2 text-sm text-white disabled:opacity-50;
   }
 
+  .budge-purple {
+    @apply text-theme-purple-50 flex items-center gap-1.5 rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-semibold;
+  }
+
   .sm-label {
     @apply mb-1.5 block text-sm font-medium text-gray-600;
   }
@@ -42,7 +46,7 @@
     @apply text-[10px] font-semibold tracking-widest text-gray-400 uppercase;
   }
   .panel-box {
-    @apply rounded-xl border border-gray-200 bg-white p-4 md:p-5;
+    @apply rounded-xl border border-gray-200 bg-white p-4 shadow md:p-5;
   }
 
   .top-bar {
@@ -60,7 +64,7 @@
   }
 
   .card {
-    @apply flex items-center rounded-xl border border-l-4 border-gray-200 bg-white p-2.5 md:h-22 md:p-4;
+    @apply flex items-center rounded-xl border border-l-4 border-gray-200 bg-white p-2.5 shadow md:h-22 md:p-4;
   }
 
   .modal-overlay {
@@ -68,7 +72,7 @@
   }
 
   .modal-box {
-    @apply w-full max-w-lg rounded-2xl bg-white shadow-xl;
+    @apply w-full max-w-lg rounded-2xl bg-white shadow;
   }
 
   .modal-header {

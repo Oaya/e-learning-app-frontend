@@ -4,6 +4,7 @@ import { useAlert } from "@/contexts/AlertContext";
 import { useAuth } from "@/contexts/AuthContext";
 import type { AcceptInviteUser } from "@/type/user";
 import { fdString } from "@/utils/formData";
+import AuthLayout from "../components/AuthLayout";
 
 export default function AcceptInvitePage() {
   const [searchParams] = useSearchParams();
@@ -51,39 +52,44 @@ export default function AcceptInvitePage() {
   };
 
   return (
-    <div className="m-10 mx-auto w-150 text-2xl">
-      <h2 className="pb-4 text-center text-5xl">
-        You are invited to Learning with {teacher}
-      </h2>
+    <AuthLayout>
+      <div className="w-full max-w-sm">
+        <h1 className="mb-1 text-xl font-medium text-gray-800">
+          {" "}
+          You are invited to Learning with {teacher}
+        </h1>
+        <p className="mb-6 text-sm text-gray-400">Create password to start</p>
 
-      <form onSubmit={handleCreatePassword}>
-        <div className="mb-2">
-          <label className="sm-label">Password</label>
-          <input
-            name="password"
-            type="password"
-            required
-            className="form-input"
-          />
-        </div>
-        <div className="mb-2">
-          <label className="sm-label">Confirm Password</label>
-          <input
-            name="password_confirmation"
-            type="password"
-            required
-            className="form-input"
-          />
-        </div>
+        <form onSubmit={handleCreatePassword} className="space-y-2">
+          <div>
+            <label className="sm-label">Password</label>
+            <input
+              name="password"
+              type="password"
+              required
+              className="form-input"
+            />
+          </div>
 
-        <button
-          disabled={isLoading}
-          type="submit"
-          className="btn-primary mt-4 w-full"
-        >
-          Create Password
-        </button>
-      </form>
-    </div>
+          <div className="mb-2">
+            <label className="sm-label">Confirm Password</label>
+            <input
+              name="password_confirmation"
+              type="password"
+              required
+              className="form-input"
+            />
+          </div>
+
+          <button
+            disabled={isLoading}
+            type="submit"
+            className="btn-primary mt-4 w-full"
+          >
+            Create Password
+          </button>
+        </form>
+      </div>
+    </AuthLayout>
   );
 }

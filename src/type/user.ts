@@ -1,4 +1,18 @@
-import type { Level } from "@/utils/constants";
+export const levels = [
+  "A1-Beginner",
+  "A2-Elementary",
+  "B1-Intermediate",
+  "B2-Upper Intermediate",
+  "C1-Advanced",
+  "C2-Proficient",
+] as const;
+
+export type Level = (typeof levels)[number];
+
+export type LanguageLevel = {
+  language: string;
+  level?: Level | ""; // optional — migrated data may not have a level set yet
+};
 
 export const roles = ["admin", "student"] as const;
 export type Role = (typeof roles)[number];
@@ -22,10 +36,9 @@ export type LoginUser = {
 
 export type InviteUser = {
   email: string;
-  level?: Level;
   first_name: string;
   last_name: string;
-  learning_languages?: string[];
+  language_levels?: LanguageLevel[];
 };
 
 export type AcceptInviteUser = {
@@ -44,7 +57,7 @@ export type User = {
   avatar?: string;
   timezone?: string;
   created_at: string;
-  learning_languages?: string[];
+  language_levels?: LanguageLevel[];
   subscription?: {
     status: string;
     plan: string;
@@ -81,7 +94,7 @@ export type UpdateStudentData = {
   first_name: string;
   last_name: string;
   email: string;
-  learning_languages: string[];
+  language_levels: LanguageLevel[];
   timezone: string;
   status: Status;
 };
@@ -117,5 +130,5 @@ export type StudentOption = {
   value: string;
   label: string;
   avatar?: string | null;
-  languages?: string[];
+  language_levels?: LanguageLevel[];
 };

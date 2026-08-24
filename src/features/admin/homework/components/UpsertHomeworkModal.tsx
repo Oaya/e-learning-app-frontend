@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { HiOutlineSparkles } from "react-icons/hi2";
 
 import { useUsers } from "@/features/admin/students/hooks/useUsers";
 import CustomSelect from "@/ui/CustomSelect";
@@ -7,8 +6,7 @@ import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
 import { useAlert } from "@/contexts/AlertContext";
 import { fdString } from "@/utils/formData";
-import { levels } from "@/utils/constants";
-import type { StudentOption, User } from "@/type/user";
+import { levels, type StudentOption, type User } from "@/type/user";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import type { Homework } from "@/type/homework";
 
@@ -41,30 +39,12 @@ export default function UpsertHomeworkModal({
           value: hData.id,
           label: `${hData.first_name} ${hData.last_name}`,
           avatar: hData.avatar,
-          languages: hData.learning_languages,
+          language_levels: hData.language_levels,
         }
       : null,
   );
-  const [aiMode, setAiMode] = useState(false);
-  // const [aiTopic, setAiTopic] = useState("");
-  // const [generating, setGenerating] = useState(false);
 
   if (!isOpen) return null;
-
-  // async function handleGenerate() {
-  //   if (!aiTopic.trim()) return;
-  //   setGenerating(true);
-  //   // Placeholder — replace with real Anthropic API call
-  //   await new Promise((r) => setTimeout(r, 1200));
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     title: `AI: ${aiTopic}`,
-  //     instructions: `Practice exercise on "${aiTopic}" for a ${prev.level.toLowerCase()} student. Complete all tasks and submit by the due date.`,
-  //     ai_generated: true,
-  //   }));
-  //   setGenerating(false);
-  //   setAiMode(false);
-  // }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -103,51 +83,8 @@ export default function UpsertHomeworkModal({
   const isSubmitting = isCreating || isUpdating;
 
   return (
-    <ModalShell
-      isOpen={isOpen}
-      onClose={onClose}
-      title={`${type} homework`}
-      headerExtra={
-        <button
-          type="button"
-          onClick={() => setAiMode((v) => !v)}
-          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition ${
-            aiMode
-              ? "bg-purple-600 text-white"
-              : "border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100"
-          }`}
-        >
-          <HiOutlineSparkles size={14} />
-          Generate with AI
-        </button>
-      }
-    >
+    <ModalShell isOpen={isOpen} onClose={onClose} title={`${type} homework`}>
       <form onSubmit={handleSubmit} className="modal-body">
-        {/* AI generate panel */}
-        {/* {aiMode && (
-            <div className="rounded-xl border border-purple-100 bg-purple-50 p-4">
-              <p className="mb-2 text-xs font-medium text-purple-700">
-                Describe what you want Claude to generate
-              </p>
-              <textarea
-                rows={2}
-                placeholder="e.g. Past tense exercises for a Japanese intermediate student who needs to practise irregular verbs"
-                value={aiTopic}
-                onChange={(e) => setAiTopic(e.target.value)}
-                className="w-full resize-none rounded-lg border border-purple-200 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-300 focus:border-purple-400 focus:outline-none"
-              />
-              <button
-                type="button"
-                onClick={handleGenerate}
-                disabled={generating || !aiTopic.trim()}
-                className="mt-2 flex items-center gap-1.5 rounded-lg bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-700 disabled:opacity-50"
-              >
-                <HiOutlineSparkles size={14} />
-                {generating ? "Generating…" : "Generate"}
-              </button>
-            </div>
-          )} */}
-
         {/* Student */}
         <FormField label="Student">
           <CustomSelect
@@ -160,7 +97,7 @@ export default function UpsertHomeworkModal({
               value: i.id,
               label: `${i.first_name} ${i.last_name}`,
               avatar: i.avatar,
-              languages: i.learning_languages,
+              language_levels: i.language_levels,
             }))}
           />
         </FormField>
@@ -202,14 +139,14 @@ export default function UpsertHomeworkModal({
                     }
                   : undefined
               }
-              options={selectedStudent?.languages?.map((lang) => ({
-                value: lang,
-                label: lang,
+              options={selectedStudent?.language_levels?.map((ll) => ({
+                value: ll.language,
+                label: ll.level ? `${ll.language} · ${ll.level}` : ll.language,
               }))}
             />
           </FormField>
 
-          <FormField label="Level">
+          <FormField label="Homework Level">
             <CustomSelect
               name="level"
               className="w-full capitalize"

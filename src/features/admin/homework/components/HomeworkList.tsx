@@ -8,6 +8,7 @@ import {
 
 import HomeworkCard from "./HomeworkCard";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
+import AiGenerateHomeworkModal from "./AiGenerateHomeworkModal";
 import EmptyState from "@/ui/EmptyState";
 import StatCard from "@/ui/StatCard";
 import TabFilters from "@/ui/TabFilters";
@@ -39,7 +40,7 @@ type HomeworkListProps = {
   studentId?: string;
   student?: User;
   searchPlaceholder: string;
-  topBar: (openModal: () => void) => ReactNode;
+  topBar: (openModal: () => void, openAiModal: () => void) => ReactNode;
 };
 
 export default function HomeworkList({
@@ -51,6 +52,7 @@ export default function HomeworkList({
   const [activeTab, setActiveTab] = useState<HomeworkFilterTab>("all");
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [aiModalOpen, setAiModalOpen] = useState(false);
   const { homeworks, isLoading } = useHomeworks(studentId);
 
   const filtered = useMemo(() => {
@@ -79,7 +81,7 @@ export default function HomeworkList({
     <div className="page-container">
       {/* Top bar */}
       <section className="page-header-row">
-        {topBar(() => setModalOpen(true))}
+        {topBar(() => setModalOpen(true), () => setAiModalOpen(true))}
       </section>
 
       {/* Stats */}
@@ -160,6 +162,21 @@ export default function HomeworkList({
         onClose={() => setModalOpen(false)}
         type="Assign"
         student={student}
+      />
+
+      <AiGenerateHomeworkModal
+        isOpen={aiModalOpen}
+        onClose={() => setAiModalOpen(false)}
+        student={
+          student
+            ? {
+                value: student.id,
+                label: `${student.first_name} ${student.last_name}`,
+                avatar: student.avatar,
+                language_levels: student.language_levels,
+              }
+            : undefined
+        }
       />
     </div>
   );
