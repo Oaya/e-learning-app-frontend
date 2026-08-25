@@ -5,7 +5,10 @@ import { HiOutlineVideoCamera } from "react-icons/hi2";
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
 import ConfirmModal from "@/ui/ConfirmModal";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import {
+  MdOutlineKeyboardBackspace,
+  MdOutlineFreeCancellation,
+} from "react-icons/md";
 import LessonDetailsHeader from "@/features/admin/lessons/components/LessonDetailsHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import StudentLessonDetailsHeader from "@/features/student/lessons/components/StudentLessonDetailsHeader";
@@ -67,6 +70,26 @@ export default function LessonDetailPage() {
       ) : (
         <StudentLessonDetailsHeader lesson={lesson} />
       )}
+
+      {/* Cancellation fee notice */}
+      {lesson.cancellation_fee_amount != null &&
+        lesson.cancellation_fee_amount > 0 && (
+          <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+            <MdOutlineFreeCancellation size={18} className="mt-0.5 shrink-0" />
+            <div>
+              <p className="font-medium">Cancellation fee applies</p>
+              <p className="mt-0.5 text-amber-700">
+                A fee of{" "}
+                <span className="font-semibold">
+                  {lesson.cancellation_fee_currency ?? "USD"}{" "}
+                  {Number(lesson.cancellation_fee_amount).toFixed(2)}
+                </span>{" "}
+                has been recorded for this lesson due to late cancellation or no
+                show.
+              </p>
+            </div>
+          </div>
+        )}
 
       {/* Recording */}
       <div className="gap-4 overflow-hidden border-gray-200">

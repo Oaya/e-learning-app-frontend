@@ -15,6 +15,7 @@ import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
 import type { StudentOption, User } from "@/type/user";
 import { lessonDuration, LessonStatus } from "@/utils/constants";
+import { capitalize } from "@/utils/helper";
 
 dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
@@ -196,7 +197,7 @@ export default function UpsertLessonModal({
                 lesson?.status
                   ? {
                       value: lesson.status,
-                      label: lesson.status,
+                      label: capitalize(lesson.status),
                     }
                   : undefined
               }
