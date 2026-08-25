@@ -34,6 +34,8 @@ export type Lesson = {
   language: string;
   status: LessonStatusType;
   payment_status: PaymentStatusType;
+  cancellation_fee_amount?: number | null;
+  cancellation_fee_currency?: string | null;
   meeting_duration_in_seconds?: number;
   meeting_feedback?: string;
   meeting_note?: string | null;
@@ -51,6 +53,7 @@ export type Lesson = {
   admin: {
     first_name: string;
     last_name: string;
+    email: string;
     no_show_fee_percent: number;
     late_cancellation_fee_percent: number;
     cancellation_window_hours: number;

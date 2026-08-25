@@ -2,12 +2,13 @@ import {
   HiOutlineTrash,
   HiOutlinePencil,
   HiOutlineClock,
+  HiOutlineVideoCamera,
 } from "react-icons/hi2";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { useNavigate } from "react-router-dom";
-import { LuVideo } from "react-icons/lu";
+import { LuMessageSquareText } from "react-icons/lu";
 import { useState } from "react";
 
 import ActionBtn from "@/ui/ActionButton";
@@ -115,7 +116,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           }}
           className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
         >
-          <LuVideo size={16} />
+          <HiOutlineVideoCamera size={16} />
           Join
         </button>
       )}
@@ -125,7 +126,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
           className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
         >
-          <LuVideo size={16} />
+          <HiOutlineVideoCamera size={16} />
           Watch
         </button>
       )}
@@ -148,13 +149,22 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
               title="Edit"
               onClick={() => handleModalActionChange(lesson.id, lesson.status)}
             >
-              <HiOutlinePencil size={16} />
+              <HiOutlinePencil size={15} />
+            </ActionBtn>
+
+            <ActionBtn
+              title="Message to Student"
+              onClick={() =>
+                window.open(`mailto:${lesson.student.email}`, "_blank")
+              }
+            >
+              <LuMessageSquareText size={15} />
             </ActionBtn>
             <ActionBtn
               title="Delete"
               onClick={() => setDeleteLessonId(lesson.id)}
             >
-              <HiOutlineTrash size={16} />
+              <HiOutlineTrash size={15} />
             </ActionBtn>
           </>
         </div>
@@ -167,7 +177,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             }}
             className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
           >
-            <LuVideo size={16} />
+            <HiOutlineVideoCamera size={16} />
             Join
           </button>
         )}
@@ -180,7 +190,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             }}
             className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
           >
-            <LuVideo size={16} />
+            <HiOutlineVideoCamera size={16} />
             Watch
           </button>
         )}

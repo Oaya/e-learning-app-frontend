@@ -13,7 +13,7 @@ export default function ActionBtn({
     <button
       title={title}
       onClick={onClick}
-      className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-gray-300 hover:text-gray-600"
+      className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-gray-300 hover:text-gray-600"
     >
       {children}
     </button>

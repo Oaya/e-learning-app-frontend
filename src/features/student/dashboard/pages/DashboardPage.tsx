@@ -31,8 +31,12 @@ export default function StudentDashboardPage() {
 
   // Next lesson label
   const nextLesson = upcomingOrOngoing[0];
+  const isNextLessonOngoing =
+    nextLesson && dayjs(nextLesson.scheduled_at).isBefore(now);
   const nextLabel = nextLesson
-    ? `Your next lesson is ${dayjs(nextLesson.scheduled_at).fromNow()}`
+    ? isNextLessonOngoing
+      ? "Your lesson is happening now"
+      : `Your next lesson is ${dayjs(nextLesson.scheduled_at).fromNow()}`
     : "No upcoming lessons";
 
   // Homework stats

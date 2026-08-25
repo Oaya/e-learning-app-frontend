@@ -10,10 +10,16 @@ import type { Lesson } from "@/type/lesson";
 import { LESSON_BORDER_COLOR, LESSON_STATUS_BADGE } from "@/utils/constants";
 import { canJoinLesson, formatDay, formatTime } from "@/utils/helper";
 import Badge from "@/ui/Badge";
+import ActionBtn from "@/ui/ActionButton";
+import { LuMessageSquareText } from "react-icons/lu";
+import { MdOutlineFreeCancellation } from "react-icons/md";
+import { useState } from "react";
+import CancelLessonModal from "./CancelLessonModal";
 
 export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
   const { day, mon } = formatDay(lesson.scheduled_at);
   const navigate = useNavigate();
+  const [cancelOpen, setCancelOpen] = useState(false);
 
   return (
     <div
@@ -51,15 +57,43 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
       </div>
 
       {/* Badges */}
-      <div className="flex shrink-0 flex-col items-end gap-1 capitalize">
-        <Badge status={lesson.status} constant={LESSON_STATUS_BADGE} />
+      <div className="flex shrink-0 flex-col items-end gap-2">
+        <Badge
+          status={lesson.status}
+          constant={LESSON_STATUS_BADGE}
+          className="px-2 py-0.5"
+        />
+
+        {/* Actions */}
+        <div
+          className="flex shrink-0 items-center gap-1"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <>
+            {lesson.status === "scheduled" && (
+              <ActionBtn title="Cancel" onClick={() => setCancelOpen(true)}>
+                <MdOutlineFreeCancellation size={15} />
+              </ActionBtn>
+            )}
+
+            <ActionBtn
+              title="Message to Teacher"
+              onClick={() =>
+                window.open(`mailto:${lesson.admin.email}`, "_blank")
+              }
+            >
+              <LuMessageSquareText size={15} />
+            </ActionBtn>
+          </>
+        </div>
+
         {canJoinLesson(lesson) && (
           <button
             onClick={(e) => {
               e.stopPropagation();
               navigate(`/lessons/${lesson.id}/meeting`);
             }}
-            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
+            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
           >
             <HiOutlineVideoCamera size={16} />
             Join
@@ -72,13 +106,21 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
               e.stopPropagation();
               navigate(`/student/lessons/${lesson.id}`);
             }}
-            className="btn-white mt-2 flex items-center gap-1 px-2 py-1.5"
+            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
           >
             <HiOutlineVideoCamera size={16} />
             Watch
           </button>
         )}
       </div>
+
+      {cancelOpen && (
+        <CancelLessonModal
+          isOpen={cancelOpen}
+          lesson={lesson}
+          onCancel={() => setCancelOpen(false)}
+        />
+      )}
     </div>
   );
 }

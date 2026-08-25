@@ -4,6 +4,7 @@ import type { Lesson, UpsertLessonMeeting } from "@/type/lesson";
 import { unwrapResponse } from "@/api/helper";
 import {
   AddStudentNote,
+  cancelLesson as cancelLessonApi,
   getLessonById,
   upsertLessonMeeting,
 } from "@/api/lessons";
@@ -59,12 +60,30 @@ export function useLesson(id: string) {
     },
   });
 
+  const cancelMutation = useMutation({
+    mutationFn: async (lessonId: string) =>
+      unwrapResponse<Lesson>(await cancelLessonApi(lessonId)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["lesson", id] });
+      queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
+      alert.success("Lesson cancelled.");
+    },
+    onError: (error) => {
+      alert.error(
+        error instanceof Error ? error.message : "Failed to cancel lesson",
+      );
+    },
+  });
+
   return {
     ...lessonsQuery,
     lesson: lessonsQuery.data,
     endingLesson: updateMutation.mutateAsync,
     addNote: addNoteMutation.mutateAsync,
+    cancelLesson: cancelMutation.mutateAsync,
     isEnding: updateMutation.isPending,
     isAdding: addNoteMutation.isPending,
+    isCancelling: cancelMutation.isPending,
   };
 }
