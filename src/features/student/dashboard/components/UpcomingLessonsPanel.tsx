@@ -51,24 +51,24 @@ export default function UpcomingLessonsPanel({
                   <p className="text-xs text-gray-400">{l.topic}</p>
                 </div>
 
-                <div className="flex flex-col items-end">
-                  <Badge
-                    status={l.status}
-                    constant={LESSON_STATUS_BADGE}
-                    className="items-center px-1 py-0.5 text-[11px]"
-                  />
+                <div className="flex items-center justify-center gap-2">
                   {canJoinLesson(l) && (
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/lessons/${l.id}/meeting`);
                       }}
-                      className="btn-white mt-2 flex items-center gap-1 px-1 py-0.5 text-[11px]"
+                      className="btn-white flex items-center gap-1 px-2 py-1 text-[12px]"
                     >
                       <LuVideo size={14} />
                       Join
                     </button>
                   )}
+                  <Badge
+                    status={l.status}
+                    constant={LESSON_STATUS_BADGE}
+                    className="items-center px-1 py-0.5 text-[11px]"
+                  />
                 </div>
               </div>
             );

@@ -48,4 +48,11 @@ export type Lesson = {
     avatar?: string;
     language_levels: LanguageLevel[];
   };
+  admin: {
+    first_name: string;
+    last_name: string;
+    no_show_fee_percent: number;
+    late_cancellation_fee_percent: number;
+    cancellation_window_hours: number;
+  };
 };

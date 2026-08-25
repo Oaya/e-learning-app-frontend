@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { HiOutlinePencil, HiOutlineVideoCamera } from "react-icons/hi2";
+import { HiOutlineVideoCamera } from "react-icons/hi2";
 
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
@@ -9,11 +9,12 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import LessonDetailsHeader from "@/features/admin/lessons/components/LessonDetailsHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import StudentLessonDetailsHeader from "@/features/student/lessons/components/StudentLessonDetailsHeader";
-import UpsertLessonNoteModal from "@/features/student/lessons/components/UpsertLessonNoteModal";
 import CompleteLessonModal from "@/features/admin/lessons/components/CompleteLessonModal";
 import UpsertLessonModal from "@/features/admin/lessons/components/UpsertLessonModal";
 import LessonNotesViewer from "@/features/shared/lessons/components/LessonNoteViewer";
 import PageLoadingState from "@/ui/PageLoadingState";
+import CancellationPolicyPanel from "../components/CancellationPolicyPanel";
+import InlineStudentNote from "@/features/student/lessons/components/InlineStudentNote";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -26,7 +27,6 @@ export default function LessonDetailPage() {
   });
 
   const [editOpen, setEditOpen] = useState(false);
-  const [addOpen, setAddOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   if (isLoading) {
@@ -55,18 +55,6 @@ export default function LessonDetailPage() {
           <span className="hidden sm:inline">Back to Lessons</span>
           <span className="sm:hidden">Back</span>
         </button>
-
-        {authUser?.role === "student" && (
-          <div className="flex shrink-0 gap-2">
-            <button
-              onClick={() => setAddOpen(true)}
-              className="btn-white flex items-center gap-1.5 px-3 py-1.5"
-            >
-              <HiOutlinePencil size={15} />
-              Update My Note
-            </button>
-          </div>
-        )}
       </section>
 
       {/* Header */}
@@ -138,20 +126,23 @@ export default function LessonDetailPage() {
       </div>
 
       {authUser?.role === "student" && (
-        <div className="panel-box">
-          <p className="panel-header">My note</p>
-          {lesson.student_note ? (
-            <p className="rounded-lg text-sm leading-relaxed text-gray-700">
-              {lesson.student_note}
-            </p>
-          ) : (
-            <p className="no-content mt-2">No note added.</p>
+        <div className="flex flex-col gap-4 xl:grid xl:grid-cols-5">
+          {/* My note  */}
+          <InlineStudentNote
+            lessonId={lesson.id}
+            initialNote={lesson.student_note}
+          />
+
+          {/* Cancellation policy */}
+          {lesson?.admin && (
+            <div className="col-span-2">
+              <CancellationPolicyPanel admin={lesson.admin} />
+            </div>
           )}
         </div>
       )}
 
       {/* Modals */}
-
       <ConfirmModal
         isOpen={deleteOpen}
         title="Delete lesson"
@@ -175,14 +166,6 @@ export default function LessonDetailPage() {
           type="Edit"
           lesson={lesson}
           timezone={authUser?.timezone}
-        />
-      )}
-
-      {addOpen && (
-        <UpsertLessonNoteModal
-          isOpen
-          onClose={() => setAddOpen(false)}
-          lessonId={lesson.id}
         />
       )}
     </div>
