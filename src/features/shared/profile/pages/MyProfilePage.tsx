@@ -9,13 +9,13 @@ import Badge from "@/ui/Badge";
 import CancelSubscriptionModal from "@/features/shared/profile/components/CancelSubscriptionModal";
 import UpdateSubscriptionModal from "@/features/shared/profile/components/UpdateSubscriptionModal";
 import UserProfileSection from "@/features/shared/profile/components/UserProfileSection";
+import TeachingPolicies from "../components/TeachingPolicies";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function MyProfilePage() {
   const { user } = useAuth();
-
   const [isUpdatePlanModalOpen, setIsUpdatePlanModalOpen] = useState(false);
   const [isCancelSubscriptionModalOpen, setIsCancelSubscriptionModalOpen] =
     useState(false);
@@ -116,6 +116,9 @@ export default function MyProfilePage() {
           )}
         </div>
       )}
+
+      {/* Teaching Policies — admin only */}
+      {isAdmin && <TeachingPolicies user={user} />}
 
       <CancelSubscriptionModal
         isOpen={isCancelSubscriptionModalOpen}

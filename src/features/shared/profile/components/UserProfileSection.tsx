@@ -22,7 +22,6 @@ export default function UserProfileSection({ user }: Props) {
   const [timezone, setTimezone] = useState<string>("");
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   const alert = useAlert();
@@ -151,7 +150,8 @@ export default function UserProfileSection({ user }: Props) {
                         key={ll.language}
                         className="bg-theme-green-30 text-theme-green-20 w-fit rounded-full px-1.5 py-0.5 text-[11px] md:px-2 md:py-1 md:text-sm"
                       >
-                        {ll.language}{ll.level ? ` · ${ll.level}` : ""}
+                        {ll.language}
+                        {ll.level ? ` · ${ll.level}` : ""}
                       </span>
                     ))}
                   </div>

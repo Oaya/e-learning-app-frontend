@@ -4,6 +4,7 @@ import type {
   LoginUser,
   SignupUser,
   UpdatePassword,
+  UpdatePolicy,
   UpdateUser,
 } from "@/type/user";
 import { directUploadToActiveStorage } from "./files";
@@ -109,6 +110,18 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
       headers: authHeader(),
     });
 
+    return { success: true, data: res.data };
+  } catch (e: any) {
+    return { success: false, error: e.response?.data?.error };
+  }
+}
+
+export async function updateCancellationPolicy(
+  data: UpdatePolicy,
+): Promise<ApiResponse> {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}/api/auth/me`;
+    const res = await axios.patch(url, data, { headers: authHeader() });
     return { success: true, data: res.data };
   } catch (e: any) {
     return { success: false, error: e.response?.data?.error };

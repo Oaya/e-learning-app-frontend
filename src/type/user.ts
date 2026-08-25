@@ -60,6 +60,9 @@ export type User = {
   language_levels?: LanguageLevel[];
   lesson_rate?: number | null;
   currency?: string | null;
+  no_show_fee_percent?: number;
+  late_cancellation_fee_percent?: number;
+  cancellation_window_hours?: number;
   subscription?: {
     status: string;
     plan: string;
@@ -90,6 +93,12 @@ export type UpdateUser = {
   last_name: string;
   timezone: string;
   avatar?: File | null;
+};
+
+export type UpdatePolicy = {
+  no_show_fee_percent: number;
+  late_cancellation_fee_percent: number;
+  cancellation_window_hours: number;
 };
 
 export type UpdateStudentData = {

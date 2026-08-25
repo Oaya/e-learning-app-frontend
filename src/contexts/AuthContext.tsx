@@ -12,6 +12,7 @@ import type {
   LoginUser,
   SignupUser,
   UpdatePassword,
+  UpdatePolicy,
   UpdateUser,
   User,
 } from "@/type/user";
@@ -22,6 +23,7 @@ import {
   acceptInvite,
   updateUserData,
   updateUserPassword,
+  updateCancellationPolicy,
 } from "@/api/auth";
 import { cancelSubscription, changePlan } from "@/api/subscription";
 
@@ -36,6 +38,7 @@ type AuthContextType = {
   updatePassword: (data: UpdatePassword) => Promise<ApiResponse>;
   cancelSubscriptionPlan: () => Promise<ApiResponse>;
   changeSubscriptionPlan: (plan: string) => Promise<ApiResponse>;
+  updatePolicy: (user: UpdatePolicy) => Promise<ApiResponse>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -62,6 +65,9 @@ const AuthContext = createContext<AuthContextType>({
     return Promise.resolve({} as ApiResponse);
   },
   changeSubscriptionPlan: async () => {
+    return Promise.resolve({} as ApiResponse);
+  },
+  updatePolicy: async () => {
     return Promise.resolve({} as ApiResponse);
   },
 });
@@ -173,16 +179,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res;
   }, [refreshUser]);
 
-  const changeSubscriptionPlan = useCallback(async (plan: string) => {
-    setIsLoading(true);
-    const res = await changePlan(plan);
+  const changeSubscriptionPlan = useCallback(
+    async (plan: string) => {
+      setIsLoading(true);
+      const res = await changePlan(plan);
 
-    if (res.success) {
-      await refreshUser();
-    }
-    setIsLoading(false);
-    return res;
-  }, [refreshUser]);
+      if (res.success) {
+        await refreshUser();
+      }
+      setIsLoading(false);
+      return res;
+    },
+    [refreshUser],
+  );
+
+  const updatePolicy = useCallback(
+    async (data: UpdatePolicy) => {
+      setIsLoading(true);
+      const res = await updateCancellationPolicy(data);
+      if (res.success) {
+        await refreshUser();
+      }
+      setIsLoading(false);
+      return res;
+    },
+    [refreshUser],
+  );
 
   const value = useMemo(
     () => ({
@@ -194,6 +216,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       updatePassword,
       cancelSubscriptionPlan,
       changeSubscriptionPlan,
+      updatePolicy,
       user,
       isLoading,
     }),
@@ -206,6 +229,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       updatePassword,
       cancelSubscriptionPlan,
       changeSubscriptionPlan,
+      updatePolicy,
       user,
       isLoading,
     ],
