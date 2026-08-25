@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
 import { HiOutlineChevronRight } from "react-icons/hi2";
 
-import type { User, UserSort } from "@/type/user";
+import type { LanguageLevel, User, UserSort } from "@/type/user";
 import SortButton from "@/ui/SortButton";
 import defaultAvatar from "@/assets/user.png";
+
+function formatLanguages(languageLevels?: LanguageLevel[]) {
+  if (!languageLevels || languageLevels.length === 0) return "—";
+  return languageLevels
+    .map((l) => (l.level ? `${l.language} (${l.level})` : l.language))
+    .join(", ");
+}
 
 function StatusBadge({ status }: { status: string }) {
   const styles: Record<string, string> = {
@@ -43,8 +50,8 @@ export default function UsersTable({
 
   return (
     <div>
-      {/* ── Mobile card list (hidden on sm+) ── */}
-      <div className="flex flex-col gap-2 sm:hidden">
+      {/* - Mobile card list (hidden on sm+) - */}
+      <div className="flex flex-col gap-2 xl:hidden">
         {users.map((u) => (
           <Link
             key={u.id}
@@ -61,6 +68,9 @@ export default function UsersTable({
                 {u.first_name} {u.last_name}
               </p>
               <p className="truncate text-xs text-gray-400">{u.email}</p>
+              <p className="truncate text-xs text-gray-400">
+                {formatLanguages(u.language_levels)}
+              </p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <StatusBadge status={u.status ?? ""} />
@@ -70,12 +80,12 @@ export default function UsersTable({
         ))}
       </div>
 
-      {/* ── Desktop table (hidden on mobile) ── */}
-      <div className="hidden overflow-x-auto rounded border border-gray-200 bg-white sm:block">
+      {/* - Desktop table (hidden on mobile) - */}
+      <div className="hidden overflow-x-auto rounded border border-gray-200 bg-white xl:block">
         <table className="w-full table-fixed text-sm">
           <thead>
             <tr className="bg-theme-purple-10/20 text-left">
-              <th className="w-2/5 p-3">
+              <th className="w-[15%] p-2">
                 <div className="flex items-center">
                   Name
                   <button
@@ -86,7 +96,7 @@ export default function UsersTable({
                   </button>
                 </div>
               </th>
-              <th className="w-2/5 p-3">
+              <th className="w-[25%] p-2">
                 <div className="flex items-center">
                   Email
                   <button type="button" onClick={() => onToggleSort("email")}>
@@ -94,7 +104,13 @@ export default function UsersTable({
                   </button>
                 </div>
               </th>
-              <th className="w-1/5 p-3">
+              <th className="w-[50%] p-2">
+                <div className="flex items-center">Languages</div>
+              </th>
+              <th className="w-[15%] p-2">
+                <div className="flex items-center">Rate</div>
+              </th>
+              <th className="w-[10%] p-2">
                 <div className="flex items-center">
                   Status
                   <button type="button" onClick={() => onToggleSort("status")}>
@@ -106,8 +122,11 @@ export default function UsersTable({
           </thead>
           <tbody>
             {users.map((u) => (
-              <tr key={u.id} className="border-t hover:bg-gray-50">
-                <td className="p-3">
+              <tr
+                key={u.id}
+                className="border-t border-gray-200 hover:bg-gray-50"
+              >
+                <td className="p-2">
                   <Link
                     to={`/users/${u.id}`}
                     className="flex min-w-0 items-center gap-2 text-blue-600 hover:underline"
@@ -122,10 +141,22 @@ export default function UsersTable({
                     </span>
                   </Link>
                 </td>
-                <td className="truncate p-3 text-gray-600" title={u.email}>
+                <td className="truncate p-2 text-gray-600" title={u.email}>
                   {u.email}
                 </td>
-                <td className="p-3">{u.status}</td>
+                <td
+                  className="truncate p-2 text-gray-600"
+                  title={formatLanguages(u.language_levels)}
+                >
+                  {formatLanguages(u.language_levels)}
+                </td>
+                <td className="truncate p-2 text-gray-600" title="rate">
+                  {u.lesson_rate != null
+                    ? Number(u.lesson_rate).toFixed(2)
+                    : ""}{" "}
+                  {u.currency}
+                </td>
+                <td className="p-2 text-gray-600 capitalize">{u.status}</td>
               </tr>
             ))}
           </tbody>

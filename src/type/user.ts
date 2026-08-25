@@ -58,6 +58,8 @@ export type User = {
   timezone?: string;
   created_at: string;
   language_levels?: LanguageLevel[];
+  lesson_rate?: number | null;
+  currency?: string | null;
   subscription?: {
     status: string;
     plan: string;
@@ -97,6 +99,8 @@ export type UpdateStudentData = {
   language_levels: LanguageLevel[];
   timezone: string;
   status: Status;
+  lesson_rate?: number | null;
+  currency?: string;
 };
 
 export type UpdatePassword = {

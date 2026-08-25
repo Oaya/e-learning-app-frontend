@@ -19,6 +19,16 @@ import type { LessonStatusType } from "@/type/lesson";
 import type { Status } from "@/type/user";
 
 export const lessonDuration = [30, 60, 90, 120] as const;
+export const currencies = [
+  "USD",
+  "JPY",
+  "EUR",
+  "GBP",
+  "AUD",
+  "CAD",
+  "SGD",
+  "KRW",
+];
 
 export const howItWorks = [
   {

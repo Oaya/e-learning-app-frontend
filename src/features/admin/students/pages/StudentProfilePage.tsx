@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { MdOutlineKeyboardBackspace, MdMessage } from "react-icons/md";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
@@ -76,7 +76,7 @@ export default function StudentProfile() {
         </div> */}
       </section>
 
-      <section className="flex flex-col gap-6 rounded-xl border border-gray-300 bg-white px-6 py-6 md:my-10 md:flex-row md:items-stretch md:justify-between md:gap-10 md:px-8">
+      <section className="flex flex-col gap-6 rounded-xl border border-gray-300 bg-white px-6 py-6 md:mt-10 md:flex-row md:items-stretch md:justify-between md:gap-10 md:px-8">
         <div className="flex items-center gap-4 gap-y-10">
           <div className="group relative h-14 w-14 shrink-0 md:h-28 md:w-28">
             <img
@@ -91,6 +91,15 @@ export default function StudentProfile() {
               {user.first_name} {user.last_name}
             </h1>
             <p className="break-all">{user.email}</p>
+            <p className="mt-1 text-sm font-medium text-gray-600">
+              Lesson rate{" "}
+              <span>
+                {user.lesson_rate != null
+                  ? Number(user.lesson_rate).toFixed(2)
+                  : ""}{" "}
+                {user.currency}
+              </span>
+            </p>
             {user.language_levels && user.language_levels.length > 0 && (
               <div className="mt-1 flex flex-wrap gap-2 md:mt-2">
                 {user.language_levels.map((ll) => (

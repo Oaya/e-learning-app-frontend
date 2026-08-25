@@ -15,6 +15,7 @@ import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
 import { useAlert } from "@/contexts/AlertContext";
 import defaultAvatar from "@/assets/user.png";
+import { currencies } from "@/utils/constants";
 
 type Props = {
   isOpen: boolean;
@@ -38,6 +39,7 @@ export default function EditStudentModal({
   const selectedLanguages = languageLevels.map((ll) => ll.language);
   const [timezone, setTimezone] = useState<string | undefined>(user.timezone);
   const [status, setStatus] = useState<Status | undefined>(user.status);
+  const [currency, setCurrency] = useState<string>(user.currency ?? "USD");
   const alert = useAlert();
 
   const { updateStudent } = useUser(user.id, {});
@@ -90,6 +92,9 @@ export default function EditStudentModal({
           },
       );
 
+      const rateRaw = fd.get("lesson_rate") as string;
+      const lessonRate = rateRaw ? parseFloat(rateRaw) : null;
+
       await updateStudent({
         first_name: fd.get("first_name") as string,
         last_name: fd.get("last_name") as string,
@@ -97,6 +102,8 @@ export default function EditStudentModal({
         language_levels: finalLanguageLevels,
         timezone: timezone ?? "",
         status: status,
+        lesson_rate: lessonRate,
+        currency: currency,
       });
 
       onClose();
@@ -163,6 +170,23 @@ export default function EditStudentModal({
                 className="form-input"
               />
             </FormField>
+            <FormField label="Status">
+              <CustomSelect
+                name="status"
+                className="form-select capitalize"
+                required
+                value={status ? { value: status, label: status } : null}
+                options={statusValue.map((s) => ({
+                  value: s,
+                  label: s,
+                }))}
+                onChange={(selected: any) =>
+                  setStatus(selected ? selected.value : undefined)
+                }
+              />
+            </FormField>
+          </div>
+          <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4">
             <FormField label="Learning languages">
               <CustomSelect
                 isMulti
@@ -182,10 +206,12 @@ export default function EditStudentModal({
                   )
                 }
               />
+            </FormField>
 
-              {/* Level per language */}
-              {selectedLanguages.length > 0 && (
-                <div className="mt-2 flex flex-col gap-1.5">
+            {/* Level per language */}
+            {selectedLanguages.length > 0 && (
+              <div className="mt-2 flex flex-col gap-1.5 md:mt-0">
+                <FormField label="Language Level" className="text-left">
                   {selectedLanguages.map((lang) => {
                     const ll = languageLevels.find((l) => l.language === lang);
                     return (
@@ -193,7 +219,7 @@ export default function EditStudentModal({
                         <span className="w-28 shrink-0 truncate text-xs text-gray-500">
                           {lang}
                         </span>
-                        <div className="level-select w-full">
+                        <div className="level-select mt-2 w-full">
                           <CustomSelect
                             className="form-select w-full text-xs capitalize"
                             value={{
@@ -212,29 +238,44 @@ export default function EditStudentModal({
                       </div>
                     );
                   })}
-                </div>
-              )}
-            </FormField>
+                </FormField>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4">
             <FormField label="Time zone">
               <TimezoneSelector value={timezone} onChange={setTimezone} />
             </FormField>
-            <FormField label="Status">
-              <CustomSelect
-                name="status"
-                className="form-select capitalize"
-                required
-                value={status ? { value: status, label: status } : null}
-                options={statusValue.map((s) => ({
-                  value: s,
-                  label: s,
-                }))}
-                onChange={(selected: any) =>
-                  setStatus(selected ? selected.value : undefined)
-                }
-              />
+            <FormField label="Lesson rate (Per hour)">
+              <div className="flex items-center gap-3">
+                <CustomSelect
+                  className="form-select w-28 shrink-0 capitalize"
+                  required
+                  menuPlacement="auto"
+                  value={{ value: currency, label: currency }}
+                  options={currencies.map((c) => ({
+                    value: c,
+                    label: c,
+                  }))}
+                  onChange={(selected: any) =>
+                    setCurrency(selected ? selected.value : undefined)
+                  }
+                />
+                <input
+                  name="lesson_rate"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  defaultValue={user.lesson_rate ?? ""}
+                  placeholder="e.g. 3000"
+                  className="form-input flex-1"
+                />
+              </div>
+
+              <p className="mt-1 text-[11px] text-gray-400">
+                Default rate used when creating invoices for this student.
+              </p>
             </FormField>
           </div>
         </div>
