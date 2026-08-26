@@ -49,6 +49,8 @@ export type Lesson = {
     email: string;
     avatar?: string;
     language_levels: LanguageLevel[];
+    lesson_rate: number;
+    currency: string;
   };
   admin: {
     first_name: string;

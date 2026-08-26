@@ -24,7 +24,7 @@ export default function ModalShell({
 
   return (
     <div className="modal-overlay p-4">
-      <div className={`w-full ${maxWidth} rounded-2xl bg-white shadow-xl`}>
+      <div className={`w-full ${maxWidth} rounded-2xl bg-white text-gray-900 shadow-xl`}>
         <div className="modal-header">
           <div>
             <h2 className="section-title">{title}</h2>

@@ -30,6 +30,8 @@ export const currencies = [
   "KRW",
 ];
 
+export const invoiceStatus = ["unpaid", "paid"];
+
 export const howItWorks = [
   {
     title: "Add your students",

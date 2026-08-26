@@ -14,6 +14,9 @@ import type { Lesson } from "@/type/lesson";
 import Badge from "@/ui/Badge";
 import { LESSON_STATUS_BADGE } from "@/utils/constants";
 import defaultAvatar from "@/assets/user.png";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import { useState } from "react";
+import CreateInvoiceModal from "./CreateInvoiceModal";
 
 type Props = {
   lesson: Lesson;
@@ -26,6 +29,8 @@ export default function LessonDetailsHeader({
   setEditOpen,
   setDeleteOpen,
 }: Props) {
+  const [createInvoiceOpen, setCreateInvoiceOpen] = useState(false);
+
   const scheduledAt = dayjs(lesson.scheduled_at);
 
   const actualMinutes = lesson.meeting_duration_in_seconds
@@ -94,8 +99,15 @@ export default function LessonDetailsHeader({
             Edit
           </button>
           <button
+            onClick={() => setCreateInvoiceOpen(true)}
+            className="btn-primary gap-1.5 px-3 py-1.5"
+          >
+            <LiaFileInvoiceDollarSolid size={15} />
+            Create Invoice
+          </button>
+          <button
             onClick={() => setDeleteOpen(true)}
-            className="btn-primary-pink flex items-center gap-1.5 px-3 py-1.5"
+            className="btn-primary-pink gap-1.5 px-3 py-1.5"
           >
             <HiOutlineTrash size={15} />
             Delete
@@ -107,6 +119,15 @@ export default function LessonDetailsHeader({
         <p className="mt-2 text-sm font-semibold text-red-400">
           This lesson is past due. Please update its status.
         </p>
+      )}
+
+      {createInvoiceOpen && (
+        <CreateInvoiceModal
+          isOpen={createInvoiceOpen}
+          onClose={() => setCreateInvoiceOpen(false)}
+          type="Create"
+          lesson={lesson}
+        />
       )}
     </div>
   );

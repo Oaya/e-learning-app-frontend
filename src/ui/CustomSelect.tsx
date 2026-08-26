@@ -12,10 +12,16 @@ type InstructorOptions = {
   withAvatar?: boolean;
 };
 
-export default function CustomSelect(props: any) {
+export default function CustomSelect({
+  styles: propStyles,
+  classNames: propClassNames,
+  className: propClassName,
+  withAvatar,
+  ...props
+}: any) {
   return (
     <Select
-      className="mb-2 w-full"
+      className={propClassName ?? "mb-2 w-full"}
       classNamePrefix="rs"
       classNames={{
         control: (state) =>
@@ -23,9 +29,15 @@ export default function CustomSelect(props: any) {
             state.isFocused ? "!border-theme-purple-50" : "!border-gray-200"
           } ${state.isDisabled ? "!bg-gray-50" : "!bg-white"}`,
         valueContainer: () => "!px-2 !py-2.5 max-sm:!px-3",
+        singleValue: () => "!text-gray-900",
+        ...propClassNames,
+      }}
+      styles={{
+        singleValue: (base) => ({ ...base, color: "#111827" }),
+        ...propStyles,
       }}
       components={
-        props.withAvatar
+        withAvatar
           ? {
               Option: CustomOption,
               MultiValueLabel: CustomMultiValueLabel,
