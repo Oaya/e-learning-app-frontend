@@ -9,7 +9,7 @@ import CustomSelect from "@/ui/CustomSelect";
 import type { Lesson } from "@/type/lesson";
 import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
-import type { InvoiceStatusType } from "@/type/invoice";
+import type { Invoice, InvoiceStatusType } from "@/type/invoice";
 import { currencies, invoiceStatus } from "@/utils/constants";
 import { useInvoices } from "../hooks/useInvoices";
 import defaultAvatar from "@/assets/user.png";
@@ -18,31 +18,44 @@ dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
 
 type ModalProps = {
-  isOpen: boolean;
+  isOpen: string; // "Create" | "Edit" | ""
   onClose: () => void;
-  type: "Create" | "Edit";
   lesson?: Lesson;
+  invoice?: Invoice;
 };
 
 export default function CreateInvoiceModal({
   isOpen,
   onClose,
-  type,
   lesson,
+  invoice,
 }: ModalProps) {
-  const { createInvoice, isCreating } = useInvoices(lesson?.id);
+  const isEdit = isOpen === "Edit" && !!invoice;
+
+  const { createInvoice, updateInvoice, isCreating, isUpdating } = useInvoices(
+    lesson?.id,
+  );
 
   const isPrefilledFromFee =
+    !isEdit &&
     lesson?.cancellation_fee_amount != null &&
     lesson.cancellation_fee_amount > 0;
 
   const [currency, setCurrency] = useState<string>(
-    lesson?.cancellation_fee_currency ?? lesson?.student.currency ?? "USD",
+    invoice?.currency ??
+      lesson?.cancellation_fee_currency ??
+      lesson?.student.currency ??
+      "USD",
   );
-  const [amount, setAmount] = useState<number>(
-    lesson?.cancellation_fee_amount ?? lesson?.student.lesson_rate ?? 0,
+  const [amount, setAmount] = useState<number | "">(
+    invoice?.amount ??
+      lesson?.cancellation_fee_amount ??
+      lesson?.student.lesson_rate ??
+      0,
   );
-  const [status, setStatus] = useState<InvoiceStatusType>("unpaid");
+  const [status, setStatus] = useState<InvoiceStatusType>(
+    invoice?.status ?? "unpaid",
+  );
 
   if (!isOpen) return null;
 
@@ -51,27 +64,43 @@ export default function CreateInvoiceModal({
     if (!lesson) return;
 
     const formData = new FormData(e.currentTarget);
+    const numericAmount = Number(amount) || 0;
 
     try {
-      await createInvoice({
-        lesson_id: lesson.id,
-        amount,
-        currency,
-        status,
-        due_date: fdString(formData, "due_date") || undefined,
-        notes: fdString(formData, "notes") || undefined,
-      });
+      if (isEdit && invoice) {
+        await updateInvoice({
+          id: invoice.id,
+          data: {
+            amount: numericAmount,
+            currency,
+            status,
+            due_date: fdString(formData, "due_date") || undefined,
+            notes: fdString(formData, "notes") || undefined,
+          },
+        });
+      } else {
+        await createInvoice({
+          lesson_id: lesson.id,
+          amount: numericAmount,
+          currency,
+          status,
+          due_date: fdString(formData, "due_date") || undefined,
+          notes: fdString(formData, "notes") || undefined,
+        });
+      }
       onClose();
     } catch {
       // handled by mutation onError
     }
   }
 
+  const isBusy = isCreating || isUpdating;
+
   return (
     <ModalShell
-      isOpen={isOpen}
+      isOpen={!!isOpen}
       onClose={onClose}
-      title={`${type === "Create" ? "Create" : "Edit"} invoice`}
+      title={`${isEdit ? "Edit" : "Create"} invoice`}
       subtitle={lesson?.topic}
       maxWidth="max-w-xl"
     >
@@ -118,8 +147,7 @@ export default function CreateInvoiceModal({
               required
               value={amount}
               onChange={(e) => {
-                const val = e.target.valueAsNumber;
-                if (!isNaN(val)) setAmount(val);
+                setAmount(e.target.value === "" ? "" : e.target.valueAsNumber);
               }}
               className="form-input"
             />
@@ -145,6 +173,11 @@ export default function CreateInvoiceModal({
             <input
               type="date"
               name="due_date"
+              defaultValue={
+                invoice?.due_date
+                  ? dayjs(invoice.due_date).format("YYYY-MM-DD")
+                  : undefined
+              }
               required
               className="form-input"
             />
@@ -168,6 +201,7 @@ export default function CreateInvoiceModal({
           <textarea
             name="notes"
             rows={2}
+            defaultValue={invoice?.notes ?? ""}
             placeholder="e.g. No show without notice"
             className="form-textarea"
           />
@@ -177,21 +211,17 @@ export default function CreateInvoiceModal({
           <button
             type="button"
             onClick={onClose}
-            disabled={isCreating}
+            disabled={isBusy}
             className="btn-primary-white"
           >
             Cancel
           </button>
-          <button
-            type="submit"
-            disabled={isCreating}
-            className="btn-primary-pink"
-          >
-            {isCreating
-              ? type === "Edit"
+          <button type="submit" disabled={isBusy} className="btn-primary-pink">
+            {isBusy
+              ? isEdit
                 ? "Saving..."
                 : "Creating..."
-              : type === "Edit"
+              : isEdit
                 ? "Save changes"
                 : "Create invoice"}
           </button>

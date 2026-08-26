@@ -63,6 +63,7 @@ export type User = {
   no_show_fee_percent?: number;
   late_cancellation_fee_percent?: number;
   cancellation_window_hours?: number;
+  has_pro_access?: boolean;
   subscription?: {
     status: string;
     plan: string;

@@ -18,7 +18,7 @@ export async function getHomeworks(studentId?: string): Promise<ApiResponse> {
   }
 }
 
-export async function getHomework(id: string): Promise<ApiResponse> {
+export async function getHomeworkById(id: string): Promise<ApiResponse> {
   try {
     const url: string = `${import.meta.env.VITE_API_URL}/api/homeworks/${id}`;
 

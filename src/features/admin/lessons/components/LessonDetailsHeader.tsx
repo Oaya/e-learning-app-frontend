@@ -15,22 +15,25 @@ import Badge from "@/ui/Badge";
 import { LESSON_STATUS_BADGE } from "@/utils/constants";
 import defaultAvatar from "@/assets/user.png";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { useState } from "react";
-import CreateInvoiceModal from "./CreateInvoiceModal";
+import type { Invoice } from "@/type/invoice";
 
 type Props = {
   lesson: Lesson;
+  invoice: Invoice | undefined;
   setEditOpen: (open: boolean) => void;
   setDeleteOpen: (open: boolean) => void;
+  setInvoiceModalOpen: (open: string) => void;
+  canTrackInvoice: boolean | undefined;
 };
 
 export default function LessonDetailsHeader({
   lesson,
+  invoice,
   setEditOpen,
   setDeleteOpen,
+  setInvoiceModalOpen,
+  canTrackInvoice,
 }: Props) {
-  const [createInvoiceOpen, setCreateInvoiceOpen] = useState(false);
-
   const scheduledAt = dayjs(lesson.scheduled_at);
 
   const actualMinutes = lesson.meeting_duration_in_seconds
@@ -98,13 +101,17 @@ export default function LessonDetailsHeader({
             <HiOutlinePencil size={15} />
             Edit
           </button>
-          <button
-            onClick={() => setCreateInvoiceOpen(true)}
-            className="btn-primary gap-1.5 px-3 py-1.5"
-          >
-            <LiaFileInvoiceDollarSolid size={15} />
-            Create Invoice
-          </button>
+
+          {canTrackInvoice && (
+            <button
+              onClick={() => setInvoiceModalOpen(invoice ? "Edit" : "Create")}
+              className="btn-primary gap-1.5 px-3 py-1.5"
+            >
+              <LiaFileInvoiceDollarSolid size={15} />
+              {invoice ? "Edit" : "Create"} Invoice
+            </button>
+          )}
+
           <button
             onClick={() => setDeleteOpen(true)}
             className="btn-primary-pink gap-1.5 px-3 py-1.5"
@@ -119,15 +126,6 @@ export default function LessonDetailsHeader({
         <p className="mt-2 text-sm font-semibold text-red-400">
           This lesson is past due. Please update its status.
         </p>
-      )}
-
-      {createInvoiceOpen && (
-        <CreateInvoiceModal
-          isOpen={createInvoiceOpen}
-          onClose={() => setCreateInvoiceOpen(false)}
-          type="Create"
-          lesson={lesson}
-        />
       )}
     </div>
   );

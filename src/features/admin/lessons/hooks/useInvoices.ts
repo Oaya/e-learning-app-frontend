@@ -17,10 +17,9 @@ export function useInvoices(lessonId?: string) {
   const invoicesQuery = useQuery<Invoice[], Error>({
     queryKey: ["invoices", lessonId ?? null],
     queryFn: async () =>
-      unwrapResponse<Invoice[]>(
-        await getInvoices(lessonId ? { lesson_id: lessonId } : undefined),
-      ),
+      unwrapResponse<Invoice[]>(await getInvoices(lessonId)),
     staleTime: 60_000,
+    enabled: false, // only used for mutations; data fetched via useInvoice
   });
 
   const createMutation = useMutation({
@@ -28,6 +27,8 @@ export function useInvoices(lessonId?: string) {
       unwrapResponse<Invoice>(await createInvoiceApi(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["invoice"] });
+      if (lessonId) queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
       alert.success("Invoice created.");
     },
     onError: (error) => {
@@ -47,6 +48,7 @@ export function useInvoices(lessonId?: string) {
     }) => unwrapResponse<Invoice>(await updateInvoiceApi(id, data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["invoice"] });
       alert.success("Invoice updated.");
     },
     onError: (error) => {
@@ -61,6 +63,8 @@ export function useInvoices(lessonId?: string) {
       unwrapResponse<void>(await deleteInvoiceApi(id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["invoice"] });
+      if (lessonId) queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
       alert.success("Invoice deleted.");
     },
     onError: (error) => {

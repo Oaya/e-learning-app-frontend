@@ -3,9 +3,9 @@ import HomeworkList from "@/features/admin/homework/components/HomeworkList";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function HomeworkPage() {
-  const { user } = useAuth();
-  const canUseAI =
-    user?.subscription?.plan === "pro" && user.subscription.status === "active";
+  const { user: authUser } = useAuth();
+  const canUseAI = authUser?.role === "admin" && authUser?.has_pro_access;
+
   return (
     <HomeworkList
       searchPlaceholder="Search student or task…"

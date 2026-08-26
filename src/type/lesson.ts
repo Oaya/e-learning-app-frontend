@@ -42,6 +42,7 @@ export type Lesson = {
   note_shared?: boolean;
   recording_url?: string;
   student_note?: string;
+  invoice_id?: string;
   student: {
     id: string;
     first_name: string;

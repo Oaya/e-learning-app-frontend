@@ -18,6 +18,9 @@ import LessonNotesViewer from "@/features/shared/lessons/components/LessonNoteVi
 import PageLoadingState from "@/ui/PageLoadingState";
 import CancellationPolicyPanel from "../components/CancellationPolicyPanel";
 import InlineStudentNote from "@/features/student/lessons/components/InlineStudentNote";
+import InvoicePanel from "@/features/admin/lessons/components/InvoicePanel";
+import { useInvoice } from "@/features/admin/lessons/hooks/useInvoice";
+import CreateInvoiceModal from "@/features/admin/lessons/components/CreateInvoiceModal";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -28,9 +31,14 @@ export default function LessonDetailPage() {
   const { deleteLesson, isDeleting } = useLessons({
     onDeleteSuccess: () => navigate("/admin/lessons"),
   });
+  const { invoice } = useInvoice(lesson?.invoice_id ?? "");
 
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [invoiceModalOpen, setInvoiceModalOpen] = useState("");
+
+  const canTrackInvoice =
+    authUser?.role === "admin" && authUser?.has_pro_access;
 
   if (isLoading) {
     return <PageLoadingState message="Loading lesson..." />;
@@ -66,6 +74,9 @@ export default function LessonDetailPage() {
           lesson={lesson}
           setEditOpen={setEditOpen}
           setDeleteOpen={setDeleteOpen}
+          setInvoiceModalOpen={setInvoiceModalOpen}
+          canTrackInvoice={canTrackInvoice}
+          invoice={invoice}
         />
       ) : (
         <StudentLessonDetailsHeader lesson={lesson} />
@@ -148,6 +159,15 @@ export default function LessonDetailPage() {
         </div>
       </div>
 
+      {/* Invoice — admin only */}
+      {canTrackInvoice && (
+        <InvoicePanel
+          lesson={lesson}
+          invoice={invoice}
+          setInvoiceModalOpen={setInvoiceModalOpen}
+        />
+      )}
+
       {authUser?.role === "student" && (
         <div className="flex flex-col gap-4 xl:grid xl:grid-cols-5">
           {/* My note  */}
@@ -189,6 +209,15 @@ export default function LessonDetailPage() {
           type="Edit"
           lesson={lesson}
           timezone={authUser?.timezone}
+        />
+      )}
+
+      {invoiceModalOpen && canTrackInvoice && (
+        <CreateInvoiceModal
+          isOpen={invoiceModalOpen}
+          onClose={() => setInvoiceModalOpen("")}
+          lesson={lesson}
+          invoice={invoice}
         />
       )}
     </div>

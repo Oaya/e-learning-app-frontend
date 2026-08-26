@@ -66,7 +66,7 @@ export default function StudentLessonDetailsHeader({ lesson }: Props) {
           <button
             type="button"
             onClick={() => setCancelOpen(true)}
-            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-red-200 px-3 py-1.5 text-sm text-red-500 hover:bg-red-50"
+            className="btn-primary-pink"
           >
             <MdOutlineFreeCancellation size={15} />
             Cancel lesson
