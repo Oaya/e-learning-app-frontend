@@ -13,13 +13,14 @@ import EmptyState from "@/ui/EmptyState";
 import UpsertLessonModal from "./UpsertLessonModal";
 import TabFilters from "@/ui/TabFilters";
 import LessonCard from "./LessonCard";
-import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
+
 import { useUpcomingPastSplit } from "@/features/shared/lessons/hooks/useUpcomingPastSplit";
 import {
   LESSON_TABS,
   type LessonFilterTab,
 } from "@/features/shared/lessons/constants";
 import type { User } from "@/type/user";
+import { useLessons } from "../hooks/useLessons";
 
 type LessonsListProps = {
   studentId?: string;
@@ -36,7 +37,7 @@ export default function LessonsList({
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const { user } = useAuth();
-  const { lessons } = useAllLessons(studentId);
+  const { lessons } = useLessons(studentId);
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {

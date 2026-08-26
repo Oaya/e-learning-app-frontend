@@ -44,8 +44,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
   const [editLessonId, setEditLessonId] = useState<string | null>(null);
   const [completeLessonId, setCompleteLessonId] = useState<string | null>(null);
   const [deleteLessonId, setDeleteLessonId] = useState<string | null>(null);
-
-  const { isDeleting, deleteLesson } = useLessons({
+  const { isDeleting, deleteLesson } = useLessons(undefined, {
     onDeleteSuccess: () => setDeleteLessonId(null),
   });
 

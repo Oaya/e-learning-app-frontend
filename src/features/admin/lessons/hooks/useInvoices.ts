@@ -10,16 +10,15 @@ import {
 } from "@/api/invoices";
 import { useAlert } from "@/contexts/AlertContext";
 
-export function useInvoices(lessonId?: string) {
+export function useInvoices(studentId?: string) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
   const invoicesQuery = useQuery<Invoice[], Error>({
-    queryKey: ["invoices", lessonId ?? null],
+    queryKey: ["invoices", studentId ?? null],
     queryFn: async () =>
-      unwrapResponse<Invoice[]>(await getInvoices(lessonId)),
+      unwrapResponse<Invoice[]>(await getInvoices(studentId)),
     staleTime: 60_000,
-    enabled: false, // only used for mutations; data fetched via useInvoice
   });
 
   const createMutation = useMutation({
@@ -28,7 +27,6 @@ export function useInvoices(lessonId?: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       queryClient.invalidateQueries({ queryKey: ["invoice"] });
-      if (lessonId) queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
       alert.success("Invoice created.");
     },
     onError: (error) => {
@@ -64,7 +62,6 @@ export function useInvoices(lessonId?: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       queryClient.invalidateQueries({ queryKey: ["invoice"] });
-      if (lessonId) queryClient.invalidateQueries({ queryKey: ["lesson", lessonId] });
       alert.success("Invoice deleted.");
     },
     onError: (error) => {

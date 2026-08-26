@@ -4,21 +4,31 @@ import type { Lesson, UpsertLesson } from "@/type/lesson";
 import {
   createLesson,
   deleteLesson,
+  getLessons,
   getTodayLessons,
   updateLesson as updateLessonApi,
 } from "@/api/lessons";
 import { unwrapResponse } from "@/api/helper";
 
-export function useLessons(options?: {
-  onDeleteSuccess?: () => void;
-  onCancelSuccess?: () => void;
-}) {
+export function useLessons(
+  studentId?: string,
+  options?: {
+    onDeleteSuccess?: () => void;
+    onCancelSuccess?: () => void;
+  },
+) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
-  const lessonsQuery = useQuery<Lesson[], Error>({
+  const todayLessonsQuery = useQuery<Lesson[], Error>({
     queryKey: ["lessons", "today"],
     queryFn: async () => unwrapResponse<Lesson[]>(await getTodayLessons()),
+    staleTime: 60_000,
+  });
+
+  const lessonsQuery = useQuery<Lesson[], Error>({
+    queryKey: ["lessons", studentId ?? null],
+    queryFn: async () => unwrapResponse<Lesson[]>(await getLessons(studentId)),
     staleTime: 60_000,
   });
 
@@ -27,7 +37,7 @@ export function useLessons(options?: {
       unwrapResponse<Lesson>(await createLesson(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
-      queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons"] });
       alert.success("Lesson created successfully.");
     },
     onError: (err) => {
@@ -58,7 +68,7 @@ export function useLessons(options?: {
       unwrapResponse<Lesson>(await updateLessonApi(id, data)),
     onSuccess: (_data, { id }) => {
       queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
-      queryClient.invalidateQueries({ queryKey: ["lessons", "all"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons"] });
       queryClient.invalidateQueries({ queryKey: ["lesson", id] });
       alert.success("Lesson updated successfully.");
     },
@@ -70,6 +80,8 @@ export function useLessons(options?: {
   });
 
   return {
+    ...todayLessonsQuery,
+    todayLessons: todayLessonsQuery.data,
     ...lessonsQuery,
     lessons: lessonsQuery.data,
     createLesson: createMutation.mutateAsync,

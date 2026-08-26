@@ -53,7 +53,7 @@ export default function StudentsPage() {
 
   const unpaid = new Set(
     lessons
-      .filter((l) => l.status === "completed" && l.payment_status === "unpaid")
+      .filter((l) => l.status === "completed" && l.invoice_status === "unpaid")
       .map((l) => l.student.id),
   ).size;
 

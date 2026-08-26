@@ -28,7 +28,7 @@ export default function LessonDetailPage() {
   const { user: authUser } = useAuth();
 
   const { lesson, isLoading } = useLesson(id!);
-  const { deleteLesson, isDeleting } = useLessons({
+  const { deleteLesson, isDeleting } = useLessons(undefined, {
     onDeleteSuccess: () => navigate("/admin/lessons"),
   });
   const { invoice } = useInvoice(lesson?.invoice_id ?? "");

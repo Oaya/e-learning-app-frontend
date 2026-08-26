@@ -6,7 +6,7 @@ export type LessonStatusType =
   | "completed"
   | "no_show";
 
-export type PaymentStatusType = "paid" | "unpaid";
+export type InvoiceStatusType = "paid" | "unpaid";
 
 export type UpsertLesson = {
   student_id: string;
@@ -33,7 +33,7 @@ export type Lesson = {
   teacher_note: string | null;
   language: string;
   status: LessonStatusType;
-  payment_status: PaymentStatusType;
+  invoice_status?: InvoiceStatusType | null;
   cancellation_fee_amount?: number | null;
   cancellation_fee_currency?: string | null;
   meeting_duration_in_seconds?: number;
