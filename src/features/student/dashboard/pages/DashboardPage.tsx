@@ -8,13 +8,13 @@ import { greeting } from "@/utils/helper";
 import StatCard from "@/ui/StatCard";
 import UpcomingLessonsPanel from "@/features/student/dashboard/components/UpcomingLessonsPanel";
 import HomeworkPanel from "@/features/student/dashboard/components/HomeworkPanel";
-import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import GoalsPanel from "@/features/shared/goals/components/GoalsPanel";
+import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
 
 export default function StudentDashboardPage() {
   const { user } = useAuth();
-  const { lessons } = useAllLessons();
+  const { lessons } = useLessons();
   const { homeworks } = useHomeworks();
   const { goals } = useGoals(user?.id);
 

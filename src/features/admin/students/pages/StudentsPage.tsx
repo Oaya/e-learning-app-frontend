@@ -3,6 +3,7 @@ import { LuSlidersHorizontal } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import {
+  HiCreditCard,
   HiOutlineCheckCircle,
   HiOutlineCurrencyDollar,
   HiUsers,
@@ -15,14 +16,19 @@ import UserFilterDropDown from "@/features/admin/students/components/UserFilterD
 import UsersTable from "@/features/admin/students/components/UsersTable";
 import { useUserTableControl } from "@/features/admin/students/hooks/useUserTableControl";
 import StatCard from "@/ui/StatCard";
-import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
 import PageLoadingState from "@/ui/PageLoadingState";
+import { useLessons } from "../../lessons/hooks/useLessons";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function StudentsPage() {
+  const { user: authUser } = useAuth();
   const [isInviteOpen, setInviteOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [userOffset, setUserOffset] = useState(0);
+
+  const canTrackInvoice =
+    authUser?.role === "admin" && authUser?.has_pro_access;
 
   const {
     sorts,
@@ -47,15 +53,15 @@ export default function StudentsPage() {
     sorts,
   });
 
-  const { lessons = [] } = useAllLessons();
+  const { lessons = [] } = useLessons();
 
   const active = users.filter((u) => u.status === "active").length;
 
-  const unpaid = new Set(
-    lessons
-      .filter((l) => l.status === "completed" && l.invoice_status === "unpaid")
-      .map((l) => l.student.id),
-  ).size;
+  const unpaidLessons =
+    lessons?.filter((l) => l.invoice_id && l.invoice_status === "unpaid") ?? [];
+
+  const unpaidStudentCount = new Set(unpaidLessons.map((l) => l.student.id))
+    .size;
 
   const itemsPerPage = 10;
   const endOffset = userOffset + itemsPerPage;
@@ -105,14 +111,26 @@ export default function StudentsPage() {
 
       {/* Stats */}
       <section className="grid grid-cols-3 gap-2 md:gap-4">
-        <StatCard icon={HiUsers} label="Total" value={users.length ?? 0} />
-        <StatCard icon={HiOutlineCheckCircle} label="Active" value={active} />
         <StatCard
-          icon={HiOutlineCurrencyDollar}
-          label="Unpaid"
-          value={unpaid}
-          sub="Owes for lessons"
+          icon={HiUsers}
+          label="Total"
+          value={users.length ?? 0}
+          sub={`Student${users.length === 1 ? "" : "s"}`}
         />
+        <StatCard
+          icon={HiOutlineCheckCircle}
+          label="Active"
+          value={active}
+          sub={`Student${active === 1 ? "" : "s"}`}
+        />
+        {canTrackInvoice && (
+          <StatCard
+            icon={HiCreditCard}
+            label="Unpaid"
+            value={unpaidStudentCount}
+            sub="Owes for lessons"
+          />
+        )}
       </section>
 
       <div className="flex items-center">

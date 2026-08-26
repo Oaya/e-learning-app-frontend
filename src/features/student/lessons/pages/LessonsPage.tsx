@@ -12,18 +12,18 @@ import CardHeader from "@/ui/CardHeader";
 import EmptyState from "@/ui/EmptyState";
 import StudentLessonCard from "@/features/student/lessons/components/StudentLessonCard";
 import StatCard from "@/ui/StatCard";
-import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
 import { useUpcomingPastSplit } from "@/features/shared/lessons/hooks/useUpcomingPastSplit";
 import {
   LESSON_TABS,
   type LessonFilterTab,
 } from "@/features/shared/lessons/constants";
+import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
 
 dayjs.extend(relativeTime);
 
 export default function StudentLessonsPage() {
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
-  const { lessons, isLoading } = useAllLessons();
+  const { lessons, isLoading } = useLessons();
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {

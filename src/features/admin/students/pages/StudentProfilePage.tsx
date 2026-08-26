@@ -12,7 +12,6 @@ import { useUser } from "@/features/admin/students/hooks/useUser";
 import StatCard from "@/ui/StatCard";
 import ConfirmModal from "@/ui/ConfirmModal";
 import EditStudentModal from "@/features/admin/students/components/EditStudentModal";
-import { useAllLessons } from "@/features/shared/lessons/hooks/useAllLessons";
 import LessonsPanel from "@/features/admin/students/components/LessonsPanel";
 import HomeworksPanel from "@/features/admin/students/components/HomeworksPanel";
 import GoalsPanel from "@/features/shared/goals/components/GoalsPanel";
@@ -20,6 +19,7 @@ import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import Badge from "@/ui/Badge";
 import { USER_STATUS_BADGE } from "@/utils/constants";
 import PageLoadingState from "@/ui/PageLoadingState";
+import { useLessons } from "../../lessons/hooks/useLessons";
 
 export default function StudentProfile() {
   // Keep local form state, initialized safely even when user is null
@@ -27,7 +27,7 @@ export default function StudentProfile() {
   const navigate = useNavigate();
   const userId = id || "";
   const { user, isLoading } = useUser(userId);
-  const { lessons } = useAllLessons(userId);
+  const { lessons } = useLessons(userId);
   const { homeworks } = useHomeworks(userId);
   const { goals } = useGoals(userId);
 

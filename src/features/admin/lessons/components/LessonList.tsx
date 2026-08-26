@@ -4,6 +4,7 @@ import {
   HiOutlineCalendarDays,
   HiOutlineCalendar,
   HiOutlineClock,
+  HiCreditCard,
 } from "react-icons/hi2";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -36,8 +37,12 @@ export default function LessonsList({
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const { user } = useAuth();
+  const { user: authUser } = useAuth();
   const { lessons } = useLessons(studentId);
+  const { lessons: allLessons } = useLessons();
+
+  const canTrackInvoice =
+    authUser?.role === "admin" && authUser?.has_pro_access;
 
   const filtered = useMemo(() => {
     return lessons?.filter((s) => {
@@ -80,6 +85,11 @@ export default function LessonsList({
     }
   }
 
+  const unpaidLessons =
+    lessons?.filter((l) => l.invoice_id && l.invoice_status === "unpaid") ?? [];
+  const unpaidStudentCount = new Set(unpaidLessons.map((l) => l.student.id))
+    .size;
+
   return (
     <div className="page-container">
       {/* Top bar */}
@@ -102,7 +112,11 @@ export default function LessonsList({
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-2 md:gap-4">
+      <section
+        className={`grid grid-cols-2 gap-2 md:gap-4 md:pt-4 ${
+          canTrackInvoice ? "lg:grid-cols-4" : "lg:grid-cols-3"
+        }`}
+      >
         <StatCard
           icon={HiOutlineCalendar}
           label="This month"
@@ -121,7 +135,15 @@ export default function LessonsList({
           value={upcomingCountForThisWeek ?? 0}
           sub="next 7 days"
         />
-      </div>
+        {canTrackInvoice && (
+          <StatCard
+            icon={HiCreditCard}
+            label="Unpaid lessons"
+            value={unpaidLessons.length}
+            sub={`Across ${unpaidStudentCount} student${unpaidStudentCount === 1 ? "" : "s"}`}
+          />
+        )}
+      </section>
 
       {/* Filters */}
       <div className="items-center xl:flex">
@@ -173,8 +195,8 @@ export default function LessonsList({
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         type="Create"
-        lessons={lessons}
-        timezone={user?.timezone}
+        lessons={allLessons}
+        timezone={authUser?.timezone}
         student={student}
       />
     </div>
