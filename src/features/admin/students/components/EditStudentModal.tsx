@@ -14,8 +14,8 @@ import TimezoneSelector from "@/ui/TimezoneSelector";
 import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
 import { useAlert } from "@/contexts/AlertContext";
+import { useAuth } from "@/contexts/AuthContext";
 import defaultAvatar from "@/assets/user.png";
-import { currencies } from "@/utils/constants";
 
 type Props = {
   isOpen: boolean;
@@ -39,7 +39,8 @@ export default function EditStudentModal({
   const selectedLanguages = languageLevels.map((ll) => ll.language);
   const [timezone, setTimezone] = useState<string | undefined>(user.timezone);
   const [status, setStatus] = useState<Status | undefined>(user.status);
-  const [currency, setCurrency] = useState<string>(user.currency ?? "USD");
+  const { user: adminUser } = useAuth();
+  const currency = adminUser?.currency ?? "-";
   const alert = useAlert();
 
   const { updateStudent } = useUser(user.id, {});
@@ -103,7 +104,6 @@ export default function EditStudentModal({
         timezone: timezone ?? "",
         status: status,
         lesson_rate: lessonRate,
-        currency: currency,
       });
 
       onClose();
@@ -249,19 +249,9 @@ export default function EditStudentModal({
             </FormField>
             <FormField label="Lesson rate (Per hour)">
               <div className="flex items-center gap-3">
-                <CustomSelect
-                  className="form-select w-28 shrink-0 capitalize"
-                  required
-                  menuPlacement="auto"
-                  value={{ value: currency, label: currency }}
-                  options={currencies.map((c) => ({
-                    value: c,
-                    label: c,
-                  }))}
-                  onChange={(selected: any) =>
-                    setCurrency(selected ? selected.value : undefined)
-                  }
-                />
+                <div className="form-input flex w-16 shrink-0 items-center justify-center bg-gray-50 text-gray-500">
+                  {currency}
+                </div>
                 <input
                   name="lesson_rate"
                   type="number"

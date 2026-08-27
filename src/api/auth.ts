@@ -92,6 +92,10 @@ export async function updateUserData(data: UpdateUser): Promise<ApiResponse> {
       timezone: data.timezone,
     };
 
+    if (data.currency !== undefined) {
+      updatePayload.currency = data.currency;
+    }
+
     // Replace avatar
     if (data.avatar instanceof File) {
       updatePayload.avatar_signed_id = await directUploadToActiveStorage(

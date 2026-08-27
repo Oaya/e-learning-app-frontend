@@ -10,8 +10,9 @@ import type { Lesson } from "@/type/lesson";
 import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
 import type { Invoice, InvoiceStatusType } from "@/type/invoice";
-import { currencies, invoiceStatus } from "@/utils/constants";
+import { invoiceStatus } from "@/utils/constants";
 import { useInvoices } from "../hooks/useInvoices";
+import { useAuth } from "@/contexts/AuthContext";
 import defaultAvatar from "@/assets/user.png";
 
 dayjs.extend(utc);
@@ -32,6 +33,7 @@ export default function CreateInvoiceModal({
 }: ModalProps) {
   const isEdit = isOpen === "Edit" && !!invoice;
 
+  const { user } = useAuth();
   const { createInvoice, updateInvoice, isCreating, isUpdating } = useInvoices(
     lesson?.id,
   );
@@ -41,12 +43,7 @@ export default function CreateInvoiceModal({
     lesson?.cancellation_fee_amount != null &&
     lesson.cancellation_fee_amount > 0;
 
-  const [currency, setCurrency] = useState<string>(
-    invoice?.currency ??
-      lesson?.cancellation_fee_currency ??
-      lesson?.student.currency ??
-      "USD",
-  );
+  const currency = user?.currency ?? "USD";
   const [amount, setAmount] = useState<number | "">(
     invoice?.amount ??
       lesson?.cancellation_fee_amount ??
@@ -72,7 +69,6 @@ export default function CreateInvoiceModal({
           id: invoice.id,
           data: {
             amount: numericAmount,
-            currency,
             status,
             due_date: fdString(formData, "due_date") || undefined,
             notes: fdString(formData, "notes") || undefined,
@@ -82,7 +78,6 @@ export default function CreateInvoiceModal({
         await createInvoice({
           lesson_id: lesson.id,
           amount: numericAmount,
-          currency,
           status,
           due_date: fdString(formData, "due_date") || undefined,
           notes: fdString(formData, "notes") || undefined,
@@ -154,16 +149,9 @@ export default function CreateInvoiceModal({
           </FormField>
 
           <FormField label="Currency">
-            <CustomSelect
-              className="capitalize"
-              required
-              menuPlacement="auto"
-              value={{ value: currency, label: currency }}
-              options={currencies.map((c) => ({ value: c, label: c }))}
-              onChange={(selected: any) =>
-                setCurrency(selected ? selected.value : "USD")
-              }
-            />
+            <div className="form-input flex items-center bg-gray-50 text-gray-500">
+              {currency}
+            </div>
           </FormField>
         </div>
 

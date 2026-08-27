@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";
 import defaultAvatar from "@/assets/user.png";
 import { useUser } from "@/features/admin/students/hooks/useUser";
+import { useAuth } from "@/contexts/AuthContext";
 import StatCard from "@/ui/StatCard";
 import ConfirmModal from "@/ui/ConfirmModal";
 import EditStudentModal from "@/features/admin/students/components/EditStudentModal";
@@ -27,6 +28,7 @@ export default function StudentProfile() {
   const navigate = useNavigate();
   const userId = id || "";
   const { user, isLoading } = useUser(userId);
+  const { user: adminUser } = useAuth();
   const { lessons } = useLessons(userId);
   const { homeworks } = useHomeworks(userId);
   const { goals } = useGoals(userId);
@@ -97,7 +99,7 @@ export default function StudentProfile() {
                 {user.lesson_rate != null
                   ? Number(user.lesson_rate).toFixed(2)
                   : ""}{" "}
-                {user.currency}
+                {adminUser?.currency}
               </span>
             </p>
             {user.language_levels && user.language_levels.length > 0 && (

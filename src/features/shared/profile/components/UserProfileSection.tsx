@@ -4,10 +4,12 @@ import { HiOutlineSparkles } from "react-icons/hi2";
 
 import defaultAvatar from "@/assets/user.png";
 import TimezoneSelector from "@/ui/TimezoneSelector";
+import CustomSelect from "@/ui/CustomSelect";
 import type { User } from "@/type/user";
 import { useAuth } from "@/contexts/AuthContext";
 import { useAlert } from "@/contexts/AlertContext";
 import UpdatePasswordModal from "@/features/admin/students/components/UpdatePasswordModal";
+import { currencies } from "@/utils/constants";
 
 type Props = {
   user: User;
@@ -20,10 +22,12 @@ export default function UserProfileSection({ user }: Props) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [timezone, setTimezone] = useState<string>("");
+  const [currency, setCurrency] = useState("");
   const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
+  const isAdmin = user.role === "admin";
   const alert = useAlert();
 
   useEffect(() => {
@@ -35,6 +39,7 @@ export default function UserProfileSection({ user }: Props) {
       setEmail(user?.email ?? "");
       setAvatarPreviewUrl(user?.avatar ?? null);
       setTimezone(user?.timezone ?? "");
+      setCurrency(user?.currency ?? "");
       // Clear pending file selection when user changes
       setAvatarFile(null);
     }
@@ -73,6 +78,7 @@ export default function UserProfileSection({ user }: Props) {
       email,
       timezone: timezone,
       avatar: avatarFile ?? undefined, // omit when no new file chosen so the existing avatar isn't cleared
+      currency: isAdmin ? currency.trim().toUpperCase() : undefined,
     });
 
     if (res.success) {
@@ -88,6 +94,7 @@ export default function UserProfileSection({ user }: Props) {
       last_name: user?.last_name ?? "",
       email: user?.email ?? "",
       timezone: user?.timezone ?? null,
+      currency: user?.currency ?? "",
       avatar: user?.avatar ?? null,
     };
   }, [user]);
@@ -97,6 +104,7 @@ export default function UserProfileSection({ user }: Props) {
     lastName !== initialProfile.last_name ||
     email !== initialProfile.email ||
     timezone !== initialProfile.timezone ||
+    (isAdmin && currency !== initialProfile.currency) ||
     avatarFile !== null ||
     avatarPreviewUrl !== initialProfile.avatar;
 
@@ -193,9 +201,31 @@ export default function UserProfileSection({ user }: Props) {
               />
             </div>
 
-            <div>
-              <label className="sm-label">Time zone</label>
-              <TimezoneSelector value={timezone} onChange={setTimezone} />
+            <div className={isAdmin ? "grid grid-cols-4 gap-3" : undefined}>
+              <div className={isAdmin ? "col-span-3" : undefined}>
+                <label className="sm-label">Time zone</label>
+                <TimezoneSelector value={timezone} onChange={setTimezone} />
+              </div>
+
+              {isAdmin && (
+                <div className="col-span-1">
+                  <label className="sm-label">Currency</label>
+                  <CustomSelect
+                    name="currency"
+                    className="form-select capitalize"
+                    required
+                    menuPlacement="auto"
+                    value={currency ? { value: currency, label: currency } : null}
+                    options={currencies.map((c) => ({
+                      value: c,
+                      label: c,
+                    }))}
+                    onChange={(selected: any) =>
+                      setCurrency(selected ? selected.value : "")
+                    }
+                  />
+                </div>
+              )}
             </div>
           </div>
 

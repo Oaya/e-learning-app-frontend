@@ -1,6 +1,6 @@
 import { HiHome, HiUsers } from "react-icons/hi2";
 import { LuNewspaper, LuCalendar1 } from "react-icons/lu";
-// import { MdPayment } from "react-icons/md";
+import { MdPayment } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 
 import { useAuth } from "@/contexts/AuthContext";
@@ -41,9 +41,9 @@ export default function AdminSidebarLayout() {
 
       <section className="text-sm font-semibold text-gray-600">
         <h2 className="px-10">ADMIN</h2>
-        {/* <StyledNavLink to="/admin/payment" icon={MdPayment}>
-          Payment
-        </StyledNavLink> */}
+        <StyledNavLink to="/admin/payment" icon={MdPayment}>
+          Payments
+        </StyledNavLink>
         <StyledNavLink to="/profile" icon={IoMdSettings}>
           Profile
         </StyledNavLink>

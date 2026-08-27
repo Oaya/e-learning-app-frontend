@@ -2,12 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { LuSlidersHorizontal } from "react-icons/lu";
 import { IoIosClose } from "react-icons/io";
 import ReactPaginate from "react-paginate";
-import {
-  HiCreditCard,
-  HiOutlineCheckCircle,
-  HiOutlineCurrencyDollar,
-  HiUsers,
-} from "react-icons/hi2";
 import { HiOutlineMail } from "react-icons/hi";
 
 import { useUsers } from "@/features/admin/students/hooks/useUsers";
@@ -15,20 +9,13 @@ import InviteUserModal from "@/features/admin/students/components/InviteUserModa
 import UserFilterDropDown from "@/features/admin/students/components/UserFilterDropDown";
 import UsersTable from "@/features/admin/students/components/UsersTable";
 import { useUserTableControl } from "@/features/admin/students/hooks/useUserTableControl";
-import StatCard from "@/ui/StatCard";
 import PageLoadingState from "@/ui/PageLoadingState";
-import { useLessons } from "../../lessons/hooks/useLessons";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function StudentsPage() {
-  const { user: authUser } = useAuth();
   const [isInviteOpen, setInviteOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [userOffset, setUserOffset] = useState(0);
-
-  const canTrackInvoice =
-    authUser?.role === "admin" && authUser?.has_pro_access;
 
   const {
     sorts,
@@ -52,16 +39,6 @@ export default function StudentsPage() {
     search: searchInput,
     sorts,
   });
-
-  const { lessons = [] } = useLessons();
-
-  const active = users.filter((u) => u.status === "active").length;
-
-  const unpaidLessons =
-    lessons?.filter((l) => l.invoice_id && l.invoice_status === "unpaid") ?? [];
-
-  const unpaidStudentCount = new Set(unpaidLessons.map((l) => l.student.id))
-    .size;
 
   const itemsPerPage = 10;
   const endOffset = userOffset + itemsPerPage;
@@ -97,7 +74,12 @@ export default function StudentsPage() {
     <div className="page-container">
       {/* Top bar */}
       <div className="page-header-row">
-        <h1 className="page-title">Your Students</h1>
+        <div>
+          <h1 className="page-title">Your Students</h1>
+          <p className="mt-0.5 text-sm text-gray-400">
+            Total: {users.length} student{users.length === 1 ? "" : "s"}
+          </p>
+        </div>
 
         <div className="flex gap-2">
           <button
@@ -108,30 +90,6 @@ export default function StudentsPage() {
           </button>
         </div>
       </div>
-
-      {/* Stats */}
-      <section className="grid grid-cols-3 gap-2 md:gap-4">
-        <StatCard
-          icon={HiUsers}
-          label="Total"
-          value={users.length ?? 0}
-          sub={`Student${users.length === 1 ? "" : "s"}`}
-        />
-        <StatCard
-          icon={HiOutlineCheckCircle}
-          label="Active"
-          value={active}
-          sub={`Student${active === 1 ? "" : "s"}`}
-        />
-        {canTrackInvoice && (
-          <StatCard
-            icon={HiCreditCard}
-            label="Unpaid"
-            value={unpaidStudentCount}
-            sub="Owes for lessons"
-          />
-        )}
-      </section>
 
       <div className="flex items-center">
         <input

@@ -94,6 +94,7 @@ export type UpdateUser = {
   last_name: string;
   timezone: string;
   avatar?: File | null;
+  currency?: string;
 };
 
 export type UpdatePolicy = {
@@ -110,7 +111,6 @@ export type UpdateStudentData = {
   timezone: string;
   status: Status;
   lesson_rate?: number | null;
-  currency?: string;
 };
 
 export type UpdatePassword = {

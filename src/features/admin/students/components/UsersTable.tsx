@@ -4,6 +4,7 @@ import { HiOutlineChevronRight } from "react-icons/hi2";
 import type { LanguageLevel, User, UserSort } from "@/type/user";
 import SortButton from "@/ui/SortButton";
 import defaultAvatar from "@/assets/user.png";
+import { useAuth } from "@/contexts/AuthContext";
 
 function formatLanguages(languageLevels?: LanguageLevel[]) {
   if (!languageLevels || languageLevels.length === 0) return "—";
@@ -36,6 +37,9 @@ export default function UsersTable({
   sorts: UserSort[];
   onToggleSort: (field: string) => void;
 }) {
+  const { user: adminUser } = useAuth();
+  const currency = adminUser?.currency ?? "USD";
+
   function getSortValue(field: UserSort["field"]) {
     return sorts.find((s) => s.field === field)?.dir;
   }
@@ -154,7 +158,7 @@ export default function UsersTable({
                   {u.lesson_rate != null
                     ? Number(u.lesson_rate).toFixed(2)
                     : ""}{" "}
-                  {u.currency}
+                  {currency}
                 </td>
                 <td className="p-2 text-gray-600 capitalize">{u.status}</td>
               </tr>
