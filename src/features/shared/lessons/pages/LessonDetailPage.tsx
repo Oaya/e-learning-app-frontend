@@ -92,7 +92,7 @@ export default function LessonDetailPage() {
               <p className="mt-0.5 text-amber-700">
                 A fee of{" "}
                 <span className="font-semibold">
-                  {lesson.cancellation_fee_currency ?? "USD"}{" "}
+                  {lesson.admin.currency ?? "USD"}{" "}
                   {Number(lesson.cancellation_fee_amount).toFixed(2)}
                 </span>{" "}
                 has been recorded for this lesson due to late cancellation or no
