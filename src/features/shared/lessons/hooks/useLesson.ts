@@ -18,6 +18,7 @@ export function useLesson(id: string) {
     queryKey: ["lesson", id],
     queryFn: async () => unwrapResponse<Lesson>(await getLessonById(id)),
     staleTime: 60_000,
+    enabled: !!id,
   });
 
   const updateMutation = useMutation({

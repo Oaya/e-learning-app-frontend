@@ -25,7 +25,7 @@ type ModalProps = {
   invoice?: Invoice;
 };
 
-export default function CreateInvoiceModal({
+export default function UpsertInvoiceModal({
   isOpen,
   onClose,
   lesson,
@@ -34,9 +34,8 @@ export default function CreateInvoiceModal({
   const isEdit = isOpen === "Edit" && !!invoice;
 
   const { user } = useAuth();
-  const { createInvoice, updateInvoice, isCreating, isUpdating } = useInvoices(
-    lesson?.id,
-  );
+  const { createInvoice, updateInvoice, isCreating, isUpdating } =
+    useInvoices();
 
   const isPrefilledFromFee =
     !isEdit &&
@@ -58,12 +57,13 @@ export default function CreateInvoiceModal({
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!lesson) return;
 
     const formData = new FormData(e.currentTarget);
     const numericAmount = Number(amount) || 0;
 
     try {
+      const paid_at = status === "paid" ? new Date().toISOString() : null;
+
       if (isEdit && invoice) {
         await updateInvoice({
           id: invoice.id,
@@ -72,16 +72,20 @@ export default function CreateInvoiceModal({
             status,
             due_date: fdString(formData, "due_date") || undefined,
             notes: fdString(formData, "notes") || undefined,
+            paid_at: paid_at,
           },
         });
-      } else {
+      } else if (lesson) {
         await createInvoice({
           lesson_id: lesson.id,
           amount: numericAmount,
           status,
           due_date: fdString(formData, "due_date") || undefined,
           notes: fdString(formData, "notes") || undefined,
+          paid_at: paid_at,
         });
+      } else {
+        return;
       }
       onClose();
     } catch {

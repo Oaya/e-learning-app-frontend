@@ -42,7 +42,7 @@ export function useInvoices(studentId?: string) {
       data,
     }: {
       id: string;
-      data: Partial<CreateInvoiceData> & { paid_at?: string };
+      data: Partial<CreateInvoiceData> & { paid_at?: string | null };
     }) => unwrapResponse<Invoice>(await updateInvoiceApi(id, data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });

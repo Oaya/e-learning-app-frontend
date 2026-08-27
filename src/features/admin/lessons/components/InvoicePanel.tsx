@@ -17,14 +17,9 @@ type Props = {
   setInvoiceModalOpen: (open: string) => void;
 };
 
-export default function InvoicePanel({
-  lesson,
-  invoice,
-  setInvoiceModalOpen,
-}: Props) {
-  const { updateInvoice, deleteInvoice, isUpdating, isDeleting } = useInvoices(
-    lesson.id,
-  );
+export default function InvoicePanel({ invoice, setInvoiceModalOpen }: Props) {
+  const { updateInvoice, deleteInvoice, isUpdating, isDeleting } =
+    useInvoices();
 
   async function handleMarkPaid() {
     if (!invoice) return;

@@ -31,4 +31,5 @@ export type CreateInvoiceData = {
   status: InvoiceStatusType;
   due_date?: string;
   notes?: string;
+  paid_at?: string | null | undefined;
 };

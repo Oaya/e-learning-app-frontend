@@ -20,7 +20,7 @@ export async function createInvoice(
 
 export async function updateInvoice(
   id: string,
-  data: Partial<CreateInvoiceData> & { paid_at?: string },
+  data: Partial<CreateInvoiceData> & { paid_at?: string | null },
 ): Promise<ApiResponse> {
   try {
     const url = `${import.meta.env.VITE_API_URL}/api/invoices/${id}`;

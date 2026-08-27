@@ -11,6 +11,9 @@ import {
   HiOutlineCurrencyDollar,
   HiOutlineDocumentText,
 } from "react-icons/hi2";
+import { useAuth } from "@/contexts/AuthContext";
+import InvoiceChart from "../components/InvoiceChart";
+import { groupInvoicesByMonth } from "@/utils/helper";
 
 const statusOptions = [
   { value: "all", label: "All statuses" },
@@ -19,6 +22,7 @@ const statusOptions = [
 
 export default function PaymentsPage() {
   const { invoices = [], isLoading } = useInvoices();
+  const { user: authUser } = useAuth();
 
   const [searchInput, setSearchInput] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
@@ -50,6 +54,13 @@ export default function PaymentsPage() {
 
   const pageCount = Math.ceil(filtered.length / itemsPerPage);
 
+  const uniqueStudentCount = new Set(invoices.map((i) => i.student.id)).size;
+
+  const monthlyData = useMemo(
+    () => groupInvoicesByMonth(invoices),
+    [invoices],
+  );
+
   useEffect(() => {
     setUserOffset(0);
   }, [searchInput, selectedStatus]);
@@ -64,7 +75,15 @@ export default function PaymentsPage() {
   }
 
   //Stats
-  // const
+  const totalEarn = invoices.reduce((acc, invoice) => {
+    return invoice.status === "paid" ? acc + Number(invoice.amount) : acc;
+  }, 0);
+
+  const outstanding = invoices.reduce((acc, invoice) => {
+    return invoice.status === "unpaid" ? acc + Number(invoice.amount) : acc;
+  }, 0);
+
+  const unpaidCount = invoices.filter((i) => i.status === "unpaid").length;
 
   return (
     <div className="page-container">
@@ -73,29 +92,36 @@ export default function PaymentsPage() {
         <div>
           <h1 className="page-title">Payments</h1>
           <p className="mt-0.5 text-sm text-gray-400">
-            Total: {invoices.length} invoice{invoices.length === 1 ? "" : "s"}
+            Total: {uniqueStudentCount} student
+            {uniqueStudentCount === 1 ? "" : "s"} · {invoices.length} invoice
+            {invoices.length === 1 ? "" : "s"}
           </p>
         </div>
       </div>
 
       {/* Stats */}
-      {/* <section className="grid grid-cols-2 gap-2 md:gap-4 md:pt-4 lg:grid-cols-3">
+      <section className="grid grid-cols-2 gap-2 md:gap-4 md:pt-4 lg:grid-cols-3">
         <StatCard
           icon={HiOutlineCurrencyDollar}
           label="Total Earned"
-          value=
+          value={`${totalEarn} ${authUser?.currency}`}
         />
         <StatCard
           icon={HiOutlineClock}
           label="Outstanding"
-          value=
+          value={`${outstanding} ${authUser?.currency}`}
         />
         <StatCard
           icon={HiOutlineDocumentText}
           label="Unpaid invoices"
-          value=
+          value={unpaidCount}
         />
-      </section> */}
+      </section>
+
+      {/* Revenue chart */}
+      {monthlyData.length > 0 && (
+        <InvoiceChart monthlyData={monthlyData} currency={authUser?.currency} />
+      )}
 
       <div className="flex items-center gap-2">
         <input

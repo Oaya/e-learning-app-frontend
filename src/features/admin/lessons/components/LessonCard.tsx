@@ -193,16 +193,6 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             Watch
           </button>
         )}
-
-        {/* <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
-            lesson.payment_status === "paid"
-              ? "bg-emerald-50 text-emerald-700"
-              : "bg-amber-50 text-amber-700"
-          }`}
-        >
-          {lesson.payment_status === "paid" ? "Paid" : "Unpaid"}
-        </span> */}
       </div>
 
       <div onClick={(e) => e.stopPropagation()}>

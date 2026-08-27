@@ -20,7 +20,7 @@ import CancellationPolicyPanel from "../components/CancellationPolicyPanel";
 import InlineStudentNote from "@/features/student/lessons/components/InlineStudentNote";
 import InvoicePanel from "@/features/admin/lessons/components/InvoicePanel";
 import { useInvoice } from "@/features/admin/lessons/hooks/useInvoice";
-import CreateInvoiceModal from "@/features/admin/lessons/components/CreateInvoiceModal";
+import UpsertInvoiceModal from "@/features/admin/lessons/components/UpsertInvoiceModal";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -213,7 +213,7 @@ export default function LessonDetailPage() {
       )}
 
       {invoiceModalOpen && canTrackInvoice && (
-        <CreateInvoiceModal
+        <UpsertInvoiceModal
           isOpen={invoiceModalOpen}
           onClose={() => setInvoiceModalOpen("")}
           lesson={lesson}
