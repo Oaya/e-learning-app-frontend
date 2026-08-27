@@ -102,15 +102,25 @@ export default function LessonDetailsHeader({
             Edit
           </button>
 
-          {canTrackInvoice && (
-            <button
-              onClick={() => setInvoiceModalOpen(invoice ? "Edit" : "Create")}
-              className="btn-primary gap-1.5 px-3 py-1.5"
-            >
-              <LiaFileInvoiceDollarSolid size={15} />
-              {invoice ? "Edit" : "Create"} Invoice
-            </button>
-          )}
+          {canTrackInvoice && (() => {
+            const hasFee = lesson.cancellation_fee_amount != null && lesson.cancellation_fee_amount > 0;
+            const canInvoice =
+              lesson.status === "completed" ||
+              lesson.status === "scheduled" ||
+              ((lesson.status === "canceled" || lesson.status === "no_show") && hasFee);
+
+            if (!canInvoice && !invoice) return null;
+
+            return (
+              <button
+                onClick={() => setInvoiceModalOpen(invoice ? "Edit" : "Create")}
+                className="btn-primary gap-1.5 px-3 py-1.5"
+              >
+                <LiaFileInvoiceDollarSolid size={15} />
+                {invoice ? "Edit" : "Create"} Invoice
+              </button>
+            );
+          })()}
 
           <button
             onClick={() => setDeleteOpen(true)}

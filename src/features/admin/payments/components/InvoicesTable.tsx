@@ -153,17 +153,17 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
                   {Number(i.amount).toFixed(2)} {i.currency}
                 </td>
                 <td className="p-2 text-gray-600 capitalize" title="status">
-                  <p>{i.status} </p>
+                  {i.status}
+                </td>
+                <td className="p-2 text-gray-600 capitalize">
+                  <p> {dayjs(i.due_date).format("YYYY-MM-DD")}</p>
+
                   {i.status === "unpaid" &&
                     dayjs(i.due_date).isBefore(dayjs(), "day") && (
                       <p className="text-[11px] font-semibold text-red-500">
                         Past Due Date
                       </p>
                     )}
-                </td>
-                <td className="p-2 text-gray-600 capitalize">
-                  {" "}
-                  {dayjs(i.due_date).format("YYYY-MM-DD")}
                 </td>
                 <td className="p-2 text-gray-600 capitalize">
                   {i.paid_at ? dayjs(i.paid_at).format("YYYY-MM-DD") : "—"}
@@ -184,7 +184,12 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
                       </ActionBtn>
                     ) : (
                       <ActionBtn
-                        onClick={() => updateInvoice({ id: i.id, data: { status: "unpaid", paid_at: null } })}
+                        onClick={() =>
+                          updateInvoice({
+                            id: i.id,
+                            data: { status: "unpaid", paid_at: null },
+                          })
+                        }
                         title="Mark as unpaid"
                         disabled={isUpdating}
                       >

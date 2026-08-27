@@ -31,6 +31,7 @@ export function useInvoices(
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       queryClient.invalidateQueries({ queryKey: ["invoice"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons"] });
       alert.success("Invoice created.");
     },
     onError: (error) => {
@@ -66,6 +67,7 @@ export function useInvoices(
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
       queryClient.invalidateQueries({ queryKey: ["invoice"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons"] });
       alert.success("Invoice deleted.");
     },
     onError: (error) => {

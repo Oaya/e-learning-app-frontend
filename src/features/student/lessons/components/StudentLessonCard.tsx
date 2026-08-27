@@ -3,7 +3,9 @@ import {
   HiLanguage,
   HiOutlineVideoCamera,
 } from "react-icons/hi2";
-
+import { LuMessageSquareText } from "react-icons/lu";
+import { MdOutlineFreeCancellation } from "react-icons/md";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import type { Lesson } from "@/type/lesson";
@@ -11,9 +13,6 @@ import { LESSON_BORDER_COLOR, LESSON_STATUS_BADGE } from "@/utils/constants";
 import { canJoinLesson, formatDay, formatTime } from "@/utils/helper";
 import Badge from "@/ui/Badge";
 import ActionBtn from "@/ui/ActionButton";
-import { LuMessageSquareText } from "react-icons/lu";
-import { MdOutlineFreeCancellation } from "react-icons/md";
-import { useState } from "react";
 import CancelLessonModal from "./CancelLessonModal";
 
 export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
@@ -28,7 +27,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
       onClick={() => navigate(`/student/lessons/${lesson.id}`)}
     >
       {/* Date block */}
-      <div className="w-12 shrink-0 text-center">
+      <div className="shrink-0 text-center xl:w-12">
         <div className="text-2xl leading-none font-semibold text-gray-800">
           {day}
         </div>
@@ -38,11 +37,13 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
       </div>
 
       {/* Divider */}
-      <div className="mx-4 h-16 w-px shrink-0 bg-gray-200" />
+      <div className="mr-4 ml-2 h-18 w-px shrink-0 bg-gray-200 md:h-14 xl:mx-4" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
-        <p className="mb-2 text-sm font-medium text-gray-800">{lesson.topic}</p>
+        <p className="truncate text-sm font-medium text-gray-800">
+          {lesson.topic}
+        </p>
 
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <span className="flex items-center gap-1 text-xs text-gray-400">
@@ -55,6 +56,29 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
           </span>
         </div>
       </div>
+
+      {canJoinLesson(lesson) && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/lessons/${lesson.id}/meeting`);
+          }}
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
+        >
+          <HiOutlineVideoCamera size={16} />
+          Join
+        </button>
+      )}
+
+      {lesson.recording_url && lesson.status === "completed" && (
+        <button
+          onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
+        >
+          <HiOutlineVideoCamera size={16} />
+          Watch
+        </button>
+      )}
 
       {/* Badges */}
       <div className="flex shrink-0 flex-col items-end gap-2">
@@ -86,32 +110,6 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             </ActionBtn>
           </>
         </div>
-
-        {canJoinLesson(lesson) && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/lessons/${lesson.id}/meeting`);
-            }}
-            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
-          >
-            <HiOutlineVideoCamera size={16} />
-            Join
-          </button>
-        )}
-
-        {lesson.recording_url && lesson.status === "completed" && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/student/lessons/${lesson.id}`);
-            }}
-            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
-          >
-            <HiOutlineVideoCamera size={16} />
-            Watch
-          </button>
-        )}
       </div>
 
       {cancelOpen && (

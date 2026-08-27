@@ -15,6 +15,7 @@ import {
 } from "react-icons/hi2";
 import { useAuth } from "@/contexts/AuthContext";
 import InvoiceChart from "../components/InvoiceChart";
+import UnInvoicedLessonsPanel from "../components/UnInvoicedLessonsPanel";
 import { groupInvoicesByMonth } from "@/utils/helper";
 
 const statusOptions = [
@@ -141,6 +142,8 @@ export default function PaymentsPage() {
           value={unpaidCount}
         />
       </section>
+
+      <UnInvoicedLessonsPanel />
 
       {/* Revenue chart */}
       {monthlyData.length > 0 && (

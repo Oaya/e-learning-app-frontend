@@ -96,13 +96,13 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             <HiOutlineClock size={16} />
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
-          <span className="flex items-center gap-1.5 text-xs text-gray-400">
+          <span className="flex items-center gap-1 text-xs text-gray-400">
             <img
               src={lesson.student.avatar || defaultAvatar}
               alt="avatar"
               className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
             />
-            {lesson.student.first_name} {lesson.student.last_name}{" "}
+            {lesson.student.first_name} {lesson.student.last_name}
           </span>
         </div>
       </div>
