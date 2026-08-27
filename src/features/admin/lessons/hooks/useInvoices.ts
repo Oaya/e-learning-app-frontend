@@ -10,7 +10,10 @@ import {
 } from "@/api/invoices";
 import { useAlert } from "@/contexts/AlertContext";
 
-export function useInvoices(studentId?: string) {
+export function useInvoices(
+  studentId?: string,
+  options?: { enabled?: boolean },
+) {
   const queryClient = useQueryClient();
   const alert = useAlert();
 
@@ -19,6 +22,7 @@ export function useInvoices(studentId?: string) {
     queryFn: async () =>
       unwrapResponse<Invoice[]>(await getInvoices(studentId)),
     staleTime: 60_000,
+    enabled: options?.enabled ?? true,
   });
 
   const createMutation = useMutation({

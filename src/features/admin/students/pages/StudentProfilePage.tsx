@@ -3,7 +3,12 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
-import { HiCalendar, HiUsers, HiDocumentText } from "react-icons/hi2";
+import {
+  HiCalendar,
+  HiUsers,
+  HiDocumentText,
+  HiCreditCard,
+} from "react-icons/hi2";
 import dayjs from "dayjs";
 
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";
@@ -28,13 +33,16 @@ export default function StudentProfile() {
   const navigate = useNavigate();
   const userId = id || "";
   const { user, isLoading } = useUser(userId);
-  const { user: adminUser } = useAuth();
+  const { user: authUser } = useAuth();
   const { lessons } = useLessons(userId);
   const { homeworks } = useHomeworks(userId);
   const { goals } = useGoals(userId);
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const canTrackInvoice =
+    authUser?.role === "admin" && authUser?.has_pro_access;
 
   const {
     isDeleting,
@@ -57,6 +65,11 @@ export default function StudentProfile() {
   const goalCompleted =
     goals?.filter((g) => g.status === "achieved").length ?? 0;
   const goalProgress = goals?.filter((g) => g.status === "in_progress").length;
+
+  const unpaidLessons =
+    lessons?.filter((l) => l.invoice_id && l.invoice_status === "unpaid") ?? [];
+
+  const owed = unpaidLessons.length * (Number(user.lesson_rate) || 0);
 
   return (
     <div className="page-container">
@@ -99,7 +112,7 @@ export default function StudentProfile() {
                 {user.lesson_rate != null
                   ? Number(user.lesson_rate).toFixed(2)
                   : ""}{" "}
-                {adminUser?.currency}
+                {authUser?.currency}
               </span>
             </p>
             {user.language_levels && user.language_levels.length > 0 && (
@@ -143,7 +156,11 @@ export default function StudentProfile() {
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 gap-2 md:gap-4 md:pt-4 lg:grid-cols-4">
+      <section
+        className={`grid grid-cols-2 gap-2 md:gap-4 md:pt-4 ${
+          canTrackInvoice ? "lg:grid-cols-4" : "lg:grid-cols-3"
+        }`}
+      >
         <StatCard
           icon={HiUsers}
           label="Total lessons"
@@ -162,14 +179,13 @@ export default function StudentProfile() {
           value={goalTotal === 0 ? 0 : `${goalCompleted}/${goalTotal}`}
           sub={`${goalProgress} in progress`}
         />
-        {/*
         <StatCard
           icon={HiCreditCard}
-          iconColor="text-theme-yellow-20"
           label="Balance"
-          value="$60"
-          sub="1 lesson owed"
-        /> */}
+          value={`${Number.isInteger(owed) ? owed : owed.toFixed(2)} ${authUser?.currency ?? ""}`}
+          sub={`${unpaidLessons.length} lesson${unpaidLessons.length === 1 ? "" : "s"} owed`}
+          subColor
+        />
       </section>
 
       {/* Two panels — 50/50 */}

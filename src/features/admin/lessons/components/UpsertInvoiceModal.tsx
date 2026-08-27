@@ -94,6 +94,7 @@ export default function UpsertInvoiceModal({
   }
 
   const isBusy = isCreating || isUpdating;
+  const isPaid = isEdit && invoice?.status === "paid";
 
   return (
     <ModalShell
@@ -135,6 +136,14 @@ export default function UpsertInvoiceModal({
           </FormField>
         )}
 
+        {/* Paid notice */}
+        {isPaid && (
+          <div className="flex items-start gap-2 rounded-xl border border-green-100 bg-green-50 p-3 text-sm text-green-700">
+            <HiOutlineInformationCircle size={16} className="mt-0.5 shrink-0" />
+            <p>This invoice is paid. Only the note can be edited.</p>
+          </div>
+        )}
+
         {/* Amount + Currency */}
         <div className="grid grid-cols-2 gap-3">
           <FormField label="Amount">
@@ -144,6 +153,7 @@ export default function UpsertInvoiceModal({
               min="0"
               step="0.01"
               required
+              disabled={isPaid}
               value={amount}
               onChange={(e) => {
                 setAmount(e.target.value === "" ? "" : e.target.valueAsNumber);
@@ -165,6 +175,7 @@ export default function UpsertInvoiceModal({
             <input
               type="date"
               name="due_date"
+              disabled={isPaid}
               defaultValue={
                 invoice?.due_date
                   ? dayjs(invoice.due_date).format("YYYY-MM-DD")
@@ -179,6 +190,7 @@ export default function UpsertInvoiceModal({
             <CustomSelect
               name="status"
               className="capitalize"
+              isDisabled={isPaid}
               value={{ value: status, label: status }}
               options={invoiceStatus.map((i) => ({ value: i, label: i }))}
               onChange={(selected: any) =>

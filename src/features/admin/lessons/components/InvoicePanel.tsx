@@ -2,6 +2,7 @@ import {
   HiOutlineTrash,
   HiOutlineCheck,
   HiOutlinePencil,
+  HiOutlineArrowUturnLeft,
 } from "react-icons/hi2";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import dayjs from "dayjs";
@@ -80,9 +81,9 @@ export default function InvoicePanel({ invoice, setInvoiceModalOpen }: Props) {
                 className="btn-white px-3 py-1.5 text-xs font-medium"
               >
                 <HiOutlinePencil size={13} />
-                Edit
+                Edit note
               </button>
-              {invoice.status === "unpaid" && (
+              {invoice.status === "unpaid" ? (
                 <button
                   onClick={handleMarkPaid}
                   disabled={isUpdating}
@@ -91,15 +92,26 @@ export default function InvoicePanel({ invoice, setInvoiceModalOpen }: Props) {
                   <HiOutlineCheck size={13} />
                   Mark as paid
                 </button>
+              ) : (
+                <button
+                  onClick={() => updateInvoice({ id: invoice.id, data: { status: "unpaid", paid_at: null } })}
+                  disabled={isUpdating}
+                  className="btn-white px-3 py-1.5 text-xs font-medium"
+                >
+                  <HiOutlineArrowUturnLeft size={13} />
+                  Mark as unpaid
+                </button>
               )}
-              <button
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className="btn-primary-pink px-3 py-1.5 text-xs font-medium"
-              >
-                <HiOutlineTrash size={13} />
-                Delete
-              </button>
+              {invoice.status === "unpaid" && (
+                <button
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="btn-primary-pink px-3 py-1.5 text-xs font-medium"
+                >
+                  <HiOutlineTrash size={13} />
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         )}

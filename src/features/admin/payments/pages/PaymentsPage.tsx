@@ -1,11 +1,13 @@
 import PageLoadingState from "@/ui/PageLoadingState";
 import { useInvoices } from "../../lessons/hooks/useInvoices";
 import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import InvoicesTable from "../components/InvoicesTable";
 import CustomSelect from "@/ui/CustomSelect";
 import { invoiceStatus } from "@/utils/constants";
 import StatCard from "@/ui/StatCard";
+import EmptyState from "@/ui/EmptyState";
 import {
   HiOutlineClock,
   HiOutlineCurrencyDollar,
@@ -21,8 +23,13 @@ const statusOptions = [
 ];
 
 export default function PaymentsPage() {
-  const { invoices = [], isLoading } = useInvoices();
   const { user: authUser } = useAuth();
+  const canAccessPayments =
+    authUser?.role === "admin" && authUser?.has_pro_access;
+
+  const { invoices = [], isLoading } = useInvoices(undefined, {
+    enabled: canAccessPayments,
+  });
 
   const [searchInput, setSearchInput] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
@@ -56,10 +63,7 @@ export default function PaymentsPage() {
 
   const uniqueStudentCount = new Set(invoices.map((i) => i.student.id)).size;
 
-  const monthlyData = useMemo(
-    () => groupInvoicesByMonth(invoices),
-    [invoices],
-  );
+  const monthlyData = useMemo(() => groupInvoicesByMonth(invoices), [invoices]);
 
   useEffect(() => {
     setUserOffset(0);
@@ -68,6 +72,26 @@ export default function PaymentsPage() {
   function handlePageClick(event: { selected: number }) {
     const newOffset = event.selected * itemsPerPage;
     setUserOffset(newOffset);
+  }
+
+  if (!canAccessPayments) {
+    return (
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <EmptyState
+          message={
+            <div className="flex flex-col items-center gap-6">
+              <p>
+                Payments are available on the Pro plan. Upgrade to track
+                invoices.
+              </p>
+              <Link to="/profile" className="btn-primary">
+                Go to profile
+              </Link>
+            </div>
+          }
+        />
+      </div>
+    );
   }
 
   if (isLoading) {

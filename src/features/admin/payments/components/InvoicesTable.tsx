@@ -4,6 +4,8 @@ import {
   HiOutlineChevronRight,
   HiOutlinePencil,
   HiOutlineTrash,
+  HiOutlineArrowUturnLeft,
+  HiOutlineEye,
 } from "react-icons/hi2";
 
 import defaultAvatar from "@/assets/user.png";
@@ -150,11 +152,14 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
                 <td className="truncate p-2 text-gray-600" title="amount">
                   {Number(i.amount).toFixed(2)} {i.currency}
                 </td>
-                <td
-                  className="truncate p-2 text-gray-600 capitalize"
-                  title="status"
-                >
-                  {i.status}
+                <td className="p-2 text-gray-600 capitalize" title="status">
+                  <p>{i.status} </p>
+                  {i.status === "unpaid" &&
+                    dayjs(i.due_date).isBefore(dayjs(), "day") && (
+                      <p className="text-[11px] font-semibold text-red-500">
+                        Past Due Date
+                      </p>
+                    )}
                 </td>
                 <td className="p-2 text-gray-600 capitalize">
                   {" "}
@@ -169,17 +174,25 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
                     className="flex shrink-0 items-center gap-2"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {i.status === "unpaid" && (
+                    {i.status === "unpaid" ? (
                       <ActionBtn
                         onClick={() => handleMarkPaid(i.id)}
-                        title="Mark as Paid"
+                        title="Mark as paid"
                         disabled={isUpdating}
                       >
                         <HiOutlineCheck size={15} className="font-semibold" />
                       </ActionBtn>
+                    ) : (
+                      <ActionBtn
+                        onClick={() => updateInvoice({ id: i.id, data: { status: "unpaid", paid_at: null } })}
+                        title="Mark as unpaid"
+                        disabled={isUpdating}
+                      >
+                        <HiOutlineArrowUturnLeft size={15} />
+                      </ActionBtn>
                     )}
                     <ActionBtn
-                      title="Edit"
+                      title="Edit note"
                       onClick={() => {
                         setEditingInvoice(i);
                         setEditInvoiceOpen("Edit");
@@ -187,13 +200,20 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
                     >
                       <HiOutlinePencil size={15} />
                     </ActionBtn>
-                    <ActionBtn
-                      title="Delete"
-                      disabled={isDeleting}
-                      onClick={() => handleDelete(i.id)}
-                    >
-                      <HiOutlineTrash size={15} />
-                    </ActionBtn>
+                    <Link to={`/admin/lessons/${i.lesson.id}`}>
+                      <ActionBtn title="View lesson">
+                        <HiOutlineEye size={15} />
+                      </ActionBtn>
+                    </Link>
+                    {i.status === "unpaid" && (
+                      <ActionBtn
+                        title="Delete"
+                        disabled={isDeleting}
+                        onClick={() => handleDelete(i.id)}
+                      >
+                        <HiOutlineTrash size={15} />
+                      </ActionBtn>
+                    )}
                   </div>
                 </td>
               </tr>

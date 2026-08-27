@@ -20,11 +20,11 @@ type Props = {
   currency?: string | null;
 };
 
-function getLast12Months() {
+function getMonthsOfCurrentYear() {
   const months = [];
   const now = new Date();
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+  for (let month = 0; month < 12; month++) {
+    const d = new Date(now.getFullYear(), month, 1);
     months.push({
       key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`,
       month: d.toLocaleString("default", { month: "short", year: "numeric" }),
@@ -34,9 +34,9 @@ function getLast12Months() {
 }
 
 export default function InvoiceChart({ monthlyData, currency }: Props) {
-  const last12 = getLast12Months();
+  const yearMonths = getMonthsOfCurrentYear();
   const dataMap = Object.fromEntries(monthlyData.map((d) => [d.month, d]));
-  const chartData = last12.map(({ month }) => ({
+  const chartData = yearMonths.map(({ month }) => ({
     month,
     Earned: dataMap[month]?.Earned ?? 0,
     Outstanding: dataMap[month]?.Outstanding ?? 0,
