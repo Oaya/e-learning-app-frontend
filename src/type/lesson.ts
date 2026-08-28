@@ -1,3 +1,4 @@
+import type { InvoiceStatusType } from "./invoice";
 import type { LanguageLevel } from "./user";
 
 export type LessonStatusType =
@@ -5,8 +6,6 @@ export type LessonStatusType =
   | "canceled"
   | "completed"
   | "no_show";
-
-export type InvoiceStatusType = "paid" | "unpaid";
 
 export type UpsertLesson = {
   student_id: string;

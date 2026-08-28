@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
-import { HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineSparkles, HiOutlineArrowPath } from "react-icons/hi2";
 
 import defaultAvatar from "@/assets/user.png";
 import TimezoneSelector from "@/ui/TimezoneSelector";
@@ -119,7 +119,7 @@ export default function UserProfileSection({ user }: Props) {
               <img
                 src={avatarPreviewUrl || user.avatar || defaultAvatar}
                 alt="avatar"
-                className="h-14 w-14 rounded-full object-cover md:h-28 md:w-28"
+                className={`h-14 w-14 rounded-full object-cover md:h-28 md:w-28 ${isLoading ? "opacity-40" : ""}`}
               />
 
               <label className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
@@ -215,7 +215,9 @@ export default function UserProfileSection({ user }: Props) {
                     className="form-select capitalize"
                     required
                     menuPlacement="auto"
-                    value={currency ? { value: currency, label: currency } : null}
+                    value={
+                      currency ? { value: currency, label: currency } : null
+                    }
                     options={currencies.map((c) => ({
                       value: c,
                       label: c,
@@ -231,11 +233,11 @@ export default function UserProfileSection({ user }: Props) {
 
           <div className="my-4 flex justify-end">
             <button
-              className="btn-primary"
+              className="btn-primary flex items-center gap-2"
               type="submit"
               disabled={!isDirty || isLoading}
             >
-              Save Changes
+              {isLoading ? "Saving..." : "Save Changes"}
             </button>
           </div>
         </form>

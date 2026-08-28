@@ -11,6 +11,8 @@ import type { Lesson } from "@/type/lesson";
 import { useInvoices } from "../hooks/useInvoices";
 
 import type { Invoice } from "@/type/invoice";
+import Badge from "@/ui/Badge";
+import { INVOICE_STATUS_BADGE } from "@/utils/constants";
 
 type Props = {
   lesson: Lesson;
@@ -64,15 +66,7 @@ export default function InvoicePanel({ invoice, setInvoiceModalOpen }: Props) {
                 )}
               </div>
 
-              <span
-                className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${
-                  invoice.status === "paid"
-                    ? "bg-theme-green-30 text-theme-green-20"
-                    : "bg-theme-yellow-10 text-theme-yellow-20"
-                }`}
-              >
-                {invoice.status}
-              </span>
+              <Badge status={invoice.status} constant={INVOICE_STATUS_BADGE} />
             </div>
 
             <div className="mt-4 flex gap-2">
@@ -94,7 +88,12 @@ export default function InvoicePanel({ invoice, setInvoiceModalOpen }: Props) {
                 </button>
               ) : (
                 <button
-                  onClick={() => updateInvoice({ id: invoice.id, data: { status: "unpaid", paid_at: null } })}
+                  onClick={() =>
+                    updateInvoice({
+                      id: invoice.id,
+                      data: { status: "unpaid", paid_at: null },
+                    })
+                  }
                   disabled={isUpdating}
                   className="btn-white px-3 py-1.5 text-xs font-medium"
                 >

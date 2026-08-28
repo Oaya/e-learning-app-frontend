@@ -7,10 +7,10 @@ interface Props {
 }
 
 export default function RequireAuth({ role }: Props) {
-  const { user, isLoading } = useAuth();
+  const { user, isAuthLoading } = useAuth();
   const location = useLocation();
 
-  if (isLoading) {
+  if (isAuthLoading) {
     return null;
   }
 

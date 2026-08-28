@@ -1,13 +1,19 @@
 import { useState } from "react";
-import { HiOutlineClock, HiOutlineCalendar, HiLanguage } from "react-icons/hi2";
+import {
+  HiOutlineClock,
+  HiOutlineCalendar,
+  HiLanguage,
+  HiOutlineVideoCamera,
+} from "react-icons/hi2";
 import { MdOutlineFreeCancellation } from "react-icons/md";
 import dayjs from "dayjs";
 
-import { formatTime } from "@/utils/helper";
+import { canJoinLesson, formatTime } from "@/utils/helper";
 import type { Lesson } from "@/type/lesson";
 import Badge from "@/ui/Badge";
 import { LESSON_STATUS_BADGE } from "@/utils/constants";
 import CancelLessonModal from "./CancelLessonModal";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   lesson: Lesson;
@@ -16,6 +22,7 @@ type Props = {
 export default function StudentLessonDetailsHeader({ lesson }: Props) {
   const scheduledAt = dayjs(lesson.scheduled_at);
   const [cancelOpen, setCancelOpen] = useState(false);
+  const navigate = useNavigate();
 
   const actualMinutes = lesson.meeting_duration_in_seconds
     ? Math.round(lesson.meeting_duration_in_seconds / 60)
@@ -62,16 +69,31 @@ export default function StudentLessonDetailsHeader({ lesson }: Props) {
         </div>
 
         {/* Cancel button */}
-        {canCancel && (
-          <button
-            type="button"
-            onClick={() => setCancelOpen(true)}
-            className="btn-primary-pink"
-          >
-            <MdOutlineFreeCancellation size={15} />
-            Cancel lesson
-          </button>
-        )}
+
+        <div className="flex shrink-0 gap-2">
+          {canJoinLesson(lesson) && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/lessons/${lesson.id}/meeting`);
+              }}
+              className="btn-secondary gap-1.5 px-3 py-1.5"
+            >
+              <HiOutlineVideoCamera size={16} />
+              Join
+            </button>
+          )}
+          {canCancel && (
+            <button
+              type="button"
+              onClick={() => setCancelOpen(true)}
+              className="btn-primary-pink gap-1.5 px-3 py-1.5"
+            >
+              <MdOutlineFreeCancellation size={16} />
+              Cancel lesson
+            </button>
+          )}
+        </div>
       </div>
 
       {canCancel && (

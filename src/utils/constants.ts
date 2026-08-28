@@ -17,6 +17,7 @@ import type { AttachmentType, ScoreType } from "@/type/homework_submission";
 import type { GoalStatusType } from "@/type/goal";
 import type { LessonStatusType } from "@/type/lesson";
 import type { Status } from "@/type/user";
+import type { InvoiceStatusType } from "@/type/invoice";
 
 export const lessonDuration = [30, 60, 90, 120] as const;
 export const currencies = [
@@ -216,6 +217,11 @@ export const GOAL_BORDER_COLOR: Record<GoalStatusType, string> = {
   in_progress: "border-l-theme-yellow-20",
   achieved: "border-l-theme-green-20",
   not_started: "border-l-blue-500",
+};
+
+export const INVOICE_STATUS_BADGE: Record<InvoiceStatusType, string> = {
+  unpaid: "bg-theme-yellow-10 text-theme-yellow-20",
+  paid: "bg-theme-green-30 text-theme-green-20",
 };
 
 export const EXERCISE_TYPES = [

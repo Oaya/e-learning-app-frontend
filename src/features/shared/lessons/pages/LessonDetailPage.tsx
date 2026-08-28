@@ -21,6 +21,7 @@ import InlineStudentNote from "@/features/student/lessons/components/InlineStude
 import InvoicePanel from "@/features/admin/lessons/components/InvoicePanel";
 import { useInvoice } from "@/features/admin/lessons/hooks/useInvoice";
 import UpsertInvoiceModal from "@/features/admin/lessons/components/UpsertInvoiceModal";
+import StudentInvoicePanel from "@/features/student/lessons/components/StudentInvoicePanel";
 
 export default function LessonDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -169,19 +170,26 @@ export default function LessonDetailPage() {
       )}
 
       {authUser?.role === "student" && (
-        <div className="flex flex-col gap-4 xl:grid xl:grid-cols-5">
-          {/* My note  */}
-          <InlineStudentNote
-            lessonId={lesson.id}
-            initialNote={lesson.student_note}
-          />
-
-          {/* Cancellation policy */}
-          {lesson?.admin && (
-            <div className="col-span-2">
-              <CancellationPolicyPanel admin={lesson.admin} />
-            </div>
+        <div className="flex flex-col gap-4">
+          {/* Invoice (read-only) */}
+          {lesson.invoice_id && (
+            <StudentInvoicePanel invoiceId={lesson.invoice_id} />
           )}
+
+          <div className="flex flex-col gap-4 xl:grid xl:grid-cols-5">
+            {/* My note  */}
+            <InlineStudentNote
+              lessonId={lesson.id}
+              initialNote={lesson.student_note}
+            />
+
+            {/* Cancellation policy */}
+            {lesson?.admin && (
+              <div className="col-span-2">
+                <CancellationPolicyPanel admin={lesson.admin} />
+              </div>
+            )}
+          </div>
         </div>
       )}
 

@@ -51,9 +51,9 @@ export function useLessons(
     mutationFn: async (lessonId: string) =>
       unwrapResponse<void>(await deleteLesson(lessonId)),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["lessons", "today"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["lessons", "today"] });
+      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+      alert.success("Lesson deleted successfully.");
       options?.onDeleteSuccess?.();
     },
     onError: (error) => {

@@ -4,12 +4,13 @@ import {
   HiOutlineClock,
   HiOutlineCalendar,
   HiLanguage,
+  HiOutlineVideoCamera,
 } from "react-icons/hi2";
 import dayjs from "dayjs";
 import { LuExternalLink } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import { formatTime, requireStatusChange } from "@/utils/helper";
+import { canJoinLesson, formatTime, requireStatusChange } from "@/utils/helper";
 import type { Lesson } from "@/type/lesson";
 import Badge from "@/ui/Badge";
 import { LESSON_STATUS_BADGE } from "@/utils/constants";
@@ -34,6 +35,7 @@ export default function LessonDetailsHeader({
   setInvoiceModalOpen,
   canTrackInvoice,
 }: Props) {
+  const navigate = useNavigate();
   const scheduledAt = dayjs(lesson.scheduled_at);
 
   const actualMinutes = lesson.meeting_duration_in_seconds
@@ -94,6 +96,18 @@ export default function LessonDetailsHeader({
 
         {/* Actions */}
         <div className="flex shrink-0 gap-2">
+          {canJoinLesson(lesson) && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/lessons/${lesson.id}/meeting`);
+              }}
+              className="btn-secondary gap-1.5 px-3 py-1.5"
+            >
+              <HiOutlineVideoCamera size={16} />
+              Join
+            </button>
+          )}
           <button
             onClick={() => setEditOpen(true)}
             className="btn-white gap-1.5 px-3 py-1.5"
@@ -102,25 +116,32 @@ export default function LessonDetailsHeader({
             Edit
           </button>
 
-          {canTrackInvoice && (() => {
-            const hasFee = lesson.cancellation_fee_amount != null && lesson.cancellation_fee_amount > 0;
-            const canInvoice =
-              lesson.status === "completed" ||
-              lesson.status === "scheduled" ||
-              ((lesson.status === "canceled" || lesson.status === "no_show") && hasFee);
+          {canTrackInvoice &&
+            (() => {
+              const hasFee =
+                lesson.cancellation_fee_amount != null &&
+                lesson.cancellation_fee_amount > 0;
+              const canInvoice =
+                lesson.status === "completed" ||
+                lesson.status === "scheduled" ||
+                ((lesson.status === "canceled" ||
+                  lesson.status === "no_show") &&
+                  hasFee);
 
-            if (!canInvoice && !invoice) return null;
+              if (!canInvoice && !invoice) return null;
 
-            return (
-              <button
-                onClick={() => setInvoiceModalOpen(invoice ? "Edit" : "Create")}
-                className="btn-primary gap-1.5 px-3 py-1.5"
-              >
-                <LiaFileInvoiceDollarSolid size={15} />
-                {invoice ? "Edit" : "Create"} Invoice
-              </button>
-            );
-          })()}
+              return (
+                <button
+                  onClick={() =>
+                    setInvoiceModalOpen(invoice ? "Edit" : "Create")
+                  }
+                  className="btn-primary gap-1.5 px-3 py-1.5"
+                >
+                  <LiaFileInvoiceDollarSolid size={15} />
+                  {invoice ? "Edit" : "Create"} Invoice
+                </button>
+              );
+            })()}
 
           <button
             onClick={() => setDeleteOpen(true)}

@@ -30,6 +30,7 @@ import { cancelSubscription, changePlan } from "@/api/subscription";
 type AuthContextType = {
   user?: User | null;
   isLoading?: boolean;
+  isAuthLoading?: boolean;
   signupUser: (user: SignupUser) => Promise<ApiResponse>;
   loginUser: (user: LoginUser) => Promise<ApiResponse>;
   logoutUser: () => void;
@@ -43,6 +44,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  isAuthLoading: true,
   signupUser: async () => {
     return Promise.resolve({} as ApiResponse);
   },
@@ -74,13 +76,17 @@ const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // Gates initial auth bootstrap only (checked by RequireAuth). Separate from
+  // isLoading below, which tracks in-flight mutations (profile/avatar saves,
+  // password updates, etc.) so those don't blank out the routed app.
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
 
     if (!token) {
-      setIsLoading(false);
+      setIsAuthLoading(false);
       return;
     }
 
@@ -93,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem("jwt");
         setUser(null);
       } finally {
-        setIsLoading(false);
+        setIsAuthLoading(false);
       }
     })();
   }, []);
@@ -219,6 +225,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       updatePolicy,
       user,
       isLoading,
+      isAuthLoading,
     }),
     [
       signupUser,
@@ -232,6 +239,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       updatePolicy,
       user,
       isLoading,
+      isAuthLoading,
     ],
   );
 
