@@ -1,23 +1,8 @@
 import { HiArrowRight } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 import type { StudentWithStatues } from "@/type/user";
-import { ADMIN_HW_STATUS_BADGE } from "@/utils/constants";
-import defaultAvatar from "@/assets/user.png";
-import { capitalize } from "@/utils/helper";
 
-// function PayDot({ paid }: { paid: boolean }) {
-//   return paid ? (
-//     <span className="flex items-center gap-1 text-xs text-gray-400">
-//       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-//       Paid
-//     </span>
-//   ) : (
-//     <span className="flex items-center gap-1 text-xs text-gray-400">
-//       <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-//       Owed
-//     </span>
-//   );
-// }
+import defaultAvatar from "@/assets/user.png";
 
 type AllStudentPanelProps = {
   students: StudentWithStatues[];
@@ -59,17 +44,6 @@ export default function AllStudentPanel({ students }: AllStudentPanelProps) {
                   <p className="truncate text-sm font-medium text-gray-800">
                     {student.first_name} {student.last_name}
                   </p>
-                </div>
-                <div className="flex shrink-0 flex-col items-end gap-0.5 capitalize">
-                  {student.hw_status && (
-                    <span
-                      className={`rounded-full ${ADMIN_HW_STATUS_BADGE[student.hw_status]} px-2 py-0.5 text-[11px]`}
-                    >
-                      {` HW ${capitalize(student.hw_status)}`}
-                    </span>
-                  )}
-
-                  {/* <PayDot paid={false} /> */}
                 </div>
               </div>
             );

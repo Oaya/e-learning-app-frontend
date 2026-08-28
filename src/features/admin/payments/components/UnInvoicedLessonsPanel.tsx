@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi2";
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import dayjs from "dayjs";
 
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
