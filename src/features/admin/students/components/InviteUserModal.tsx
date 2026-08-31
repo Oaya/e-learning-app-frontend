@@ -1,7 +1,7 @@
 import ISO6391 from "iso-639-1";
 import { useState } from "react";
 
-import { inviteUser } from "@/api/users";
+import { useInviteUser } from "@/features/admin/students/hooks/useUsers";
 import { fdString } from "@/utils/formData";
 import { useAlert } from "@/contexts/AlertContext";
 import { levels, type LanguageLevel } from "@/type/user";
@@ -19,7 +19,7 @@ export default function InviteUserModal({
   onClose,
 }: InviteUserModalProps) {
   const alert = useAlert();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { inviteUser, isInviting } = useInviteUser();
   const [languageLevels, setLanguageLevels] = useState<LanguageLevel[]>([]);
 
   if (!isOpen) return null;
@@ -57,30 +57,21 @@ export default function InviteUserModal({
       return;
     }
 
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const data = {
+      email: fdString(formData, "email"),
+      first_name: fdString(formData, "first_name"),
+      last_name: fdString(formData, "last_name"),
+      language_levels: languageLevels,
+    };
+
     try {
-      setIsSubmitting(true);
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-
-      const data = {
-        email: fdString(formData, "email"),
-        first_name: fdString(formData, "first_name"),
-        last_name: fdString(formData, "last_name"),
-        language_levels: languageLevels,
-      };
-
-      const res = await inviteUser(data);
-
-      if (res.success) {
-        alert.success(res.data.message);
-        onClose();
-      } else {
-        alert.error(res.error || "Failed to send invitation. Try again later.");
-      }
+      await inviteUser(data);
+      onClose();
     } catch {
-      alert.error("Failed to send invitation. Try again later.");
-    } finally {
-      setIsSubmitting(false);
+      // errors are surfaced via useInviteUser's onError alert
     }
   }
 
@@ -181,9 +172,9 @@ export default function InviteUserModal({
             <button
               type="submit"
               className="btn-primary-pink"
-              disabled={!!isSubmitting}
+              disabled={isInviting}
             >
-              {isSubmitting ? "Sending Invite..." : "Invite"}
+              {isInviting ? "Sending Invite..." : "Invite"}
             </button>
           </div>
         </form>

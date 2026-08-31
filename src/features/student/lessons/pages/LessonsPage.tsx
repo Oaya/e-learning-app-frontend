@@ -54,7 +54,7 @@ export default function StudentLessonsPage() {
       </div>
 
       {/* Stat */}
-      <section className="grid grid-cols-3 gap-2 md:gap-4">
+      <section className="grid grid-cols-3 gap-4 md:gap-6">
         <StatCard
           label="Total lessons"
           icon={HiOutlineCalendar}

@@ -16,20 +16,8 @@ import ActionBtn from "@/ui/ActionButton";
 import UpsertInvoiceModal from "../../lessons/components/UpsertInvoiceModal";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    paid: "bg-green-50 text-green-700",
-    unpaid: "bg-yellow-50 text-yellow-700",
-  };
-  return (
-    <span
-      className={`rounded-full px-2 py-0.5 text-[11px] capitalize ${styles[status] ?? "bg-gray-100 text-gray-500"}`}
-    >
-      {status || "—"}
-    </span>
-  );
-}
+import Badge from "@/ui/Badge";
+import { INVOICE_STATUS_BADGE } from "@/utils/constants";
 
 export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
   const [editInvoiceOpen, setEditInvoiceOpen] = useState("");
@@ -72,7 +60,7 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
         {invoices.map((i) => (
           <Link
             key={i.id}
-            to={`/users/${i.student.id}`}
+            to={`/admin/lessons/${i.lesson.id}`}
             className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 hover:border-gray-300"
           >
             <img
@@ -84,9 +72,20 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
               <p className="truncate text-sm font-medium text-gray-800">
                 {i.student.first_name} {i.student.last_name}
               </p>
+              <p className="truncate text-xs text-gray-400">
+                {Number(i.amount).toFixed(2)} {i.currency}
+              </p>
+              <p className="truncate text-xs text-gray-400">
+                {i.lesson.topic} · Due :{dayjs(i.due_date).format("YYYY-MM-DD")}
+              </p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
-              <StatusBadge status={i.status ?? ""} />
+              <Badge
+                status={i.status}
+                constant={INVOICE_STATUS_BADGE}
+                className="px-2 py-0.5 text-xs"
+              />
+
               <HiOutlineChevronRight size={15} className="text-gray-300" />
             </div>
           </Link>

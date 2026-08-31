@@ -1,3 +1,4 @@
+import { HiAcademicCap, HiDocumentText, HiFlag } from "react-icons/hi2";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
@@ -78,23 +79,30 @@ export default function StudentDashboardPage() {
       </section>
 
       {/* Stat cards */}
-      <section className="grid grid-cols-3 gap-2 px-6 md:gap-4 md:px-10 md:pt-4">
+      <section className="grid grid-cols-3 gap-4 px-6 md:gap-6 md:px-10 md:pt-4">
         <StatCard
+          icon={HiAcademicCap}
           label="Lessons completed"
           value={completedLessons}
           sub="Keep it up!"
           subColor
         />
         <StatCard
+          icon={HiDocumentText}
           label="Homework done"
           value={`${completedHW} / ${totalHW}`}
           sub={`${pendingHW} pending`}
         />
-        <StatCard label="Goal progress" value={`${avgGoal}%`} sub="Overall" />
+        <StatCard
+          icon={HiFlag}
+          label="Goal progress"
+          value={`${avgGoal}%`}
+          sub="Overall"
+        />
       </section>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-4 px-6 md:gap-10 md:px-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 px-6 md:gap-6 md:px-10 lg:grid-cols-2">
         {/* Upcoming lessons */}
         <UpcomingLessonsPanel lessons={upcomingOrOngoing} />
         {/* Homework */}

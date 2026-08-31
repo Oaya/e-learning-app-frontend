@@ -46,7 +46,7 @@ export default function AdminDashboardPage() {
     .size;
 
   return (
-    <div className="space-y-4 pb-10 md:space-y-6">
+    <div className="space-y-4 pb-10 lg:space-y-6">
       {/* Top bar */}
       <section className="flex items-center justify-between bg-gray-200 px-6 py-4 md:px-10 md:py-6">
         <div>
@@ -62,8 +62,8 @@ export default function AdminDashboardPage() {
 
       {/* Stat cards */}
       <section
-        className={`grid grid-cols-2 gap-2 px-6 md:gap-4 md:px-10 md:pt-4 ${
-          canTrackInvoice ? "lg:grid-cols-4" : "lg:grid-cols-3"
+        className={`grid gap-2 px-6 md:gap-4 md:px-10 md:pt-4 ${
+          canTrackInvoice ? "grid-cols-2 lg:grid-cols-4" : "grid-cols-3"
         }`}
       >
         <StatCard
@@ -95,7 +95,7 @@ export default function AdminDashboardPage() {
       </section>
 
       {/* Two panels */}
-      <div className="grid grid-cols-1 gap-4 px-6 md:gap-10 md:px-10 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 px-6 md:px-10 lg:grid-cols-5 lg:gap-10">
         {/* Today lessons */}
         {todayLessons && authUser && (
           <div className="lg:col-span-3">

@@ -105,7 +105,7 @@ export default function GoalsPage() {
       </section>
 
       {/* stats */}
-      <section className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineDocumentText}
           label="Total goals"

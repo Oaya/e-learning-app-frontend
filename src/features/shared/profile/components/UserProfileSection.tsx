@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
-import { HiOutlineSparkles, HiOutlineArrowPath } from "react-icons/hi2";
+import { HiOutlineSparkles } from "react-icons/hi2";
 
 import defaultAvatar from "@/assets/user.png";
 import TimezoneSelector from "@/ui/TimezoneSelector";
@@ -201,14 +201,18 @@ export default function UserProfileSection({ user }: Props) {
               />
             </div>
 
-            <div className={isAdmin ? "grid grid-cols-4 gap-3" : undefined}>
-              <div className={isAdmin ? "col-span-3" : undefined}>
+            <div
+              className={
+                isAdmin ? "grid grid-cols-1 lg:grid-cols-4 lg:gap-3" : undefined
+              }
+            >
+              <div className={isAdmin ? "lg:col-span-3" : undefined}>
                 <label className="sm-label">Time zone</label>
                 <TimezoneSelector value={timezone} onChange={setTimezone} />
               </div>
 
               {isAdmin && (
-                <div className="col-span-1">
+                <div className="lg:col-span-1">
                   <label className="sm-label">Currency</label>
                   <CustomSelect
                     name="currency"

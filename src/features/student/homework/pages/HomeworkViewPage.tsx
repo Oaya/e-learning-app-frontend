@@ -84,7 +84,7 @@ export default function HomeworkViewPage() {
           </div>
 
           {/* RIGHT — feedback + what's next */}
-          <div className="flex shrink-0 flex-col gap-4">
+          <div className="flex shrink-0 flex-col gap-4 max-md:mt-4">
             {/* Teacher feedback */}
             <div className="panel-box">
               <p className="panel-header mb-2">Teacher feedback</p>

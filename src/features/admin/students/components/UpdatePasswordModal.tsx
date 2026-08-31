@@ -57,7 +57,7 @@ export default function UpdatePasswordModal({
           to set.
         </p>
         <form onSubmit={handleUpdatePassword} className="my-6">
-          <div className="-cols-2 gap-6">
+          <div className="grid-cols-2 gap-3 md:grid">
             <FormField label="Current Password" className="mb-2">
               <input
                 name="current_password"

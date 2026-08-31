@@ -25,7 +25,7 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
       : "This Homework is Overdue. You may not get feedback.";
 
   return (
-    <div className="panel-box mb-4">
+    <div className="panel-box mb-4 md:mb-6">
       <div className="flex justify-between">
         <p className="min-w-0 text-lg font-semibold text-gray-800">
           {hw.title}

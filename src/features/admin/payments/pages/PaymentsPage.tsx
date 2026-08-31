@@ -125,7 +125,7 @@ export default function PaymentsPage() {
       </div>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 gap-2 md:gap-4 md:pt-4 lg:grid-cols-3">
+      <section className="grid grid-cols-3 gap-2 md:gap-4 md:pt-4">
         <StatCard
           icon={HiOutlineCurrencyDollar}
           label="Total Earned"
@@ -152,7 +152,7 @@ export default function PaymentsPage() {
 
       <div className="flex items-center gap-2">
         <input
-          className="form-input mb-0 h-10.5 w-100 px-3 max-sm:text-[11px]"
+          className="form-input mb-0 h-10.5 w-80 px-3 max-sm:text-[11px] md:w-100"
           type="text"
           placeholder="Search by student or lesson..."
           value={searchInput}

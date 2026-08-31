@@ -19,7 +19,7 @@ dayjs.extend(utc);
 dayjs.extend(dayjsTimezone);
 
 type ModalProps = {
-  isOpen: string; // "Create" | "Edit" | ""
+  isOpen: string;
   onClose: () => void;
   lesson?: Lesson;
   invoice?: Invoice;
@@ -93,7 +93,7 @@ export default function UpsertInvoiceModal({
     }
   }
 
-  const isBusy = isCreating || isUpdating;
+  const isLoading = isCreating || isUpdating;
   const isPaid = isEdit && invoice?.status === "paid";
 
   return (
@@ -170,7 +170,7 @@ export default function UpsertInvoiceModal({
         </div>
 
         {/* Due date + Status */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid-cols-2 md:grid md:gap-3">
           <FormField label="Due date">
             <input
               type="date"
@@ -215,13 +215,17 @@ export default function UpsertInvoiceModal({
           <button
             type="button"
             onClick={onClose}
-            disabled={isBusy}
+            disabled={isLoading}
             className="btn-primary-white"
           >
             Cancel
           </button>
-          <button type="submit" disabled={isBusy} className="btn-primary-pink">
-            {isBusy
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="btn-primary-pink"
+          >
+            {isLoading
               ? isEdit
                 ? "Saving..."
                 : "Creating..."

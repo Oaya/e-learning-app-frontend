@@ -91,18 +91,18 @@ export default function StudentProfile() {
         </div> */}
       </section>
 
-      <section className="flex flex-col gap-6 rounded-xl border border-gray-300 bg-white px-6 py-6 md:mt-10 md:flex-row md:items-stretch md:justify-between md:gap-10 md:px-8">
+      <section className="flex flex-col gap-6 rounded-xl border border-gray-300 bg-white px-6 py-6 md:flex-row md:gap-10 md:px-8 lg:mt-10 lg:items-stretch lg:justify-between">
         <div className="flex items-center gap-4 gap-y-10">
-          <div className="group relative h-14 w-14 shrink-0 md:h-28 md:w-28">
+          <div className="group relative h-14 w-14 shrink-0 lg:h-28 lg:w-28">
             <img
               src={user.avatar || defaultAvatar}
               alt="avatar"
-              className="h-14 w-14 rounded-full object-cover md:h-28 md:w-28"
+              className="h-14 w-14 rounded-full object-cover lg:h-28 lg:w-28"
             />
           </div>
 
           <div className="item-end flex min-w-0 flex-col justify-between">
-            <h1 className="font-semibold wrap-break-word md:mb-2 md:text-2xl">
+            <h1 className="font-semibold wrap-break-word lg:mb-2 lg:text-2xl">
               {user.first_name} {user.last_name}
             </h1>
             <p className="break-all">{user.email}</p>
@@ -116,7 +116,7 @@ export default function StudentProfile() {
               </span>
             </p>
             {user.language_levels && user.language_levels.length > 0 && (
-              <div className="mt-1 flex flex-wrap gap-2 md:mt-2">
+              <div className="mt-1 flex flex-wrap gap-2 lg:mt-2">
                 {user.language_levels.map((ll) => (
                   <span key={ll.language} className="budge-purple">
                     {ll.language}
@@ -189,14 +189,14 @@ export default function StudentProfile() {
       </section>
 
       {/* Two panels — 50/50 */}
-      <div className="flex flex-col gap-4 md:grid md:grid-cols-5 md:items-start md:gap-6">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-5 lg:items-start lg:gap-6">
         {/* Left — lessons + payment */}
-        <div className="flex flex-col gap-4 md:col-span-2 md:gap-6">
+        <div className="flex flex-col gap-4 lg:col-span-2 lg:gap-6">
           <LessonsPanel lessons={lessons} user={user} />
         </div>
 
         {/* Right — homeworks + goals */}
-        <div className="flex flex-col gap-4 md:col-span-3 md:gap-6">
+        <div className="flex flex-col gap-4 lg:col-span-3 lg:gap-6">
           <HomeworksPanel homeworks={homeworks} user={user} />
           <GoalsPanel goals={goals} userId={userId} />
         </div>

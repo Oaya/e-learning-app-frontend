@@ -5,10 +5,7 @@ import { HiOutlineVideoCamera } from "react-icons/hi2";
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
 import ConfirmModal from "@/ui/ConfirmModal";
-import {
-  MdOutlineKeyboardBackspace,
-  MdOutlineFreeCancellation,
-} from "react-icons/md";
+import { MdOutlineFreeCancellation } from "react-icons/md";
 import LessonDetailsHeader from "@/features/admin/lessons/components/LessonDetailsHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import StudentLessonDetailsHeader from "@/features/student/lessons/components/StudentLessonDetailsHeader";
@@ -57,18 +54,6 @@ export default function LessonDetailPage() {
 
   return (
     <div className="page-container">
-      {/* Top bar */}
-      <section className="page-header-row">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
-        >
-          <MdOutlineKeyboardBackspace size={16} />
-          <span className="hidden sm:inline">Back to Lessons</span>
-          <span className="sm:hidden">Back</span>
-        </button>
-      </section>
-
       {/* Header */}
       {authUser?.role === "admin" ? (
         <LessonDetailsHeader
@@ -104,7 +89,7 @@ export default function LessonDetailPage() {
         )}
 
       {/* Recording */}
-      <div className="gap-4 overflow-hidden border-gray-200">
+      <div className="gap-4 overflow-hidden border-gray-200 md:gap-6">
         {hasRecording ? (
           <video
             src={lesson.recording_url}
@@ -120,7 +105,7 @@ export default function LessonDetailPage() {
       </div>
 
       {/* Details + Notes */}
-      <div className="flex flex-col gap-4 md:grid md:grid-cols-5">
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-5 md:gap-6">
         {/* Notes */}
         <div className="panel-box col-span-3">
           <p className="panel-header">Meeting Note</p>
@@ -160,7 +145,7 @@ export default function LessonDetailPage() {
         </div>
       </div>
 
-      {/* Invoice — admin only */}
+      {/* Invoice - admin only */}
       {canTrackInvoice && (
         <InvoicePanel
           lesson={lesson}
@@ -170,13 +155,13 @@ export default function LessonDetailPage() {
       )}
 
       {authUser?.role === "student" && (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 md:gap-6">
           {/* Invoice (read-only) */}
           {lesson.invoice_id && (
             <StudentInvoicePanel invoiceId={lesson.invoice_id} />
           )}
 
-          <div className="flex flex-col gap-4 xl:grid xl:grid-cols-5">
+          <div className="flex flex-col gap-4 md:gap-6 xl:grid xl:grid-cols-5">
             {/* My note  */}
             <InlineStudentNote
               lessonId={lesson.id}

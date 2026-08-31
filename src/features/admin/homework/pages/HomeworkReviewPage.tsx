@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineArrowLeft } from "react-icons/hi2";
 
 import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
 import { SCORE_BUDGE } from "@/utils/constants";
@@ -20,7 +20,6 @@ export default function HomeworkReviewPage() {
   const [score, setScore] = useState<ScoreType | null>(null);
   const [feedback, setFeedback] = useState("");
   const [notes, setNotes] = useState("");
-  const [aiLoading, setAiLoading] = useState(false);
 
   const { homework, isLoading } = useHomework(hwId);
   const { submitFeedback, isSubmittingFeedback } = useHomeworkSubmission(hwId, {
@@ -41,18 +40,6 @@ export default function HomeworkReviewPage() {
   if (isLoading || !homework || !submission) {
     return <p className="p-10 text-sm text-gray-400">Loading…</p>;
   }
-
-  async function handleGenerateAiFeedback() {
-    setAiLoading(true);
-    // TODO: replace with real Anthropic API call
-    await new Promise((r) => setTimeout(r, 1000));
-    // setFeedback(homework.ai_suggestion);
-    setAiLoading(false);
-  }
-
-  // function useAiSuggestion() {
-  //   setFeedback(homework.ai_suggestion);
-  // }
 
   async function handleMarkReviewed() {
     try {
@@ -150,35 +137,6 @@ export default function HomeworkReviewPage() {
                   </button>
                 ))}
               </div>
-            </div>
-
-            {/* AI suggestion */}
-            <div className="bg-theme-purple-30 rounded-xl border border-purple-100 p-5">
-              <div className="mb-3 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <HiOutlineSparkles className="text-theme-purple-50 h-4 w-4" />
-                  <p className="text-theme-purple-50 text-[10px] font-semibold tracking-widest uppercase">
-                    AI's suggestion
-                  </p>
-                </div>
-                <button
-                  onClick={handleGenerateAiFeedback}
-                  disabled={aiLoading}
-                  className="border-theme-purple-10 text-theme-purple-50 hover:bg-theme-purple-10 rounded-lg border bg-white px-3 py-1 text-xs font-medium disabled:opacity-50"
-                >
-                  {aiLoading ? "Generating…" : "Regenerate"}
-                </button>
-              </div>
-              {/* <p className="text-xs leading-relaxed text-purple-800">
-                {homework.ai_suggestion}
-              </p> */}
-              {/* <button
-                onClick={useAiSuggestion}
-                className="mt-3 flex items-center gap-1 text-xs font-medium text-purple-600 hover:text-purple-800"
-              >
-                <HiOutlineArrowDown size={14} />
-                Use this as feedback
-              </button> */}
             </div>
 
             {/* Feedback for student */}

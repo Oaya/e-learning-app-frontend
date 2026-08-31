@@ -4,8 +4,12 @@ import {
   HiOutlineCalendar,
   HiLanguage,
   HiOutlineVideoCamera,
+  HiOutlineArrowLeft,
 } from "react-icons/hi2";
-import { MdOutlineFreeCancellation } from "react-icons/md";
+import {
+  MdOutlineFreeCancellation,
+  MdOutlineKeyboardBackspace,
+} from "react-icons/md";
 import dayjs from "dayjs";
 
 import { canJoinLesson, formatTime } from "@/utils/helper";
@@ -32,6 +36,42 @@ export default function StudentLessonDetailsHeader({ lesson }: Props) {
 
   return (
     <>
+      <section className="page-header-row">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-700"
+        >
+          <HiOutlineArrowLeft size={16} />
+          <span className="hidden sm:inline">Back to Lessons</span>
+          <span className="sm:hidden">Back</span>
+        </button>
+
+        <div className="flex gap-2">
+          {canJoinLesson(lesson) && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/lessons/${lesson.id}/meeting`);
+              }}
+              className="btn-secondary gap-1.5 px-3 py-1.5"
+            >
+              <HiOutlineVideoCamera size={16} />
+              Join
+            </button>
+          )}
+          {canCancel && (
+            <button
+              type="button"
+              onClick={() => setCancelOpen(true)}
+              className="btn-primary-pink"
+            >
+              <MdOutlineFreeCancellation size={16} />
+              Cancel lesson
+            </button>
+          )}
+        </div>
+      </section>
+
       <div className="flex items-start justify-between gap-4 text-gray-400">
         <div className="space-y-2">
           {/* Title */}
@@ -66,33 +106,6 @@ export default function StudentLessonDetailsHeader({ lesson }: Props) {
               </div>
             )}
           </div>
-        </div>
-
-        {/* Cancel button */}
-
-        <div className="flex shrink-0 gap-2">
-          {canJoinLesson(lesson) && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/lessons/${lesson.id}/meeting`);
-              }}
-              className="btn-secondary gap-1.5 px-3 py-1.5"
-            >
-              <HiOutlineVideoCamera size={16} />
-              Join
-            </button>
-          )}
-          {canCancel && (
-            <button
-              type="button"
-              onClick={() => setCancelOpen(true)}
-              className="btn-primary-pink gap-1.5 px-3 py-1.5"
-            >
-              <MdOutlineFreeCancellation size={16} />
-              Cancel lesson
-            </button>
-          )}
         </div>
       </div>
 

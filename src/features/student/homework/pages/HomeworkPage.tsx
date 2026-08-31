@@ -55,7 +55,7 @@ export default function StudentHomeworkPage() {
       </section>
 
       {/* Stat cards */}
-      <section className="grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineDocumentText}
           label="Total assigned"

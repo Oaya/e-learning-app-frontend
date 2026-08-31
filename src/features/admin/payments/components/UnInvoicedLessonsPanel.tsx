@@ -72,8 +72,8 @@ export default function UnInvoicedLessonsPanel() {
                 />
               </div>
 
-              <div className="flex shrink-0 items-center gap-3">
-                <span className="text-sm font-medium text-gray-600">
+              <div className="shrink-0 items-center md:flex md:gap-3">
+                <span className="block text-center text-sm font-medium text-gray-600">
                   {lesson.student.lesson_rate} {authUser?.currency}
                 </span>
                 <button

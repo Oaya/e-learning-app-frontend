@@ -81,7 +81,7 @@ export default function HomeworkSubmitPage() {
   return (
     <div className="page-container">
       {/* Top bar */}
-      <section className="page-header-row flex-nowrap items-start gap-2">
+      <section className="page-header-row flex-nowrap items-start gap-4 md:gap-6">
         <button
           onClick={() => navigate("/student/homework")}
           className="flex shrink-0 items-center gap-1 text-gray-500 hover:text-gray-700 md:gap-2"
@@ -115,10 +115,10 @@ export default function HomeworkSubmitPage() {
         </div>
       </section>
 
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         <HomeworkHeaderPanel hw={homework} />
 
-        <div className="items-stretch gap-5 md:flex">
+        <div className="items-stretch gap-6 md:flex">
           {/* Written answer */}
           <div className="panel-box flex shrink-0 grow-0 basis-[60%] flex-col max-sm:mb-4">
             <p className="panel-header mb-2">Written answer</p>

@@ -37,7 +37,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
       </div>
 
       {/* Divider */}
-      <div className="mr-4 ml-2 h-18 w-px shrink-0 bg-gray-200 md:h-14 xl:mx-4" />
+      <div className="mr-4 ml-2 h-18 w-px shrink-0 bg-gray-200 xl:mx-4 xl:h-14" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
@@ -45,8 +45,8 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
           {lesson.topic}
         </p>
 
-        <div className="mt-1 flex flex-wrap items-center gap-3">
-          <span className="flex items-center gap-1 text-xs text-gray-400">
+        <div className="mt-1 flex flex-wrap items-center gap-3 md:flex-nowrap">
+          <span className="flex shrink-0 items-center gap-1 text-xs whitespace-nowrap text-gray-400">
             <HiOutlineClock size={16} />
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
@@ -63,7 +63,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             e.stopPropagation();
             navigate(`/lessons/${lesson.id}/meeting`);
           }}
-          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 lg:inline-flex"
         >
           <HiOutlineVideoCamera size={16} />
           Join
@@ -72,8 +72,11 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
 
       {lesson.recording_url && lesson.status === "completed" && (
         <button
-          onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
-          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/student/lessons/${lesson.id}`);
+          }}
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 lg:inline-flex"
         >
           <HiOutlineVideoCamera size={16} />
           Watch
@@ -110,6 +113,32 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             </ActionBtn>
           </>
         </div>
+
+        {canJoinLesson(lesson) && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/lessons/${lesson.id}/meeting`);
+            }}
+            className="btn-white inline-flex gap-1 px-2 py-1.5 lg:hidden"
+          >
+            <HiOutlineVideoCamera size={16} />
+            Join
+          </button>
+        )}
+
+        {lesson.recording_url && lesson.status === "completed" && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/lessons/lessons/${lesson.id}`);
+            }}
+            className="btn-white inline-flex gap-1 px-2 py-1.5 lg:hidden"
+          >
+            <HiOutlineVideoCamera size={16} />
+            Watch
+          </button>
+        )}
       </div>
 
       {cancelOpen && (

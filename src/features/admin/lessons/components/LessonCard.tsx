@@ -73,7 +73,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       </div>
 
       {/* Divider */}
-      <div className="mr-4 ml-2 h-18 w-px shrink-0 bg-gray-200 md:h-14 xl:mx-4" />
+      <div className="mr-4 ml-2 h-18 w-px shrink-0 bg-gray-200 xl:mx-4 xl:h-14" />
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
@@ -91,18 +91,20 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
           </>
         )}
 
-        <div className="mt-1 flex flex-wrap items-center gap-3">
-          <span className="flex items-center gap-1 text-xs text-gray-400">
+        <div className="mt-1 flex flex-wrap items-center gap-3 md:flex-nowrap">
+          <span className="flex shrink-0 items-center gap-1 text-xs whitespace-nowrap text-gray-400">
             <HiOutlineClock size={16} />
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
-          <span className="flex items-center gap-1 text-xs text-gray-400">
+          <span className="flex min-w-0 items-center gap-1 text-xs whitespace-nowrap text-gray-400">
             <img
               src={lesson.student.avatar || defaultAvatar}
               alt="avatar"
-              className="h-6 w-6 rounded-full object-cover group-hover:opacity-80"
+              className="h-6 w-6 shrink-0 rounded-full object-cover group-hover:opacity-80"
             />
-            {lesson.student.first_name} {lesson.student.last_name}
+            <span className="truncate">
+              {lesson.student.first_name} {lesson.student.last_name}
+            </span>
           </span>
         </div>
       </div>
@@ -113,7 +115,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
             e.stopPropagation();
             navigate(`/lessons/${lesson.id}/meeting`);
           }}
-          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 lg:inline-flex"
         >
           <HiOutlineVideoCamera size={16} />
           Join
@@ -123,7 +125,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
       {lesson.recording_url && lesson.status === "completed" && (
         <button
           onClick={() => navigate(`/admin/lessons/${lesson.id}`)}
-          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 xl:inline-flex"
+          className="btn-white mt-2 mr-4 hidden gap-1 px-2 py-1.5 lg:inline-flex"
         >
           <HiOutlineVideoCamera size={16} />
           Watch
@@ -174,7 +176,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
               e.stopPropagation();
               navigate(`/lessons/${lesson.id}/meeting`);
             }}
-            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
+            className="btn-white inline-flex gap-1 px-2 py-1.5 lg:hidden"
           >
             <HiOutlineVideoCamera size={16} />
             Join
@@ -187,7 +189,7 @@ export default function LessonCard({ lesson, allLessons, timezone }: Props) {
               e.stopPropagation();
               navigate(`/admin/lessons/${lesson.id}`);
             }}
-            className="btn-white inline-flex gap-1 px-2 py-1.5 xl:hidden"
+            className="btn-white inline-flex gap-1 px-2 py-1.5 lg:hidden"
           >
             <HiOutlineVideoCamera size={16} />
             Watch
