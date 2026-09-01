@@ -1,7 +1,7 @@
 import { TbLanguage } from "react-icons/tb";
-import { HiOutlineChatBubbleLeftRight, LuCalendarDays } from "react-icons/hi";
-import { LuTarget } from "react-icons/lu";
+import { LuCalendarDays, LuTarget } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 
 interface Props {
   children: React.ReactNode;

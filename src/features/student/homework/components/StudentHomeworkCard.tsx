@@ -1,9 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {
-  HiOutlineLanguage,
-  HiOutlineCalendar,
-  HiOutlineEye,
-} from "react-icons/hi";
+import { HiOutlineCalendar, HiOutlineEye } from "react-icons/hi";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 
 import type { Homework } from "@/type/homework";
@@ -11,6 +7,7 @@ import { HW_BORDER_COLOR, HW_STATUS_BADGE } from "@/utils/constants";
 
 import { getHomeworkDateLabel } from "@/utils/helper";
 import Badge from "@/ui/Badge";
+import { LuLanguages } from "react-icons/lu";
 
 type Props = {
   hw: Homework;
@@ -34,7 +31,7 @@ export default function StudentHomeworkCard({ hw }: Props) {
           </span>
           {hw.language && (
             <span className="flex items-center gap-1 text-xs text-gray-400 capitalize">
-              <HiOutlineLanguage size={16} />
+              <LuLanguages size={16} />
               {hw.language} · {hw.level}
             </span>
           )}

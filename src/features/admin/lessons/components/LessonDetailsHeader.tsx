@@ -3,12 +3,11 @@ import {
   HiOutlineTrash,
   HiOutlineClock,
   HiOutlineCalendar,
-  LuLanguages,
   HiOutlineVideoCamera,
   HiOutlineArrowLeft,
 } from "react-icons/hi";
 import dayjs from "dayjs";
-import { LuExternalLink } from "react-icons/lu";
+import { LuExternalLink, LuLanguages } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 
 import { canJoinLesson, formatTime, requireStatusChange } from "@/utils/helper";

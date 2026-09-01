@@ -2,7 +2,6 @@ import {
   HiOutlineTrash,
   HiOutlineCheck,
   HiOutlinePencil,
-  HiOutlineArrowUturnLeft,
 } from "react-icons/hi";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import dayjs from "dayjs";
@@ -13,6 +12,7 @@ import { useInvoices } from "../hooks/useInvoices";
 import type { Invoice } from "@/type/invoice";
 import Badge from "@/ui/Badge";
 import { INVOICE_STATUS_BADGE } from "@/utils/constants";
+import { HiOutlineArrowUturnLeft } from "react-icons/hi2";
 
 type Props = {
   lesson: Lesson;

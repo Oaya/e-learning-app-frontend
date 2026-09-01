@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  HiOutlineSparkles,
-  HiOutlineArrowLeft,
-  HiOutlineArrowPath,
-} from "react-icons/hi";
+import { HiOutlineSparkles, HiOutlineArrowLeft } from "react-icons/hi";
 
 import { useUsers } from "@/features/admin/students/hooks/useUsers";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
@@ -14,6 +10,7 @@ import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
 import { levels, type StudentOption } from "@/type/user";
 import { EXERCISE_TYPES, TOPIC_CHIPS } from "@/utils/constants";
+import { HiOutlineArrowPath } from "react-icons/hi2";
 
 type Props = {
   isOpen: boolean;

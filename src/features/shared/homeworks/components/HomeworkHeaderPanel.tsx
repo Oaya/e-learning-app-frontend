@@ -1,11 +1,12 @@
 import dayjs from "dayjs";
-import { HiOutlineCalendar, HiOutlineLanguage } from "react-icons/hi";
+import { HiOutlineCalendar } from "react-icons/hi";
 
 import type { Homework } from "@/type/homework";
 import { HW_STATUS_BADGE } from "@/utils/constants";
 import Badge from "@/ui/Badge";
 import defaultAvatar from "@/assets/user.png";
 import { useAuth } from "@/contexts/AuthContext";
+import { LuLanguages } from "react-icons/lu";
 
 type Props = {
   hw: Homework;
@@ -62,7 +63,7 @@ export default function HomeworkHeaderPanel({ hw }: Props) {
 
         {hw.language && (
           <span className="flex items-center gap-1">
-            <HiOutlineLanguage size={14} />
+            <LuLanguages size={14} />
             {hw.language} · {hw.level}
           </span>
         )}

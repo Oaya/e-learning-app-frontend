@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import ReactPaginate from "react-paginate";
 import {
-  LuCalendarDays,
   HiOutlineCalendar,
   HiOutlineClock,
   HiCreditCard,
@@ -25,6 +24,7 @@ import type { User } from "@/type/user";
 import { useLessons } from "../hooks/useLessons";
 import { PAGE_SIZE } from "@/utils/constants";
 import PageLoadingState from "@/ui/PageLoadingState";
+import { LuCalendarDays } from "react-icons/lu";
 
 type LessonsListProps = {
   studentId?: string;

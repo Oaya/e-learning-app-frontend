@@ -2,9 +2,7 @@ import {
   HiOutlinePencil,
   HiOutlineEye,
   HiOutlineTrash,
-  // HiOutlineBell,
   HiOutlineCalendar,
-  HiOutlineLanguage,
 } from "react-icons/hi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +16,7 @@ import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";
 import defaultAvatar from "@/assets/user.png";
 import Badge from "@/ui/Badge";
+import { LuLuggage } from "react-icons/lu";
 
 type Props = {
   hw: Homework;
@@ -62,7 +61,7 @@ export default function HomeworkCard({ hw }: Props) {
           </span>
           {hw.language && (
             <span className="flex items-center gap-1 text-xs text-gray-400 capitalize">
-              <HiOutlineLanguage size={14} />
+              <LuLuggage size={14} />
               {hw.language} · {hw.level}
             </span>
           )}

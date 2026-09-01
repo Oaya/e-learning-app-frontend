@@ -1,4 +1,4 @@
-import { HiOutlineXMark } from "react-icons/hi";
+import { HiOutlineX } from "react-icons/hi";
 import { HW_UPLOAD_BUTTON } from "@/utils/constants";
 import type { Attachment } from "@/type/homework_submission";
 
@@ -46,7 +46,7 @@ export default function HomeworkAttachedFiles({
               onClick={() => onRemove(a.id)}
               className="text-gray-300 hover:text-black"
             >
-              <HiOutlineXMark size={16} />
+              <HiOutlineX size={16} />
             </button>
           </div>
         );

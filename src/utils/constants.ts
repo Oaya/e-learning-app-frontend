@@ -12,7 +12,7 @@ import {
   HiOutlineDocumentArrowUp,
   HiOutlineHandThumbUp,
   HiOutlineWrenchScrewdriver,
-} from "react-icons/hi";
+} from "react-icons/hi2";
 import type { AttachmentType, ScoreType } from "@/type/homework_submission";
 import type { GoalStatusType } from "@/type/goal";
 import type { LessonStatusType } from "@/type/lesson";

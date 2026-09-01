@@ -7,7 +7,7 @@ import {
   HiOutlineCog6Tooth,
   HiOutlinePhoneXMark,
   HiOutlineComputerDesktop,
-} from "react-icons/hi";
+} from "react-icons/hi2";
 import { TbNotes } from "react-icons/tb";
 
 type MobileControlBarProps = {

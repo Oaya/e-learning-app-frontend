@@ -4,7 +4,6 @@ import {
   HiOutlineChevronRight,
   HiOutlinePencil,
   HiOutlineTrash,
-  HiOutlineArrowUturnLeft,
   HiOutlineEye,
 } from "react-icons/hi";
 
@@ -18,6 +17,7 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import Badge from "@/ui/Badge";
 import { INVOICE_STATUS_BADGE } from "@/utils/constants";
+import { HiOutlineArrowUturnLeft } from "react-icons/hi2";
 
 export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
   const [editInvoiceOpen, setEditInvoiceOpen] = useState("");
