@@ -2,7 +2,7 @@ import PageLoadingState from "@/ui/PageLoadingState";
 import { useInvoices } from "../../lessons/hooks/useInvoices";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import InvoicesTable from "../components/InvoicesTable";
 import CustomSelect from "@/ui/CustomSelect";
 import { invoiceStatus, PAGE_SIZE } from "@/utils/constants";

@@ -6,10 +6,7 @@ import {
   HiOutlineVideoCamera,
   HiOutlineArrowLeft,
 } from "react-icons/hi2";
-import {
-  MdOutlineFreeCancellation,
-  MdOutlineKeyboardBackspace,
-} from "react-icons/md";
+import { MdOutlineFreeCancellation } from "react-icons/md";
 import dayjs from "dayjs";
 
 import { canJoinLesson, formatTime } from "@/utils/helper";
