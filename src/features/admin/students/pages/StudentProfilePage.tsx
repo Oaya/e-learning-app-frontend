@@ -179,13 +179,16 @@ export default function StudentProfile() {
           value={goalTotal === 0 ? 0 : `${goalCompleted}/${goalTotal}`}
           sub={`${goalProgress} in progress`}
         />
-        <StatCard
-          icon={HiCreditCard}
-          label="Balance"
-          value={`${Number.isInteger(owed) ? owed : owed.toFixed(2)} ${authUser?.currency ?? ""}`}
-          sub={`${unpaidLessons.length} lesson${unpaidLessons.length === 1 ? "" : "s"} owed`}
-          subColor
-        />
+
+        {canTrackInvoice && (
+          <StatCard
+            icon={HiCreditCard}
+            label="Balance"
+            value={`${Number.isInteger(owed) ? owed : owed.toFixed(2)} ${authUser?.currency ?? ""}`}
+            sub={`${unpaidLessons.length} lesson${unpaidLessons.length === 1 ? "" : "s"} owed`}
+            subColor
+          />
+        )}
       </section>
 
       {/* Two panels — 50/50 */}
