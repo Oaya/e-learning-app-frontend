@@ -128,4 +128,8 @@
   .scrollbar-none::-webkit-scrollbar {
     display: none;
   }
+
+  .pagination {
+    @apply rounded border border-gray-300 px-3 py-1 text-gray-500;
+  }
 }

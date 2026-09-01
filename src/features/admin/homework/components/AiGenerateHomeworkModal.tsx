@@ -29,7 +29,7 @@ export default function AiGenerateHomeworkModal({
   student: defaultStudent,
 }: Props) {
   const alert = useAlert();
-  const { users: students } = useUsers({});
+  const { users: students } = useUsers();
   const { createHomework, isCreating } = useHomeworks();
 
   // Step state

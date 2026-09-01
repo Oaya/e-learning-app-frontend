@@ -26,7 +26,7 @@ export default function UpsertHomeworkModal({
   student,
 }: ModalProps) {
   const alert = useAlert();
-  const { users: students } = useUsers({});
+  const { users: students } = useUsers();
   const { createHomework, isCreating, updateHomework, isUpdating } =
     useHomeworks();
 

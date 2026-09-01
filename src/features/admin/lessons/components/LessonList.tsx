@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import ReactPaginate from "react-paginate";
 import {
   HiOutlineCalendarDays,
   HiOutlineCalendar,
@@ -22,6 +23,8 @@ import {
 } from "@/features/shared/lessons/constants";
 import type { User } from "@/type/user";
 import { useLessons } from "../hooks/useLessons";
+import { PAGE_SIZE } from "@/utils/constants";
+import PageLoadingState from "@/ui/PageLoadingState";
 
 type LessonsListProps = {
   studentId?: string;
@@ -36,30 +39,41 @@ export default function LessonsList({
 }: LessonsListProps) {
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
   const [search, setSearch] = useState("");
+  const [pastPage, setPastPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const { user: authUser } = useAuth();
-  const { lessons } = useLessons(studentId);
+  const { lessons, isLoading } = useLessons(studentId);
   const { lessons: allLessons } = useLessons();
 
   const canTrackInvoice =
     authUser?.role === "admin" && authUser?.has_pro_access;
 
   const filtered = useMemo(() => {
-    return lessons?.filter((s) => {
-      const matchTab = activeTab === "all" ? true : s.status === activeTab;
-      const studentName = `${s.student.first_name} ${s.student.last_name}`;
+    return lessons?.filter((l) => {
+      const matchTab = activeTab === "all" ? true : l.status === activeTab;
+      const studentName = `${l.student.first_name} ${l.student.last_name}`;
 
       const q = search.toLowerCase();
       const matchSearch =
         !q ||
         studentName.toLowerCase().includes(q) ||
-        s.topic.toLowerCase().includes(q);
+        l.topic.toLowerCase().includes(q);
 
       return matchTab && matchSearch;
     });
   }, [lessons, activeTab, search]);
 
   const { upcoming, past } = useUpcomingPastSplit(filtered);
+
+  // Reset to page 1 whenever filters or search change
+  useEffect(() => {
+    setPastPage(1);
+  }, [activeTab, search]);
+
+  const paginatedPast = past?.slice(
+    (pastPage - 1) * PAGE_SIZE,
+    pastPage * PAGE_SIZE,
+  );
 
   // Stats
   const thisMonth = lessons?.filter(
@@ -89,6 +103,10 @@ export default function LessonsList({
     lessons?.filter((l) => l.invoice_id && l.invoice_status === "unpaid") ?? [];
   const unpaidStudentCount = new Set(unpaidLessons.map((l) => l.student.id))
     .size;
+
+  if (isLoading) {
+    return <PageLoadingState message="Loading lessons..." />;
+  }
 
   return (
     <div className="page-container">
@@ -181,11 +199,30 @@ export default function LessonsList({
           {past && past.length > 0 && (
             <section>
               <CardHeader type="past" />
-              <div className="space-y-2">
-                {past.slice(0, 8).map((s) => (
+              <div className="space-y-4">
+                {paginatedPast?.map((s) => (
                   <LessonCard key={s.id} lesson={s} />
                 ))}
               </div>
+
+              {past.length > PAGE_SIZE && (
+                <ReactPaginate
+                  breakLabel="..."
+                  nextLabel=">"
+                  previousLabel="<"
+                  forcePage={pastPage - 1}
+                  onPageChange={(e) => setPastPage(e.selected + 1)}
+                  pageRangeDisplayed={5}
+                  pageCount={Math.ceil(past.length / PAGE_SIZE)}
+                  renderOnZeroPageCount={null}
+                  containerClassName="mt-4 flex items-center justify-center gap-2"
+                  pageClassName="pagination"
+                  activeClassName="bg-gray-200 font-semibold"
+                  previousClassName="pagination"
+                  nextClassName="pagination"
+                  disabledClassName="opacity-50 cursor-not-allowed"
+                />
+              )}
             </section>
           )}
         </div>

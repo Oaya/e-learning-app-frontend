@@ -10,12 +10,13 @@ import UserFilterDropDown from "@/features/admin/students/components/UserFilterD
 import UsersTable from "@/features/admin/students/components/UsersTable";
 import { useUserTableControl } from "@/features/admin/students/hooks/useUserTableControl";
 import PageLoadingState from "@/ui/PageLoadingState";
+import { PAGE_SIZE } from "@/utils/constants";
 
 export default function StudentsPage() {
   const [isInviteOpen, setInviteOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
-  const [userOffset, setUserOffset] = useState(0);
+  const [search, setSearch] = useState("");
+  const [pastPage, setPastPage] = useState(1);
 
   const {
     sorts,
@@ -29,34 +30,54 @@ export default function StudentsPage() {
     updateSelectedFilters,
   } = useUserTableControl();
 
-  const {
-    users = [],
-    isLoading,
-    isError,
-    error,
-  } = useUsers({
-    filters: selectedFilters,
-    search: searchInput,
-    sorts,
-  });
+  const { users = [], isLoading, isError, error } = useUsers();
 
-  const itemsPerPage = 10;
-  const endOffset = userOffset + itemsPerPage;
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase();
+
+    const result = users.filter((u) => {
+      const studentName = `${u.first_name} ${u.last_name}`;
+
+      const matchSearch =
+        !q ||
+        studentName.toLowerCase().includes(q) ||
+        u.email.toLowerCase().includes(q);
+
+      const matchFilters = Object.entries(selectedFilters).every(
+        ([key, values]) =>
+          values.length === 0 ||
+          values.includes(String(u[key as keyof typeof u])),
+      );
+
+      return matchSearch && matchFilters;
+    });
+
+    if (sorts.length > 0) {
+      result.sort((a, b) => {
+        for (const { field, dir } of sorts) {
+          const aValue = String(a[field as keyof typeof a] ?? "");
+          const bValue = String(b[field as keyof typeof b] ?? "");
+          const cmp = aValue.localeCompare(bValue);
+
+          if (cmp !== 0) return dir === "asc" ? cmp : -cmp;
+        }
+        return 0;
+      });
+    }
+
+    return result;
+  }, [users, search, selectedFilters, sorts]);
+
+  const pageCount = Math.ceil(filtered.length / PAGE_SIZE);
 
   const displayUsers = useMemo(() => {
-    return users.slice(userOffset, endOffset);
-  }, [users, userOffset, endOffset]);
-
-  const pageCount = Math.ceil(users.length / itemsPerPage);
+    const start = (pastPage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, pastPage]);
 
   useEffect(() => {
-    setUserOffset(0);
-  }, [searchInput, selectedFilters, sorts]);
-
-  function handlePageClick(event: { selected: number }) {
-    const newOffset = event.selected * itemsPerPage;
-    setUserOffset(newOffset);
-  }
+    setPastPage(1);
+  }, [search, selectedFilters, sorts]);
 
   if (isLoading) {
     return <PageLoadingState message="Loading students..." />;
@@ -96,8 +117,8 @@ export default function StudentsPage() {
           className="form-input mb-0 h-10.5 w-100 px-3 max-sm:text-[11px]"
           type="text"
           placeholder="Search student by First, Last name or Email"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
         <div className="relative max-sm:ml-2 md:ml-auto">
@@ -150,15 +171,15 @@ export default function StudentsPage() {
           breakLabel="..."
           nextLabel=">"
           previousLabel="<"
-          onPageChange={handlePageClick}
+          onPageChange={(e) => setPastPage(e.selected + 1)}
           pageRangeDisplayed={5}
           pageCount={pageCount}
           renderOnZeroPageCount={null}
           containerClassName="mt-4 flex items-center justify-center gap-2"
-          pageClassName="rounded border px-3 py-1"
+          pageClassName="pagination"
           activeClassName="bg-gray-200 font-semibold"
-          previousClassName="rounded border px-3 py-1"
-          nextClassName="rounded border px-3 py-1"
+          previousClassName="pagination"
+          nextClassName="pagination"
           disabledClassName="opacity-50 cursor-not-allowed"
         />
       )}

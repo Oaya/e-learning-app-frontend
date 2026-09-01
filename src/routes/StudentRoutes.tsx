@@ -26,7 +26,7 @@ const StudentGoalsPage = lazy(
   () => import("@/features/shared/goals/pages/GoalsPage"),
 );
 const GoalDetailPage = lazy(
-  () => import("@/features/student/goals/pages/GoalDetailPage"),
+  () => import("@/features/shared/goals/pages/GoalDetailPage"),
 );
 const MyProfilePage = lazy(
   () => import("@/features/shared/profile/pages/MyProfilePage"),

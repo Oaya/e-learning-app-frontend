@@ -40,7 +40,7 @@ export default function UpsertLessonModal({
   timezone,
 }: ModalProps) {
   const alert = useAlert();
-  const { users: students } = useUsers({});
+  const { users: students } = useUsers();
   const { createLesson, isCreating, updateLesson, isUpdating } = useLessons();
 
   const selectableStudent = students?.filter((s) => s.status === "active");

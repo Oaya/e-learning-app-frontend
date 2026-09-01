@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import InvoicesTable from "../components/InvoicesTable";
 import CustomSelect from "@/ui/CustomSelect";
-import { invoiceStatus } from "@/utils/constants";
+import { invoiceStatus, PAGE_SIZE } from "@/utils/constants";
 import StatCard from "@/ui/StatCard";
 import EmptyState from "@/ui/EmptyState";
 import {
@@ -24,6 +24,10 @@ const statusOptions = [
 ];
 
 export default function PaymentsPage() {
+  const [search, setSearch] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [pastPage, setPastPage] = useState(1);
+
   const { user: authUser } = useAuth();
   const canAccessPayments =
     authUser?.role === "admin" && authUser?.has_pro_access;
@@ -31,13 +35,6 @@ export default function PaymentsPage() {
   const { invoices = [], isLoading } = useInvoices(undefined, {
     enabled: canAccessPayments,
   });
-
-  const [searchInput, setSearchInput] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("all");
-  const [userOffset, setUserOffset] = useState(0);
-
-  const itemsPerPage = 10;
-  const endOffset = userOffset + itemsPerPage;
 
   // Filter rows based on selection
   const filtered = invoices.filter((i) => {
@@ -48,32 +45,23 @@ export default function PaymentsPage() {
 
     // Search filter
     const searchMatches =
-      !searchInput ||
-      i.student.first_name.toLowerCase().includes(searchInput.toLowerCase()) ||
-      i.student.last_name.toLowerCase().includes(searchInput.toLowerCase()) ||
-      i.lesson.topic.toLowerCase().includes(searchInput.toLowerCase());
+      !search ||
+      i.student.first_name.toLowerCase().includes(search.toLowerCase()) ||
+      i.student.last_name.toLowerCase().includes(search.toLowerCase()) ||
+      i.lesson.topic.toLowerCase().includes(search.toLowerCase());
 
     return statusMatches && searchMatches;
   });
+  const pageCount = Math.ceil(filtered.length / PAGE_SIZE);
 
   const displayInvoices = useMemo(() => {
-    return filtered.slice(userOffset, endOffset);
-  }, [filtered, userOffset, endOffset]);
-
-  const pageCount = Math.ceil(filtered.length / itemsPerPage);
+    const start = (pastPage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, pastPage]);
 
   const uniqueStudentCount = new Set(invoices.map((i) => i.student.id)).size;
 
   const monthlyData = useMemo(() => groupInvoicesByMonth(invoices), [invoices]);
-
-  useEffect(() => {
-    setUserOffset(0);
-  }, [searchInput, selectedStatus]);
-
-  function handlePageClick(event: { selected: number }) {
-    const newOffset = event.selected * itemsPerPage;
-    setUserOffset(newOffset);
-  }
 
   if (!canAccessPayments) {
     return (
@@ -155,8 +143,8 @@ export default function PaymentsPage() {
           className="form-input mb-0 h-10.5 w-80 px-3 max-sm:text-[11px] md:w-100"
           type="text"
           placeholder="Search by student or lesson..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
         <CustomSelect
@@ -183,15 +171,15 @@ export default function PaymentsPage() {
           breakLabel="..."
           nextLabel=">"
           previousLabel="<"
-          onPageChange={handlePageClick}
+          onPageChange={(e) => setPastPage(e.selected + 1)}
           pageRangeDisplayed={5}
           pageCount={pageCount}
           renderOnZeroPageCount={null}
           containerClassName="mt-4 flex items-center justify-center gap-2"
-          pageClassName="rounded border px-3 py-1"
+          pageClassName="pagination"
           activeClassName="bg-gray-200 font-semibold"
-          previousClassName="rounded border px-3 py-1"
-          nextClassName="rounded border px-3 py-1"
+          previousClassName="pagination"
+          nextClassName="pagination"
           disabledClassName="opacity-50 cursor-not-allowed"
         />
       )}

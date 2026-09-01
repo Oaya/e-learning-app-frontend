@@ -8,7 +8,6 @@ import { GOAL_BORDER_COLOR, GOAL_STATUS_BADGE } from "@/utils/constants";
 import type { Goal } from "@/type/goal";
 import Badge from "@/ui/Badge";
 import ActionBtn from "@/ui/ActionButton";
-import { useAuth } from "@/contexts/AuthContext";
 
 type Props = {
   goal: Goal;
@@ -17,7 +16,6 @@ type Props = {
 };
 
 export default function GoalCard({ goal, openEdit, openDelete }: Props) {
-  const { user: authUser } = useAuth();
   return (
     <div className={`card ${GOAL_BORDER_COLOR[goal.status]}`}>
       {/* Main */}
@@ -57,23 +55,21 @@ export default function GoalCard({ goal, openEdit, openDelete }: Props) {
               </div>
             </div>
 
-            {authUser?.role === "admin" && (
-              <div
-                className="flex shrink-0 gap-1"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {openEdit && (
-                  <ActionBtn title="Edit" onClick={() => openEdit(goal)}>
-                    <HiOutlinePencil size={14} />
-                  </ActionBtn>
-                )}
-                {openDelete && (
-                  <ActionBtn title="Delete" onClick={() => openDelete(goal)}>
-                    <HiOutlineTrash size={14} />
-                  </ActionBtn>
-                )}
-              </div>
-            )}
+            <div
+              className="flex shrink-0 gap-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {openEdit && (
+                <ActionBtn title="Edit" onClick={() => openEdit(goal)}>
+                  <HiOutlinePencil size={14} />
+                </ActionBtn>
+              )}
+              {openDelete && (
+                <ActionBtn title="Delete" onClick={() => openDelete(goal)}>
+                  <HiOutlineTrash size={14} />
+                </ActionBtn>
+              )}
+            </div>
           </div>
         </div>
       </div>

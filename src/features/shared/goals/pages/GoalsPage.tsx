@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 import {
   HiOutlineArrowLeft,
   HiOutlineDocumentText,
@@ -19,6 +20,7 @@ import GoalCard from "@/features/shared/goals/components/GoalCard";
 import UpsertGoalModal from "@/features/shared/goals/components/UpsertGoalModal";
 import EmptyState from "@/ui/EmptyState";
 import PageLoadingState from "@/ui/PageLoadingState";
+import { PAGE_SIZE } from "@/utils/constants";
 
 export type GoalFilterTab = "all" | GoalStatusType;
 
@@ -30,6 +32,12 @@ export const GOAL_TABS: GoalFilterTab[] = [
 ];
 
 export default function GoalsPage() {
+  const [activeTab, setActiveTab] = useState<GoalFilterTab>("all");
+  const [modalOpen, setModalOpen] = useState<"create" | "edit" | null>(null);
+  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [pastPage, setPastPage] = useState(1);
+
   const { id: studentIdParam } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user: authUser } = useAuth();
@@ -37,15 +45,21 @@ export default function GoalsPage() {
 
   const userId = isAdmin ? (studentIdParam ?? "") : (authUser?.id ?? "");
   const { user: student } = useUser(isAdmin ? userId : "");
-  const { goals, isLoading, deleteGoal, isDeleting } = useGoals(userId);
-
-  const [activeTab, setActiveTab] = useState<GoalFilterTab>("all");
-  const [modalOpen, setModalOpen] = useState<"create" | "edit" | null>(null);
-  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const { goals = [], isLoading, deleteGoal, isDeleting } = useGoals(userId);
 
   const filtered =
     activeTab === "all" ? goals : goals?.filter((g) => g.status === activeTab);
+
+  const pageCount = Math.ceil(filtered.length / PAGE_SIZE);
+
+  const displayGoals = useMemo(() => {
+    const start = (pastPage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, pastPage]);
+
+  useEffect(() => {
+    setPastPage(1);
+  }, [activeTab]);
 
   const count = (s: GoalStatusType) =>
     goals?.filter((g) => g.status === s).length ?? 0;
@@ -73,7 +87,7 @@ export default function GoalsPage() {
   }
 
   if (isAdmin && !userId) return <p>User ID is missing.</p>;
-  if (isLoading) return <PageLoadingState />;
+  if (isLoading) return <PageLoadingState message="Loading goals..." />;
 
   return (
     <div className="page-container">
@@ -94,14 +108,12 @@ export default function GoalsPage() {
           <h1 className="page-title">My Goals</h1>
         )}
 
-        {isAdmin && (
-          <button
-            onClick={() => setModalOpen("create")}
-            className="btn-primary flex items-center gap-1.5"
-          >
-            + Add goal
-          </button>
-        )}
+        <button
+          onClick={() => setModalOpen("create")}
+          className="btn-primary flex items-center gap-1.5"
+        >
+          + Add goal
+        </button>
       </section>
 
       {/* stats */}
@@ -141,8 +153,8 @@ export default function GoalsPage() {
       {filtered?.length === 0 ? (
         <EmptyState message="No goals matches your filter." />
       ) : (
-        <div className="space-y-6">
-          {filtered?.map((goal) => (
+        <div className="space-y-4">
+          {displayGoals?.map((goal) => (
             <div
               key={goal.id}
               onClick={() => goToGoal(goal.id)}
@@ -150,16 +162,35 @@ export default function GoalsPage() {
             >
               <GoalCard
                 goal={goal}
-                openEdit={isAdmin ? openEdit : undefined}
-                openDelete={isAdmin ? openDelete : undefined}
+                openEdit={openEdit}
+                openDelete={openDelete}
               />
             </div>
           ))}
         </div>
       )}
 
-      {/* Modals (admin only) */}
-      {isAdmin && modalOpen && (
+      {pageCount > 1 && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel=">"
+          previousLabel="<"
+          forcePage={pastPage - 1}
+          onPageChange={(e) => setPastPage(e.selected + 1)}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          renderOnZeroPageCount={null}
+          containerClassName="mt-4 flex items-center justify-center gap-2"
+          pageClassName="pagination"
+          activeClassName="bg-gray-200 font-semibold"
+          previousClassName="pagination"
+          nextClassName="pagination"
+          disabledClassName="opacity-50 cursor-not-allowed"
+        />
+      )}
+
+      {/* Modals  */}
+      {modalOpen && (
         <UpsertGoalModal
           openType={modalOpen === "create" ? "Create" : "Edit"}
           onClose={closeModal}

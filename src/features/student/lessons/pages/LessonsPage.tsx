@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import ReactPaginate from "react-paginate";
 import {
   HiOutlineCalendarDays,
   HiOutlineCalendar,
@@ -18,11 +19,13 @@ import {
   type LessonFilterTab,
 } from "@/features/shared/lessons/constants";
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
+import { PAGE_SIZE } from "@/utils/constants";
 
 dayjs.extend(relativeTime);
 
 export default function StudentLessonsPage() {
   const [activeTab, setActiveTab] = useState<LessonFilterTab>("all");
+  const [pastPage, setPastPage] = useState(1);
   const { lessons, isLoading } = useLessons();
 
   const filtered = useMemo(() => {
@@ -32,6 +35,15 @@ export default function StudentLessonsPage() {
   }, [lessons, activeTab]);
 
   const { upcoming, past } = useUpcomingPastSplit(filtered);
+
+  useEffect(() => {
+    setPastPage(1);
+  }, [activeTab]);
+
+  const paginatedPast = past?.slice(
+    (pastPage - 1) * PAGE_SIZE,
+    pastPage * PAGE_SIZE,
+  );
 
   //Stats
   let totalHours: number = 0;
@@ -103,11 +115,30 @@ export default function StudentLessonsPage() {
           {past && past.length > 0 && (
             <>
               <CardHeader type="past" />
-              <div className="space-y-2">
-                {past.slice(0, 8).map((l) => (
+              <div className="space-y-4">
+                {paginatedPast?.map((l) => (
                   <StudentLessonCard key={l.id} lesson={l} />
                 ))}
               </div>
+
+              {past.length > PAGE_SIZE && (
+                <ReactPaginate
+                  breakLabel="..."
+                  nextLabel=">"
+                  previousLabel="<"
+                  forcePage={pastPage - 1}
+                  onPageChange={(e) => setPastPage(e.selected + 1)}
+                  pageRangeDisplayed={5}
+                  pageCount={Math.ceil(past.length / PAGE_SIZE)}
+                  renderOnZeroPageCount={null}
+                  containerClassName="mt-4 flex items-center justify-center gap-2"
+                  pageClassName="pagination"
+                  activeClassName="bg-gray-200 font-semibold"
+                  previousClassName="pagination"
+                  nextClassName="pagination"
+                  disabledClassName="opacity-50 cursor-not-allowed"
+                />
+              )}
             </>
           )}
         </div>

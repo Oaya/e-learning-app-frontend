@@ -19,6 +19,8 @@ import type { LessonStatusType } from "@/type/lesson";
 import type { Status } from "@/type/user";
 import type { InvoiceStatusType } from "@/type/invoice";
 
+export const PAGE_SIZE = 10;
+
 export const lessonDuration = [30, 60, 90, 120] as const;
 export const currencies = [
   "USD",

@@ -5,22 +5,15 @@ import {
   keepPreviousData,
 } from "@tanstack/react-query";
 
-import type { InviteUser, User, UserSort } from "@/type/user";
+import type { InviteUser, User } from "@/type/user";
 import { getStudents, inviteUser } from "@/api/users";
 import { unwrapResponse } from "@/api/helper";
 import { useAlert } from "@/contexts/AlertContext";
 
-export type UserQueryInput = {
-  filters?: Record<string, string[]>;
-  search?: string;
-  sorts?: UserSort[];
-};
-
-export function useUsers({ filters, search, sorts }: UserQueryInput) {
+export function useUsers() {
   const userQuery = useQuery<User[], Error>({
-    queryKey: ["users", { filters, search, sorts }],
-    queryFn: async () =>
-      unwrapResponse<User[]>(await getStudents({ filters, search, sorts })),
+    queryKey: ["users"],
+    queryFn: async () => unwrapResponse<User[]>(await getStudents()),
     staleTime: 60_000,
     placeholderData: keepPreviousData, // keep the previous data while fetching
   });

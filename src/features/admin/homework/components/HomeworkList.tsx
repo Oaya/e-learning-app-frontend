@@ -1,4 +1,5 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import ReactPaginate from "react-paginate";
 import {
   HiOutlineDocumentText,
   HiOutlineCheck,
@@ -20,6 +21,8 @@ import {
 } from "@/features/shared/homeworks/constants";
 import type { User } from "@/type/user";
 import CardHeader from "@/ui/CardHeader";
+import PageLoadingState from "@/ui/PageLoadingState";
+import { PAGE_SIZE } from "@/utils/constants";
 
 export const HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",
@@ -54,11 +57,13 @@ export default function HomeworkList({
   const [modalOpen, setModalOpen] = useState(false);
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const { homeworks, isLoading } = useHomeworks(studentId);
+  const [pastPage, setPastPage] = useState(1);
 
   const filtered = useMemo(() => {
     return homeworks?.filter((hw) => {
       const matchedTab = matchesTab(hw, activeTab);
       const studentName = `${hw.student.first_name} ${hw.student.last_name}`;
+
       const q = search.toLowerCase();
       const matchSearch =
         !q ||
@@ -68,7 +73,11 @@ export default function HomeworkList({
     });
   }, [homeworks, activeTab, search]);
 
-  // Stats — draft counts as pending
+  useEffect(() => {
+    setPastPage(1);
+  }, [search, activeTab]);
+
+  // Stats
   const total = homeworks?.length ?? 0;
   const pending =
     homeworks?.filter((h) => h.status === "draft" || h.status === "pending")
@@ -77,15 +86,22 @@ export default function HomeworkList({
     homeworks?.filter((h) => h.status === "submitted").length ?? 0;
   const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
 
+  if (isLoading) {
+    return <PageLoadingState message="Loading homeworks..." />;
+  }
+
   return (
     <div className="page-container">
       {/* Top bar */}
       <section className="page-header-row">
-        {topBar(() => setModalOpen(true), () => setAiModalOpen(true))}
+        {topBar(
+          () => setModalOpen(true),
+          () => setAiModalOpen(true),
+        )}
       </section>
 
       {/* Stats */}
-      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <section className="grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-4">
         <StatCard
           icon={HiOutlineDocumentText}
           label="Total assigned"
@@ -129,8 +145,6 @@ export default function HomeworkList({
         />
       </div>
 
-      {isLoading && <p className="text-sm text-gray-400">Loading homework…</p>}
-
       {/* Grouped list */}
       {filtered?.length === 0 ? (
         <EmptyState message="No homework matches your filter." />
@@ -139,6 +153,12 @@ export default function HomeworkList({
           {HOMEWORK_GROUP_ORDER.map((status) => {
             const group = filtered?.filter((h) => inGroup(h, status));
             if (!group?.length) return null;
+
+            const isReviewed = status === "reviewed";
+            const visibleGroup = isReviewed
+              ? group.slice((pastPage - 1) * PAGE_SIZE, pastPage * PAGE_SIZE)
+              : group;
+
             return (
               <section key={status}>
                 <CardHeader
@@ -146,11 +166,30 @@ export default function HomeworkList({
                     status === "submitted" ? "Submitted — needs review" : status
                   }
                 />
-                <div className="space-y-2">
-                  {group?.map((hw) => (
+                <div className="space-y-4">
+                  {visibleGroup?.map((hw) => (
                     <HomeworkCard key={hw.id} hw={hw} />
                   ))}
                 </div>
+
+                {isReviewed && group.length > PAGE_SIZE && (
+                  <ReactPaginate
+                    breakLabel="..."
+                    nextLabel=">"
+                    previousLabel="<"
+                    forcePage={pastPage - 1}
+                    onPageChange={(e) => setPastPage(e.selected + 1)}
+                    pageRangeDisplayed={5}
+                    pageCount={Math.ceil(group.length / PAGE_SIZE)}
+                    renderOnZeroPageCount={null}
+                    containerClassName="mt-4 flex items-center justify-center gap-2"
+                    pageClassName="pagination"
+                    activeClassName="bg-gray-200 font-semibold"
+                    previousClassName="pagination"
+                    nextClassName="pagination"
+                    disabledClassName="opacity-50 cursor-not-allowed"
+                  />
+                )}
               </section>
             );
           })}

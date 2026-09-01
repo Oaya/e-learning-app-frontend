@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import ReactPaginate from "react-paginate";
 import {
   HiOutlineDocumentText,
   HiOutlineCheck,
@@ -17,6 +18,8 @@ import {
   type HomeworkFilterTab,
 } from "@/features/shared/homeworks/constants";
 import CardHeader from "@/ui/CardHeader";
+import PageLoadingState from "@/ui/PageLoadingState";
+import { PAGE_SIZE } from "@/utils/constants";
 
 export const STUDENT_HOMEWORK_TABS: HomeworkFilterTab[] = [
   "all",
@@ -32,11 +35,16 @@ export const STUDENT_HOMEWORK_GROUP_ORDER: Exclude<HomeworkFilterTab, "all">[] =
 export default function StudentHomeworkPage() {
   const [activeTab, setActiveTab] = useState<HomeworkFilterTab>("all");
   const { homeworks, isLoading } = useHomeworks();
+  const [pastPage, setPastPage] = useState(1);
 
   const filtered = useMemo(
     () => homeworks?.filter((h) => matchesTab(h, activeTab)),
     [homeworks, activeTab],
   );
+
+  useEffect(() => {
+    setPastPage(1);
+  }, [activeTab]);
 
   //Stats - draft counts as pending
   const total = homeworks?.length ?? 0;
@@ -46,6 +54,10 @@ export default function StudentHomeworkPage() {
   const submitted =
     homeworks?.filter((h) => h.status === "submitted").length ?? 0;
   const overdue = homeworks?.filter((h) => h.status === "overdue").length ?? 0;
+
+  if (isLoading) {
+    return <PageLoadingState message="Loading homeworks..." />;
+  }
 
   return (
     <div className="page-container">
@@ -88,8 +100,6 @@ export default function StudentHomeworkPage() {
         onTabChange={(tab) => setActiveTab(tab as HomeworkFilterTab)}
       />
 
-      {isLoading && <p className="text-sm text-gray-400">Loading homework…</p>}
-
       {/* Grouped list */}
       {filtered?.length === 0 ? (
         <EmptyState message="No homework matches your filter." />
@@ -98,6 +108,12 @@ export default function StudentHomeworkPage() {
           {STUDENT_HOMEWORK_GROUP_ORDER.map((status) => {
             const group = filtered?.filter((h) => inGroup(h, status));
             if (!group?.length) return null;
+
+            const isReviewed = status === "reviewed";
+            const visibleGroup = isReviewed
+              ? group.slice((pastPage - 1) * PAGE_SIZE, pastPage * PAGE_SIZE)
+              : group;
+
             return (
               <section key={status}>
                 <CardHeader
@@ -107,11 +123,30 @@ export default function StudentHomeworkPage() {
                       : status
                   }
                 />
-                <div className="space-y-2">
-                  {group.map((hw) => (
+                <div className="space-y-4">
+                  {visibleGroup.map((hw) => (
                     <StudentHomeworkCard key={hw.id} hw={hw} />
                   ))}
                 </div>
+
+                {isReviewed && group.length > PAGE_SIZE && (
+                  <ReactPaginate
+                    breakLabel="..."
+                    nextLabel=">"
+                    previousLabel="<"
+                    forcePage={pastPage - 1}
+                    onPageChange={(e) => setPastPage(e.selected + 1)}
+                    pageRangeDisplayed={5}
+                    pageCount={Math.ceil(group.length / PAGE_SIZE)}
+                    renderOnZeroPageCount={null}
+                    containerClassName="mt-4 flex items-center justify-center gap-2"
+                    pageClassName="pagination"
+                    activeClassName="bg-gray-200 font-semibold"
+                    previousClassName="pagination"
+                    nextClassName="pagination"
+                    disabledClassName="opacity-50 cursor-not-allowed"
+                  />
+                )}
               </section>
             );
           })}
