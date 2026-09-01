@@ -1,4 +1,4 @@
-import { HiOutlineXMark } from "react-icons/hi2";
+import { HiOutlineXMark } from "react-icons/hi";
 import { HW_UPLOAD_BUTTON } from "@/utils/constants";
 import type { Attachment } from "@/type/homework_submission";
 

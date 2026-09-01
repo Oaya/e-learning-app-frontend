@@ -3,10 +3,10 @@ import {
   HiOutlineTrash,
   HiOutlineClock,
   HiOutlineCalendar,
-  HiLanguage,
+  LuLanguages,
   HiOutlineVideoCamera,
   HiOutlineArrowLeft,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import dayjs from "dayjs";
 import { LuExternalLink } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
@@ -149,7 +149,7 @@ export default function LessonDetailsHeader({
                 min
               </span>
               <span className="flex items-center gap-1 text-sm">
-                <HiLanguage size={15} />
+                <LuLanguages size={15} />
                 {lesson.language}
               </span>
               <Badge

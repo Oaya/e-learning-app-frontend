@@ -2,7 +2,7 @@ import {
   HiOutlineTrash,
   HiOutlineCalendar,
   HiOutlinePencil,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import { GOAL_BORDER_COLOR, GOAL_STATUS_BADGE } from "@/utils/constants";
 import type { Goal } from "@/type/goal";

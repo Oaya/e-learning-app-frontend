@@ -8,7 +8,7 @@ import {
   HiUsers,
   HiDocumentText,
   HiCreditCard,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import dayjs from "dayjs";
 
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";

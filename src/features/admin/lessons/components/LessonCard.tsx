@@ -3,7 +3,7 @@ import {
   HiOutlinePencil,
   HiOutlineClock,
   HiOutlineVideoCamera,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";

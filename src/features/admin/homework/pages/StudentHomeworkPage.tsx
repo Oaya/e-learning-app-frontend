@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineArrowLeft, HiOutlineSparkles } from "react-icons/hi";
 
 import HomeworkList from "@/features/admin/homework/components/HomeworkList";
 import { useUser } from "@/features/admin/students/hooks/useUser";

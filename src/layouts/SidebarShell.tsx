@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, type ReactNode } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { HiArrowRightOnRectangle, HiBars3, HiXMark } from "react-icons/hi2";
+import { HiArrowRightOnRectangle, HiBars3, HiXMark } from "react-icons/hi";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useAlert } from "@/contexts/AlertContext";

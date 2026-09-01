@@ -12,7 +12,7 @@ import {
   HiOutlineClock,
   HiOutlineCurrencyDollar,
   HiOutlineDocumentText,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import { useAuth } from "@/contexts/AuthContext";
 import InvoiceChart from "../components/InvoiceChart";
 import UnInvoicedLessonsPanel from "../components/UnInvoicedLessonsPanel";

@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { HiArrowRight } from "react-icons/hi2";
+import { HiArrowRight } from "react-icons/hi";
 import { LuVideo } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 

@@ -1,8 +1,5 @@
 import { TbLanguage } from "react-icons/tb";
-import {
-  HiOutlineChatBubbleLeftRight,
-  HiOutlineCalendarDays,
-} from "react-icons/hi2";
+import { HiOutlineChatBubbleLeftRight, LuCalendarDays } from "react-icons/hi";
 import { LuTarget } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
@@ -75,7 +72,7 @@ export default function AuthLayout({ children }: Props) {
 
             <div className="flex items-start gap-3">
               <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15">
-                <HiOutlineCalendarDays className="text-white" size={16} />
+                <LuCalendarDays className="text-white" size={16} />
               </div>
               <div>
                 <p className="text-sm font-medium text-white/80">

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { HiBars3, HiXMark } from "react-icons/hi2";
+import { HiBars3, HiXMark } from "react-icons/hi";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -47,20 +47,40 @@ export default function Header() {
 
         {isMenuOpen && (
           <div className="mt-4 flex w-full flex-col space-y-4 md:hidden">
-            <Link to="/#features" className="font-medium" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/#features"
+              className="font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Features
             </Link>
-            <Link to="/#how" className="font-medium" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/#how"
+              className="font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
               How it work
             </Link>
-            <Link to="/#pricing" className="font-medium" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/#pricing"
+              className="font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Pricing
             </Link>
             <hr className="border-theme-purple-50" />
-            <Link to="/login" className="hover:text-gray-600" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/login"
+              className="hover:text-gray-600"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Login
             </Link>
-            <Link to="/signup" className="hover:text-gray-600" onClick={() => setIsMenuOpen(false)}>
+            <Link
+              to="/signup"
+              className="hover:text-gray-600"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Get started
             </Link>
           </div>

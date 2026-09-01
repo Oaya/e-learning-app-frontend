@@ -2,11 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ReactPaginate from "react-paginate";
-import {
-  HiOutlineCalendarDays,
-  HiOutlineCalendar,
-  HiOutlineClock,
-} from "react-icons/hi2";
+import { HiOutlineCalendar, HiOutlineClock } from "react-icons/hi";
+import { LuCalendarDays } from "react-icons/lu";
 
 import TabFilters from "@/ui/TabFilters";
 import CardHeader from "@/ui/CardHeader";
@@ -73,7 +70,7 @@ export default function StudentLessonsPage() {
           value={lessons?.length ?? 0}
         />
         <StatCard
-          icon={HiOutlineCalendarDays}
+          icon={LuCalendarDays}
           label="Upcoming"
           value={upcoming?.length ?? 0}
           sub={nextLabel}

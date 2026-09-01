@@ -1,4 +1,4 @@
-import { HiHome } from "react-icons/hi2";
+import { HiHome } from "react-icons/hi";
 import { LuNewspaper, LuGoal, LuCalendar1 } from "react-icons/lu";
 import { IoMdSettings } from "react-icons/io";
 

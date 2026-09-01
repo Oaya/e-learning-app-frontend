@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { HiArrowRight, HiOutlinePencil } from "react-icons/hi2";
+import { HiArrowRight, HiOutlinePencil } from "react-icons/hi";
 
 import { useAuth } from "@/contexts/AuthContext";
 import UpsertGoalModal from "./UpsertGoalModal";

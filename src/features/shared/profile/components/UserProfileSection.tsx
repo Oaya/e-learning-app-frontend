@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { GoPencil } from "react-icons/go";
-import { HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineSparkles } from "react-icons/hi";
 
 import defaultAvatar from "@/assets/user.png";
 import TimezoneSelector from "@/ui/TimezoneSelector";

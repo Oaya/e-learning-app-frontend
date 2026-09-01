@@ -1,8 +1,8 @@
 import {
   HiOutlineClock,
-  HiLanguage,
+  LuLanguages,
   HiOutlineVideoCamera,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import { LuMessageSquareText } from "react-icons/lu";
 import { MdOutlineFreeCancellation } from "react-icons/md";
 import { useState } from "react";
@@ -51,7 +51,7 @@ export default function StudentLessonCard({ lesson }: { lesson: Lesson }) {
             {formatTime(lesson.scheduled_at)} · {lesson.duration_in_minutes} min
           </span>
           <span className="flex items-center gap-1 text-xs text-gray-400">
-            <HiLanguage size={16} />
+            <LuLanguages size={16} />
             {lesson.language}
           </span>
         </div>

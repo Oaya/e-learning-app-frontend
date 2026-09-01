@@ -25,7 +25,7 @@ export default function CustomSelect({
       classNamePrefix="rs"
       classNames={{
         control: (state) =>
-          `!rounded !border !bg-white !text-sm !shadow-none ${
+          `!rounded !border !bg-white !text-sm max-sm:!text-base !shadow-none ${
             state.isFocused ? "!border-theme-purple-50" : "!border-gray-200"
           } ${state.isDisabled ? "!bg-gray-50" : "!bg-white"}`,
         valueContainer: () => "!px-2 !py-2.5 max-sm:!px-3",

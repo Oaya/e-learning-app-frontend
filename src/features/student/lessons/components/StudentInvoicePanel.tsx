@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { HiOutlineExclamationCircle } from "react-icons/hi2";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useInvoice } from "@/features/admin/lessons/hooks/useInvoice";
 import { INVOICE_STATUS_BADGE } from "@/utils/constants";
 import Badge from "@/ui/Badge";

@@ -166,7 +166,7 @@ export default function CompleteLessonModal({
                 }`}
               >
                 <TbUsers size={15} />
-                Share with student
+                Share
               </button>
               <button
                 type="button"

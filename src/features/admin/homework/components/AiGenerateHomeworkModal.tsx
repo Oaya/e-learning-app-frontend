@@ -3,7 +3,7 @@ import {
   HiOutlineSparkles,
   HiOutlineArrowLeft,
   HiOutlineArrowPath,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import { useUsers } from "@/features/admin/students/hooks/useUsers";
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";

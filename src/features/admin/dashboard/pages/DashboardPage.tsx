@@ -3,7 +3,7 @@ import {
   HiCalendar,
   HiDocumentText,
   HiCreditCard,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import { useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";

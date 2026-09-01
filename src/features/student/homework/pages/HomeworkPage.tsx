@@ -5,7 +5,7 @@ import {
   HiOutlineCheck,
   HiOutlineClock,
   HiOutlineExclamationCircle,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import { useHomeworks } from "@/features/shared/homeworks/hooks/useHomeworks";
 import StatCard from "@/ui/StatCard";

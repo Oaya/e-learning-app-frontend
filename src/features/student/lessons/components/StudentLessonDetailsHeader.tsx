@@ -2,10 +2,10 @@ import { useState } from "react";
 import {
   HiOutlineClock,
   HiOutlineCalendar,
-  HiLanguage,
   HiOutlineVideoCamera,
   HiOutlineArrowLeft,
-} from "react-icons/hi2";
+} from "react-icons/hi";
+import { LuLanguages } from "react-icons/lu";
 import { MdOutlineFreeCancellation } from "react-icons/md";
 import dayjs from "dayjs";
 
@@ -88,7 +88,7 @@ export default function StudentLessonDetailsHeader({ lesson }: Props) {
               min
             </span>
             <span className="flex items-center gap-1 text-sm">
-              <HiLanguage size={15} />
+              <LuLanguages size={15} />
               {lesson.language}
             </span>
             <Badge

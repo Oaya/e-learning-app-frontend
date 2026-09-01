@@ -3,7 +3,7 @@ import {
   HiOutlineLanguage,
   HiOutlineCalendar,
   HiOutlineEye,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 
 import type { Homework } from "@/type/homework";

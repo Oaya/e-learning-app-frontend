@@ -5,7 +5,7 @@ import {
   HiOutlineCheck,
   HiOutlineClock,
   HiOutlineExclamationCircle,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import HomeworkCard from "./HomeworkCard";
 import UpsertHomeworkModal from "./UpsertHomeworkModal";

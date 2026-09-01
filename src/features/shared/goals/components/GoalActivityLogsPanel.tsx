@@ -4,7 +4,7 @@ import {
   HiOutlineCalendar,
   HiOutlinePencil,
   HiOutlineTrash,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import LogProgressModal from "@/features/student/goals/components/LogProgressModal";
 import type { Goal, GoalActivity } from "@/type/goal";

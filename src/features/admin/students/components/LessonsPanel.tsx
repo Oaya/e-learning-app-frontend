@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useState } from "react";
-import { HiArrowRight } from "react-icons/hi2";
+import { HiArrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 
 import Badge from "@/ui/Badge";

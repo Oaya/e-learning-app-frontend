@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { HiOutlineDocumentArrowUp, HiOutlineTrash } from "react-icons/hi2";
+import { HiOutlineDocumentArrowUp, HiOutlineTrash } from "react-icons/hi";
 import type { Homework } from "@/type/homework";
 import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
@@ -41,77 +41,77 @@ export default function SubmitHomeworkModal({
       title="Submit homework"
       subtitle={hw.title}
     >
-        <div className="modal-body">
-          {/* Instructions reminder */}
-          {hw.instructions && (
-            <div className="rounded-lg text-sm leading-relaxed text-gray-500">
-              <p className="mb-1 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
-                Assignment
-              </p>
-              {hw.instructions}
-            </div>
-          )}
+      <div className="modal-body">
+        {/* Instructions reminder */}
+        {hw.instructions && (
+          <div className="rounded-lg text-sm leading-relaxed text-gray-500">
+            <p className="mb-1 text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
+              Assignment
+            </p>
+            {hw.instructions}
+          </div>
+        )}
 
-          {/* Written answer */}
-          <FormField label="Your answer">
-            <textarea
-              rows={5}
-              placeholder="Write your answer here…"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              className="form-textarea"
-            />
-          </FormField>
+        {/* Written answer */}
+        <FormField label="Your answer">
+          <textarea
+            rows={5}
+            placeholder="Write your answer here…"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="form-textarea"
+          />
+        </FormField>
 
-          {/* File upload */}
-          <FormField label="Attach a file" optional>
-            {file ? (
-              <div className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3">
-                <HiOutlineDocumentArrowUp className="h-5 w-5 shrink-0 text-emerald-600" />
-                <span className="flex-1 truncate text-sm text-gray-700">
-                  {file.name}
-                </span>
-                <button
-                  onClick={() => setFile(null)}
-                  className="text-gray-400 hover:text-red-500"
-                >
-                  <HiOutlineTrash size={16} />
-                </button>
-              </div>
-            ) : (
+        {/* File upload */}
+        <FormField label="Attach a file" optional>
+          {file ? (
+            <div className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3">
+              <HiOutlineDocumentArrowUp className="h-5 w-5 shrink-0 text-emerald-600" />
+              <span className="flex-1 truncate text-sm text-gray-700">
+                {file.name}
+              </span>
               <button
-                onClick={() => fileRef.current?.click()}
-                className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-400 hover:border-emerald-400 hover:text-emerald-600"
+                onClick={() => setFile(null)}
+                className="text-gray-400 hover:text-red-500"
               >
-                <HiOutlineDocumentArrowUp size={16} />
-                Click to upload
+                <HiOutlineTrash size={16} />
               </button>
-            )}
-            <input
-              ref={fileRef}
-              type="file"
-              className="hidden"
-              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-            />
-          </FormField>
-        </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => fileRef.current?.click()}
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-400 hover:border-emerald-400 hover:text-emerald-600"
+            >
+              <HiOutlineDocumentArrowUp size={16} />
+              Click to upload
+            </button>
+          )}
+          <input
+            ref={fileRef}
+            type="file"
+            className="hidden"
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          />
+        </FormField>
+      </div>
 
-        {/* Footer */}
-        <div className="flex justify-end gap-2 border-t border-gray-100 px-6 py-4">
-          <button
-            onClick={onClose}
-            className="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={submitting || (!text.trim() && !file)}
-            className="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
-          >
-            {submitting ? "Submitting…" : "Submit"}
-          </button>
-        </div>
+      {/* Footer */}
+      <div className="flex justify-end gap-2 border-t border-gray-100 px-6 py-4">
+        <button
+          onClick={onClose}
+          className="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSubmit}
+          disabled={submitting || (!text.trim() && !file)}
+          className="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+        >
+          {submitting ? "Submitting…" : "Submit"}
+        </button>
+      </div>
     </ModalShell>
   );
 }

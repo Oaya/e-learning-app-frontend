@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HiOutlinePencil } from "react-icons/hi2";
+import { HiOutlinePencil } from "react-icons/hi";
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useAlert } from "@/contexts/AlertContext";
 

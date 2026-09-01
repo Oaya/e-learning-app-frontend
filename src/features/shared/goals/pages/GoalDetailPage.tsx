@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { HiOutlineArrowLeft } from "react-icons/hi2";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import GoalActivityLogsPanel from "@/features/shared/goals/components/GoalActivityLogsPanel";

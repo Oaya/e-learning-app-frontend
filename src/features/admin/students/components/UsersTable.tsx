@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HiOutlineChevronRight } from "react-icons/hi2";
+import { HiOutlineChevronRight } from "react-icons/hi";
 
 import type { LanguageLevel, User, UserSort } from "@/type/user";
 import SortButton from "@/ui/SortButton";

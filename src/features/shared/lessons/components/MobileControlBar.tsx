@@ -7,7 +7,7 @@ import {
   HiOutlineCog6Tooth,
   HiOutlinePhoneXMark,
   HiOutlineComputerDesktop,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import { TbNotes } from "react-icons/tb";
 
 type MobileControlBarProps = {
@@ -20,7 +20,9 @@ type MobileControlBarProps = {
 // (CSS-hidden on mobile) buttons directly instead of duplicating state.
 function clickControlBarButton(selector: string) {
   document
-    .querySelector<HTMLButtonElement>(`.lesson-meeting-room .lk-control-bar ${selector}`)
+    .querySelector<HTMLButtonElement>(
+      `.lesson-meeting-room .lk-control-bar ${selector}`,
+    )
     ?.click();
 }
 
@@ -33,10 +35,7 @@ export default function MobileControlBar({
   return (
     <>
       {moreOpen && (
-        <div
-          className="mobile-more-overlay"
-          onClick={() => setMoreOpen(false)}
-        >
+        <div className="mobile-more-overlay" onClick={() => setMoreOpen(false)}>
           <div
             className="mobile-more-sheet"
             onClick={(e) => e.stopPropagation()}
@@ -92,8 +91,14 @@ export default function MobileControlBar({
       )}
 
       <div className="mobile-control-bar">
-        <TrackToggle source={Track.Source.Microphone} className="mobile-bar-button" />
-        <TrackToggle source={Track.Source.Camera} className="mobile-bar-button" />
+        <TrackToggle
+          source={Track.Source.Microphone}
+          className="mobile-bar-button"
+        />
+        <TrackToggle
+          source={Track.Source.Camera}
+          className="mobile-bar-button"
+        />
 
         <button
           type="button"

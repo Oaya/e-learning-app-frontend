@@ -4,7 +4,7 @@ import {
   HiOutlinePencil,
   HiOutlineTrash,
   HiOutlineArrowLeft,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";
 import { useGoals } from "@/features/shared/goals/hooks/useGoals";

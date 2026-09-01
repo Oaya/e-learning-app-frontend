@@ -2,11 +2,11 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import ReactPaginate from "react-paginate";
 import {
-  HiOutlineCalendarDays,
+  LuCalendarDays,
   HiOutlineCalendar,
   HiOutlineClock,
   HiCreditCard,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import { useAuth } from "@/contexts/AuthContext";
 import StatCard from "@/ui/StatCard";
@@ -148,7 +148,7 @@ export default function LessonsList({
           sub="this month"
         />
         <StatCard
-          icon={HiOutlineCalendarDays}
+          icon={LuCalendarDays}
           label="Upcoming"
           value={upcomingCountForThisWeek ?? 0}
           sub="next 7 days"

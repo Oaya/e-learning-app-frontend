@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { HiOutlinePlus } from "react-icons/hi2";
+import { HiOutlinePlus } from "react-icons/hi";
 import dayjs from "dayjs";
 
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";
@@ -52,7 +52,7 @@ export default function UnInvoicedLessonsPanel() {
               key={lesson.id}
               className="flex items-center justify-between py-2.5"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 max-sm:mr-2">
                 <img
                   src={lesson.student.avatar || defaultAvatar}
                   alt=""
@@ -78,7 +78,7 @@ export default function UnInvoicedLessonsPanel() {
                 </span>
                 <button
                   onClick={() => setSelectedLesson(lesson)}
-                  className="btn-white flex items-center gap-1 px-3 py-1.5 text-xs"
+                  className="btn-white flex items-center gap-0.5 px-1.5 py-0.5 text-xs md:gap-1 md:px-3 md:py-1.5"
                 >
                   <HiOutlinePlus size={13} />
                   Create

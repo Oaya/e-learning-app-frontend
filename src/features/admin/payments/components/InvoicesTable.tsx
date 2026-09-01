@@ -6,7 +6,7 @@ import {
   HiOutlineTrash,
   HiOutlineArrowUturnLeft,
   HiOutlineEye,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import defaultAvatar from "@/assets/user.png";
 import type { Invoice } from "@/type/invoice";

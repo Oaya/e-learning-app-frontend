@@ -23,9 +23,9 @@ export default function ModalShell({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay p-4">
-      <div className={`w-full ${maxWidth} rounded-2xl bg-white text-gray-900 shadow-xl`}>
-        <div className="modal-header">
+    <div className="modal-overlay px-4 py-6">
+      <div className={`flex w-full ${maxWidth} max-h-[90dvh] flex-col rounded-2xl bg-white text-gray-900 shadow-xl`}>
+        <div className="modal-header shrink-0">
           <div>
             <h2 className="section-title">{title}</h2>
             {subtitle && (
@@ -40,7 +40,9 @@ export default function ModalShell({
           </div>
         </div>
 
-        {children}
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );

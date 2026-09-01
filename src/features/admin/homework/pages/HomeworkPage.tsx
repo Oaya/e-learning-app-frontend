@@ -1,4 +1,4 @@
-import { HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineSparkles } from "react-icons/hi";
 import HomeworkList from "@/features/admin/homework/components/HomeworkList";
 import { useAuth } from "@/contexts/AuthContext";
 

@@ -19,10 +19,15 @@ export default function StatCard({
   return (
     <div className="h-auto rounded-xl border border-gray-200 bg-white p-4 shadow sm:h-28">
       <div className="mb-2 flex items-center gap-2 text-xs text-gray-400">
-        {Icon && <Icon size={16} className="text-theme-green-20 shrink-0" />}
+        {Icon && (
+          <Icon
+            size={16}
+            className="text-theme-green-20 hidden shrink-0 sm:block"
+          />
+        )}
         <span>{label}</span>
       </div>
-      <p className="text-2xl font-semibold text-gray-800">{value}</p>
+      <p className="text-xl font-semibold text-gray-800 md:text-2xl">{value}</p>
       {sub && (
         <p
           className={`mt-0.5 text-xs ${subColor ? "text-theme-green-20" : "text-gray-400"}`}

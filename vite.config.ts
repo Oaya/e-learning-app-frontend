@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 5174,
+    allowedHosts: ["bc41-192-80-162-96.ngrok-free.app"],
     watch: {
       usePolling: true,
     },
@@ -32,7 +33,11 @@ export default defineConfig({
             "@tiptap/extension-text-style",
           ],
           "vendor-stripe": ["@stripe/react-stripe-js", "@stripe/stripe-js"],
-          "vendor-dnd": ["@dnd-kit/core", "@dnd-kit/sortable", "@dnd-kit/utilities"],
+          "vendor-dnd": [
+            "@dnd-kit/core",
+            "@dnd-kit/sortable",
+            "@dnd-kit/utilities",
+          ],
         },
       },
     },

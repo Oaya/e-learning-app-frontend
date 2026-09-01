@@ -1,5 +1,8 @@
 import axios from "axios";
 
+// Skip ngrok browser warning interstitial for API requests
+axios.defaults.headers.common["ngrok-skip-browser-warning"] = "true";
+
 export function unwrapResponse<T>(res: ApiResponse): T {
   if (!res.success) {
     throw new Error(res.error || "Request failed");

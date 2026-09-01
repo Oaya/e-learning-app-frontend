@@ -3,7 +3,7 @@ import {
   HiOutlineCheck,
   HiOutlinePencil,
   HiOutlineArrowUturnLeft,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import dayjs from "dayjs";
 

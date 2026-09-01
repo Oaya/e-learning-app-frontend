@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { HiOutlineArrowLeft, HiOutlinePencilSquare } from "react-icons/hi2";
+import { HiOutlineArrowLeft, HiOutlinePencilSquare } from "react-icons/hi";
 
 import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
 import { SCORE_BUDGE } from "@/utils/constants";

@@ -4,7 +4,7 @@ import {
   HiOutlineCalendar,
   HiOutlinePencil,
   HiOutlineTrash,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import ActionBtn from "@/ui/ActionButton";
 import { useGoal } from "@/features/shared/goals/hooks/useGoal";

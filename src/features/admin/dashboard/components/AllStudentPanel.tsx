@@ -1,4 +1,4 @@
-import { HiArrowRight } from "react-icons/hi2";
+import { HiArrowRight } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import type { StudentWithStatues } from "@/type/user";
 

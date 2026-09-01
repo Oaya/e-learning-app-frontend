@@ -1,4 +1,4 @@
-import { HiArrowRight } from "react-icons/hi2";
+import { HiArrowRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { HW_STATUS_BADGE } from "@/utils/constants";
 import type { Homework } from "@/type/homework";

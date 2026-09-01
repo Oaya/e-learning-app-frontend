@@ -1,4 +1,4 @@
-import { HiAcademicCap, HiDocumentText, HiFlag } from "react-icons/hi2";
+import { HiAcademicCap, HiDocumentText, HiFlag } from "react-icons/hi";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);

@@ -3,7 +3,7 @@ import {
   HiOutlineCalendar,
   HiOutlineCheck,
   HiOutlineClock,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 
 import type { Goal } from "@/type/goal";
 import Badge from "@/ui/Badge";

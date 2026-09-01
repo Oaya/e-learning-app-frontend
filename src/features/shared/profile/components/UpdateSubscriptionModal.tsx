@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineSparkles } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
 import { useAlert } from "@/contexts/AlertContext";

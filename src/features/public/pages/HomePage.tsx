@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlineSparkles } from "react-icons/hi";
 
 import { usePlans } from "@/features/public/hooks/usePlans";
 import PlanCard from "@/features/public/components/PlanCard";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { HiOutlineInformationCircle } from "react-icons/hi2";
+import { HiOutlineInformationCircle } from "react-icons/hi";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import dayjsTimezone from "dayjs/plugin/timezone";

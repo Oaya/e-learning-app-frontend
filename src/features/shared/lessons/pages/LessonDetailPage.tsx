@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { HiOutlineVideoCamera } from "react-icons/hi2";
+import { HiOutlineVideoCamera } from "react-icons/hi";
 
 import { useLesson } from "@/features/shared/lessons/hooks/useLesson";
 import { useLessons } from "@/features/admin/lessons/hooks/useLessons";

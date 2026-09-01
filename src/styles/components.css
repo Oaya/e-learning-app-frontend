@@ -1,10 +1,10 @@
 @layer components {
   .form-input {
-    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm text-gray-900 shadow focus:outline-none disabled:bg-gray-50 max-sm:px-3;
+    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm text-gray-900 shadow focus:outline-none disabled:bg-gray-50 max-sm:px-3 max-sm:text-base;
   }
 
   .form-textarea {
-    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm text-gray-900 placeholder-gray-300 shadow focus:outline-none max-sm:px-3;
+    @apply focus:border-theme-purple-50 w-full rounded border border-gray-200 bg-white px-2 py-2.5 text-sm text-gray-900 placeholder-gray-300 shadow focus:outline-none max-sm:px-3 max-sm:text-base;
   }
 
   .btn-primary {
@@ -69,6 +69,8 @@
 
   .modal-overlay {
     @apply fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 py-6;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   .modal-box {

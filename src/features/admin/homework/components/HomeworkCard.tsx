@@ -5,7 +5,7 @@ import {
   // HiOutlineBell,
   HiOutlineCalendar,
   HiOutlineLanguage,
-} from "react-icons/hi2";
+} from "react-icons/hi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
