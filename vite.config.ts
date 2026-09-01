@@ -8,7 +8,6 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 5174,
-    allowedHosts: ["bc41-192-80-162-96.ngrok-free.app"],
     watch: {
       usePolling: true,
     },
