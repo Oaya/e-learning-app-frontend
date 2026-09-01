@@ -1,9 +1,5 @@
-import {
-  HiOutlineClock,
-  LuLanguages,
-  HiOutlineVideoCamera,
-} from "react-icons/hi";
-import { LuMessageSquareText } from "react-icons/lu";
+import { HiOutlineClock, HiOutlineVideoCamera } from "react-icons/hi";
+import { LuLanguages, LuMessageSquareText } from "react-icons/lu";
 import { MdOutlineFreeCancellation } from "react-icons/md";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

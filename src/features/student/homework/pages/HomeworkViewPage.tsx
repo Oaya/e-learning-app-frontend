@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { HiOutlineArrowLeft, HiOutlinePencilSquare } from "react-icons/hi";
+import { HiOutlineArrowLeft, HiOutlinePencilAlt } from "react-icons/hi";
 
 import { useHomework } from "@/features/shared/homeworks/hooks/useHomework";
 import { SCORE_BUDGE } from "@/utils/constants";
@@ -43,7 +43,7 @@ export default function HomeworkViewPage() {
               onClick={() => navigate(`/student/homework/${hwId}/submit`)}
               className="btn-white flex items-center gap-1.5"
             >
-              <HiOutlinePencilSquare size={15} />
+              <HiOutlinePencilAlt size={15} />
               Edit submission
             </button>
           )}

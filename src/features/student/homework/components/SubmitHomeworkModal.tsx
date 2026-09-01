@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { HiOutlineDocumentArrowUp, HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineDocumentAdd, HiOutlineTrash } from "react-icons/hi";
 import type { Homework } from "@/type/homework";
 import ModalShell from "@/ui/ModalShell";
 import FormField from "@/ui/FormField";
@@ -67,7 +67,7 @@ export default function SubmitHomeworkModal({
         <FormField label="Attach a file" optional>
           {file ? (
             <div className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3">
-              <HiOutlineDocumentArrowUp className="h-5 w-5 shrink-0 text-emerald-600" />
+              <HiOutlineDocumentAdd className="h-5 w-5 shrink-0 text-emerald-600" />
               <span className="flex-1 truncate text-sm text-gray-700">
                 {file.name}
               </span>
@@ -83,7 +83,7 @@ export default function SubmitHomeworkModal({
               onClick={() => fileRef.current?.click()}
               className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-gray-300 px-4 py-4 text-sm text-gray-400 hover:border-emerald-400 hover:text-emerald-600"
             >
-              <HiOutlineDocumentArrowUp size={16} />
+              <HiOutlineDocumentAdd size={16} />
               Click to upload
             </button>
           )}

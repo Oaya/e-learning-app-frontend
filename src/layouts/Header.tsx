@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { HiBars3, HiXMark } from "react-icons/hi";
+import { HiBars3, HiXMark } from "react-icons/hi2";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
