@@ -1,4 +1,4 @@
-# Fluently — Frontend
+# Fluently - Frontend
 
 A React + TypeScript frontend for a SaaS platform built for language teachers to manage students, schedule and record lessons, assign and generate AI-powered homework, track student goals, and log payments — all in one place.
 
