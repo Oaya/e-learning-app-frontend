@@ -1,6 +1,6 @@
 # Fluently - Frontend
 
-A React + TypeScript frontend for a SaaS platform built for language teachers to manage students, schedule and record lessons, assign and generate AI-powered homework, track student goals, and log payments — all in one place.
+A React + TypeScript frontend for a SaaS platform built for language teachers to manage students, schedule and record lessons, assign and generate AI-powered homework, track student goals, and log payments - all in one place.
 
 ## Prerequisites
 
@@ -71,12 +71,12 @@ src/
 
 ## Tech Stack
 
-- **React 19** + **TypeScript** — UI and type safety
-- **Vite** — build tool
-- **Tailwind CSS** — styling
-- **React Router v7** — routing
-- **TanStack Query v5** — server state management
-- **Axios** — HTTP client
-- **Tiptap** — rich text editor
-- **Stripe** — payment processing
-- **dnd-kit** — drag and drop
+- **React 19** + **TypeScript** - UI and type safety
+- **Vite** - build tool
+- **Tailwind CSS** - styling
+- **React Router v7** - routing
+- **TanStack Query v5** - server state management
+- **Axios** - HTTP client
+- **Tiptap** - rich text editor
+- **Stripe** - payment processing
+- **dnd-kit** - drag and drop
